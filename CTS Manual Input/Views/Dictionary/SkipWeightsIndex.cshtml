@@ -1,0 +1,80 @@
+﻿@model  CTS_Manual_Input.Models.Dictionary.SkipsSkipWeights
+@using PagedList.Mvc;
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((Model != null) && (Model.Skips.Count() > 0))
+{
+	<h2>Добавить акт перевески скипа</h2>
+
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Шахта</th>
+				<th>Скиповой подъем</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var mod in Model.Skips)
+			{
+				<tr>
+					<td>@Html.DisplayFor(x => mod.Location.LocationName)</td>
+					<td>@Html.DisplayFor(x => mod.Name)</td>
+					<td><input type="button" class="btn btn-primary" value="Добавить акт" onclick="location.href='@Url.Action("SkipWeightsAdd", "Dictionary", new {skipID = mod.ID, name = mod.Name})'" /></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+<h2>Акты перевески</h2>
+
+@if ((Model != null) && (Model.SkipWeightsActs.Count > 0))
+{
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Акт №</th>
+				<th>Расположение</th>
+				<th>Скиповой подъем</th>
+				<th>Вес</th>
+				<th>Действителен с</th>
+				<th>Внес в систему</th>
+				<th>Документ</th>
+				<th></th>
+			</tr>
+		</thead>
+		@foreach (var mod in Model.SkipWeightsActs)
+		{
+			<tr>
+				<td>@Html.DisplayFor(x => mod.SkipWeight.OrderNo)</td>
+				<td>@Html.DisplayFor(x => mod.SkipWeight.Skip.Location.LocationName)</td>
+				<td>@Html.DisplayFor(x => mod.SkipWeight.Skip.Name)</td>
+				<td>@Html.DisplayFor(x => mod.SkipWeight.Weight)</td>
+				<td>@Html.DisplayFor(x => mod.SkipWeight.ValidFrom)</td>
+				<td>@Html.DisplayFor(x => mod.SkipWeight.OperatorName).ToString().Substring(mod.SkipWeight.OperatorName.LastIndexOf('\\') + 1)</td>
+				@if (!string.IsNullOrEmpty(mod.ActFilePath))
+				{
+					<td><a style="color:red" href='@Url.Action("OpenSkipAct", "Dictionary", new {filePath= mod.ActFilePath})' target="_blank">Файл</a></td>
+				}
+				else
+				{
+					<td></td>
+				}
+				<td>
+					<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("SkipWeightsEdit", "Dictionary", new { Id = mod.SkipWeight.ID })'" />
+				</td>
+			</tr>
+		}
+	</table>
+}
+Страница @(Model.SkipWeightsActs.PageCount < Model.SkipWeightsActs.PageNumber ? 0 : Model.SkipWeightsActs.PageNumber) из @Model.SkipWeightsActs.PageCount
+
+@Html.PagedListPager(Model.SkipWeightsActs, page => Url.Action("SkipWeightsIndex", new { page }))
+
+
+
+

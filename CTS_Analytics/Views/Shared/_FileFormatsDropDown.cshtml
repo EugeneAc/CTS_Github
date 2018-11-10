@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SelectListItem>
+
+<div class="form-group">
+	<label class="control-label col-md-2" for="formats">@Resources.ResourceFilters.Format</label>
+	<select class="multiselect" id="formats" name="fileFormatsInForm">
+		@if (Model != null)
+		{
+			foreach (var item in Model)
+			{
+				if (item.Text != null)
+				{
+					<option value="@item.Value">
+						@item.Text
+					</option>
+				}
+			}
+		}
+	</select>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#formats').multiselect({
+            includeSelectAllOption: true,
+                selectAllText: '@Resources.ResourceFilters.allSelected',
+                nonSelectedText: '@Resources.ResourceFilters.NonSelected',
+                allSelectedText: '@Resources.ResourceFilters.allSelected',
+                nSelectedText: '@Resources.ResourceFilters.Selected'
+        });
+    });
+</script>

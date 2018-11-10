@@ -1,0 +1,88 @@
+@model CTS_Analytics.Models.Mnemonic.Mine_konv
+@using PagedList.Mvc;
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMine.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Model.MineName;
+    ViewBag.MinePng = "mine0.png";
+}
+
+<div class="main">
+    <div class="page">
+        <div class="page-head">
+            <h2><i class="konv"></i>@Model.KonvName</h2>
+            <div class="result">
+                <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+                <div class="res"><span>@Resources.ResourceMnemonic.HSEWarning</span><a href='@Url.Action("HseAlarm", "Mnemonic")'><i class="green"></i></a></div>
+				<div class="clearfix"></div>
+			</div>
+
+            <div class="close-button">
+                <a href='@Url.Action(Model.ReturnID, "Mnemonic")'>@Resources.ResourceMnemonic.Close  <i></i></a>
+            </div>
+        </div>
+
+        <div class="side w385">
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.ProductionPerShift</span>
+                <div class="count">@Model.ProductionPerShift.ToString("F")</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.ProdFact</span>
+                <div class="count">@Model.ProductionPerTimeInterval.ToString("F")</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div id="text">
+            <h3>@Resources.ResourceMnemonic.BeltScaleJournal</h3>
+            <div class="scrollbar-outer">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@Resources.ResourceMnemonic.Date</th>
+                            <th>@Resources.ResourceMnemonic.Time</th>
+                            <th>@Resources.ResourceMnemonic.LotQuantity, @Resources.ResourceMnemonic.Tonns</th>
+                            <th>@Resources.ResourceMnemonic.TotalQuantity, @Resources.ResourceMnemonic.Tonns</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var transfer in Model.PagedBeltTransfers)
+                        {
+                            string manualMarker = (transfer.OperatorName != ProjectConstants.SystemPlarformOperatorName) ? "<i class='icon-hand' style='visibility: visible;'></i>" : "";
+                            string rowStyle = (transfer.OperatorName != ProjectConstants.SystemPlarformOperatorName) ? "background-color:#FFF0AC" : "";
+                            var lotQuantity = transfer.LotQuantity.HasValue ? transfer.LotQuantity.Value.ToString("F") : "";
+                            var totalQuantity = transfer.TotalQuantity.HasValue ? transfer.TotalQuantity.Value.ToString("F") : "";
+                            <tr style="@rowStyle">
+                                <td>@Html.Raw(manualMarker)</td>
+                                <td>@transfer.TransferTimeStamp.ToString("dd.MM.yyyy")</td>
+                                <td>@transfer.TransferTimeStamp.ToString("HH:mm")</td>
+                                <td>@lotQuantity</td>
+                                <td>@totalQuantity</td>
+                            </tr>}
+                        </tbody>
+                </table>
+            </div>
+            @Html.PagedListPager(Model.PagedBeltTransfers, page => Url.Action("Mine_konv", new {ID = Model.ReturnID, beltScaleID = Model.BeltID, page = page }))
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Mnemo/js/jquery.knob.min.js"></script>
+<link href="~/Content/Mnemo/style/jquery.scrollbar.css" rel="stylesheet">
+<script src="~/Content/Mnemo/js/jquery.scrollbar.min.js"></script>
+<script>
+    $(function ($) {
+        jQuery('.scrollbar-outer').scrollbar();
+        $(".knob").knob();
+
+    });
+</script>

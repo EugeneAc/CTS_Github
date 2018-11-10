@@ -1,0 +1,60 @@
+﻿@model CTS_Analytics.Models.Mnemonic.RaspoznModel
+<div class="block yellowtitle block_w4" id="@Model.DivID">
+    <div class="title">
+        <i class="icon icon_recognize"></i>
+        <a href='@Url.Action("Mine_raspozn", "Mnemonic", new {raspoznID = Model.RaspoznID})'>@Resources.ResourceMnemonic.Recognition</a>
+
+    </div>
+    @if (Model.RaspoznList != null && Model.RaspoznList.Any())
+    {
+        <div class="table text">
+            <table>
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>@Resources.ResourceMnemonic.Date</th>
+                        <th>@Resources.ResourceMnemonic.WagonNumber</th>
+                    </tr>
+                </thead>
+
+                @{
+                    var counter = 0;
+                    foreach (var item in Model.RaspoznList.Take(5))
+                    {
+                        counter++;
+                        <tr>
+                            <td>@counter</td>
+                            <td>@item.Date.ToString("HH:mm:ss dd.MM.yyyy")</td>
+                            <td>@item.WagonNumber</td>
+                            @if (item.PictureGallery != null)
+                            {
+                                var uniqueDataID = 1;
+                                <td>
+                                    @foreach (var pic in item.PictureGallery)
+                                    {
+                                        <a data-fancybox="@item.GallleryName" data-caption="<b>@item.WagonNumber</b><span>@item.Date.ToString("yyyy.MM.dd HH:mm:ss")</span>" href="@Html.Raw(@"#data"+item.GallleryName+uniqueDataID)" class="photo">Фото</a>
+                                        <div style="display:none"><img id="@Html.Raw(@"data"+item.GallleryName+uniqueDataID)" src="@pic" /></div>
+                                        uniqueDataID++;
+                                    }
+                                </td>
+                            }
+
+                        </tr>
+
+                    }
+                }
+            </table>
+        </div>
+                    }
+                    else
+                    {
+                        <h4 style="text-align:center">@Resources.ResourceMnemonic.NoDataToDisplay</h4>
+                    }
+    <!--<div class="text">
+            <div class="result">
+                <div class="res"><span>Недостача угля</span> <i class="red"></i></div>
+                <div class="res"><span>Недостача угля</span> <i class="green"></i></div>
+                <div class="clearfix"></div>
+            </div>
+        </div>-->
+</div>

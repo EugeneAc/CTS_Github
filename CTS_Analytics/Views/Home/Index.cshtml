@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Coal Tracking System</h1>
+    <p class="lead">Reports and Analytics Web portal</p>
+    
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            
+        </p>
+        
+    </div>
+    <div class="col-md-4">
+        <h2>Download reports</h2>
+        <p></p>
+        <p>@Html.ActionLink("Get reports", "Consolid", "Static", null, new { @class = "btn btn-default" })</p> 
+    </div>
+    <div class="col-md-4">
+        <h2>View Dashboards</h2>
+        <p></p>
+        <p>@Html.ActionLink("Goto Dashboards", "Index", "DashBoard", null, new { @class = "btn btn-default" })</p> 
+    </div>
+</div>
+
+
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#locations').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+    </script>
+
+
+
+
+    <script type="text/javascript">
+    $(function () {
+        // Populate State/Provinces
+        $('#locations').change(function () {
+                var selected = this.value;
+
+                $('#container').load
+                    ('@Url.Action("GetScales")?Locations=' + $("#locations").val());
+    });
+    });
+</script>
+
+
+

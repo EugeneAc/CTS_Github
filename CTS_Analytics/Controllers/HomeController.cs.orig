@@ -1,0 +1,77 @@
+﻿using CTS_Analytics.Models;
+using CTS_Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CTS_Analytics.Filters;
+
+namespace CTS_Analytics.Controllers
+{
+  [Culture]
+  public class HomeController : Controller
+  {
+    CentralDBContext cdb = new CentralDBContext();
+    public ActionResult Index()
+    {
+      var multidropdown = new List<CTS_Models.Location>();
+      multidropdown = cdb.Locations.ToList();
+      ViewBag.Locations = multidropdown.Select(N => new SelectListItem { Text = N.LocationName, Value = N.ID.ToString() });
+      return View();
+    }
+
+    public ActionResult About()
+    {
+      ViewBag.Message = "Your application description page.";
+
+      return View();
+    }
+
+    public ActionResult GetScales(string Locations)
+    {
+      string[] locations = Locations.Split(Convert.ToChar(@","));
+      var scales = new List<WagonScale>();
+      foreach (var l in locations)
+      {
+        scales.AddRange(cdb.WagonScales.Where(s => s.LocationID == l));
+      }
+      ViewBag.Scales = scales.Select(N => new SelectListItem { Text = N.Name, Value = N.ID.ToString() }); ;
+      ViewBag.Message = "Your application description page.";
+
+      return PartialView("_ScalesDynDropDown");
+    }
+
+    public ActionResult Contact()
+    {
+      ViewBag.Message = "Your contact page.";
+
+      return View();
+    }
+
+    public ActionResult ChangeCulture(string lang)
+    {
+      string returnUrl = Request.UrlReferrer.AbsolutePath;
+      // Список культур
+      List<string> cultures = new List<string>() { "ru", "en"};
+      if (!cultures.Contains(lang))
+      {
+        lang = "ru";
+      }
+      // Сохраняем выбранную культуру в куки
+      HttpCookie cookie = Request.Cookies["lang"];
+      if (cookie != null)
+        cookie.Value = lang;   // если куки уже установлено, то обновляем значение
+      else
+      {
+
+        cookie = new HttpCookie("lang");
+        cookie.HttpOnly = false;
+        cookie.Value = lang;
+        cookie.Expires = DateTime.Now.AddYears(1);
+      }
+      Response.Cookies.Add(cookie);
+      return Redirect(returnUrl);
+    }
+  }
+}

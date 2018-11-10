@@ -1,0 +1,135 @@
+﻿@model CTS_Analytics.Models.Mnemonic.kostModel
+
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMinePlanFact.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KostMineName;
+    ViewBag.MinePng = "mine6.png";
+}
+
+<div class="main">
+    <div id="mine6_bg">
+
+        @{
+            Model.Skip9t.DivID = "skip-mine6-1";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.Skip9t)
+
+        @{
+            Model.Vagon.DivID = "vagon-mine6-1";
+        }
+
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.Vagon)
+
+        @{
+            Model.Crusher.DivID = "drob-mine6-1";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher)
+
+        @{
+            Model.Crusher2.DivID = "drob-mine6-2";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher2)
+
+
+        @{
+            Model.RockUtil38.DivID = "stone-mine6-1";
+            Model.RockUtil38.MinHeight = true;
+        }
+
+        @Html.Partial("Partials/_RockUtil", Model.RockUtil38)
+
+        @{
+            Model.BeltFromSkip9t.DivID = "konv-mine6-1";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltFromSkip9t)
+
+        @{
+            Model.BeltFromSkip6t.DivID = "konv-mine6-2";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltFromSkip6t)
+
+        @{
+            Model.BeltToVagon.DivID = "konv-mine6-3";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltToVagon)
+
+        @{
+            Model.BeltToSklad.DivID = "konv-mine6-4";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltToSklad)
+
+        @{
+            Model.BeltToBoiler.DivID = "konv-mine6-5";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltToBoiler)
+
+        @{
+            Model.Kotel.DivID = "kotel-mine6-1";
+        }
+
+        @Html.Partial("Partials/_Kotel4MineMnemonic", Model.Kotel)
+
+        @{
+            Model.Skip6t.DivID = "skip-mine6-2";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.Skip6t)
+
+        @{
+            Model.Raspozn1.DivID = "recognize-mine6-1";
+        }
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn1)
+
+        @{
+            Model.Raspozn2.DivID = "recognize-mine6-2";
+        }
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn2)
+
+        <div class="buttons buttons-vert" id="btn_skip-mine6-1">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-right green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+
+        <div class="buttons buttons-vert" id="btn_skip-mine6-2">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-left green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-horz" id="btn_drob-mine6-2">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-horz" id="btn_drob-mine6-3">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-horz" id="btn_konv-mine6-5">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+
+        @{
+            Model.Sklad.DivID = "sklad-mine6-1";
+        }
+        @Html.Partial("Partials/_Stockpile4MineMnemonic", Model.Sklad)
+
+        @{
+            Model.HandLeg.DivID = "mine6-hand";
+        }
+        @Html.Partial("Partials/_HandLegend4MineMnemonic", Model.HandLeg)
+
+    </div>
+</div>

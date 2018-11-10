@@ -1,0 +1,84 @@
+﻿@using System.Linq;
+@model CTS_Analytics.Models.Mnemonic.Mine_vagon
+
+@{
+    var blockClass = Model.HasManualValues ? "hand-type" : "";
+    var lastTrainTime = Model.ShippedToLastTrainDateTime != null ? Model.ShippedToLastTrainDateTime.Value.ToString("HH:mm") : "";
+}
+
+<div class="block browntitle block_w2 @blockClass" id="@Model.DivID">
+    <div class="title">
+        <i class="icon icon_vagon"></i>
+        <a href='@Url.Action("Mine_vagon", "Mnemonic", new {ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID})'>@Model.WagonScaleName</a>
+        @if (Model.HasManualValues)
+        {
+            <a href class="hand tooltipstered">@Resources.ResourceMnemonic.ManualInputToolTip</a>
+        }
+    </div>
+    <div class="text">
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.LoadedPerShift</span>
+            <div class="count">@Model.ShippedPerShiftTonns</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.LoadedAtLastTrain</span>
+            <div class="count">@Model.ShippedToLastTrainTonns</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.LoadedAtLastTrain</span>
+            <div class="count">@lastTrainTime</div>
+            <span class="caption">@Resources.ResourceMnemonic.HHmm</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.WagonCountAtLastTrain</span>
+            <div class="count">@Model.LastTrainVagonCount</div>
+            <span class="caption">@Resources.ResourceMnemonic.Pieces</span>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.LastTrainDirection</span>
+            <div class="count naprav">@Model.LastTrainDirection</div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="table text">
+        <div class="line-head">
+            @Resources.ResourceMnemonic.WagonLoadingJourlal
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="padding-left:15px">@Resources.ResourceMnemonic.Date</th>
+                    <th>@Resources.ResourceMnemonic.TrainNumber</th>
+                    <th>@Resources.ResourceMnemonic.Brutto, @Resources.ResourceMnemonic.Tonns</th>
+                    <th>@Resources.ResourceMnemonic.Netto, @Resources.ResourceMnemonic.Tonns</th>
+                </tr>
+            </thead>
+            @{
+                foreach (var transfer in Model.WagonTransfers.Take(5).OrderByDescending(t => t.TransferTimeStamp))
+                {
+                    <tr class="odd">
+                        <td>@transfer.TransferTimeStamp.ToString("HH:mm dd.MM.yyyy")</td>
+                        <td>@transfer.LotName</td>
+                        <td>@transfer.Brutto</td>
+                        <td>@transfer.Netto</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="text">
+        <div class="result">
+            <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

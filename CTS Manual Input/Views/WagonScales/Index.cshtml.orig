@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<CTS_Manual_Input.Models.Transfer>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Ввод данных о вагонах";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Данные о партиях @ViewBag.LocationName</h1>
+@if ((Model.Count > 0) && (Model != null))
+  {
+        <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>Номер партии</th>
+                        <th>Номер вагона</th>
+                        <th>Вес вагона</th>
+                        <th>Груз</th>
+                        <th>Отправитель</th>
+                        <th>Получатель</th>
+                        <th>Весы</th>
+                        <th>Дата отгрузки</th>
+                        <th>Комментарий</th>
+                        <th>Оператор</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].LotName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].SublotName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].SublotQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].Item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].FromDest.LocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].ToDest.LocationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].Scale.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].FillingDateTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].Comment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => Model[i].OperatorName)
+                            </td>
+                            <td>
+                                <input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("Edit", "WagonScales", new {Id = Model[i].ID })'" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+        </table>
+ }
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+<h2>Ручной ввод данных</h2>
+<<<<<<< HEAD
+@if ((Model.WagonScales.Count > 0) && (Model != null))
+{
+    foreach (var sc in Model.WagonScales)
+    {
+        <div>
+            <input type="button" name="AddButton" class="btn btn-primary" value="Добавить новые данные об отгрузке" onclick="location.href='@Url.Action("Add", "WagonScales", new { ID = sc.ID })'"/>
+            <input type="button" name="AddButton" class="btn btn-primary" value="Добавить новые данные о приемке" onclick="location.href='@Url.Action("AddIncomming", "WagonScales", new { ID = sc.ID })'" />
+        </div>
+    }
+}
+=======
+<div>
+    <input type="button" name="AddButton" class="btn btn-primary" value="Добавить новые данные об отгрузке" onclick="location.href='@Url.Action("Add", "WagonScales")'"/>
+    <input type="button" name="AddButton" class="btn btn-primary" value="Добавить новые данные о приемке" onclick="location.href='@Url.Action("AddIncomming", "WagonScales")'" />
+</div>
+>>>>>>> 643de5b94dad2d0d4fcfd4a2ead5cee4e7179bb9
+
+
+<script type="text/javascript">
+$(function(){
+    $("#Location").on("change", function() {
+        var id = $("#Location").val();
+        window.location.href = @Url.Action("Index","WagonScales", new { Id = 1 });
+    });
+});
+
+    function InsuficientRights()
+    {
+        alert("Не достаточно прав доступа");
+    }
+</script>

@@ -1,0 +1,62 @@
+﻿
+@model CTS_Analytics.Models.Mnemonic.MineGeneral
+
+
+    <div class="block gray" id="@Model.DivId">
+        <div class="title">
+            <i class="icon icon_mine"></i>
+            <a href='@Url.Action(@Model.LocationID, "Mnemonic")'>@Model.MineName</a>
+            <a href="" class="warning">@Resources.ResourceMnemonic.Warning</a>
+        </div>
+        <div class="text">
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.ProdPlan</span>
+                <div class="count">@Model.ProdPlan</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.ProdFact</span>
+                <div class="count">@Model.ProdFact</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.Shipped</span>
+                <div class="count">@Model.Shipped</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.AtStockPiles</span>
+                <div class="count">@Model.AtStockpile</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="result">
+
+                @{ var warning1 = Html.Raw(@"<i class='green'></i>");
+                    if (Model.CoalWarning == true)
+                    {
+                        warning1 = Html.Raw(@"<i class='yellow'></i>");
+                    }
+                    if (Model.CoalAlarm == true)
+                    {
+                        warning1 = Html.Raw(@"<i class='red'></i>");
+                    }
+                    var warning2 = Html.Raw(@"<i class='green'></i>");
+                    if (Model.HSEWarning == true)
+                    {
+                        warning2 = Html.Raw(@"<i class='yellow'></i>");
+                    }
+                    if (Model.HSEAlarm == true)
+                    {
+                        warning2 = Html.Raw(@"<i class='red'></i>");
+                    }
+                }
+                <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> @warning1</a></div>
+                <div class="res"><span>@Resources.ResourceMnemonic.HSEWarning</span> <a href='@Url.Action("HseAlarm", "Mnemonic")'>@warning2</a></div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace CTS_Manual_Input.Models
+{
+    public class Scale
+    {
+        public int ID { get; set; }
+        public string ItemName { get; set; }
+<<<<<<< HEAD
+        public int? LocationID { get; set; }
+        public virtual Location Location { get; set; }
+=======
+>>>>>>> 643de5b94dad2d0d4fcfd4a2ead5cee4e7179bb9
+
+    }
+}

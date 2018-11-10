@@ -1,0 +1,86 @@
+﻿@using PagedList.Mvc;
+@using CTS_Manual_Input.Models.LabModels;
+@model  MiningAnalysisView
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Анализы по добыче</h1>
+@if (Model != null)
+{
+	<h2>Добавить новые данные</h2>
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Шахта</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var mod in Model.Locations)
+			{
+				<tr>
+					<td>@Html.DisplayFor(modelItem => mod.LocationName)</td>
+					<td>
+						<input type="button" class="btn btn-content" value="Добавить анализ" onclick="location.href='@Url.Action("Add", "LabMining", new {LocationID = mod.ID })'" />
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+
+	<h2>Данные анализов по добыче</h2>
+	if ((Model.MiningAnalysis != null) && (Model.MiningAnalysis.Any()))
+	{
+		<table class="table table-striped table-hover ">
+			<thead>
+				<tr>
+					<th>Шахта</th>
+					<th>ID анализа</th>
+					<th>Время анализа</th>
+					<th>Оператор</th>
+					<th>Зольность ср.</th>
+					<th>Влажность ср.</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			@foreach (var mod in Model.MiningAnalysis)
+			{
+				<tr>
+					<td>@Html.DisplayFor(x => mod.Location.LocationName)</td>
+					<td>@Html.DisplayFor(x => mod.AnalysisID)</td>
+					<td>@Html.DisplayFor(x => mod.AnalysisTimeStamp)</td>
+					<td>@Html.DisplayFor(x => mod.OperatorName).ToString().Substring(mod.OperatorName.LastIndexOf('\\') + 1)</td>
+					<td>@Html.DisplayFor(x => mod.SulfurAvg)</td>
+					<td>@Html.DisplayFor(x => mod.MoistureAvg)</td>
+					<td>
+						<input type="button" name="AnalysisDetails" class="btn btn-primary btn-xs" value="Подробнее" onclick="location.href='@Url.Action("AnalysisView", "LabMining", new { Id = mod.ID })'" />
+					</td>
+					<td>
+						<div>
+							@if (Model.CanEdit)
+						{
+								<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("Edit", "LabMining", new { Id = mod.ID })'" />
+						}
+						</div>
+					</td>
+					<td>
+						<div>
+							@if (Model.CanDelete)
+						{
+								<input type="button" name="DeleteButton" class="btn btn-danger btn-xs" value="Удалить" onclick="ConfirmDelete('@Url.Action("Delete", "LabMining", new { Id = mod.ID })')" />
+						}
+						</div>
+					</td>			
+				</tr>
+			}
+		</table>
+	}
+}
+Страница @(Model.MiningAnalysis.PageCount < Model.MiningAnalysis.PageNumber ? 0 : Model.MiningAnalysis.PageNumber) из @Model.MiningAnalysis.PageCount
+
+@Html.PagedListPager(Model.MiningAnalysis, page => Url.Action("Index", new { page }))

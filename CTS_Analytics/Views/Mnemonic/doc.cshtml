@@ -1,0 +1,109 @@
+﻿@model CTS_Analytics.Models.Mnemonic.MnemonicMain
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+}
+<div class="main">
+
+    <div class="sprav">
+
+        <div class="left">
+            <div class="sprav-block">
+                <div class="title"><i class="icon icon_obj"></i> @Resources.ResourceMnemonic.Objects</div>
+
+                <ul class="spisok">
+                    <li><a href='@Url.Action("doc_detail_shah", "Mnemonic")'>@Resources.ResourceMnemonic.ShahMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_tent", "Mnemonic")'>@Resources.ResourceMnemonic.TentMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_kaz", "Mnemonic")'>@Resources.ResourceMnemonic.KazMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_len", "Mnemonic")'>@Resources.ResourceMnemonic.LenMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_kuz", "Mnemonic")'>@Resources.ResourceMnemonic.KuzMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_kost", "Mnemonic")'>@Resources.ResourceMnemonic.KostMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_abay", "Mnemonic")'>@Resources.ResourceMnemonic.AbayMineName</a></li>
+                    <li><a href='@Url.Action("doc_detail_sar", "Mnemonic")'>@Resources.ResourceMnemonic.SarMineName</a></li>
+                </ul>
+            </div>
+
+
+
+            <!-- <div class="sprav-block">
+        <div class="title"><i class="icon icon_tech"></i> Техника</div>
+
+        <ul class="spisok">
+            <li><a href="#">Вагоны-хопперы  для перевозки сыпучих и пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны для перевозки пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны-хопперы  для перевозки сыпучих и пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны для перевозки пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны-хопперы  для перевозки сыпучих и пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны для перевозки пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны-хопперы  для перевозки сыпучих и пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны для перевозки пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны-хопперы  для перевозки сыпучих и пылевидных гру­зов</a></li>
+            <li><a href="#">Вагоны для перевозки пылевидных гру­зов</a></li>
+        </ul>
+    </div>-->
+
+
+        </div>
+
+        <div class="right">
+
+            <div class="sprav-block">
+                <div class="title"><i class="icon icon_oborud"></i>@Resources.ResourceMnemonic.Equipment</div>
+
+                <ul class="spisok">
+                    <li><a href='@Url.Action("doc_detail_Skips", "Mnemonic")'>@Resources.ResourceMnemonic.Skip_many</a></li>
+                    <li><a href='@Url.Action("doc_detail_SkipsWeights", "Mnemonic")'>@Resources.ResourceMnemonic.SkipWeights</a></li>
+                    <li><a href='@Url.Action("doc_detail_Conveyors", "Mnemonic")'>@Resources.ResourceMnemonic.Conveyors_many</a></li>
+                    <li><a href='@Url.Action("doc_detail_Wagons", "Mnemonic")'>@Resources.ResourceMnemonic.WeightBriges</a></li>
+                    <li><a href='@Url.Action("doc_detail_BoilerUnitNorm", "Mnemonic")'>@Resources.ResourceMnemonic.BoilerNorm</a></li>
+                </ul>
+            </div>
+
+
+            <!-- <div class="sprav-block">
+            <div class="title"><i class="icon icon_cts"></i> Объекты CTS</div>
+
+            <ul class="spisok">
+                <li><a href="~/Views/Mnemonic/Doc-detail/doc-detail-shah.cshtml">Шахта Шахтинская</a></li>
+                <li><a href="#">Шахта Тентекская</a></li>
+                <li><a href="#">Шахта Казахстанская</a></li>
+                <li><a href="#">Шахта имени Ленина</a></li>
+                <li><a href="#">Шахта имени Кузембаева</a></li>
+                <li><a href="#">Шахта имени Костенко</a></li>
+                <li><a href="#">Шахта Абайская</a></li>
+                <li><a href="#">Шахта Саранская-1</a></li>
+                <li><a href="#">Шахта Саранская-2</a></li>
+            </ul>
+        </div>-->
+
+        </div>
+
+    </div>
+
+
+        </div>
+
+    <script type="text/javascript" src="tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+
+    <script>
+        jQuery(function () {
+            jQuery('.tooltip-block').tooltipster({
+                animation: 'fade',
+                contentCloning: true,
+                contentAsHTML: true,
+                arrow: false,
+                interactive: true,
+                trigger: 'click',
+
+            }).click(function () {
+                return false;
+            });
+
+            jQuery('[title]').tooltipster({
+
+                side: ["right", "top"],
+
+
+            });
+        });
+    </script>

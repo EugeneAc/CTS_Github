@@ -1,0 +1,27 @@
+﻿@model CTS_Analytics.Models.StaticConsolidated
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceStatic.PageName;
+}
+
+<h2>@Resources.ResourceStatic.PageName</h2>
+@using (Ajax.BeginForm("GetFileTable", "Static", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "form-horizontal" }))
+{
+  @Html.Partial("_FromDateToDate", new CTS_Analytics.Models.FromDateToDateModel() { FromDate = Model.FromDate, ToDate = Model.ToDate })
+
+  @Html.Partial("_LocationsDropDown", Model.Locations)
+
+<div class="form-group" id="WagonScalesContainer"></div>
+
+<div class="form-group" id="BeltScalesContainer"></div>
+
+<div class="form-group" id="SkipContainer"></div>
+
+<input type="submit" value=@Resources.ResourceGeneral.Refresh class="btn btn-success" name="Refresh" />
+
+<div id="results">
+@Html.Partial("_FileTable", new CTS_Analytics.Models.FileTableModel())
+</div>
+ 
+}
+

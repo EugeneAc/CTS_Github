@@ -1,0 +1,64 @@
+﻿@model CTS_Models.SkipTransfer
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Изменить запись</h2>
+</br>
+
+@using (Html.BeginForm("Edit", "Skip", new { htmlAttributes = new { @class = "form-horizontal" } }))
+{
+	<div class="form-horizontal">
+
+		@Html.HiddenFor(m => m.ID)
+		@Html.HiddenFor(m => m.EquipID)
+		@Html.AntiForgeryToken()
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Equip.Name, "Скип", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => m.Equip.Name, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.LiftingID, "Количество подъемов", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.LiftingID, new { htmlAttributes = new { @class = "form-control" } })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.TransferTimeStamp, "Дата подъема", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10 input-group date" id="datetimepicker">
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</span>
+				@Html.TextBoxFor(m => Model.TransferTimeStamp, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control datepicker" })
+				@Html.ValidationMessageFor(model => model.TransferTimeStamp, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Comment, "Комментарий", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Сохранить" class="btn btn-primary" />
+			</div>
+		</div>
+	</div>
+}
+
+</br>
+
+<div>
+	@Html.ActionLink("Отменить изменения и вернуться к списку", "Index")
+</div>
+
+

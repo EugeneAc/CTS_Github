@@ -1,0 +1,71 @@
+﻿@using System.Linq;
+@model CTS_Analytics.Models.Mnemonic.Station
+
+    <div class="block bluetitle gray" id="@Model.WagonScales.DivID">
+        <div class="title">
+            <i class="icon icon_vagon"></i>
+            <a href='@Url.Action("Mine_vagon", "Mnemonic", new {ID = Model.LocationID, wagonScaleID = Model.WagonScales.WagonScalesID})'>@Model.StationName</a>
+
+        </div>
+        <div class="text">
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.TotalWagons</span>
+                <div class="count">@Model.WagonScales.TotalWagons</div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.TotalQuantity</span>
+                <div class="count">@Model.WagonScales.TotalTonns</div>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="line-head">
+                @Resources.ResourceMnemonic.LastTrainLoadingTimeShort
+            </div>
+
+            <div class="line-w">
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.LastTrainLoadingTimeShort</span>
+                    <div class="count">@Model.WagonScales.LastTrainNumber</div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.Time</span>
+                    <div class="count">@Model.WagonScales.LastTrainTime.ToString("HH.mm")</div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.From</span>
+                    <div class="count">@Model.WagonScales.LastTrainDirection</div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.Product</span>
+                    <div class="count">@Model.WagonScales.LastTrainItem</div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.WagonAtLastTrain</span>
+                    <div class="count">@Model.WagonScales.LastTrainWagonCount</div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.Time</span>
+                    <div class="count">@Model.WagonScales.LastTrainTime.ToString("dd.MM.yyyy")</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceMnemonic.Thesaurus;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KuzMineName;
+}
+
+<div class="main">
+
+    <div class="sprav">
+
+        <h2>@Resources.ResourceMineInfo.AbayTitle</h2>
+
+        <div class="anounce">
+            <div class="txt">
+                @Resources.ResourceMineInfo.AbayShortDescr
+            </div>
+
+            <div class="pic">
+                <img src="~/Content/Mnemo/pic/abaiskaya.jpg" alt="" />
+            </div>
+
+        </div>
+
+
+        <h3>
+            <b> @Resources.ResourceMineInfo.History</b>
+        </h3>
+        <p>
+            @Resources.ResourceMineInfo.AbayHistory
+        </p>
+        <br>
+        <br>
+        <h3>
+            <b>@Resources.ResourceMineInfo.Description</b>
+        </h3>
+        <br>
+        <br>
+        <p>
+            @Resources.ResourceMineInfo.AbayDescr
+        </p>
+
+    </div>
+
+
+</div>

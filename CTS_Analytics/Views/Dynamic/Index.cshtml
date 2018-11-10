@@ -1,0 +1,60 @@
+﻿@model CTS_Analytics.Models.DynamicModel
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.PageName = Resources.ResourceDynamic.PageName;
+}
+
+
+<h2>@Resources.ResourceDynamic.PageName</h2>
+
+
+
+@using (Ajax.BeginForm("GetReport", "Dynamic", new AjaxOptions { OnSuccess = "onSuccess", UpdateTargetId = "results" }, new { @class = "form-horizontal" }))
+{
+	@Html.Partial("_FromDateToDate", new CTS_Analytics.Models.FromDateToDateModel() { FromDate = Model.FromDate, ToDate = Model.ToDate })
+
+	@Html.Partial("_FileFormatsDropDown", Model.FileFormats)
+
+	@Html.Partial("_ReportTypesDropDown", Model.ReportTypes)
+
+	<div class="form-group" id="BeltScalesContainer"></div>
+
+	<div class="form-group" id="SkipContainer"></div>
+
+	<input type="submit" value=@Resources.ResourceGeneral.Report class="btn btn-success" name="Report" />
+
+}
+
+<br />
+<br />
+<br />
+<br />
+
+<script>
+	function onSuccess(data) {
+		window.open(data.url, '_blank');
+	}
+</script>
+
+<script type="text/javascript">  
+		$(document).ready(LoadFilters());
+		$('#types').on('change', LoadFilters);
+
+		function LoadFilters() {
+			$('#BeltScalesContainer').html("");
+			$('#SkipContainer').html("");
+
+			if ($("#types").val() == '@Resources.ResourceDynamic.ReportBelt')
+            {
+                $('#BeltScalesContainer').load
+                ('@Url.Action("GetBeltScales", "Filter",null)?Locations=abay,cofv,kaz,kost,kuz,len,sabay,sar,sar1,sdub,shah,srasp,tent,test');
+            }
+            else if ($("#types").val() == '@Resources.ResourceDynamic.ReportSkip')
+            {
+                $('#SkipContainer').load
+                    ('@Url.Action("GetSkips", "Filter",null)?Locations=abay,cofv,kaz,kost,kuz,len,sabay,sar,sar1,sdub,shah,srasp,tent,test');
+            }
+    };
+</script>
+
+

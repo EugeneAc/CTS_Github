@@ -1,0 +1,38 @@
+﻿@using System.Linq;
+@model CTS_Analytics.Models.Mnemonic.Mine_Kotel
+
+@{
+    var blockClass = Model.HasManualValues ? "hand-type" : "";
+}
+
+<div class="block purp2title minheight @blockClass" id="@Model.DivID">
+    <div class="title">
+        <i class="icon icon_kotel"></i>
+        @*<a href="">@Resources.ResourceMnemonic.BoilderPlant</a>*@
+		<span class="title-not-link">@Resources.ResourceMnemonic.BoilderPlant</span>
+
+        @if (Model.HasManualValues)
+        {
+            <a href class="hand tooltipstered">@Resources.ResourceMnemonic.ManualInputToolTip</a>
+        }
+    </div>
+    <div class="text">
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.BoilerConsumptionFact</span>
+            <div class="count">@Model.ConsumptionFact</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.BoilerConsumptionNorm</span>
+            <div class="count">@Model.ConsumptionNorm</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="result">
+            <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@model CTS_Analytics.Models.BeltScalesDropDownModel
+@if (Model.BeltScales != null && Model.BeltScales.Count() > 0)
+{
+<label class="control-label col-md-2" for="locations">@Resources.ResourceFilters.Belt</label>
+<select id="beltScales" multiple="multiple" name="beltScalesInForm" class="multiselect">
+        @foreach (var item in Model.BeltScales)
+        {
+            if (item.Text != null)
+            {
+        <option value="@item.Value">
+            @item.Text
+        </option>
+            }
+        }
+
+</select>
+    }
+<script type="text/javascript">
+
+        $(function () {
+            $('#beltScales').multiselect({
+                includeSelectAllOption: true,
+                selectAllText: '@Resources.ResourceFilters.allSelected',
+                nonSelectedText: '@Resources.ResourceFilters.NonSelected',
+                allSelectedText: '@Resources.ResourceFilters.allSelected',
+                nSelectedText: '@Resources.ResourceFilters.Selected'
+            });
+        });
+</script>

@@ -1,0 +1,65 @@
+﻿@model CTS_Analytics.Models.Mnemonic.iMine
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="head">
+    <div class="img"><img src="~/Content/Mnemo/pic/@ViewBag.MinePng" alt="" /></div>
+    <h1>@Model.MineName</h1>
+    <div class="links">
+		<a href='@Url.Action(Model.DetailsViewName, "Mnemonic")' class="info"><i></i><b>@Resources.ResourceMnemonic.MoreInfo</b></a>
+		@*<a href="#" class="video"><i></i><b>@Resources.ResourceMnemonic.Cctv</b></a>*@
+        <span><i></i><b>@Resources.ResourceMnemonic.Cctv</b></span>
+    </div>
+</div>
+
+@RenderBody()
+
+<script src="~/Content/Mnemo/js/jquery.knob.min.js"></script>
+<script src="~/Content/Mnemo/js/jquery.fancybox.min.js"></script>
+<script>
+    $(function ($) {
+        jQuery(".photo").fancybox({
+            buttons: [
+                'slideShow',
+                'fullScreen',
+                'thumbs',
+                //'share',
+                'download',
+                'zoom',
+                'close'
+            ],
+            thumbs: {
+                autoStart: true, // Display thumbnails on opening
+
+            },
+
+        });
+        $(".knob").knob();
+
+    });
+</script>
+<script type="text/javascript" src="~/Content/Mnemo/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+<script>
+    jQuery(function () {
+        jQuery('.tooltip-block').tooltipster({
+            animation: 'fade',
+            contentCloning: true,
+            contentAsHTML: true,
+            arrow: false,
+            interactive: true,
+            trigger: 'click',
+
+        }).click(function () {
+            return false;
+        });
+
+        jQuery('[title]').tooltipster({
+
+            side: ["right", "top"],
+
+
+        });
+    });
+</script>
+

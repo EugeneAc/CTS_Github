@@ -1,0 +1,187 @@
+﻿@model CTS_Analytics.Models.Mnemonic.cofvModel
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicStation.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+}
+<div class="main">
+    <div id="tsof_bg">
+
+        @{
+            Model.FromShah.ViewId = "st-mine1";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromShah)
+
+        @{
+            Model.FromTent.ViewId = "st-mine2";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromTent)
+
+        @{
+            Model.FromKaz.ViewId = "st-mine4";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKaz)
+
+        @{
+            Model.FromLen.ViewId = "st-mine3";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromLen)
+
+        @{
+            Model.FromKuz.ViewId = "st-mine7";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKuz)
+
+        @{
+            Model.FromKost.ViewId = "st-mine6";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKost)
+
+
+        @{
+            Model.FromAbay.ViewId = "st-mine5";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromAbay)
+
+        @{
+            Model.FromSar.ViewId = "st-mine9";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromSar)
+
+        @{
+            Model.WagonScales.DivID = "st-block";
+        }
+        @Html.Partial("Partials/_WagonScales4StationMnemonic", Model)
+
+
+
+        <div class="block black2" id="tsof-st1">
+            <div class="title">
+                <i class="icon icon_st"></i>
+                <a href="@Url.Action("srasp", "Mnemonic")">@Resources.ResourceMnemonic.StRasporName</a>
+
+            </div>
+            <div class="text">
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.ConcentrateShipped</span>
+                    <div class="count">@Model.ConcShippedToSrasp</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.PprodShipped</span>
+                    <div class="count">@Model.PrpodShippedToSrasp</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="block black2" id="tsof-st2">
+            <div class="title">
+                <i class="icon icon_st"></i>
+                <a href="@Url.Action("sdub", "Mnemonic")">@Resources.ResourceMnemonic.StDubovName</a>
+
+            </div>
+            <div class="text">
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.ConcentrateShipped</span>
+                    <div class="count">@Model.ConcShippedToSdub</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.PprodShipped</span>
+                    <div class="count">@Model.PrpodShippedToSdub</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="block black2" id="tsof-st3">
+            <div class="title">
+                <i class="icon icon_st"></i>
+                <a href="@Url.Action("sabay", "Mnemonic")">@Resources.ResourceMnemonic.StAbayName</a>
+
+            </div>
+            <div class="text">
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.ConcentrateShipped</span>
+                    <div class="count">@Model.ConcShippedToSabay</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="line">
+                    <span class="name">@Resources.ResourceMnemonic.PprodShipped</span>
+                    <div class="count">@Model.PrpodShippedToSabay</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-1">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-2">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-3">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-4">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra red">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right red">Стрелка</a>
+        </div>
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-5">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-6">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-7">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_st-8">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Весы" class="libra green">Весы</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="Направление" class="arrow-right green">Стрелка</a>
+        </div>
+
+
+
+
+    </div>
+</div>
+ 

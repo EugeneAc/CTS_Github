@@ -1,0 +1,105 @@
+﻿@using CTS_Models
+@model CTS_Models.WagonTransfer
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Изменить данные</h2>
+
+@using (Html.BeginForm("SaveChanges", "WagonScales", new { htmlAttributes = new { @class = "form-horizontal" } }))
+{
+	<div class="form-horizontal">
+		@Html.AntiForgeryToken()
+		<legend>Данные партии</legend>
+		@Html.HiddenFor(m => Model.ID)
+		@Html.HiddenFor(m => Model.Status)
+		@Html.HiddenFor(m => Model.EquipID)
+		<div class="form-group">
+			@Html.LabelFor(m => Model.FromDest, "Место отправления", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.DropDownListFor(m => Model.FromDestID, ViewBag.FromDestinations as SelectList, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => Model.FromDestID)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.ToDest, "Пункт назначения", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.TextBoxFor(m => m.ToDest, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => Model.ToDest)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.LotName, "Партия", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.LotName, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.LotName)
+			</div>
+		</div>
+		@*<div class="form-group">
+				@Html.LabelFor(m => Model.LotQuantity, "Общий вес партии", new { @class = "control-label col-lg-2" })
+				<div class="col-lg-10">
+					@Html.EditorFor(m => Model.LotQuantity, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+					@Html.ValidationMessageFor(m => Model.LotQuantity)
+				</div>
+			</div>*@
+		<legend>Данные Вагона</legend>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.SublotName, "Номер вагона", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.SublotName, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.SublotName)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Brutto, "Вес вагона, т", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.Brutto, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.Brutto)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Tare, "Тара, т", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.Tare, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.Tare)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Comment, "Комментарий", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.EditorFor(m => Model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.Comment)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Comment, "Груз", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10">
+				@Html.DropDownListFor(m => Model.ItemID, ViewBag.Items as SelectList, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => Model.ItemID)
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => Model.TransferTimeStamp, "Дата отгрузки", new { @class = "control-label col-lg-2" })
+			<div class="col-lg-10 input-group date" id="datetimepicker">
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</span>
+				@Html.TextBoxFor(m => Model.TransferTimeStamp, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control datepicker" })
+				@Html.ValidationMessageFor(m => Model.TransferTimeStamp)
+			</div>
+		</div>
+		<input type="submit" value="Сохранить" class="btn btn-success" />
+	</div>
+}
+
+<script>
+	$(document).ready(function () {
+		$('#ToDest').autocomplete({
+			source: '/WagonScales/AutocompleteToDest',
+			minLength: 0
+		});
+	});
+
+	$('#ToDest').click(function () {
+		$("#ToDest").autocomplete("search", "");
+	});
+</script>

@@ -1,0 +1,35 @@
+﻿@model CTS_Analytics.Models.Mnemonic.Mine_konv
+
+@{ 
+    var blockClass = Model.HasManualValues ? "hand-type" : "";
+}
+<div class="block purptitle minheight @blockClass" id="@Model.DivID">
+    <div class="title">
+        <i class="icon icon_konv"></i>
+        <a href='@Url.Action("Mine_konv", "Mnemonic", new {ID= Model.ReturnID, beltScaleID = Model.BeltID })'>@Model.KonvName</a>
+        @if (Model.HasManualValues)
+        {
+            <a href class="hand tooltipstered">@Resources.ResourceMnemonic.ManualInputToolTip</a>
+        }
+
+    </div>
+    <div class="text">
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.ProductionPerShift</span>
+            <div class="count">@Model.ProductionPerShift.ToString("F")</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.ProdFact</span>
+            <div class="count">@Model.ProductionPerTimeInterval.ToString("F")</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="result">
+            <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

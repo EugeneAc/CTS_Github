@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ShahMineName" xml:space="preserve">
+    <value>Шахта Шахтинская</value>
+  </data>
+  <data name="TentMineName" xml:space="preserve">
+    <value>Шахта Тентекская</value>
+  </data>
+  <data name="KuzMineName" xml:space="preserve">
+    <value>Шахта им. Кузембаева</value>
+  </data>
+  <data name="KazMineName" xml:space="preserve">
+    <value>Шахта Казахстанская</value>
+  </data>
+  <data name="LenMineName" xml:space="preserve">
+    <value>Шахта им. Ленина</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Предупреждение</value>
+  </data>
+  <data name="RefreshBtn" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="ProdPlan" xml:space="preserve">
+    <value>Произв.план</value>
+  </data>
+  <data name="ProdFact" xml:space="preserve">
+    <value>Произв. за период</value>
+  </data>
+  <data name="Shipped" xml:space="preserve">
+    <value>Отгружено</value>
+  </data>
+  <data name="Tonns" xml:space="preserve">
+    <value>тонн</value>
+  </data>
+  <data name="CoalWarning" xml:space="preserve">
+    <value>Недостача угля</value>
+  </data>
+  <data name="AtStockPiles" xml:space="preserve">
+    <value>На складе</value>
+  </data>
+  <data name="WeightBriges" xml:space="preserve">
+    <value>Вагонные весы</value>
+  </data>
+  <data name="Arrow" xml:space="preserve">
+    <value>Стрелка</value>
+  </data>
+  <data name="MnemonicButton" xml:space="preserve">
+    <value>Схема</value>
+  </data>
+  <data name="MapButton" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="BoilerButton" xml:space="preserve">
+    <value>Котельные</value>
+  </data>
+  <data name="AbayMineName" xml:space="preserve">
+    <value>Шахта Абайская</value>
+  </data>
+  <data name="CofName" xml:space="preserve">
+    <value>ЦОФ Восточная</value>
+  </data>
+  <data name="StationIncome" xml:space="preserve">
+    <value>Получено</value>
+  </data>
+  <data name="StationOutcome" xml:space="preserve">
+    <value>Отправлено</value>
+  </data>
+  <data name="StDubovName" xml:space="preserve">
+    <value>Станция Дубовская</value>
+  </data>
+  <data name="StAbayName" xml:space="preserve">
+    <value>Станция Абай</value>
+  </data>
+  <data name="StUglerudName" xml:space="preserve">
+    <value>Станция Углерудная</value>
+  </data>
+  <data name="StRasporName" xml:space="preserve">
+    <value>Ст. Распорядительная</value>
+  </data>
+  <data name="KostMineName" xml:space="preserve">
+    <value>Шахта им. Костенко</value>
+  </data>
+  <data name="Sar1MineName" xml:space="preserve">
+    <value>Шахта Саранская-1</value>
+  </data>
+  <data name="Sar3MineName" xml:space="preserve">
+    <value>Шахта Саранская-3</value>
+  </data>
+  <data name="KtzhWays" xml:space="preserve">
+    <value>Пути КТЖ</value>
+  </data>
+  <data name="HSEWarning" xml:space="preserve">
+    <value>Инцидент ТБ</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Скиповой подъем</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Skips" xml:space="preserve">
+    <value>скипов</value>
+  </data>
+  <data name="LastLoadedSkip" xml:space="preserve">
+    <value>Посл. скип время</value>
+  </data>
+  <data name="HHmm" xml:space="preserve">
+    <value>чч:мм</value>
+  </data>
+  <data name="DDHHmm" xml:space="preserve">
+    <value>дд:чч:мм</value>
+  </data>
+  <data name="LastSkipStopTime" xml:space="preserve">
+    <value>Остановка посл. скипа</value>
+  </data>
+  <data name="ProductionPerShift" xml:space="preserve">
+    <value>Произв. за смену</value>
+  </data>
+  <data name="LoadedPerShift" xml:space="preserve">
+    <value>Загружено за смену</value>
+  </data>
+  <data name="LoadedAtLastTrain" xml:space="preserve">
+    <value>Загруж. в посл. состав</value>
+  </data>
+  <data name="LastTrainLoadingTime" xml:space="preserve">
+    <value>Посл. загруж. состав</value>
+  </data>
+  <data name="WagonCountAtLastTrain" xml:space="preserve">
+    <value>Кол-во вагонов посл. сост</value>
+  </data>
+  <data name="Pieces" xml:space="preserve">
+    <value>шт.</value>
+  </data>
+  <data name="LastTrainDirection" xml:space="preserve">
+    <value>Направление посл. сост.</value>
+  </data>
+  <data name="WagonLoadingJourlal" xml:space="preserve">
+    <value>Журнал загрузки вагонов</value>
+  </data>
+  <data name="CrushingMachine" xml:space="preserve">
+    <value>Дробильная установка</value>
+  </data>
+  <data name="CrushedPerShift" xml:space="preserve">
+    <value>Раздробл. на смену</value>
+  </data>
+  <data name="CoalFromCrushingMachinePerShift" xml:space="preserve">
+    <value>Получено за смену</value>
+  </data>
+  <data name="RocksFromCrushingPerShift" xml:space="preserve">
+    <value>Породы за сутки</value>
+  </data>
+  <data name="RocksUtilization" xml:space="preserve">
+    <value>Утилизация породы</value>
+  </data>
+  <data name="Conveyor" xml:space="preserve">
+    <value>Конвейер</value>
+  </data>
+  <data name="BoilderPlant" xml:space="preserve">
+    <value>Котельная</value>
+  </data>
+  <data name="Stockpile" xml:space="preserve">
+    <value>Открытый склад</value>
+  </data>
+  <data name="StockpileIncome" xml:space="preserve">
+    <value>Получено за период</value>
+  </data>
+  <data name="StockPileTotal" xml:space="preserve">
+    <value>Общее кол-во угля</value>
+  </data>
+  <data name="StockpileFree" xml:space="preserve">
+    <value>Свободно</value>
+  </data>
+  <data name="Rocks" xml:space="preserve">
+    <value>Порода</value>
+  </data>
+  <data name="SkipsLiftingJournal" xml:space="preserve">
+    <value>Журнал подъемов</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="LiftingID" xml:space="preserve">
+    <value>Подъем</value>
+  </data>
+  <data name="MoreInfo" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="Cctv" xml:space="preserve">
+    <value>Видеонаблюдение</value>
+  </data>
+  <data name="Productivity" xml:space="preserve">
+    <value> Производительность (тонн/чел.)</value>
+  </data>
+  <data name="PlanFact" xml:space="preserve">
+    <value>План/факт</value>
+  </data>
+  <data name="Mine" xml:space="preserve">
+    <value>Шахта</value>
+  </data>
+  <data name="RailRoadStaion" xml:space="preserve">
+    <value>Станция</value>
+  </data>
+  <data name="COF" xml:space="preserve">
+    <value>ЦОФ</value>
+  </data>
+  <data name="CoalNormal" xml:space="preserve">
+    <value>Весы норма</value>
+  </data>
+  <data name="Thesaurus" xml:space="preserve">
+    <value>Справочник</value>
+  </data>
+  <data name="Objects" xml:space="preserve">
+    <value>Объекты</value>
+  </data>
+  <data name="BeltScaleJournal" xml:space="preserve">
+    <value>Журнал конвейерных весов</value>
+  </data>
+  <data name="TotalQuantity" xml:space="preserve">
+    <value>Общий вес</value>
+  </data>
+  <data name="LotQuantity" xml:space="preserve">
+    <value>Вес партии</value>
+  </data>
+  <data name="Netto" xml:space="preserve">
+    <value>Нетто</value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>№ заказа</value>
+  </data>
+  <data name="WagonNumber" xml:space="preserve">
+    <value>№ вагона</value>
+  </data>
+  <data name="Brutto" xml:space="preserve">
+    <value>Брутто</value>
+  </data>
+  <data name="Recipient" xml:space="preserve">
+    <value>Получатель</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="WagonLoading" xml:space="preserve">
+    <value>Загрузка вагона</value>
+  </data>
+  <data name="Recognition" xml:space="preserve">
+    <value>Распознавание</value>
+  </data>
+  <data name="MapGpsButton" xml:space="preserve">
+    <value>Карта GPS</value>
+  </data>
+  <data name="Skip-many" xml:space="preserve">
+    <value>Скипы</value>
+  </data>
+  <data name="Conveyors-many" xml:space="preserve">
+    <value>Конвейерные весы</value>
+  </data>
+  <data name="WagonScales-many" xml:space="preserve">
+    <value>Вагонные весы</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Наименование</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Расположение</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Вес, т</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>От</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="SarMineName" xml:space="preserve">
+    <value>Шахта Саранская</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Оборудоавние</value>
+  </data>
+  <data name="DaysWithoutHse" xml:space="preserve">
+    <value>Дней без нарушений ТБ:</value>
+  </data>
+  <data name="CoalProduced" xml:space="preserve">
+    <value>Добыто угля (тонн):</value>
+  </data>
+  <data name="ConcentrateProduced" xml:space="preserve">
+    <value>Произведено концентрата (тонн):</value>
+  </data>
+  <data name="SkipWeights" xml:space="preserve">
+    <value>Акты перевески скипов</value>
+  </data>
+  <data name="BoilerNorm" xml:space="preserve">
+    <value>Нормы потребления котельных</value>
+  </data>
+  <data name="BoilerConsumptionNorm" xml:space="preserve">
+    <value>Норма потребления в день, т</value>
+  </data>
+  <data name="SkipWeightOrderNo" xml:space="preserve">
+    <value>Номер приказа</value>
+  </data>
+  <data name="SkipWeightVaildFrom" xml:space="preserve">
+    <value>Действителен с</value>
+  </data>
+  <data name="Wagons" xml:space="preserve">
+    <value>Вагонов</value>
+  </data>
+  <data name="LastTrainLoadingTimeShort" xml:space="preserve">
+    <value>Посл.состав</value>
+  </data>
+  <data name="ShippedShort" xml:space="preserve">
+    <value>Ушло</value>
+  </data>
+  <data name="Crusher" xml:space="preserve">
+    <value>Дробильная установка</value>
+  </data>
+  <data name="RocksFromCrushingPerPeriod" xml:space="preserve">
+    <value>Породы за период</value>
+  </data>
+  <data name="BoilerConsumptionFact" xml:space="preserve">
+    <value>Получено угля</value>
+  </data>
+  <data name="Libra" xml:space="preserve">
+    <value>Весы</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Направление</value>
+  </data>
+  <data name="RockBunker" xml:space="preserve">
+    <value>Породный бункер</value>
+  </data>
+  <data name="KotelBunker" xml:space="preserve">
+    <value>Бункер для котельной</value>
+  </data>
+  <data name="Incidents" xml:space="preserve">
+    <value>Инциденты</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Условные обозначения</value>
+  </data>
+  <data name="WeightConclusionGood" xml:space="preserve">
+    <value>Соответствие</value>
+  </data>
+  <data name="WeightConclusionIn1Train" xml:space="preserve">
+    <value>В 1 составе</value>
+  </data>
+  <data name="WeightConclusionWeightPerPeriod" xml:space="preserve">
+    <value>За интервал</value>
+  </data>
+  <data name="WeithConclustionBad" xml:space="preserve">
+    <value>Несоответствие</value>
+  </data>
+  <data name="StockPileJournal" xml:space="preserve">
+    <value>Журнал склада</value>
+  </data>
+  <data name="TotalWagons" xml:space="preserve">
+    <value>Всего вагонов</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Продукт</value>
+  </data>
+  <data name="WagonAtLastTrain" xml:space="preserve">
+    <value>Вагонов в посл.сост.</value>
+  </data>
+  <data name="ConcentrateShipped" xml:space="preserve">
+    <value>Ушло концентрата</value>
+  </data>
+  <data name="PprodShipped" xml:space="preserve">
+    <value>Ушло пром.продукта</value>
+  </data>
+  <data name="IncidentCount" xml:space="preserve">
+    <value>Количество инцидентов</value>
+  </data>
+  <data name="ManualInputToolTip" xml:space="preserve">
+    <value>Ручной ввод</value>
+  </data>
+  <data name="ManuaData" xml:space="preserve">
+    <value>Данные полученные с ручного ввода</value>
+  </data>
+  <data name="AutomaticData" xml:space="preserve">
+    <value>Данные полученные автоматически</value>
+  </data>
+  <data name="NoDataToDisplay" xml:space="preserve">
+    <value>Нет данных за период</value>
+  </data>
+  <data name="TrainNumber" xml:space="preserve">
+    <value>Номер состава</value>
+  </data>
+  <data name="WagonsPassed" xml:space="preserve">
+    <value>Прошло вагонов</value>
+  </data>
+  <data name="RecognintionRate" xml:space="preserve">
+    <value>Распознано номеров</value>
+  </data>
+  <data name="LastTrain" xml:space="preserve">
+    <value>Последний состав</value>
+  </data>
+  <data name="RecognitionJourlal" xml:space="preserve">
+    <value>Журнал распознавания вагонов</value>
+  </data>
+  <data name="Recognized" xml:space="preserve">
+    <value>Распознан</value>
+  </data>
+  <data name="ManualInput" xml:space="preserve">
+    <value>Ручной ввод</value>
+  </data>
+  <data name="LastLoadedSkipDay" xml:space="preserve">
+    <value>Посл. скип день</value>
+  </data>
+  <data name="InDevelopment" xml:space="preserve">
+    <value>Страница на этапе разработки</value>
+  </data>
+  <data name="Coal" xml:space="preserve">
+    <value>Уголь</value>
+  </data>
+  <data name="Act" xml:space="preserve">
+    <value>Акт</value>
+  </data>
+  <data name="OpenSkipAct" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+</root>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CTS_Analytics.Models.Mnemonic.Doc_detail.SkipWeights>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceMnemonic.Thesaurus;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.SkipWeights;
+}
+
+<p class="subname"><span>@Resources.ResourceMnemonic.Thesaurus</span></p>
+<div class="main">
+    <h2>@Resources.ResourceMnemonic.SkipWeights</h2>
+    <table class="table table-striped table-hover sortable">
+        <thead>
+            <tr>
+                <th>@Resources.ResourceMnemonic.Location</th>
+                <th>@Resources.ResourceMnemonic.Name</th>
+                <th>@Resources.ResourceMnemonic.Weight</th>
+                <th>@Resources.ResourceMnemonic.SkipWeightOrderNo</th>
+                <th>@Resources.ResourceMnemonic.SkipWeightVaildFrom</th>
+                <th>@Resources.ResourceMnemonic.Act</th>
+            </tr>
+        </thead>
+        @if (Model != null)
+        {
+            foreach (var skip in Model)
+            {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => skip.Location)</td>
+            <td>@Html.DisplayFor(modelItem => skip.Name)</td>
+            <td>@Html.DisplayFor(modelItem => skip.Weight)</td>
+            <td>@Html.DisplayFor(modelItem => skip.SkipWeight.OrderNo)</td>
+            <td>@Html.DisplayFor(modelItem => skip.SkipWeight.ValidFrom)</td>
+            @if (!string.IsNullOrEmpty(skip.ActFilePath))
+            {
+                <td><a style="color:red" href='@Url.Action("OpenSkipAct", "Mnemonic", new {filePath= skip.ActFilePath})' target="_blank">@Resources.ResourceMnemonic.OpenSkipAct</a></td>
+            }
+            else
+            {
+                <td></td>
+            }
+        </tr>
+            }
+        }
+    </table>
+</div>

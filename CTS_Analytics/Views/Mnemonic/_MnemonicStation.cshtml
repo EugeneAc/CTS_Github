@@ -1,0 +1,63 @@
+﻿@model CTS_Analytics.Models.Mnemonic.Station
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="head">
+    <h1>@Model.StationName</h1>
+    <div class="links">
+        <a href="#" class="info"><i></i><b>@Resources.ResourceMnemonic.MoreInfo</b></a>
+        <a href="#" class="video"><i></i><b>@Resources.ResourceMnemonic.Cctv</b></a>
+    </div>
+</div>
+
+@RenderBody()
+
+<script src="~/Content/Mnemo/js/jquery.knob.min.js"></script>
+<script src="~/Content/Mnemo/js/jquery.fancybox.min.js"></script>
+<script>
+    $(function ($) {
+        jQuery(".photo").fancybox({
+            buttons: [
+                'slideShow',
+                'fullScreen',
+                'thumbs',
+                //'share',
+                'download',
+                'zoom',
+                'close'
+            ],
+            thumbs: {
+                autoStart: true, // Display thumbnails on opening
+
+            },
+
+        });
+        $(".knob").knob();
+
+    });
+</script>
+<script type="text/javascript" src="~/Content/Mnemo/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+<script>
+    jQuery(function () {
+        jQuery('.tooltip-block').tooltipster({
+            animation: 'fade',
+            contentCloning: true,
+            contentAsHTML: true,
+            arrow: false,
+            interactive: true,
+            trigger: 'click',
+
+        }).click(function () {
+            return false;
+        });
+
+        jQuery('[title]').tooltipster({
+
+            side: ["right", "top"],
+
+
+        });
+    });
+</script>
+

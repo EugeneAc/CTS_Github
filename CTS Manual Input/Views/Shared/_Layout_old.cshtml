@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - ЦПО ручной ввод</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+	@Scripts.Render("~/bundles/bootstrap")
+	@RenderSection("scripts", required: false)
+	<script src="~/Scripts/moment.js"></script>
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a href='@Url.Action("Index", "Home")'>
+					<img style="max-width:160px; margin-top: 0px;" src="/Manual Input/Content/images/logo.png" alt="">
+					<!--<img style="max-width:160px; margin-top: 0px;" src="/Content/images/logo.png" alt="">-->
+				</a>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					@if (CTS_Manual_Input.Helpers.UserHelper.WagonUser(User.Identity.Name ?? ""))
+					{
+						<li>@Html.ActionLink("Вагонные весы", "Index", "WagonScales")</li>
+					}
+					@if (CTS_Manual_Input.Helpers.UserHelper.BeltUser(User.Identity.Name ?? ""))
+					{
+						<li>@Html.ActionLink("Конвейерные весы", "Index", "BeltScales")</li>
+					}
+					@if (CTS_Manual_Input.Helpers.UserHelper.SkipUser(User.Identity.Name ?? ""))
+					{
+						<li>@Html.ActionLink("Скиповой подъем", "Index", "Skip")</li>
+					}
+					@if (CTS_Manual_Input.Helpers.UserHelper.RockUser(User.Identity.Name ?? ""))
+					{
+						<li>@Html.ActionLink("Порода", "Index", "Utilization")</li>
+					}
+					@if (CTS_Manual_Input.Helpers.UserHelper.WarehouseUser(User.Identity.Name ?? ""))
+					{
+						<li>@Html.ActionLink("Склад", "Index", "Warehouse")</li>
+					}
+
+					@if (CTS_Manual_Input.Helpers.UserHelper.LabUser(User.Identity.Name ?? ""))
+					{
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Лаборатория<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>@Html.ActionLink("Вагонные весы", "Index", "LabWagon")</li>
+								<li>@Html.ActionLink("Конвейерные весы", "Index", "LabBelt")</li>
+								<li>@Html.ActionLink("Скиповой подъем", "Index", "LabSkip")</li>
+							</ul>
+						</li>
+					}
+
+					@if (CTS_Manual_Input.Helpers.UserHelper.CanApproveUser(User.Identity.Name ?? ""))
+					{
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Подтверждение<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								@if (CTS_Manual_Input.Helpers.UserHelper.WagonUser(User.Identity.Name ?? ""))
+								{
+									<li>@Html.ActionLink("Вагонные весы", "WagonIndex", "Approve")</li>
+								}
+								@if (CTS_Manual_Input.Helpers.UserHelper.BeltUser(User.Identity.Name ?? ""))
+								{
+									<li>@Html.ActionLink("Конвейерные весы", "BeltIndex", "Approve")</li>
+								}
+								@if (CTS_Manual_Input.Helpers.UserHelper.SkipUser(User.Identity.Name ?? ""))
+								{
+									<li>@Html.ActionLink("Скиповой подъем", "SkipIndex", "Approve")</li>
+								}
+								@if (CTS_Manual_Input.Helpers.UserHelper.RockUser(User.Identity.Name ?? ""))
+								{
+									<li>@Html.ActionLink("Порода", "RockIndex", "Approve")</li>
+								}
+							</ul>
+						</li>
+					}
+
+					@if (CTS_Manual_Input.Helpers.UserHelper.DictUser(User.Identity.Name ?? ""))
+					{
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Словари<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>@Html.ActionLink("Вагонные весы", "WagonScalesIndex", "Dictionary")</li>
+								<li>@Html.ActionLink("Конвейерные весы", "BeltScalesIndex", "Dictionary")</li>
+								<li>@Html.ActionLink("Скиповой подъем", "SkipsIndex", "Dictionary")</li>
+								<li>@Html.ActionLink("Перевеска скипов", "SkipWeightsIndex", "Dictionary")</li>
+							</ul>
+						</li>
+					}
+
+				</ul>
+				<p class="nav navbar-text navbar-right">Пользователь: @User.Identity.Name.Split(new char[] { '\\' })[1]</p>
+				<button class="nav navbar-text navbar-right btn-link" onclick="logout()">Выход</button>
+				<p class="nav navbar-text navbar-left">>> @ViewBag.Title</p>
+			</div>
+		</div>
+	</div>
+	<div class="container body-content">
+		<br />
+		<br />
+		<br />
+		@RenderBody()
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - ЦПО Coal Tracking</p>
+		</footer>
+	</div>
+
+</body>
+
+</html>
+
+
+
+<script src="~/Scripts/CTS_Scripts.js" type="text/javascript"></script>

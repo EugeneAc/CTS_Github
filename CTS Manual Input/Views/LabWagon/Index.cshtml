@@ -1,0 +1,77 @@
+﻿@model  CTS_Manual_Input.Models.LabModels.WagonBatchView
+@using PagedList.Mvc;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Данные вагонных весов</h2>
+    @if ((Model.WagonBatches.Count() > 0) && (Model != null))
+    {
+    <table class="table table-striped table-hover ">
+        <thead>
+            <tr>
+                <th>Дата отгрузки</th>
+                <th>Отправитель</th>
+                <th>Получатель</th>
+                <th>Номер партии</th>
+                <th>Вагонов</th>
+                <th>Общий вес нетто, т</th>
+                <th>Материал</th>
+                <th>Данные анализа</th>
+                <th> </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.WagonBatches.Count(); i++)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].TransferTimeStamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].FromDest)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].ToDest)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].LotName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].WagonQuantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].Netto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.WagonBatches[i].Item)
+                </td>
+                <td>
+                    @if (Model.WagonBatches[i].WagonAnalysis != null)
+                    {
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked="" disabled="">
+                    }
+                    @if (Model.WagonBatches[i].WagonAnalysis == null)
+                    {
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" disabled="">
+                    }
+                </td>
+                <td>
+                    @if(Model.WagonBatches[i].WagonAnalysisID != null)
+                    { 
+                      @Html.HiddenFor(modelItem => Model.WagonBatches[i].WagonAnalysisID)
+                    }
+                        
+                    <input type="button" name="AnalysisButton" class="btn btn-primary btn-xs" value="Анализ" onclick="location.href='@Url.Action("AnalysisView", "LabWagon",
+                      new { FromDest = Model.WagonBatches[i].FromDest, LotName = Model.WagonBatches[i].LotName, WagonQuantity = Model.WagonBatches[i].WagonQuantity, Netto = Model.WagonBatches[i].Netto,
+                          Item = Model.WagonBatches[i].Item, TransferTimeStamp = Model.WagonBatches[i].TransferTimeStamp, WagonAnalysisID = Model.WagonBatches[i].WagonAnalysisID })'" />
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+    Страница @(Model.WagonBatches.PageCount < Model.WagonBatches.PageNumber ? 0 : Model.WagonBatches.PageNumber) из @Model.WagonBatches.PageCount
+
+    @Html.PagedListPager(Model.WagonBatches, page => Url.Action("Index", new { page }))

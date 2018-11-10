@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceMnemonic.Thesaurus;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KuzMineName;
+}
+
+<p class="subname"><span>Справочник</span></p>
+<div class="main">
+
+    <div class="sprav">
+
+        <h2>@Resources.ResourceMineInfo.TentTitle</h2>
+
+        <div class="anounce">
+            <div class="txt">
+                @Resources.ResourceMineInfo.TentShortDescr
+            </div>
+
+            <div class="pic">
+                <img src="~/Content/Mnemo/pic/tentekskaya.jpg" alt="" />
+            </div>
+
+        </div>
+
+        <p>
+            @Resources.ResourceMineInfo.TentDescr
+        </p>
+    </div>
+
+
+</div>

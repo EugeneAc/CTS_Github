@@ -1,0 +1,151 @@
+﻿@model CTS_Manual_Input.Models.LabModels.WagonBatch
+
+@{
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Анализы для партии</h2>
+
+@if (Model.WagonAnalysis != null)
+{
+<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("Edit", "LabWagon", new { Id = Model.WagonAnalysisID })'" />
+<input type="button" name="DeleteButton" class="btn btn-danger btn-xs" value="Удалить" onclick="ConfirmDelete('@Url.Action("Delete", "LabWagon", new { Id = Model.WagonAnalysisID })')" />
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>Анализ</th>
+            <th>Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                Номер пробы
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.AnalysisID)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Дата проведения анализа
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.AnalysisTimeStamp)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Зола средняя
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.AshAvg)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Зола предельная
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.AshMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Сера средняя
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.SulfurAvg)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Сера предельная
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.SulfurMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Влажность средняя
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.MoistureAvg)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Влажность предельная
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.MoistureMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Выход летучих
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.VolatileMatter)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Теплота сгорания
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.Caloricity)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Высшая теплота
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.CaloricityMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Содержание породы
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.RockPerc)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Мелочи
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.SmallFractPerc)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                x
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.xValue)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                y
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.WagonAnalysis.yValue)
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+}
+@if (Model.WagonAnalysis == null)
+{
+<p>Нет анализов для данной партии</p>
+<br />
+<input type="button" name="AddButton" class="btn btn-primary btn-xs" value="Добавить" onclick="location.href='@Url.Action("Add", "LabWagon", new { LotName = Model.LotName })'" />
+}

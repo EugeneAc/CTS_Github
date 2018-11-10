@@ -1,0 +1,95 @@
+﻿@model CTS_Analytics.Models.Mnemonic.sar3Model
+
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMinePlanFact.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KostMineName;
+    ViewBag.MinePng = "mine8.png";
+}
+<div class="main">
+    <div id="mine8_bg">
+
+        @{
+            Model.Skip.DivID = "skip-mine8-1";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.Skip)
+
+        @{
+            Model.VagonObogatitel.DivID = "vagon-mine8-1";
+        }
+
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.VagonObogatitel)
+
+
+        @{
+            Model.VagonSaburkhan.DivID = "vagon-mine8-2";
+        }
+
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.VagonSaburkhan)
+
+
+        @{
+            Model.Crusher.DivID = "drob-mine9-1";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher)
+
+
+        @{
+            Model.RockUtil.DivID = "stone-mine8-1";
+        }
+
+        @Html.Partial("Partials/_RockUtil", Model.RockUtil)
+
+        @{
+            Model.BeltToTech1.DivID = "konv-mine8-1";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltToTech1)
+
+        @{
+            Model.BeltToTech2.DivID = "konv-mine8-2";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltToTech2)
+
+        @{
+            Model.Kotel.DivID = "kotel-mine8-1";
+        }
+
+        @Html.Partial("Partials/_Kotel4MineMnemonic", Model.Kotel)
+
+        @{
+            Model.Sklad.DivID = "sklad-mine8-1";
+        }
+        @Html.Partial("Partials/_Stockpile4MineMnemonic", Model.Sklad)
+
+        @{
+            Model.Raspozn1.DivID = "recognize-mine8-1";
+        }
+
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn1)
+
+        @{
+            Model.Raspozn2.DivID = "recognize-mine8-2";
+        }
+
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn2)
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_skip-mine8-1">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="@Resources.ResourceMnemonic.Libra" class="libra green">@Resources.ResourceMnemonic.Libra</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="@Resources.ResourceMnemonic.Direction" class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_skip-mine8-2">
+            <a href='@Url.Action("Alarm", "DashBoard")' title="@Resources.ResourceMnemonic.Libra" class="libra green">@Resources.ResourceMnemonic.Libra</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' title="@Resources.ResourceMnemonic.Direction" class="arrow-right green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="way" id="poroda-mine8">
+            @Resources.ResourceMnemonic.Rocks
+        </div>
+    </div>
+</div>
+

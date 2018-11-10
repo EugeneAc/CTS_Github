@@ -1,0 +1,39 @@
+﻿@model CTS_Analytics.Models.FromDateToDateModel
+
+<br/>
+<div class="form-group">
+    @Html.LabelFor(m => Model.FromDate, @Resources.ResourceFilters.TimeFrom, new { @class = "control-label col-md-2" })
+    <div class="col-lg-10 input-group date" id="datetimepicker1">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        @Html.TextBoxFor(m => Model.FromDate, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+        @Html.ValidationMessageFor(m => Model.FromDate)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => Model.ToDate, @Resources.ResourceFilters.TimeTo, new { @class = "control-label col-md-2" })
+    <div class="col-lg-10 input-group date" id="datetimepicker2">
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+        @Html.TextBoxFor(m => Model.ToDate, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+        @Html.ValidationMessageFor(m => Model.ToDate)
+    </div>
+</div>
+
+
+<script type="text/javascript">
+     $(function () {
+            $('#datetimepicker2').datetimepicker({
+                locale: '@Resources.ResourceGeneral.CurrentLang',
+                format: 'DD.MM.YYYY HH:mm'
+         });
+          $('#datetimepicker1').datetimepicker({
+              locale: '@Resources.ResourceGeneral.CurrentLang',
+              format: 'DD.MM.YYYY HH:mm'
+             
+            });
+        });
+</script>

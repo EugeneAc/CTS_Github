@@ -1,0 +1,86 @@
+﻿@model CTS_Analytics.Models.Mnemonic.kazModel
+
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMinePlanFact.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KostMineName;
+    ViewBag.MinePng = "mine4.png";
+}
+
+<div class="main">
+    <div id="mine4_bg">
+
+        @{
+            Model.SkipPos1.DivID = "skip-mine4-1";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.SkipPos1)
+
+        @{
+            Model.SkipPos2.DivID = "skip-mine4-2";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.SkipPos2)
+
+        @{
+            Model.Vagon.DivID = "vagon-mine4-1";
+        }
+
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.Vagon)
+
+
+        @{
+            Model.Crusher.DivID = "drob-mine4-1";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher)
+
+
+        @{
+            Model.Crusher2.DivID = "drob-mine4-2";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher2)
+
+
+        @{
+            Model.RockUtil.DivID = "stone-mine4-1";
+        }
+
+        @Html.Partial("Partials/_RockUtil", Model.RockUtil)
+
+
+        @{
+            Model.Kotel.DivID = "kotel-mine4-1";
+        }
+
+        @Html.Partial("Partials/_Kotel4MineMnemonic", Model.Kotel)
+
+
+        @{
+            Model.Raspozn.DivID = "recognize-mine4-1";
+        }
+
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn)
+
+        <div class="block bunker" id="bunker-mine4-1">
+            @*<a href="#">@Resources.ResourceMnemonic.RockBunker</a>*@
+			<span>@Resources.ResourceMnemonic.RockBunker</span>
+        </div>
+
+        <div class="block bunker" id="bunker-mine4-2">
+            @*<a href="#">@Resources.ResourceMnemonic.KotelBunker</a>*@
+			<span>@Resources.ResourceMnemonic.KotelBunker</span>
+        </div>
+
+        <div class="way" id="poroda-mine4-1">
+            @Resources.ResourceMnemonic.Rocks
+        </div>
+        <div class="way" id="poroda-mine4-2">
+            @Resources.ResourceMnemonic.Rocks
+        </div>
+        <div class="way" id="poroda-mine4-3">
+            @Resources.ResourceMnemonic.Coal
+        </div>
+    </div>
+</div>

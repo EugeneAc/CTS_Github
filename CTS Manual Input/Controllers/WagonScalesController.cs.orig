@@ -1,0 +1,185 @@
+﻿using CTS_Manual_Input.Common;
+using CTS_Manual_Input.Models;
+
+using PagedList;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Security.Principal;
+using System.Text.RegularExpressions;
+using System.Web.Mvc;
+using System.Web.Services.Description;
+using System.Xml;
+
+namespace CTS_Manual_Input.Controllers
+{
+    public class WagonScalesController : Controller
+    {
+
+        WeightContext db = new WeightContext();
+        // GET: WagonScales
+        public ActionResult Index(int page=1)
+        {
+            var locations = DomainGroups.GetUserDomainGroups(User.Identity.Name);
+            ViewBag.Destinations = new SelectList(locations, "ID", "LocationName");
+            int pagesize = 10;
+            string locationname = DomainGroups.GetLocationName();
+            ViewBag.LocationName = locationname;
+            List<Transfer> transfersperpage = new List<Transfer>();
+            
+            foreach (var location in locations)
+            {
+                transfersperpage.AddRange(db.Transfers.Where(s=>s.SublotName!=null).Where(m => m.IsValid == true).Where(m => (m.FromDest.DomainName.Contains(location)) || (m.ToDest.DomainName.Contains(location))).OrderByDescending(o => o.FillingDateTime).ToList().Where(d => d.LasEditDateTime >= DateTime.Now.AddHours(-48)));
+            }
+<<<<<<< HEAD
+
+            WagonScales_Transfers model = new WagonScales_Transfers();
+            model.Transfers = transfersperpage.ToPagedList(page, pagesize);
+            model.WagonScales = scales;
+            return View(model);
+
+=======
+            return View(transfersperpage.ToPagedList(page, pagesize));
+>>>>>>> 643de5b94dad2d0d4fcfd4a2ead5cee4e7179bb9
+         }
+
+        public ActionResult Add()
+        {
+            FillViewBag();
+            var locations = DomainGroups.GetUserDomainGroups(User.Identity.Name);
+            ViewBag.FromDestinations = new SelectList(locations, "ID", "LocationName");
+            var model = new TransferList();
+            model.Transfer = new Transfer();
+            model.Transfer.FillingDateTime = DateTime.Now;
+            model.Transfer.LotName = DomainGroups.GetLocationName() + "_" + DateTime.Now.ToString("yyMMddHHmmss");
+            ViewBag.IsIncomming = false;
+            return View("Add", model);
+        }
+
+        public ActionResult AddIncomming()
+        {
+            FillViewBag();
+            var locations = DomainGroups.GetUserDomainGroups(User.Identity.Name);
+            ViewBag.Destinations = new SelectList(locations, "ID", "LocationName");
+            var model = new TransferList();
+            model.Transfer = new Transfer();
+            model.Transfer.FillingDateTime = DateTime.Now;
+            model.Transfer.LotName = DomainGroups.GetLocationName() + "_" + DateTime.Now.ToString("yyMMddHHmmss");
+            ViewBag.IsIncomming = true;
+            return View("Add", model);
+        }
+
+        [HttpPost]
+        public ActionResult _AllTransfers(TransferList model)
+        {
+            model.Transfer.LasEditDateTime = DateTime.Now;
+            model.Transfer.IsValid = true;
+            model.Transfer.OperatorName = User.Identity.Name;
+            foreach (var mod in model.Transfers)
+            {
+                model.Transfer.LotQuantity += mod.SublotQuantity;
+            }
+
+            if (Request.Form["One"] != null)
+            {
+                var modelbadstate = false;
+                if (string.IsNullOrEmpty(model.Transfer.SublotName))
+                {
+                    ViewBag.ErrorMessage += "Необходимо указать номер вагона / ";
+                    modelbadstate = true;
+                    
+                }
+
+                if (string.IsNullOrEmpty(model.Transfer.LotName))
+                {
+                    ViewBag.ErrorMessage += "Необходимо указать номер партии / ";
+                    modelbadstate = true;
+                }
+
+                if (model.Transfer.SublotQuantity==0)
+                {
+                    ViewBag.ErrorMessage += "Нет или неправильно указан вес вагона /";
+                    modelbadstate = true;
+                }
+
+                if (model.Transfer.TareWeight == 0)
+                {
+                    ViewBag.ErrorMessage += "Нет или неправильно указан вес тары /";
+                    modelbadstate = true;
+                }
+
+                if (modelbadstate)
+                {
+
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { modelbadstate = modelbadstate, ErrorMessage= ViewBag.ErrorMessage });
+                }
+                    model.Transfers.Add(model.Transfer);
+                    return PartialView(model);
+            }
+            if (Request.Form["SaveAll"] != null)
+            {
+                foreach (var mod in model.Transfers)
+                {
+                    db.Transfers.Add(mod);
+                }
+                db.SaveChanges();
+                ViewBag.UserMessage = "Данные партии зафиксированы";
+
+                return JavaScript("RedirectToIndex();");
+            }
+            return View();
+        }
+
+        [CanEditRoleAuthorization]
+        public ActionResult Edit(int? Id)
+        {
+            if (Id == null)
+            {
+                return HttpNotFound();
+            }
+            Transfer transfer = db.Transfers.Find(Id);
+            if (transfer != null)
+            {
+                FillViewBag();
+                return View(transfer);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult SaveChanges(Transfer model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.LasEditDateTime = DateTime.Now;
+                model.IsValid = true;
+                model.OperatorName = User.Identity.Name;
+                db.Transfers.Add(model);
+
+                Transfer transfer = db.Transfers.Find(model.ID);
+                transfer.IsValid = false;
+                db.Entry(transfer).State = EntityState.Modified;
+                
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            FillViewBag();
+            return View("Edit", model);
+        }
+
+        private void FillViewBag()
+        {
+            SelectList destinations = new SelectList(db.Locations, "ID", "LocationName");
+            SelectList fromdestinations = new SelectList(db.Locations, "ID", "LocationName");
+            SelectList items = new SelectList(db.Items, "ID", "ItemName");
+            SelectList scales = new SelectList(db.Scales, "ID", "ItemName");
+            ViewBag.Destinations = destinations;
+            ViewBag.FromDestinations = fromdestinations;
+            ViewBag.Items = items;
+            ViewBag.Scales = scales;
+        }
+    }
+}

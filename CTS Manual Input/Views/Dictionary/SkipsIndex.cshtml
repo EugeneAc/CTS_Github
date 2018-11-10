@@ -1,0 +1,55 @@
+﻿@model  List<CTS_Models.Skip>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((Model.Count > 0) && (Model != null))
+{
+<h2>Скиповые подъемы на объектах</h2>
+    <br />
+       <input type="button" name="AddButton" class="btn btn-primary" value="Добавить новый скип" onclick="location.href='@Url.Action("SkipsAdd", "Dictionary")'" />
+    <br />
+    <br />
+
+    if ((Model.Count > 0) && (Model != null))
+    {
+    <table class="table table-striped table-hover ">
+        <thead>
+            <tr>
+                <th>Наименование на русском</th>
+                <th>Наименование на английском</th>
+				<th>Наименование на казахском</th>
+                <th>Расположение</th>
+                <th>Вес скипа</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].NameEng)
+                </td>
+				<td>
+					@Html.DisplayFor(modelItem => Model[i].NameKZ)
+				</td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Location.LocationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Weight)
+                </td>
+                <td>
+                    <input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("SkipsEdit", "Dictionary", new { Id = Model[i].ID })'" />
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+}

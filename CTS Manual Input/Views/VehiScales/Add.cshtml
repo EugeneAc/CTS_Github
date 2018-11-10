@@ -1,0 +1,102 @@
+﻿@using CTS_Models
+@model CTS_Models.VehiTransfer
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Добавить новые данные автомобильных весов</h2>
+
+@using (Html.BeginForm("Add", "VehiScales", new { name = @ViewBag.Name }))
+{
+	<div class="form-horizontal">
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor(m => m.EquipID)
+		@Html.HiddenFor(m => m.ID)
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.FromDest.LocationName, "Место отправления", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				@Html.TextBoxFor(m => m.FromDest.LocationName, new { @class = "form-control", disabled = "disabled" })
+				@Html.HiddenFor(m => m.FromDestID)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.ToDest, "Пункт назначения", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				@Html.TextBoxFor(m => m.ToDest, new { @class = "form-control" })
+
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.LotName, "Номер автомобиля", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				@Html.EditorFor(m => m.LotName, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.LotName)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.TransferTimeStamp, "Дата отгрузки", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4 input-group date" id="datetimepicker">
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</span>
+				@Html.TextBoxFor(modelItem => Model.TransferTimeStamp, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.TransferTimeStamp)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.ItemID, "Груз", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				<div class="select-style">
+					@Html.DropDownListFor(m => m.ItemID, ViewBag.Items as SelectList, new { @class = "form-control" })
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Brutto, "Брутто, т", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				@Html.EditorFor(m => m.Brutto, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.Brutto)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Tare, "Тара, т", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				@Html.EditorFor(m => m.Tare, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.Tare)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Comment, "Комментарий", new { @class = "control-label col-lg-2" })
+			<div class="col-sm-4">
+				@Html.EditorFor(m => m.Comment, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.Comment)
+			</div>
+		</div>
+
+		<br/>
+		<input type="submit" value="Сохранить" class="btn btn-primary" />
+	</div>
+}
+
+
+<script>
+
+	$(document).ready(function () {
+		$('#Transfer_ToDest').autocomplete({
+			source: '/WagonScales/AutocompleteToDest',
+			minLength: 0
+		});
+	});
+
+	$('#Transfer_ToDest').click(function () {
+		$("#Transfer_ToDest").autocomplete("search", "");
+	});
+</script>

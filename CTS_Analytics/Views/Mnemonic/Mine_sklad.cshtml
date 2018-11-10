@@ -1,0 +1,114 @@
+﻿@model CTS_Analytics.Models.Mnemonic.Mine_sklad
+@using PagedList.Mvc;
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMine.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Model.MineName;
+    ViewBag.MinePng = "mine0.png";
+    var atStockPile = Model.AtStockPile > 0 ? Model.AtStockPile : 0;
+    var stockpileFree = Model.StockPileCapacity - Model.AtStockPile;
+}
+
+<div class="main">
+    <div class="page">
+        <div class="page-head">
+            <h2>@Model.WarehouseName</h2>
+            <div class="result">
+                <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+                <div class="res"><span>@Resources.ResourceMnemonic.HSEWarning</span><a href='@Url.Action("HseAlarm", "Mnemonic")'><i class="green"></i></a></div>
+				<div class="clearfix"></div>
+			</div>
+
+            <div class="close-button">
+                <a href='@Url.Action(Model.ReturnID, "Mnemonic")'>@Resources.ResourceMnemonic.Close  <i></i></a>
+            </div>
+
+
+        </div>
+
+
+        <div class="side w385">
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.CoalFromCrushingMachinePerShift</span>
+                <div class="count">@Model.IncomePerShift</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.StockpileIncome</span>
+                <div class="count">@Model.IncomePerTimeInterval</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.StockPileTotal</span>
+                <div class="count">@Model.AtStockPile</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.StockpileFree</span>
+                <div class="count">@stockpileFree</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+
+
+            <div class="circle-progress">
+                <span>
+                    <b>@Model.AtStockPile</b> @Resources.ResourceMnemonic.Stockpile
+
+                </span>
+                <input class="knob" data-thickness=".2" data-inputColor="#ffffff" data-width="260" data-height="260" data-bgColor="#c7c7c7" data-fgColor="#DB6365" data-displayInput="false" readonly data-min="0" data-max="@Model.StockPileCapacity" value="@atStockPile">
+            </div>
+        </div>
+
+
+        <div id="text">
+            <h3>@Resources.ResourceMnemonic.StockPileJournal</h3>
+            <div class="scrollbar-outer">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>@Resources.ResourceMnemonic.Date</th>
+                            <th>@Resources.ResourceMnemonic.Time</th>
+                            <th>@Resources.ResourceMnemonic.StockPileTotal</th>
+                            <th>@Resources.ResourceMnemonic.StockpileIncome</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.WarehouseTransfers != null)
+                        {
+                            foreach (var transfer in Model.PagedWarehouseTransfers)
+                            {
+                                <tr>
+                                    <td>@transfer.TransferTimeStamp.ToString("dd.MM.yyyy")</td>
+                                    <td>@transfer.TransferTimeStamp.ToString("HH:mm")</td>
+                                    <td>@transfer.TotalQuantity</td>
+                                    <td>@transfer.LotQuantity</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @Html.PagedListPager(Model.PagedWarehouseTransfers, page => Url.Action("Mine_sklad", new { ID = Model.ReturnID, warehouseID = Model.WarehouseID, page = page }))
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Content/Mnemo/js/jquery.knob.min.js"></script>
+<link href="~/Content/Mnemo/style/jquery.scrollbar.css" rel="stylesheet">
+<script src="~/Content/Mnemo/js/jquery.scrollbar.min.js"></script>
+<script>
+    $(function ($) {
+        jQuery('.scrollbar-outer').scrollbar();
+        $(".knob").knob();
+
+    });
+</script>

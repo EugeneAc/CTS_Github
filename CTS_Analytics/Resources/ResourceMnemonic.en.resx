@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ShahMineName" xml:space="preserve">
+    <value>Shahtinskaya Mine</value>
+  </data>
+  <data name="TentMineName" xml:space="preserve">
+    <value>Tentekskaya Mine</value>
+  </data>
+  <data name="KuzMineName" xml:space="preserve">
+    <value>Kuzembayeva Mine</value>
+  </data>
+  <data name="KazMineName" xml:space="preserve">
+    <value>Kazakhstanskaya Mine</value>
+  </data>
+  <data name="LenMineName" xml:space="preserve">
+    <value>Lenina Mine</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="RefreshBtn" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="ProdPlan" xml:space="preserve">
+    <value>Production Plan</value>
+  </data>
+  <data name="ProdFact" xml:space="preserve">
+    <value>Prod. for the period</value>
+  </data>
+  <data name="Shipped" xml:space="preserve">
+    <value>Shipped</value>
+  </data>
+  <data name="Tonns" xml:space="preserve">
+    <value>tonns</value>
+  </data>
+  <data name="CoalWarning" xml:space="preserve">
+    <value>Coal warning</value>
+  </data>
+  <data name="AtStockPiles" xml:space="preserve">
+    <value>At stockpiles</value>
+  </data>
+  <data name="WeightBriges" xml:space="preserve">
+    <value>Weightbriges</value>
+  </data>
+  <data name="Arrow" xml:space="preserve">
+    <value>Arrow</value>
+  </data>
+  <data name="MnemonicButton" xml:space="preserve">
+    <value>Schema</value>
+  </data>
+  <data name="MapButton" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="BoilerButton" xml:space="preserve">
+    <value>Boiler Units</value>
+  </data>
+  <data name="AbayMineName" xml:space="preserve">
+    <value>Abay Mine</value>
+  </data>
+  <data name="CofName" xml:space="preserve">
+    <value>Vostochnaya CW</value>
+  </data>
+  <data name="StationIncome" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="StationOutcome" xml:space="preserve">
+    <value>Outcome</value>
+  </data>
+  <data name="StDubovName" xml:space="preserve">
+    <value>Dubovskaya st.</value>
+  </data>
+  <data name="StAbayName" xml:space="preserve">
+    <value>Abayskaya st.</value>
+  </data>
+  <data name="StUglerudName" xml:space="preserve">
+    <value>Uglerudnaya st.</value>
+  </data>
+  <data name="StRasporName" xml:space="preserve">
+    <value>Rasporyaditelnaya st.</value>
+  </data>
+  <data name="KostMineName" xml:space="preserve">
+    <value>Kostenko Mine</value>
+  </data>
+  <data name="Sar1MineName" xml:space="preserve">
+    <value>Saranskaya-1 Mine</value>
+  </data>
+  <data name="Sar3MineName" xml:space="preserve">
+    <value>Saranskaya-3 Mine</value>
+  </data>
+  <data name="KtzhWays" xml:space="preserve">
+    <value>KTZH Ways</value>
+  </data>
+  <data name="HSEWarning" xml:space="preserve">
+    <value>HSE warning</value>
+  </data>
+  <data name="Skip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Skips" xml:space="preserve">
+    <value>skips</value>
+  </data>
+  <data name="LastLoadedSkip" xml:space="preserve">
+    <value>Last Skip Time</value>
+  </data>
+  <data name="HHmm" xml:space="preserve">
+    <value>hh:mm</value>
+  </data>
+  <data name="DDHHmm" xml:space="preserve">
+    <value>dd:hh:mm</value>
+  </data>
+  <data name="LastSkipStopTime" xml:space="preserve">
+    <value>Last Skip Stop Time</value>
+  </data>
+  <data name="ProductionPerShift" xml:space="preserve">
+    <value>Prod. at this shift</value>
+  </data>
+  <data name="LoadedPerShift" xml:space="preserve">
+    <value>Loaded at this shift</value>
+  </data>
+  <data name="LoadedAtLastTrain" xml:space="preserve">
+    <value>Loaded at last train</value>
+  </data>
+  <data name="LastTrainLoadingTime" xml:space="preserve">
+    <value>Last train loaded at</value>
+  </data>
+  <data name="WagonCountAtLastTrain" xml:space="preserve">
+    <value>Wagons at last train</value>
+  </data>
+  <data name="Pieces" xml:space="preserve">
+    <value>pcs.</value>
+  </data>
+  <data name="LastTrainDirection" xml:space="preserve">
+    <value>Last Train Direction</value>
+  </data>
+  <data name="WagonLoadingJourlal" xml:space="preserve">
+    <value>Wagon loading journal</value>
+  </data>
+  <data name="CrushingMachine" xml:space="preserve">
+    <value>Crushing Machine</value>
+  </data>
+  <data name="CrushedPerShift" xml:space="preserve">
+    <value>Crushed at this shift</value>
+  </data>
+  <data name="CoalFromCrushingMachinePerShift" xml:space="preserve">
+    <value>Shift income</value>
+  </data>
+  <data name="RocksFromCrushingPerShift" xml:space="preserve">
+    <value>Rocks at this day</value>
+  </data>
+  <data name="RocksUtilization" xml:space="preserve">
+    <value>Rocks utilization</value>
+  </data>
+  <data name="Conveyor" xml:space="preserve">
+    <value>Conveyor</value>
+  </data>
+  <data name="BoilderPlant" xml:space="preserve">
+    <value>Boiler Shop</value>
+  </data>
+  <data name="Stockpile" xml:space="preserve">
+    <value>Stockpile</value>
+  </data>
+  <data name="StockpileIncome" xml:space="preserve">
+    <value>Income per perod</value>
+  </data>
+  <data name="StockPileTotal" xml:space="preserve">
+    <value>At stockpile</value>
+  </data>
+  <data name="StockpileFree" xml:space="preserve">
+    <value>Free space</value>
+  </data>
+  <data name="Rocks" xml:space="preserve">
+    <value>Rocks</value>
+  </data>
+  <data name="SkipsLiftingJournal" xml:space="preserve">
+    <value>Lift Log</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="LiftingID" xml:space="preserve">
+    <value>Lift</value>
+  </data>
+  <data name="MoreInfo" xml:space="preserve">
+    <value>More Info</value>
+  </data>
+  <data name="Cctv" xml:space="preserve">
+    <value>CCTV</value>
+  </data>
+  <data name="Productivity" xml:space="preserve">
+    <value>Productivity (tonnes/men)</value>
+  </data>
+  <data name="PlanFact" xml:space="preserve">
+    <value>Plan/Fact</value>
+  </data>
+  <data name="Mine" xml:space="preserve">
+    <value>Mine</value>
+  </data>
+  <data name="RailRoadStaion" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="COF" xml:space="preserve">
+    <value>CCW</value>
+  </data>
+  <data name="CoalNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Thesaurus" xml:space="preserve">
+    <value>Thesaurus</value>
+  </data>
+  <data name="Objects" xml:space="preserve">
+    <value>Objects</value>
+  </data>
+  <data name="BeltScaleJournal" xml:space="preserve">
+    <value>Belt Scale Journal</value>
+  </data>
+  <data name="TotalQuantity" xml:space="preserve">
+    <value>Total Totalizer</value>
+  </data>
+  <data name="LotQuantity" xml:space="preserve">
+    <value>Hour Totalizer</value>
+  </data>
+  <data name="Netto" xml:space="preserve">
+    <value>Net</value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>Order Num</value>
+  </data>
+  <data name="WagonNumber" xml:space="preserve">
+    <value>Wagon Num</value>
+  </data>
+  <data name="Brutto" xml:space="preserve">
+    <value>Brutto</value>
+  </data>
+  <data name="Recipient" xml:space="preserve">
+    <value>Recipient</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="WagonLoading" xml:space="preserve">
+    <value>Wagon Loading</value>
+  </data>
+  <data name="Recognition" xml:space="preserve">
+    <value>Recognition</value>
+  </data>
+  <data name="MapGpsButton" xml:space="preserve">
+    <value>Map GPS</value>
+  </data>
+  <data name="Skip-many" xml:space="preserve">
+    <value>Skips</value>
+  </data>
+  <data name="Conveyors-many" xml:space="preserve">
+    <value>Belt Scales</value>
+  </data>
+  <data name="WagonScales-many" xml:space="preserve">
+    <value>Weight Bridges</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight, t</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="SarMineName" xml:space="preserve">
+    <value>Saranskaya Mine</value>
+  </data>
+  <data name="Equipment" xml:space="preserve">
+    <value>Equipment</value>
+  </data>
+  <data name="DaysWithoutHse" xml:space="preserve">
+    <value>Days without HSE incidents:</value>
+  </data>
+  <data name="CoalProduced" xml:space="preserve">
+    <value>Coal production (tones):</value>
+  </data>
+  <data name="ConcentrateProduced" xml:space="preserve">
+    <value>Concentrate production (tones):</value>
+  </data>
+  <data name="SkipWeights" xml:space="preserve">
+    <value>Skip weights</value>
+  </data>
+  <data name="BoilerNorm" xml:space="preserve">
+    <value>Boiler units consumption</value>
+  </data>
+  <data name="BoilerConsumptionNorm" xml:space="preserve">
+    <value>Daily consumption norm, t</value>
+  </data>
+  <data name="SkipWeightOrderNo" xml:space="preserve">
+    <value>Order number</value>
+  </data>
+  <data name="SkipWeightVaildFrom" xml:space="preserve">
+    <value>Valid from</value>
+  </data>
+  <data name="Wagons" xml:space="preserve">
+    <value>Wagons</value>
+  </data>
+  <data name="LastTrainLoadingTimeShort" xml:space="preserve">
+    <value>Last train</value>
+  </data>
+  <data name="ShippedShort" xml:space="preserve">
+    <value>Shpd</value>
+  </data>
+  <data name="Crusher" xml:space="preserve">
+    <value>Crusher</value>
+  </data>
+  <data name="RocksFromCrushingPerPeriod" xml:space="preserve">
+    <value>Rocks per period</value>
+  </data>
+  <data name="BoilerConsumptionFact" xml:space="preserve">
+    <value>Consumption fact</value>
+  </data>
+  <data name="Libra" xml:space="preserve">
+    <value>Weights</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="RockBunker" xml:space="preserve">
+    <value>Rock bunker</value>
+  </data>
+  <data name="Incidents" xml:space="preserve">
+    <value>Incidents</value>
+  </data>
+  <data name="KotelBunker" xml:space="preserve">
+    <value>Boiler plant bunker</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="WeightConclusionGood" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="WeightConclusionIn1Train" xml:space="preserve">
+    <value>In 1 train</value>
+  </data>
+  <data name="WeightConclusionWeightPerPeriod" xml:space="preserve">
+    <value>Per Interval</value>
+  </data>
+  <data name="WeithConclustionBad" xml:space="preserve">
+    <value>Inaccordanse</value>
+  </data>
+  <data name="StockPileJournal" xml:space="preserve">
+    <value>Stockpile journal</value>
+  </data>
+  <data name="TotalWagons" xml:space="preserve">
+    <value>Total Wagons</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="WagonAtLastTrain" xml:space="preserve">
+    <value>Wagons at last train</value>
+  </data>
+  <data name="ConcentrateShipped" xml:space="preserve">
+    <value>Concentrate Shipped</value>
+  </data>
+  <data name="PprodShipped" xml:space="preserve">
+    <value>Mid-coal shipped</value>
+  </data>
+  <data name="IncidentCount" xml:space="preserve">
+    <value>Incidents count</value>
+  </data>
+  <data name="ManualInputToolTip" xml:space="preserve">
+    <value>Manual Input</value>
+  </data>
+  <data name="ManuaData" xml:space="preserve">
+    <value>Data by Manual Input</value>
+  </data>
+  <data name="AutomaticData" xml:space="preserve">
+    <value>Data collected atomatically</value>
+  </data>
+  <data name="NoDataToDisplay" xml:space="preserve">
+    <value>No data for the period</value>
+  </data>
+  <data name="TrainNumber" xml:space="preserve">
+    <value>Train number</value>
+  </data>
+  <data name="WagonsPassed" xml:space="preserve">
+    <value>Wagons passed</value>
+  </data>
+  <data name="RecognintionRate" xml:space="preserve">
+    <value>Recognition rate</value>
+  </data>
+  <data name="LastTrain" xml:space="preserve">
+    <value>Last train</value>
+  </data>
+  <data name="RecognitionJourlal" xml:space="preserve">
+    <value>Recognition journal</value>
+  </data>
+  <data name="Recognized" xml:space="preserve">
+    <value>Recognized</value>
+  </data>
+  <data name="ManualInput" xml:space="preserve">
+    <value>Manual Input</value>
+  </data>
+  <data name="LastLoadedSkipDay" xml:space="preserve">
+    <value>Last Skip Day</value>
+  </data>
+  <data name="InDevelopment" xml:space="preserve">
+    <value>The page is in development</value>
+  </data>
+  <data name="Coal" xml:space="preserve">
+    <value>Coal</value>
+  </data>
+  <data name="Act" xml:space="preserve">
+    <value>Doc</value>
+  </data>
+  <data name="OpenSkipAct" xml:space="preserve">
+    <value>View file</value>
+  </data>
+</root>

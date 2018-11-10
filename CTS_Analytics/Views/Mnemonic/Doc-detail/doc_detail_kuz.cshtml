@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceMnemonic.Thesaurus;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KuzMineName;
+}
+
+<p class="subname"><span>Справочник</span></p>
+<div class="main">
+
+    <div class="sprav">
+
+        <h2>@Resources.ResourceMineInfo.KuzTitle</h2>
+
+        <div class="anounce">
+            <div class="txt">
+                @Resources.ResourceMineInfo.KuzShortDescr
+            </div>
+
+            <div class="pic">
+                <img src="~/Content/Mnemo/pic/mine1.jpg" alt="" />
+            </div>
+
+        </div>
+        <br>
+        <h3>
+            <b>@Resources.ResourceMineInfo.History</b>
+        </h3>
+        <p>
+            @Resources.ResourceMineInfo.KuzHistory
+        </p>
+
+        <br>
+        <h3>
+            <b>@Resources.ResourceMineInfo.Description</b>
+        </h3>
+        <br>
+        <p>
+            @Resources.ResourceMineInfo.KuzDescr
+        </p>
+
+    </div>
+
+
+</div>

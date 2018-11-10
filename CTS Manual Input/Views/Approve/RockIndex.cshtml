@@ -1,0 +1,207 @@
+﻿@using CTS_Models
+@model  CTS_Manual_Input.Models.ApproveModels.TransfersToApprove<RockUtilTransfer>
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Представленные на странице партии ожидают подтверждения</h2>
+<br />
+
+@{if (Model.CreatedTransfers.Count() > 0 || Model.EditedTransfers.Count() > 0 || Model.DeletedTransfers.Count() > 0)
+	{
+		<input type="button" class="btn btn-success" value="Подтвердить отмеченные" id="ApproveBatch" />
+		<input type="button" class="btn btn-primary" value="Отклонить отмеченные" id="RejectBatch" />
+	}
+	else
+	{
+		<br />
+		<p>Нет партий, ожидающих подтверждения</p>
+	} }
+
+@if (Model.CreatedTransfers.Count() > 0)
+{
+	<h2>Добавленные партии</h2>
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Выбор</th>
+				<th>Статус</th>
+				<th>Конвейер</th>
+				<th>Расположение</th>
+				<th>ID</th>
+				<th>Кол-во, т</th>
+				<th>Дата</th>
+				<th>Оператор</th>
+				<th>Коммент.</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		@foreach (var mod in Model.CreatedTransfers)
+		{
+			<tr>
+				<td><input type="checkbox" class="transferCheck" id=@mod.ID></td>
+				<td>Доб.</td>
+				<td>@Html.DisplayFor(x => mod.Equip.Name)</td>
+				<td>@Html.DisplayFor(x => mod.Equip.Location.LocationName)</td>
+				<td>@Html.DisplayFor(x => mod.ID)</td>
+				<td>@Html.DisplayFor(x => mod.LotQuantity)</td>
+				<td>@Html.DisplayFor(x => mod.TransferTimeStamp)</td>
+				<td>@Html.DisplayFor(x => mod.OperatorName).ToString().Substring(mod.OperatorName.LastIndexOf('\\') + 1)</td>
+				<td>@Html.DisplayFor(x => mod.Comment)</td>
+				<td>
+					<input type="button" name="ApproveButton" class="btn btn-success btn-xs" value="Подтв."
+						   onclick="location.href='@Url.Action("RockApprove", "Approve", new { transfers = mod.ID, isApproved = true })'" />
+				</td>
+				<td>
+					<input type="button" name="RejectButton" class="btn btn-primary btn-xs" value="Откл."
+						   onclick="location.href='@Url.Action("RockApprove", "Approve", new { transfers = mod.ID, isApproved = false })'" />
+				</td>
+			</tr>
+		}
+	</table>
+}
+
+@if (Model.EditedTransfers.Count() > 0)
+{
+	<h2>Отредактированные партии</h2>
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Выбор</th>
+				<th>Статус</th>
+				<th>Конвейер</th>
+				<th>Расположение</th>
+				<th>ID</th>
+				<th>Кол-во, т</th>
+				<th>Дата</th>
+				<th>Оператор</th>
+				<th>Коммент.</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		@foreach (var mod in Model.EditedTransfers)
+		{
+			<tr>
+				<td><input type="checkbox" class="transferCheck" id=@mod.ID></td>
+				<td>Нов.</td>
+				<td>@Html.DisplayFor(x => mod.Equip.Name)</td>
+				<td>@Html.DisplayFor(x => mod.Equip.Location.LocationName)</td>
+				<td>@Html.DisplayFor(x => mod.ID)</td>
+				<td>@Html.DisplayFor(x => mod.LotQuantity)</td>
+				<td>@Html.DisplayFor(x => mod.TransferTimeStamp)</td>
+				<td>@Html.DisplayFor(x => mod.OperatorName).ToString().Substring(mod.OperatorName.LastIndexOf('\\') + 1)</td>
+				<td>@Html.DisplayFor(x => mod.Comment)</td>
+				<td>
+					<input type="button" name="ApproveButton" class="btn btn-success btn-xs" value="Подтв."
+						   onclick="location.href='@Url.Action("RockApprove", "Approve", new { transfers = mod.ID, isApproved = true })'" />
+				</td>
+				<td>
+					<input type="button" name="RejectButton" class="btn btn-primary btn-xs" value="Откл."
+						   onclick="location.href='@Url.Action("RockApprove", "Approve", new { transfers = mod.ID, isApproved = false })'" />
+				</td>
+			</tr>
+
+			var obs = Model.ObsoleteTransfers.Where(x => x.ID == mod.InheritedFrom).FirstOrDefault();
+			if (obs != null)
+			{
+				<tr class="table-success">
+					<td></td>
+					<td>Стар.</td>
+					<td>@Html.DisplayFor(x => obs.Equip.Name)</td>
+					<td>@Html.DisplayFor(x => obs.Equip.Location.LocationName)</td>
+					<td>@Html.DisplayFor(x => obs.ID)</td>
+					<td>@Html.DisplayFor(x => obs.LotQuantity)</td>
+					<td>@Html.DisplayFor(x => obs.TransferTimeStamp)</td>
+					<td>@Html.DisplayFor(x => obs.OperatorName).ToString().Substring(mod.OperatorName.LastIndexOf('\\') + 1)</td>
+					<td>@Html.DisplayFor(x => obs.Comment)</td>
+				</tr>
+			}
+		}
+	</table>
+}
+
+@if (Model.DeletedTransfers.Count() > 0)
+{
+	<h2>Удаленные партии</h2>
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Выбор</th>
+				<th>Статус</th>
+				<th>Конвейер</th>
+				<th>Расположение</th>
+				<th>ID</th>
+				<th>Кол-во, т</th>
+				<th>Дата</th>
+				<th>Оператор</th>
+				<th>Коммент.</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		@foreach (var mod in Model.DeletedTransfers)
+		{
+			<tr>
+				<td><input type="checkbox" class="transferCheck" id=@mod.ID></td>
+				<td>Удал.</td>
+				<td>@Html.DisplayFor(x => mod.Equip.Name)</td>
+				<td>@Html.DisplayFor(x => mod.Equip.Location.LocationName)</td>
+				<td>@Html.DisplayFor(x => mod.ID)</td>
+				<td>@Html.DisplayFor(x => mod.LotQuantity)</td>
+				<td>@Html.DisplayFor(x => mod.TransferTimeStamp)</td>
+				<td>@Html.DisplayFor(x => mod.OperatorName).ToString().Substring(mod.OperatorName.LastIndexOf('\\') + 1)</td>
+				<td>@Html.DisplayFor(x => mod.Comment)</td>
+				<td>
+					<input type="button" name="ApproveButton" class="btn btn-success btn-xs" value="Подтв."
+						   onclick="location.href='@Url.Action("RockApprove", "Approve", new { transfers = mod.ID, isApproved = true })'" />
+				</td>
+				<td>
+					<input type="button" name="RejectButton" class="btn btn-primary btn-xs" value="Откл."
+						   onclick="location.href='@Url.Action("RockApprove", "Approve", new { transfers = mod.ID, isApproved = false })'" />
+				</td>
+			</tr>
+		}
+	</table>
+}
+
+<script>
+	$("#ApproveBatch").click(function () {
+		var transfers = "";
+		$('.transferCheck').each(function () {
+			if ($(this).is(':checked')) {
+				transfers += ($(this).attr('id')) + ',';
+			}
+		})
+
+		if (transfers == "") {
+			alert('Необходимо выбрать хотя бы 1 партию!');
+		}
+		else {
+			window.location.href = '@Url.Action("RockApprove")?transfers=' + transfers + "&isApproved=true";
+		}
+	});
+
+	$("#RejectBatch").click(function () {
+        var transfers = "";
+        $('.transferCheck').each(function () {
+            if ($(this).is(':checked')) {
+                transfers += ($(this).attr('id')) + ',';
+            }
+        })
+
+		if (transfers == "")
+		{
+			alert('Необходимо выбрать хотя бы 1 партию!');
+		}
+		else
+		{
+			window.location.href = '@Url.Action("RockApprove")?transfers=' + transfers + "&isApproved=false";
+		}
+        });
+
+</script>
+
+

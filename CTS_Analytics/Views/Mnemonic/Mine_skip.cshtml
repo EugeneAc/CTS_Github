@@ -1,0 +1,105 @@
+﻿@model CTS_Analytics.Models.Mnemonic.Mine_skip
+@using PagedList.Mvc;
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMine.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Model.MineName;
+    ViewBag.MinePng = "mine0.png";
+    var LastSkipLiftingTime = Model.LastSkipLiftingTime.HasValue ? Model.LastSkipLiftingTime.Value.ToString("HH:mm") : "";
+    var LastSkipLiftingDate = Model.LastSkipLiftingTime.HasValue ? Model.LastSkipLiftingTime.Value.ToString("dd MMM") : "";
+}
+
+<div class="main">
+    <div class="page">
+
+        <div class="page-head">
+            <h2><i class="skip"></i>@Model.SkipName</h2>
+            <div class="result">
+                <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+                <div class="res"><span>@Resources.ResourceMnemonic.HSEWarning</span><a href='@Url.Action("HseAlarm", "Mnemonic")'><i class="green"></i></a></div>
+				<div class="clearfix"></div>
+			</div>
+
+            <div class="close-button">
+                <a href='@Url.Action(Model.ReturnID, "Mnemonic")'>@Resources.ResourceMnemonic.Close  <i></i></a>
+            </div>
+        </div>
+
+        <div class="side w535">
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.ProductionPerShift</span>
+                <div class="count">@Model.TotalSkipsPerThisShift</div>
+                <span class="caption">@Resources.ResourceMnemonic.Skips</span>
+                <div class="count count2">@Model.TotalTonnsPerThisShift</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.ProdFact</span>
+                <div class="count">@Model.TotalSkipsPerTimeInterval</div>
+                <span class="caption">@Resources.ResourceMnemonic.Skips</span>
+                <div class="count count2">@Model.TotalTonnsPerTimeInterval</div>
+                <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.LastLoadedSkip</span>
+                <div class="count">@LastSkipLiftingTime</div>
+                <span class="caption">@Resources.ResourceMnemonic.HHmm</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.LastLoadedSkipDay</span>
+                <div class="count">@LastSkipLiftingDate</div>
+                <span class="caption"></span>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+        <div id="text">
+            <h3>@Resources.ResourceMnemonic.SkipsLiftingJournal</h3>
+            <div class="scrollbar-outer">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@Resources.ResourceMnemonic.Date</th>
+                            <th>@Resources.ResourceMnemonic.Time</th>
+                            <th>@Resources.ResourceMnemonic.LiftingID</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var transfer in Model.PagedkipTransfers)
+                        {
+                            string manualMarker = (transfer.OperatorName != ProjectConstants.SystemPlarformOperatorName) ? "<i class='icon-hand' style='visibility: visible;'></i>" : "";
+                            string rowStyle = (transfer.OperatorName != ProjectConstants.SystemPlarformOperatorName) ? "background-color:#FFF0AC" : "";
+                            <tr style="@rowStyle">
+                                <td>@Html.Raw(manualMarker)</td>
+                                <td>@transfer.TransferTimeStamp.ToString("dd.MM.yyyy")</td>
+                                <td>@transfer.TransferTimeStamp.ToString("HH:mm")</td>
+                                <td>@transfer.LiftingID</td>
+                            </tr>
+                            }
+                        </tbody>
+
+                </table>
+            </div>
+            @Html.PagedListPager(Model.PagedkipTransfers, page => Url.Action("Mine_skip", new { ID = Model.ReturnID, skipID = Model.SkipID, page = page }))
+        </div>
+
+    </div>
+</div>
+
+
+<script src="~/Content/Mnemo/js/jquery.knob.min.js"></script>
+<link href="~/Content/Mnemo/style/jquery.scrollbar.css" rel="stylesheet">
+<script src="~/Content/Mnemo/js/jquery.scrollbar.min.js"></script>
+<script>
+    $(function ($) {
+        jQuery('.scrollbar-outer').scrollbar();
+        $(".knob").knob();
+
+    });
+</script>

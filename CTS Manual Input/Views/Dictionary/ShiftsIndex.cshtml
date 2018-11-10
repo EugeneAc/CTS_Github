@@ -1,0 +1,54 @@
+﻿@model  List<CTS_Manual_Input.Models.Dictionary.ShiftsConsolidated>
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((Model.Count > 0) && (Model != null))
+{
+	<h2>Данные времени смен на шахтах</h2>
+	
+	<br />
+	<br />
+
+	if ((Model.Count > 0) && (Model != null))
+	{
+		<table class="table table-striped table-hover ">
+			<thead>
+				<tr>
+					<th>Шахта</th>
+					<th class="text-center">Начало I смены</th>
+					<th class="text-center">Начало II смены</th>
+					<th class="text-center">Начало III смены</th>
+					<th class="text-center">Начало IV смены</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@for (int i = 0; i < Model.Count; i++)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(modelItem => Model[i].Location.LocationName)
+						</td>
+						<td align="center">
+							@Html.DisplayFor(modelItem => Model[i].TimeStartFirstShift)
+						</td>
+						<td align="center">
+							@Html.DisplayFor(modelItem => Model[i].TimeStartSecondShift)
+						</td>
+						<td align="center">
+							@Html.DisplayFor(modelItem => Model[i].TimeStartThirdShift)
+						</td>
+						<td align="center">
+							@Html.DisplayFor(modelItem => Model[i].TimeStartFourthShift)
+						</td>
+						<td>
+							<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("ShiftsEdit", "Dictionary", new { Id = Model[i].LocationID, Name = Model[i].Location.LocationName })'" />
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+}

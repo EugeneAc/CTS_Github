@@ -1,0 +1,70 @@
+﻿@model CTS_Analytics.Models.FileTableModel
+
+<table class="table table-borded table-striped sortable" id="filetable">
+	<thead>
+	<th>@Resources.ResourceStatic.FileTableLocation</th>
+	<th>@Resources.ResourceStatic.ReportType</th>
+	<th>@Resources.ResourceStatic.File (@if (ViewBag.FileCount == null)	{<text>0</text>} else {<text>@ViewBag.FileCount</text>})</th>
+	<th>@Resources.ResourceStatic.Type</th>
+	<th>@Resources.ResourceStatic.Creation_Date</th>
+	</thead>
+	<tbody>
+		@if ((Model.FileList != null) && (Model.FileList.Count > 0))
+		{
+			foreach (var file in Model.FileList.OrderByDescending(d => d.CreationDate))
+			{
+				<tr>
+					@if (file.Location != null)
+					{
+						<td>@Html.DisplayFor(modelItem => file.Location)</td>
+					}
+					else
+					{
+					<td></td>}
+					<td>@Html.DisplayFor(modelItem => file.Equipment)</td>
+					<td>@Path.GetFileNameWithoutExtension(file.FileName)</td>
+					<td>@Path.GetExtension(file.FileName)</td>
+					<td>@file.CreationDate.ToString("yyyy-MM-dd HH:mm") </td>
+					<td><input type="button" value=@Resources.ResourceStatic.OpenBtn class="btn btn-primary btn-xs" id="OpenFile" target="_blank" onclick="window.open('@Url.Action("OpenFile", "Static", new { FileName = file.FileName })', '_blank')" /></td>
+					<td style="display:none;" class="file">@file.FileName</td>
+				</tr>
+			}
+
+		}
+	</tbody>
+</table>
+
+
+@if ((ViewBag.FileCount != null) && (Model.FileList.Count == 0))
+{
+	<br/>
+	<p style="text-align:center">@Resources.ResourceStatic.NoReports</p>
+}
+
+
+@if ((Model.FileList != null) && (Model.FileList.Count > 0))
+{
+	<input type="button" value=@Resources.ResourceStatic.DownloadBtn class="btn btn-success" name="Download" id="Download" />
+}
+<br />
+<br />
+
+<script>
+$("#Download").click(function () {
+    var filearr = [];
+    $('.file').each(function () {
+        filearr.push($(this).data('value'));
+    });
+    $.post("BuildArchive", { files: filearr }).done(function (data) {
+        //var response = JSON.parse(data);
+        window.location = '@Url.Action("Download")?filePath=' + data.FilePath;
+    });
+    });
+    $.bootstrapSortable(true);
+</script>
+<script>
+	$(function () {
+		$('#dashboardrange').hide();
+	});
+</script>
+

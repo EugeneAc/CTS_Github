@@ -1,0 +1,60 @@
+﻿@using CTS_Models
+@model CTS_Models.TransferList
+
+
+<p style="color:red;font-size:15px;">@ViewBag.ErrorMessage</p>
+
+    @if (Model != null && Model.Transfers != null && Model.Transfers.Count > 0)
+    {
+
+        using (Html.BeginForm("SaveAllTransfers", "WagonScales"))
+        {
+
+            <div>
+                <table class="table table-striped table-hover ">
+
+                    <thead>
+                    <th>Номер вагона</th>
+                    <th>Брутто, т</th>
+                    <th>Тара, т</th>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Transfers.Count; i++)
+                    {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Transfers[i].SublotName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Transfers[i].Brutto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Model.Transfers[i].Tare)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].SublotName)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].Tare)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].LotName)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].ID)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].Brutto)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].ItemID)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].FromDestID)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].ToDest)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].LotName)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].Comment)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].EquipID)
+                                    @Html.TextBoxFor(modelItem => Model.Transfers[i].LasEditDateTime, "{0:yyyy/MM/dd HH:mm:ss}", htmlAttributes: new { @type = "hidden" })
+                                    @Html.TextBoxFor(modelItem => Model.Transfers[i].TransferTimeStamp, "{0:yyyy/MM/dd HH:mm:ss}", htmlAttributes: new { @type = "hidden" })
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].OperatorName)
+                                    @Html.HiddenFor(modelItem => Model.Transfers[i].IsValid)
+									@Html.HiddenFor(modelItem => Model.Transfers[i].Status)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        }
+        <input type="submit" value="Сохранить данные партии" class="btn btn-content-full btn-lg" name="SaveAll" />
+    }       

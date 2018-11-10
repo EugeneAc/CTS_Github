@@ -1,0 +1,53 @@
+﻿@model CTS_Models.Shift
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Scripts/bootstrap-timepicker.js"></script>
+<link href="~/Content/timepicker.css" rel="stylesheet" />
+
+<h2>Изменить данные времени смен по @Model.Location.LocationName</h2>
+<br />
+<div style="font-size:18px">Введите время начала первой смены. Время остальных смен будет рассчитано автоматически</div>
+<br />
+<br />
+@using (Html.BeginForm("ShiftsEdit", "Dictionary", new { Name = @ViewBag.Name }))
+{
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(Model => Model.LocationID)
+	@Html.HiddenFor(Model => Model.ShiftNum)
+	<div class="form-group">
+		<div class="input-group bootstrap-timepicker timepicker" style="width:14%">
+			<input id="timepicker1" type="text" class="form-control input-small" name="TimeStart" value="@Model.TimeStart">
+			<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+		</div>
+	</div>
+	<br />
+
+		<input type="submit" value="Сохранить" class="btn btn-primary" />
+
+}
+
+
+<script type="text/javascript">
+	$('#timepicker1').timepicker({
+		minuteStep: 60,
+
+		showSeconds: false,
+		showMeridian: false,
+		maxHours: 24
+	});
+</script>
+
+
+
+
+
+
+
+
+
+
+

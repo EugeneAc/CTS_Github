@@ -1,0 +1,52 @@
+﻿@using CTS_Models
+@model CTS_Manual_Input.Models.Dictionary.WagonScalesLocations
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Добавление новых вагонных весов</h2>
+    <br />
+
+    @using (Html.BeginForm("WagonScalesAdd", "Dictionary", FormMethod.Post))
+    {
+        <br />
+        <div class="form-horizontal">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.WagonScale.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.WagonScale.Location, "Расположение весов", new { @class = "control-label col-lg-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.WagonScale.LocationID, Model.Locations as SelectList, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.WagonScale.Name, "Наименование на русском", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.WagonScale.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.WagonScale.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.WagonScale.NameEng, "Наименование на английском", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.WagonScale.NameEng, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.WagonScale.NameEng)
+                </div>
+            </div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => Model.WagonScale.NameKZ, "Наименование на казахском", new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(m => Model.WagonScale.NameKZ, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(m => Model.WagonScale.NameKZ)
+				</div>
+			</div>
+
+            <input type="submit" value="Сохранить изменения" class="btn btn-success" />
+        </div>
+
+    }
+

@@ -1,0 +1,75 @@
+﻿@model  CTS_Manual_Input.Models.WarehousesAndTransfersModel
+@using PagedList.Mvc;
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((Model != null) && (Model.Warehouses.Count() > 0))
+{
+	<h2>Добавить данные маркшейдерского замера</h2>
+
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Шахта</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var mod in Model.Warehouses)
+			{
+				<tr>
+					<td>@Html.DisplayFor(x => mod.Location.LocationName)</td>
+					<td>@Html.DisplayFor(x => mod.Name)</td>
+					<td><input type="button" class="btn btn-primary" value="Добавить" onclick="location.href='@Url.Action("Add", "Warehouse", new {warehouseID = mod.ID, name = mod.Name + " " + mod.Location.LocationName})'" /></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+<h2>Данные маркшейдерских замеров</h2>
+
+@if ((Model != null) && (Model.WarehouseMeasures.Count > 0))
+{
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Склад</th>
+				<th>Расположение</th>
+				<th>Дата замера</th>
+				<th>Итого на складе</th>
+				<th>Внес в систему</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		@foreach (var mod in Model.WarehouseMeasures)
+		{
+			<tr>
+				<td>@Html.DisplayFor(x => mod.Warehouse.Name)</td>
+				<td>@Html.DisplayFor(x => mod.Warehouse.Location.LocationName)</td>
+				<td>@Html.DisplayFor(x => mod.MeasureDate)</td>
+				<td>@Html.DisplayFor(x => mod.TotalMeasured)</td>
+				<td>@Html.DisplayFor(x => mod.OperatorName).ToString().Substring(mod.OperatorName.LastIndexOf('\\') + 1)</td>
+				<td>
+					<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("Edit", "Warehouse", new { Id = mod.ID })'" />
+				</td>
+				@if (CTS_Manual_Input.Helpers.UserHelper.WarehouseSetUser(User.Identity.Name ?? ""))
+				{
+					<td>
+						<input type="button" name="SetBalanceButton" class="btn btn-danger btn-xs" value="Принять как баланс" onclick="ConfirmSetBalance('@Url.Action("SetNewBalance", "Warehouse", new { Id = mod.WarehouseID, Quantity = mod.TotalMeasured })')" />
+					</td>
+				}
+			</tr>
+		}
+	</table>
+}
+Страница @(Model.WarehouseMeasures.PageCount < Model.WarehouseMeasures.PageNumber ? 0 : Model.WarehouseMeasures.PageNumber) из @Model.WarehouseMeasures.PageCount
+
+@Html.PagedListPager(Model.WarehouseMeasures, page => Url.Action("Index", new { page }))
+
+
+

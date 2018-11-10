@@ -1,0 +1,55 @@
+﻿@model CTS_Analytics.Models.Mnemonic.shahModel
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMinePlanFact.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.ShahMineName;
+    ViewBag.MinePng = "mine1.png";
+}
+
+<div class="main">
+    <div id="mine1_bg">
+        @{
+            Model.Skip.DivID = "skip1";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.Skip)
+
+        @{
+            Model.Crusher.DivID = "drob1";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher)
+
+        @{
+            Model.RockUtil.DivID = "stone1";
+        }
+
+        @Html.Partial("Partials/_RockUtil", Model.RockUtil)
+
+        @{
+            Model.Belt.DivID = "konv1";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.Belt)
+
+        @{
+            Model.Vagon.DivID = "vagon1";
+        }
+
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.Vagon)
+
+        @{
+            Model.Sklad.DivID = "sklad1";
+        }
+        @Html.Partial("Partials/_Stockpile4MineMnemonic", Model.Sklad)
+
+        <div class="buttons buttons-horz horz-arrow" id="btn_drob2">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="way" id="kamni">
+            @Resources.ResourceMnemonic.Rocks
+        </div>
+    </div>
+</div>

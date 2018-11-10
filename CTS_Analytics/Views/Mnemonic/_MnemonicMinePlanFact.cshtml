@@ -1,0 +1,27 @@
+﻿@model CTS_Analytics.Models.Mnemonic.MineGeneral
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMine.cshtml";
+    var factClass = (Model.ProdFact >= Model.ProdPlan) ? "green" : "red";
+}
+<div class="mine-plan">
+    <div class="plan-fact">
+        @Resources.ResourceMnemonic.PlanFact (@Resources.ResourceMnemonic.Tonns):
+        <div class="input-group-sm">
+        </div>
+        <div class="result"><b class="green">@Model.ProdPlan</b> / <b class="@factClass">@Model.ProdFact</b></div>
+    </div>
+
+    <div class="plan-fact">
+        @Resources.ResourceMnemonic.Productivity
+        <div class="input-group-sm">
+        </div>
+        <div class="result"><b class="green">@Model.Productivity.ToString("F")</b> </div>
+    </div>
+</div>
+
+@RenderBody()
+
+
+
+
+

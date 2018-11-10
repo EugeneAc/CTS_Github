@@ -1,0 +1,25 @@
+﻿@model CTS_Analytics.Models.StaticReports.EqupmentReportModel<CTS_Models.BeltScale>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceStatic.PageName;
+}
+
+<h2>@Resources.ResourceStatic.BeltScalesReport</h2>
+
+@using (Ajax.BeginForm("GetBeltScalesReports", "Static", new AjaxOptions { UpdateTargetId = "results" }, new { @class = "form-horizontal" }))
+{
+    @Html.Partial("_FromDateToDate", new CTS_Analytics.Models.FromDateToDateModel() { FromDate = Model.FromDate, ToDate = Model.ToDate })
+
+    @Html.Partial("_ReportPeriodDropdown", Model.Periods)
+
+    @Html.Partial("_MinesDropdown", Model.Mines)
+
+    <div class="form-group" id="BeltScalesContainer"></div>
+
+    <input type="submit" value=@Resources.ResourceGeneral.Refresh class="btn btn-success" name="Refresh" />
+
+    <div id="results">
+        @Html.Partial("_FileTable", new CTS_Analytics.Models.FileTableModel())
+    </div>
+
+}

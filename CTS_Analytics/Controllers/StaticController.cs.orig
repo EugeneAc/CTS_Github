@@ -1,0 +1,249 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using CTS_Analytics.Models;
+using CTS_Models;
+using System.IO;
+using CTS_Analytics.Filters;
+using System.IO.Compression;
+using System.Text.RegularExpressions;
+
+namespace CTS_Analytics.Controllers
+{
+  [Culture]
+  public class StaticController : Controller
+  {
+    public ActionResult ChangeCulture(string lang)
+    {
+      string returnUrl = Request.UrlReferrer.AbsolutePath;
+      // Список культур
+      List<string> cultures = new List<string>() { "ru", "en" };
+      if (!cultures.Contains(lang))
+      {
+        lang = "ru";
+      }
+      // Сохраняем выбранную культуру в куки
+      HttpCookie cookie = Request.Cookies["lang"];
+      if (cookie != null)
+        cookie.Value = lang;   // если куки уже установлено, то обновляем значение
+      else
+      {
+        cookie = new HttpCookie("lang");
+        cookie.HttpOnly = false;
+        cookie.Value = lang;
+        cookie.Expires = DateTime.Now.AddYears(1);
+      }
+      Response.Cookies.Add(cookie);
+      return Redirect(returnUrl);
+    }
+
+    CentralDBContext cdb = new CentralDBContext();
+    // GET: Static
+    public ActionResult Index()
+    {
+      return View();
+    }
+
+    public ActionResult Consolid()
+    {
+      string lang = getUserLang(Request.Cookies["lang"]);
+      var model = new StaticConsolidated();
+<<<<<<< HEAD
+      model.FromDate = System.DateTime.Today.AddDays(-7);
+      model.ToDate = System.DateTime.Today.AddDays(1);
+      model.Locations = cdb.Locations.ToList().Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.LocationName, " / "), N.LocationNameEng), Value = N.ID.ToString() }); ;
+=======
+      model.FromDate = System.DateTime.Now.AddDays(-7);
+      model.ToDate = System.DateTime.Now.AddDays(1);
+      if(lang=="en")
+        model.Locations = cdb.Locations.ToList().Select(N => new SelectListItem { Text = N.LocationNameEng, Value = N.ID.ToString() });     
+      else
+        model.Locations = cdb.Locations.ToList().Select(N => new SelectListItem { Text = N.LocationName, Value = N.ID.ToString() });
+
+>>>>>>> 233e1a3c28e1f6906269d96e5857f6a17b2c97a7
+      return View(model);
+    }
+    public ActionResult Equip()
+    {
+      return View();
+    }
+
+    public ActionResult GetWagonScales(string Locations)
+    {
+      string lang = getUserLang(Request.Cookies["lang"]);
+      string[] locations = Locations.Split(Convert.ToChar(@","));
+      var model = new WagonScalesDropDownModel();
+      var scales = new List<WagonScale>();
+      foreach (var l in locations)
+      {
+        scales.AddRange(cdb.WagonScales.Where(s => s.LocationID == l));
+      }
+      if (lang == "en")
+        model.WagonScales = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.NameEng, " / "), N.Location.LocationNameEng), Value = "W" + N.ID.ToString() });
+      else
+        model.WagonScales = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.Name, " / "), N.Location.LocationName), Value = "W" + N.ID.ToString() });
+
+
+      return PartialView("_WagonScalesDynDropDown", model);
+    }
+
+    public ActionResult GetBeltScales(string Locations)
+    {
+      string lang = getUserLang(Request.Cookies["lang"]);
+      string[] locations = Locations.Split(Convert.ToChar(@","));
+      var model = new BeltScalesDropDownModel();
+      var scales = new List<BeltScale>();
+      foreach (var l in locations)
+      {
+        scales.AddRange(cdb.BeltScales.Where(s => s.LocationID == l));
+      }
+      if (lang == "en")
+        model.BeltScales = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.NameEng, " / "), N.Location.LocationNameEng), Value = "B"+N.ID.ToString() });
+      else
+        model.BeltScales = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.Name, " / "), N.Location.LocationName), Value = "B" + N.ID.ToString() }); ;
+
+
+      return PartialView("_BeltScalesDynDropDown", model);
+    }
+
+    public ActionResult GetSkips(string Locations)
+    {
+      string lang = getUserLang(Request.Cookies["lang"]);
+      string[] locations = Locations.Split(Convert.ToChar(@","));
+      var model = new SkipsDropDownModel();
+      var scales = new List<Skip>();
+      foreach (var l in locations)
+      {
+        scales.AddRange(cdb.Skips.Where(s => s.LocationID == l));
+      }
+      if (lang == "en")
+        model.Skips = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.NameEng, " / "), N.Location.LocationNameEng), Value = "S"+N.ID.ToString() }); 
+      else
+        model.Skips = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.Name, " / "), N.Location.LocationName), Value = "S" + N.ID.ToString() });
+
+      return PartialView("_SkipsDynDropDown", model);
+    }
+
+    [HttpPost]
+    public ActionResult GetFileTable(StaticConsolidated model)
+    {
+      string directorypath = @"C:\Test";
+      var filelistwithfullpath = from o in Directory.GetFiles(directorypath, "*.*",
+               SearchOption.AllDirectories)
+                                 let x = new DirectoryInfo(o)
+                                 where x.CreationTime >= model.FromDate && x.CreationTime <= model.ToDate
+                                 select o;
+
+      filelistwithfullpath = model.locationsInForm != null ?  filter(model.locationsInForm, filelistwithfullpath): filelistwithfullpath;
+
+      filelistwithfullpath = model.wagonScalesInForm != null ? filter(model.wagonScalesInForm, filelistwithfullpath):
+           filter(cdb.WagonScales.Select(i=>i.ID.ToString()).ToArray(), filelistwithfullpath);
+
+      filelistwithfullpath = model.beltScalesInForm != null ? filter(model.beltScalesInForm, filelistwithfullpath):
+        filter(cdb.BeltScales.Select(i => i.ID.ToString()).ToArray(), filelistwithfullpath);
+
+      filelistwithfullpath = model.skipsInForm != null ?
+              filelistwithfullpath =filter(model.skipsInForm, filelistwithfullpath) :
+              filter(cdb.Skips.Select(i => i.ID.ToString()).ToArray(), filelistwithfullpath);
+
+      var viewmodel = new FileTableModel();
+      viewmodel.FileList = new List<file>();
+      foreach (var file in filelistwithfullpath)
+      {
+        Regex locationregex = new Regex(@"^([a-z]+)", RegexOptions.IgnoreCase);
+        Regex equipregex = new Regex(@"(W|S|C|B)([0-9]+)", RegexOptions.IgnoreCase);
+        string filename = Path.GetFileNameWithoutExtension(file);
+
+        Match locationmatch = locationregex.Match(filename);
+        Location lo = new Location();
+        if (locationmatch.Success)
+        lo = cdb.Locations.FirstOrDefault(l => l.ID.Contains(locationmatch.Value));
+
+        Match equipmatch = equipregex.Match(filename);
+        IScale sc;
+        if (equipmatch.Success)
+        {
+          string match = equipmatch.Value.Remove(0, equipmatch.Value.Length - 1);
+          if (equipmatch.Value[0] == Convert.ToChar("W"))
+          {
+            sc = cdb.WagonScales.FirstOrDefault(s => s.ID.ToString() == match);
+          }
+          else if (equipmatch.Value[0] == Convert.ToChar("S"))
+          {
+            sc = cdb.Skips.FirstOrDefault(s => s.ID.ToString() == match);
+          }
+          else if (equipmatch.Value[0] == Convert.ToChar("B"))
+          {
+            sc = cdb.BeltScales.FirstOrDefault(s => s.ID.ToString() == match);
+          }
+          else
+          {
+            sc = new WagonScale() { Name = "" }; //2 раза else!!
+          }
+        }
+        else
+        {
+          sc = new WagonScale() { Name = "" };
+        }
+
+        viewmodel.FileList.Add(new file() { FileName = file, Location = lo, Equipment = sc, CreationDate = new DirectoryInfo(file).CreationTime });
+      }
+      return PartialView("_FileTable", viewmodel);
+    }
+
+
+    public FileResult Download(string Files)
+      {
+      string[] files = Files.Split(Convert.ToChar(@","));
+      try
+      {
+        if (System.IO.File.Exists(Server.MapPath("~/App_Data/Reports.zip")))
+          {
+          System.IO.File.Delete(Server.MapPath("~/App_Data/Reports.zip"));
+          }
+         using (ZipArchive archive = ZipFile.Open(Server.MapPath("~/App_Data/Reports.zip"), ZipArchiveMode.Create))
+        {
+          foreach (var file in files)
+          {
+            archive.CreateEntryFromFile(file, Path.GetFileNameWithoutExtension(file) + Path.GetExtension(file));
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+
+      }
+      return File(Server.MapPath("~/App_Data/Reports.zip"), "application/octet-stream","Reports.zip");
+    }
+
+  public FileResult OpenFile(string FileName)
+    {
+      return File(FileName, "application/octet-stream", Path.GetFileName(FileName));
+    }
+
+
+    private List<string> filter (string[] filterarr, IEnumerable<string> whatToFilter)
+    {
+      List<string> result = new List<string>();
+      foreach (var filter in filterarr)
+      {
+        result.AddRange(whatToFilter.Where(n => n.Contains(filter)));
+      }
+      return result;
+    }
+
+    private string getUserLang(HttpCookie cookie)
+    {
+      string lang = "";
+
+      if (cookie != null)
+        lang = cookie.Value;   
+      else
+        lang = "ru";
+
+        return lang;
+    }
+  }
+}

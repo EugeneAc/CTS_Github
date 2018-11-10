@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="~/Content/images/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="~/Content/images/favicon.ico" type="image/x-icon">
+	<title>COAL TRACKING - Приложение управления доступом</title>
+	<link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/Content/style/fonts.css" rel="stylesheet">
+	<link href="~/Content/style/style.css" rel="stylesheet">
+	<link href="~/Content/style/responsive.css" rel="stylesheet">
+	<link href="~/Content/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<link href="~/Content/RolesStyles.css" rel="stylesheet" />
+	<script src="~/Scripts/jquery.min.js"></script>
+	<script src="~/Scripts/bootstrap.min.js"></script>
+	<script src="~/Scripts/moment-with-locales.min.js"></script>
+	<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+	@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+</head>
+<body>
+	<div class="wrapper">
+		<div class="header">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3">
+						<a href="/" class="logo">Логотип</a>
+					</div>
+					<div class="col-md-6">
+						<div class="name text-center">
+							ЦПО: УПРАВЛЕНИЕ ДОСТУПОМ
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="user">
+							<span>@User.Identity.Name.Split(new char[] { '\\' })[1]</span>
+							<a href="#" class="btn btn-default btn-round" onclick="logout()">
+								Выход
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<nav class="navbar navbar-default navbar-inverse">
+			<div class="container">
+				<div class="row">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"></div>
+					<!-- /.navbar-collapse -->
+				</div>
+			</div>
+			<!-- /.container -->
+		</nav>
+
+		@RenderSection("Subhead", false)
+
+		<div class="container">
+
+			@RenderBody()
+
+		</div>
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<span class="copyright">© 2018 ЦПО Coal Tracking</span>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+@*<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>@ViewBag.Title - My ASP.NET Application</title>
+		@Styles.Render("~/Content/css")
+		@Scripts.Render("~/bundles/modernizr")
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li>@Html.ActionLink("Home", "Index", "Home")</li>
+						<li>@Html.ActionLink("About", "About", "Home")</li>
+						<li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+					</ul>
+					<p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
+				</div>
+			</div>
+		</div>
+		<div class="container body-content">
+			@RenderBody()
+			<hr />
+			<footer>
+				<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+			</footer>
+		</div>
+
+		@Scripts.Render("~/bundles/jquery")
+		@Scripts.Render("~/bundles/bootstrap")
+		@RenderSection("scripts", required: false)
+	</body>
+	</html>*@

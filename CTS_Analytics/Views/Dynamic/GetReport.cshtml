@@ -1,0 +1,17 @@
+﻿
+@{
+  ViewBag.Title = Resources.ResourceDynamic.DynamicConsTitle;
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>@ViewBag.Url</h2>
+
+<iframe src="@ViewBag.Url" style="position: absolute; height: 100%; width: 75%; border: none"></iframe>
+
+<script>
+    $(function () {
+        $('#dashboardrange').hide();
+    });
+</script>

@@ -1,0 +1,145 @@
+﻿@model CTS_Models.MiningAnalysis
+
+@{
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Анализ по добыче @Model.Location.LocationName</h2>
+
+@if (Model != null)
+{
+<input type="button" name="EditButton" class="btn btn-primary" value="Изменить" onclick="location.href='@Url.Action("Edit", "LabMining", new { Id = Model.ID })'" />
+<input type="button" name="DeleteButton" class="btn btn-danger" value="Удалить" onclick="ConfirmDelete('@Url.Action("Delete", "LabMining", new { Id = Model.ID })')" />
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>Анализ</th>
+            <th>Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                Номер пробы
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.AnalysisID)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Дата проведения анализа
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.AnalysisTimeStamp)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Зола средняя
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.AshAvg)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Зола предельная
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.AshMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Сера средняя
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SulfurAvg)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Сера предельная
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SulfurMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Влажность средняя
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.MoistureAvg)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Влажность предельная
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.MoistureMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Выход летучих
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.VolatileMatter)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Теплота сгорания
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Caloricity)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Высшая теплота
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CaloricityMax)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Содержание породы
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.RockPerc)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Мелочи
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SmallFractPerc)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                x
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.xValue)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                y
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.yValue)
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+}

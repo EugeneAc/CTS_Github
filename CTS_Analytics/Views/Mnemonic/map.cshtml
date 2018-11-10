@@ -1,0 +1,266 @@
+﻿@model CTS_Analytics.Models.Mnemonic.MnemonicMainMap
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+}
+
+<div class="topmenu">
+    <a class="active" id="MapMenuMap" href='@Url.Action("Map", "Mnemonic")'>@Resources.ResourceMnemonic.MapButton</a>
+    <a id="MapMenuMapGps" href='@Url.Action("MapGps", "Mnemonic")'>@Resources.ResourceMnemonic.MapGpsButton</a>
+
+    <div class="plan-fact">
+        @Resources.ResourceMnemonic.PlanFact (@Resources.ResourceMnemonic.Tonns):
+        <div class="result"><b class="green">@Model.TotalPlan</b> / <b class="red">@Model.TotalFact</b></div>
+    </div>
+
+    <div class="txt">
+        <div>@Resources.ResourceMnemonic.DaysWithoutHse<b>23</b></div>
+        <div>@Resources.ResourceMnemonic.ConcentrateProduced<b>1300</b></div>
+    </div>
+</div>
+
+<div class="main">
+    <div id="map_scheme">
+        <a href="#" data-tooltip-content="#mine1" class="map-mine tooltip-block tooltip-block-mine" class="map-mine" id="map-mine1"></a>
+        <a href="#" data-tooltip-content="#mine2" class="map-mine tooltip-block tooltip-block-mine" id="map-mine2"></a>
+        <a href="#" data-tooltip-content="#mine3" class="map-mine tooltip-block tooltip-block-mine" id="map-mine3"></a>
+        <a href="#" data-tooltip-content="#mine4" class="map-mine tooltip-block tooltip-block-mine" id="map-mine4"></a>
+        <a href="#" data-tooltip-content="#mine5" class="map-mine tooltip-block tooltip-block-mine" id="map-mine5"></a>
+        <a href="#" data-tooltip-content="#mine6" class="map-mine tooltip-block tooltip-block-mine" id="map-mine6"></a>
+        <a href="#" data-tooltip-content="#mine7" class="map-mine tooltip-block tooltip-block-mine" id="map-mine7"></a>
+        <a href="#" data-tooltip-content="#mine8" class="map-mine tooltip-block tooltip-block-mine" id="map-mine8"></a>
+        <a href="#" data-tooltip-content="#mine9" class="map-mine tooltip-block tooltip-block-mine" id="map-mine9"></a>
+
+        <a href="#"  data-scaleid="14" data-scalelocation="srasp" class="info-block tooltip-block green tooltip-block-station" id="info-block1"></a>
+        <a href="#" data-scaleid="2" data-scalelocation="kost" class="info-block tooltip-block green tooltip-block-station" id="info-block2"></a>
+        <a href="#"  data-scaleid="1" class="info-block tooltip-block green tooltip-block-station" id="info-block3"></a>
+        <a href="#"  data-scaleid="5" data-scalelocation="sar3" class="info-block tooltip-block green tooltip-block-station" id="info-block4"></a>
+        <a href="#"  data-scaleid="3" data-scalelocation="kuz" class="info-block tooltip-block green tooltip-block-station" id="info-block5"></a>
+        <a href="#"  data-scaleid="5" data-scalelocation="sar3" class="info-block tooltip-block green tooltip-block-station" id="info-block6"></a>
+        <a href="#"  data-scaleid="4" data-scalelocation="sar1" class="info-block tooltip-block green tooltip-block-station" id="info-block7"></a>
+        <a href="#"  data-scaleid="13" data-scalelocation="sdub" class="info-block tooltip-block green tooltip-block-station" id="info-block8"></a>
+        <a href="#"  data-scaleid="11" data-scalelocation="cofv" class="info-block tooltip-block green tooltip-block-station" id="info-block9"></a>
+        <a href="#"  data-scaleid="11" data-scalelocation="cofv" class="info-block tooltip-block green tooltip-block-station" id="info-block10"></a>
+        <a href="#"  data-scaleid="11" data-scalelocation="cofv" class="info-block tooltip-block green tooltip-block-station" id="info-block11"></a>
+        <a href="#"  data-scaleid="10" data-scalelocation="abay" class="info-block tooltip-block green tooltip-block-station" id="info-block12"></a>
+        <a href="#"  data-scaleid="12" data-scalelocation="sabay" class="info-block tooltip-block green tooltip-block-station" id="info-block13"></a>
+        <a href="#"  data-scaleid="7" data-scalelocation="shah" class="info-block tooltip-block green tooltip-block-station" id="info-block14"></a>
+        <a href="#" data-scaleid="9" data-scalelocation="kaz" class="info-block tooltip-block green tooltip-block-station" id="info-block15"></a>
+        <a href="#"  data-scaleid="8" data-scalelocation="len" class="info-block tooltip-block green tooltip-block-station" id="info-block16"></a>
+        <a href="#"  data-scaleid="6" data-scalelocation="tent" class="info-block tooltip-block green tooltip-block-station" id="info-block17"></a>
+
+        <a href="#" data-tooltip-content="#st4" class="map-st tooltip-block" id="map-st1"></a>
+        <a href="#" data-tooltip-content="#st1" class="map-st tooltip-block" id="map-st2"></a>
+        <a href="#" data-tooltip-content="#st2" class="map-st tooltip-block" id="map-st3"></a>
+
+        <a href="#" data-tooltip-content="#tsov" class="map-tsov tooltip-block" id="map-tsov1"></a>
+
+
+
+        <div class="incidents">
+            <div class="title"><a style="color:#333" href='@Url.Action("Alarm", "DashBoard")'>@Resources.ResourceMnemonic.Incidents</a></div>
+
+            @if (Model.AlarmDict != null)
+            {
+                var index = 0;
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>@Resources.ResourceMnemonic.Location</td>
+                            <td>@Resources.ResourceMnemonic.IncidentCount</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var locationAlarm in Model.AlarmDict.OrderByDescending(t => t.Value.AlarmCount).Take(4))
+                        {
+                            index++;
+                            var trClass = (index % 2 != 0) ? "odd" : "";
+                            var spanClass = (locationAlarm.Value.AlarmCount > 20) ? "danger" : (locationAlarm.Value.AlarmCount > 10) ? "warning" : "good";
+                        <tr class="@trClass">
+                            <td>@locationAlarm.Key</td>
+                            <td><span class="@spanClass">@locationAlarm.Value.AlarmCount</span></td>
+                        </tr>
+                             }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+
+            <div class="legend">
+                <div class="title">@Resources.ResourceMnemonic.Legend</div>
+                <div class="left-leg">
+                    <div class="legend-line">
+                        <i class="icon icon_mine"></i> — @Resources.ResourceMnemonic.Mine
+                    </div>
+
+
+                    <div class="legend-line">
+                        <i class="icon icon_st"></i> — @Resources.ResourceMnemonic.RailRoadStaion
+                    </div>
+
+                    <div class="legend-line">
+                        <i class="icon icon_tsov"></i> — @Resources.ResourceMnemonic.COF
+                    </div>
+
+                </div>
+
+
+
+
+
+                <div class="right-leg">
+                    <div class="legend-line">
+                        <i class="info-block green"></i> — @Resources.ResourceMnemonic.CoalNormal
+
+                    </div>
+
+
+                    <div class="legend-line">
+                        <i class="info-block red"></i> — @Resources.ResourceMnemonic.CoalWarning
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+            <div class="tooltip_templates">
+
+
+                @{
+                    Model.Shah.DivId = "mine1";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Shah)
+
+
+                @{
+                    Model.Tent.DivId = "mine2";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Tent)
+
+                @{
+                    Model.Len.DivId = "mine3";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Len)
+
+                @{
+                    Model.Kaz.DivId = "mine4";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Kaz)
+
+                @{
+                    Model.Abay.DivId = "mine5";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Abay)
+
+                @{
+                    Model.COF.DivId = "tsov";
+                }
+                @Html.Partial("Partials/_CofIcon4Map", Model.COF)
+
+                @{
+                    Model.StDubov.DivId = "st1";
+                }
+                @Html.Partial("Partials/_StationIcon4Map", Model.StDubov)
+
+                @{
+                    Model.StAbay.DivId = "st2";
+                }
+                @Html.Partial("Partials/_StationIcon4Map", Model.StAbay)
+
+                @{
+                    Model.StUgler.DivId = "st3";
+                }
+                @Html.Partial("Partials/_StationIcon4Map", Model.StUgler)
+
+                @{
+                    Model.StRaspor.DivId = "st4";
+                }
+                @Html.Partial("Partials/_StationIcon4Map", Model.StRaspor)
+
+
+                @{
+                    Model.Kost.DivId = "mine6";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Kost)
+
+                @{
+                    Model.Kuz.DivId = "mine7";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Kuz)
+
+                @{
+                    Model.Sar3.DivId = "mine8";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Sar3)
+
+                @{
+                    Model.Sar1.DivId = "mine9";
+                }
+                @Html.Partial("Partials/_MineIcon4Map", Model.Sar1)
+
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Content/Mnemo/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+
+    <script>
+        jQuery(function () {
+            $('.tooltip-block-station').tooltipster({
+            content: '...',
+            animation: 'fade',
+            contentAsHTML: true,
+            arrow: false,
+                interactive: true,
+                trigger: 'click',
+            // 'instance' is basically the tooltip. More details in the "Object-oriented Tooltipster" section.
+            functionBefore: function (instance, helper) {
+
+                var $origin = $(helper.origin);
+
+                // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
+                if ($origin.data('loaded') !== true) {
+                    var recognId = $origin.data("scaleid");
+                    $.get('GetWagonWeightDetails/?weightScaleId=' + recognId, function (data) {
+
+                        // call the 'content' method to update the content of our tooltip with the returned data.
+                        // note: this content update will trigger an update animation (see the updateAnimation option)
+                        instance.content(data);
+
+                        // to remember that the data has been loaded
+                        $origin.data('loaded', true);
+                    });
+                }
+            }
+            });
+            jQuery('[title]').tooltipster({
+
+                side: ["right", "top"],
+            });
+        });
+
+        jQuery(function () {
+            jQuery('.tooltip-block-mine').tooltipster({
+                animation: 'fade',
+                contentCloning: true,
+                contentAsHTML: true,
+                arrow: false,
+                interactive: true,
+                trigger: 'click',
+
+            }).click(function () {
+                return false;
+            });
+            jQuery('[title]').tooltipster({
+
+                side: ["right", "top"],
+            });
+        });
+    </script>

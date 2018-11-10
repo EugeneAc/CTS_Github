@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SelectListItem>
+<div class="form-group">
+    <label class="control-label col-md-2" for="ReportPeriod">@Resources.ResourceFilters.Mine</label>
+    <select id="Mines" multiple="multiple" name="SelectedMines" class="multiselect">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                if (item.Text != null)
+                {
+                    <option value="@item.Value">
+                        @item.Text
+                    </option>
+                }
+            }
+        }
+    </select>
+</div>
+
+<script type="text/javascript">
+
+        $(function () {
+            $('#Mines').multiselect({
+                includeSelectAllOption: true,
+                selectAllText: '@Resources.ResourceFilters.allSelected',
+                nonSelectedText: '@Resources.ResourceFilters.NonSelected',
+                allSelectedText: '@Resources.ResourceFilters.allSelected',
+                nSelectedText: '@Resources.ResourceFilters.Selected'
+            });
+            $('#Mines').multiselect('selectAll', false);
+            $('#Mines').multiselect('updateButtonText');
+    });
+
+$(function () {
+    $('#Mines').change(function () {
+        $('#WagonScalesContainer').load
+            ('@Url.Action("GetWagonScales", "Filter")?Locations=' + $("#Mines").val());
+            $('#BeltScalesContainer').load
+                ('@Url.Action("GetBeltScales", "Filter")?Locations=' + $("#Mines").val());
+            $('#SkipContainer').load
+                ('@Url.Action("GetSkips", "Filter")?Locations=' + $("#Mines").val());
+            });
+    });
+</script>
+

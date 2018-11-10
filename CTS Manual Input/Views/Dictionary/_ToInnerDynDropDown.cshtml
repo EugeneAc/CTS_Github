@@ -1,0 +1,18 @@
+﻿@model CTS_Manual_Input.Models.Dictionary.InnerDestDropDownModel
+@if (Model.InnerDests != null && Model.InnerDests.Count() > 0)
+{
+    <label class="control-label col-lg-2" >Конец конвейера</label>
+        <div class="col-md-10" select id="beltScales">
+            <select class="form-control" id="BeltScale_ToInnerDestID" name="BeltScale.ToInnerDestID">
+                @foreach (var item in Model.InnerDests)
+                {
+                    if (item.Text != null)
+                    {
+                        <option value="@item.Value">
+                            @item.Text
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+}

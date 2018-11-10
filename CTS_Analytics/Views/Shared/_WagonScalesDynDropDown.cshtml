@@ -1,0 +1,30 @@
+﻿@model CTS_Analytics.Models.WagonScalesDropDownModel
+@if ((Model.WagonScales != null) && (Model.WagonScales.Count()>0))
+{
+<label class="control-label col-md-2" for="wagonScales">@Resources.ResourceFilters.Wagon</label>
+<select id="wagonScales" multiple="multiple" name="wagonScalesInForm" class="multiselect">
+
+        @foreach (var item in Model.WagonScales)
+        {
+            if (item.Text != null)
+            {
+        <option value="@item.Value">
+            @item.Text
+        </option>
+            }
+        }
+
+</select>
+}
+<script type="text/javascript">
+
+        $(function () {
+            $('#wagonScales').multiselect({
+                includeSelectAllOption: true,
+                selectAllText: '@Resources.ResourceFilters.allSelected',
+                nonSelectedText: '@Resources.ResourceFilters.NonSelected',
+                allSelectedText: '@Resources.ResourceFilters.allSelected',
+                nSelectedText: '@Resources.ResourceFilters.Selected'
+            });
+        });
+</script>

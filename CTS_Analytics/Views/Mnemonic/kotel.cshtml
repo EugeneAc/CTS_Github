@@ -1,0 +1,98 @@
+﻿@model CTS_Analytics.Models.Mnemonic.MnemonicMainKotel
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicLayout.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+}
+
+<div class="main">
+    <div id="kotel_scheme">
+
+        @{
+            Model.shah.DivID = "kotel1";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.shah)
+
+        @{
+            Model.tent.DivID = "kotel2";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.tent)
+
+        @{
+            Model.len.DivID = "kotel3";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.len)
+
+        @{
+            Model.kaz.DivID = "kotel4";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.kaz)
+
+        @{
+            Model.abay.DivID = "kotel5";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.abay)
+
+        @{
+            Model.kost.DivID = "kotel6";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.kost)
+
+
+        @{
+            Model.kuz.DivID = "kotel7";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.kuz)
+
+
+        @{
+            Model.sar3.DivID = "kotel8";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.sar3)
+
+        @{
+            Model.sar1.DivID = "kotel9";
+        }
+        @Html.Partial("Partials/_Mine4Kotel", Model.sar1)
+
+        <div class="buttons buttons-vert" id="btn_kotel2">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-left green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-vert" id="btn_kotel3">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-left green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-vert" id="btn_kotel4">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-left green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-horz buttons_w1" id="btn_kotel5">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra red">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down red">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-vert" id="btn_kotel6">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-right green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-vert" id="btn_kotel7">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-right green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-vert" id="btn_kotel8">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-right green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="buttons buttons-horz" id="btn_kotel9">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+    </div>
+</div>

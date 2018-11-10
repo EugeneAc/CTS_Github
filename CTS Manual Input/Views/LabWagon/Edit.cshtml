@@ -1,0 +1,126 @@
+﻿@model CTS_Models.WagonAnalysis
+@{
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Изменить данные по анализам для партии</h2>
+
+@using (Html.BeginForm("Edit", "LabWagon", FormMethod.Post))
+{
+@Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="form-group">
+            @Html.LabelFor(m => Model.AnalysisTimeStamp, "Дата проведения анализа", new { @class = "control-label col-md-2" })
+            <div class="col-lg-10 input-group date" id="datetimepicker">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.TextBoxFor(m => Model.AnalysisTimeStamp, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(m => Model.AnalysisTimeStamp)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.AnalysisID, "Номер пробы", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.AnalysisID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.AnalysisID)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.AshAvg, "Зола средняя, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.AshAvg, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.AshAvg)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.AshMax, "Зола предельная, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.AshMax, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.AshMax)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.SulfurAvg, "Сера средняя, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.SulfurAvg, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.SulfurAvg)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.SulfurMax, "Сера предельная, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.SulfurMax, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.SulfurMax)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.MoistureAvg, "Влага средняя, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.MoistureAvg, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.MoistureAvg)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.MoistureMax, "Влага предельная, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.MoistureMax, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.MoistureMax)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.VolatileMatter, "Выход летучих, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.VolatileMatter, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.VolatileMatter)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.Caloricity, "Теплота сгорания", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.Caloricity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.Caloricity)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.CaloricityMax, "Высшая теплота", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.CaloricityMax, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.CaloricityMax)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.RockPerc, "Содержание породы, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.RockPerc, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.RockPerc)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.SmallFractPerc, "Мелочи, %", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.SmallFractPerc, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.SmallFractPerc)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.xValue, "x", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.xValue, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.xValue)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.yValue, "y", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.yValue, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => Model.yValue)
+        </div>
+    </div>
+
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+
+</div>
+}

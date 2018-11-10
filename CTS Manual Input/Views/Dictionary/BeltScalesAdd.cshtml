@@ -1,0 +1,104 @@
+﻿@using CTS_Models
+@model CTS_Manual_Input.Models.Dictionary.BeltScalesLocations
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Добавление новых конвейерных весов</h2>
+    <br />
+
+@using (Ajax.BeginForm("BeltScalesAdd", "Dictionary", new AjaxOptions { OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
+{
+
+        <br />
+        <div class="form-horizontal">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.BeltScale.ID)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.BeltScale.Location, "Расположение весов", new { @class = "control-label col-lg-2" })
+                <div class="col-md-10" select id="locations">
+                    @Html.DropDownListFor(m => m.BeltScale.LocationID, Model.Locations as SelectList, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            <div class="form-group" id="FromInnerContainer"></div>
+
+			<div class="form-group" id="ToInnerContainer"></div>
+
+            @Html.HiddenFor(m => m.BeltScale.FromInnerDestID, new { @id = "FromInner" })
+            @Html.HiddenFor(m => m.BeltScale.ToInnerDestID, new { @id = "ToInner" })
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.BeltScale.Name, "Наименование на русском", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.BeltScale.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.BeltScale.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => Model.BeltScale.NameEng, "Наименование на английском", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(m => Model.BeltScale.NameEng, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.BeltScale.NameEng)
+                </div>
+            </div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => Model.BeltScale.NameKZ, "Наименование на казахском", new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(m => Model.BeltScale.NameKZ, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(m => Model.BeltScale.NameKZ)
+				</div>
+			</div>
+
+            <p><b><span id="ErrorMessage" style="color:red;font-size:14px;"></span></b></p>
+            <input type="submit" value="Сохранить изменения" class="btn btn-success" onclick="return fillValues();" />
+        </div>
+
+    }
+
+<script type="text/javascript">
+    $(function () {
+        $('#locations').change(function () {
+
+            $('#FromInnerContainer').load
+                ('@Url.Action("GetFromInner", "Dictionary",null)?Locations=' + $("#BeltScale_LocationID").val());
+
+            $('#ToInnerContainer').load
+                ('@Url.Action("GetToInner", "Dictionary",null)?Locations=' + $("#BeltScale_LocationID").val());
+    });
+    });
+
+    function fillValues() {
+        $('#FromInner').val($('#BeltScale_FromInnerDestID').val());
+        $('#ToInner').val($('#BeltScale_ToInnerDestID').val())
+
+
+    };
+
+    $(document).ready(function () {
+
+        $('#FromInnerContainer').load
+                ('@Url.Action("GetFromInner", "Dictionary",null)?Locations=' + $("#BeltScale_LocationID").val());
+
+            $('#ToInnerContainer').load
+                ('@Url.Action("GetToInner", "Dictionary",null)?Locations=' + $("#BeltScale_LocationID").val());
+    });
+
+    function onSuccess(data) {
+        window.location.href = "@Url.Action("BeltScalesIndex", "Dictionary")";
+    }
+
+    function onFailure(data) {
+        $('#ErrorMessage').html(data.responseJSON.ErrorMessage);
+    }
+
+</script>
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type='text/javascript'></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
+

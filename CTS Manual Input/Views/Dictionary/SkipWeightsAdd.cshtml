@@ -1,0 +1,70 @@
+﻿@model CTS_Models.SkipWeight
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Добавить акт перевески: @ViewBag.Name</h2>
+
+@using (Html.BeginForm("SkipWeightsAdd", "Dictionary", FormMethod.Post, new { enctype = "multipart/form-data", name = @ViewBag.Name, @id = "form" }))
+{
+	@Html.AntiForgeryToken()
+	<div class="form-horizontal">
+		@Html.HiddenFor(m => m.SkipID)
+		@Html.HiddenFor(m => m.ID)
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.OrderNo, "Распоряжение №", new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(m => Model.OrderNo, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.OrderNo)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.Weight, "Вес скипа", new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(m => Model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.Weight)
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.ValidFrom, "Действителен с", new { @class = "control-label col-md-2" })
+			<div class="col-lg-10 input-group date" id="datetimepicker">
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-calendar"></span>
+				</span>
+				@Html.TextBoxFor(m => Model.ValidFrom, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control datepicker" })
+				@Html.ValidationMessageFor(m => Model.ValidFrom)
+			</div>
+		</div>
+
+		<br />
+		<div class="form-group">
+			<label class = "control-label col-md-2">Файл акта</label>
+			<div class="col-lg-10 input-group">
+				<input type="file" id="fileInput" name="upload" accept=".jpg,.jpeg,.png,.pdf"/><br>
+			</div>
+		</div>
+
+		<input type="submit" id="submitBtn" value="Сохранить" class="btn btn-primary" />
+	</div>
+}
+
+<script type="text/javascript">
+
+	$("#submitBtn").click(function (event) {
+
+		event.preventDefault();
+		var extension = $('#fileInput').val().split('.').pop().toLowerCase();
+		if ($.inArray(extension, ['jpg', 'jpeg', 'png', 'pdf', ""]) == -1) {
+			alert('Неверный формат файла (разрешены jpg, jpeg, png, pdf)');
+		}
+		else {
+			$("#form").submit();
+		}
+	}); 
+
+</script>
+

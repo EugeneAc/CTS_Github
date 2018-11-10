@@ -1,0 +1,89 @@
+﻿@model CTS_Models.BeltScale
+@{
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Изменить данные по конвейерным весам</h2>
+
+<br />
+
+@using (Ajax.BeginForm("BeltScalesEdit", "Dictionary", new AjaxOptions { OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
+{
+    <br />
+    <div class="form-horizontal">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Location.LocationName, "Расположение весов", new { @class = "control-label col-lg-2" })
+            <div class="col-md-10" select id="locations">
+                @Html.EditorFor(m => Model.Location.LocationName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @id = "BeltScale_LocationID" } })
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.LocationID, new { @id = "LocationID" })
+
+        <div class="form-group" id="FromInnerContainer"></div>
+
+        <div class="form-group" id="ToInnerContainer"></div>
+
+        @Html.HiddenFor(m => m.FromInnerDestID, new { @id = "FromInner" })
+        @Html.HiddenFor(m => m.ToInnerDestID, new { @id = "ToInner" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.Name, "Наименование на русском", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => Model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => Model.NameEng, "Наименование на английском", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => Model.NameEng, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => Model.NameEng)
+            </div>
+        </div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => Model.NameKZ, "Наименование на казахском", new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(m => Model.NameKZ, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => Model.NameKZ)
+			</div>
+		</div>
+
+        <p><b><span id="ErrorMessage" style="color:red;font-size:14px;"></span></b></p>
+        <input type="submit" value="Сохранить" class="btn btn-success" onclick="return fillValues();"/>
+
+    </div>
+}
+
+<script type="text/javascript">
+
+    function fillValues() {
+        $('#FromInner').val($('#BeltScale_FromInnerDestID').val());
+        $('#ToInner').val($('#BeltScale_ToInnerDestID').val())
+        return true;
+    }
+
+    $(document).ready(function () {
+
+        $('#FromInnerContainer').load
+            ('@Url.Action("GetFromInner", "Dictionary",null)?Locations=' + encodeURIComponent($("#LocationID").val().toString()));
+
+            $('#ToInnerContainer').load
+                ('@Url.Action("GetToInner", "Dictionary",null)?Locations=' + encodeURIComponent($("#LocationID").val().toString()));
+    });
+
+    function onSuccess(data) {
+        window.location.href = "@Url.Action("BeltScalesIndex", "Dictionary")";
+    }
+
+    function onFailure(data) {
+        $('#ErrorMessage').html(data.responseJSON.ErrorMessage);
+    }
+</script>
+

@@ -1,0 +1,20 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Ошибка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Кажется, что-то пошло не так...</h2>
+
+<img style="display:block;margin-left:auto;margin-right:auto;" align="center" src="~/Manual Input/Content/images/sad.png" />
+
+<h4>@Html.DisplayFor(x => Model.Exception.Message)</h4>
+<h6>@Html.DisplayFor(x => Model.Exception.StackTrace)</h6>
+
+<h3>Попробуйте повторить запрос</h3>
+
+
+
+
+

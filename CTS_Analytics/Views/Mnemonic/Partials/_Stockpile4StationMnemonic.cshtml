@@ -1,0 +1,55 @@
+﻿@using System.Linq;
+@model CTS_Analytics.Models.Mnemonic.Mine_sklad
+
+@{
+    var stockpileFree = Model.StockPileCapacity - Model.AtStockPile;
+    var atStockPile = Model.AtStockPile > 0 ? Model.AtStockPile : 0;
+}
+
+<div class="block  gray graytitle" id="@Model.DivID">
+    <div class="title">
+
+        <a href="@Url.Action("Mine_sklad", "Mnemonic", new {ID= Model.ReturnID, warehouseID = Model.WarehouseID })">@Resources.ResourceMnemonic.Stockpile</a>
+
+    </div>
+    <div class="text">
+
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.CoalFromCrushingMachinePerShift</span>
+            <div class="count">@Model.IncomePerShift</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.StockpileIncome</span>
+            <div class="count">@Model.IncomePerTimeInterval</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.StockPileTotal</span>
+            <div class="count">@Model.AtStockPile</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.StockpileFree</span>
+            <div class="count">@stockpileFree</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+
+
+        <div class="circle-progress">
+            <span>
+                <b>@Model.AtStockPile</b> @Resources.ResourceMnemonic.Stockpile
+
+            </span>
+            <input class="knob" data-thickness=".2" data-inputColor="#ffffff" data-width="150" data-height="150" data-bgColor="#c7c7c7" data-fgColor="#DB6365" data-displayInput="false" readonly data-min="0" data-max="@Model.StockPileCapacity" value="@atStockPile">
+        </div>
+
+
+    </div>
+</div>

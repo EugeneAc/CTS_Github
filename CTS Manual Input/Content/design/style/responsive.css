@@ -1,0 +1,677 @@
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-width : 320px) 
+and (max-width : 600px) {
+body,html{min-width:100%} 
+
+.header {
+	height:auto;
+	padding-left:15px;
+	padding-right:15px;
+	padding-top:15px;
+}
+
+.header .logo {
+	background:url(../images/logo-mini.png) no-repeat 0 0;
+	width:102px;
+	height:43px;
+	margin-right:0;
+	margin-top:0px;
+	
+}
+
+.header .user {
+	
+	height:42px;
+	padding-left:0px;
+	margin-top:15px;
+	padding-top:0;
+	float:right;
+}
+
+.header .user a {
+	font-family: 'Museo Sans Cyrl 500';
+	line-height:14px;
+}
+
+.header .user a span {
+	font-family: 'Museo Sans Cyrl 700';
+}
+
+.header .name {
+	display:none;
+}
+
+.content {
+	padding-left:15px;
+	padding-right:15px;
+}
+
+.topmenu {
+	margin-left:0;
+}
+
+.head .img {
+	margin-right:0;
+}
+
+.main {
+	margin-left:0;
+	padding-right:0;
+}
+
+.sidebar .lang {
+	display:none;
+}
+
+.header .name p.subname {
+	display:none;
+}
+
+.mine-plan {
+	margin-left:0;
+	padding:0 15px;
+	height:auto;
+	font-size:14px;
+}
+
+.mine-plan .plan-fact {
+	float:none;
+	width:100%;
+}
+
+.input-group-sm>.form-control, .input-group-sm>.input-group-addon, .input-group-sm>.input-group-btn>.btn {
+	font-size:14px;
+}
+
+.anounce .txt {
+	float:none;
+	padding:15px;
+	width:100%;
+}
+
+.anounce .pic {
+	float:none;
+	width:100%;
+	margin-top:10px;
+	text-align:center;
+}
+
+.anounce .txt .pic img {
+	width:100%;
+}
+
+
+
+.head {
+	margin-left:0;
+}
+
+.head h1 {
+	display:none;
+}
+
+.head .links a {
+	margin-left:0;
+}
+
+.head .links a:last-child {
+	margin-left:20px;
+}
+
+.content .subname {
+	display:block;
+	text-transform:uppercase;
+	margin-bottom:10px;
+}
+
+.content {
+	padding-top:15px;
+}
+
+.report .doc:nth-child(-n+2) {
+	border-top:0;
+}
+
+.report .doc {
+	float:none;
+	width:100%;
+	margin-right:0;
+	line-height:normal;
+	height:80px;
+	padding-top:25px;
+}
+
+.page {
+	padding:0;
+}
+
+.page-head h2 {
+	font-size:18px;
+}
+
+.head .links {
+	margin-right:15px;
+}
+
+.head .links a b {
+	display:none;
+}
+
+.page-head {
+	padding-top:0px;
+}
+
+.page-head .result {
+	margin:0;
+	padding-top:10px;
+}
+
+.page-head .result {
+	width:100%;
+}
+
+.page-head .result .res {
+	width:auto;
+	margin-right:15px;
+	float:none;
+}
+
+.result .res + .res {
+	text-align:left;
+}
+
+.close-button {
+	top:59px;
+}
+
+.side {
+	width:100% !important;
+	overflow:hidden;
+	padding:10px;
+	margin-right:0;
+	margin-bottom:15px;
+	float:none;
+	min-height:auto;
+}
+
+.side .line {
+	float:none;
+	width:100%;
+	font-size:16px;
+	margin-bottom:12px;
+}
+
+.side .line span.name {
+	width:55% !important;
+}
+
+.side .line .count {
+	width:auto !important;
+	padding: 0 5px;
+	margin-right:5px;
+}
+
+.side .line .count.naprav {
+	margin-right:0;
+}
+
+#text {
+	margin-left:0 !important;
+}
+
+.scrollbar-outer {
+	height:100%;
+}
+
+.side.w535 .line {
+	float:none;
+	width:100%;
+}
+
+.side.w535 .line span.name {
+	width:45% !important;
+}
+
+.side .line .caption {
+	width:40px;
+}
+
+.side .circle-progress {
+	margin-top:0px;
+	clear:both;
+}
+
+.sprav .left, .sprav .right  {
+	float:none;
+	width:100%;
+}
+
+.topmenu .plan-fact {
+	position:relative;
+	right:0;
+}
+
+.topmenu .txt {
+	display:block;
+	margin-left:0;
+}
+
+.topmenu .txt > div {
+	margin-bottom:5px;
+}
+	
+
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 480px) 
+and (max-width : 680px) {
+/* Styles */
+
+
+
+
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+/* Styles */
+}
+
+
+/* хуй понять что  */
+@media only screen 
+and (min-width : 601px) 
+and (max-width : 980px) {
+/* Styles */
+
+body,html{min-width:100%} 
+.sidebar {
+	float:none;
+	width:100%;
+	position:relative;
+	margin-top:0;
+	padding-bottom:0;
+}
+.sidebar .menu {
+	overflow:hidden;
+}
+
+.sidebar .menu a {
+	float:left;
+	width:20%;
+	text-align:center;
+}
+
+.sidebar .menu a.active {
+	border-right:0;
+	border-bottom:4px solid #FF3700;
+}
+
+.sidebar .menu a i {
+	position:relative;
+	left:auto;
+	display:inline-block;
+}
+
+.header {
+	height:auto;
+	padding-left:15px;
+	padding-right:15px;
+	padding-top:15px;
+}
+
+.header .logo {
+	background:url(../images/logo-mini.png) no-repeat 0 0;
+	width:102px;
+	height:43px;
+	margin-right:0;
+	
+}
+
+.header .calendar {
+	float:left;
+	background:url(../images/calendar720.png) no-repeat left 50%;
+	height:36px;
+	padding-left:40px;
+	margin-top:11px;
+	padding-top:0;
+	margin-right:10px;
+}
+
+.header .calendar a {
+	font-size:16px;
+	font-family: 'Museo Sans Cyrl 500';
+	line-height:18px;
+}
+
+.header .calendar a span {
+	font-family: 'Museo Sans Cyrl 700';
+}
+
+.header .user {
+	background:url(../images/user720.png) no-repeat left 50%;
+	height:42px;
+	padding-left:45px;
+	margin-top:11px;
+	padding-top:0;
+}
+
+.header .user a {
+	font-family: 'Museo Sans Cyrl 500';
+	line-height:18px;
+}
+
+.header .user a span {
+	font-family: 'Museo Sans Cyrl 700';
+}
+
+.header .name {
+	margin-left:0;
+	margin-bottom:10px;
+	float:none;
+	clear:both;
+}
+
+.content {
+	padding-left:15px;
+	padding-right:15px;
+}
+
+.topmenu {
+	margin-left:0;
+}
+
+.main {
+	margin-left:0;
+	padding-right:0;
+}
+
+.sidebar .lang {
+	display:none;
+}
+
+.header .name p.subname {
+	display:none;
+}
+
+
+.mine-plan {
+	margin-left:0;
+	padding:0 15px;
+	height:auto;
+	font-size:14px;
+}
+
+.mine-plan .plan-fact {
+	float:none;
+	width:100%;
+}
+
+.input-group-sm>.form-control, .input-group-sm>.input-group-addon, .input-group-sm>.input-group-btn>.btn {
+	font-size:14px;
+}
+
+.anounce .txt {
+	float:none;
+	padding:15px;
+	width:100%;
+}
+
+.anounce .pic {
+	float:none;
+	width:100%;
+	margin-top:10px;
+	text-align:center;
+}
+
+.anounce .txt .pic img {
+	width:100%;
+}
+
+.head {
+	margin-left:0;
+}
+
+.head h1 {
+	display:none;
+}
+
+.head .links a {
+	margin-left:0;
+}
+
+.head .links a:last-child {
+	margin-left:20px;
+}
+
+.content .subname {
+	display:block;
+	text-transform:uppercase;
+	margin-bottom:10px;
+}
+
+.content {
+	padding-top:15px;
+}
+
+.report .doc:nth-child(-n+2) {
+	border-top:0;
+}
+
+.report .doc {
+	float:none;
+	width:100%;
+	margin-right:0;
+	line-height:normal;
+	height:80px;
+	padding-top:25px;
+}
+
+.page {
+	padding:0;
+}
+
+.page-head {
+	padding-top:0px;
+}
+
+.page-head .result {
+	margin:0;
+	padding-top:10px;
+}
+
+.page-head .result {
+	width:100%;
+}
+
+.page-head .result .res {
+	width:auto;
+	margin-right:15px;
+}
+
+.side {
+	width:100% !important;
+	overflow:hidden;
+	padding:20px;
+	margin-right:0;
+	margin-bottom:15px;
+	float:none;
+	min-height:auto;
+}
+
+.side .line {
+	float:left;
+	width:50%;
+	font-size:16px;
+	margin-bottom:12px;
+}
+
+.side .line span.name {
+	width:55% !important;
+}
+
+.side .line .count {
+	width:auto !important;
+}
+
+.side .line .count.naprav {
+	margin-right:0;
+}
+
+#text {
+	margin-left:0 !important;
+}
+
+.scrollbar-outer {
+	height:100%;
+}
+
+.side.w535 .line {
+	float:none;
+	width:100%;
+}
+
+.side.w535 .line span.name {
+	width:30% !important;
+}
+
+.side .circle-progress {
+	margin-top:0px;
+	clear:both;
+}
+
+.sprav .left, .sprav .right  {
+	float:none;
+	width:100%;
+}
+
+
+.topmenu .plan-fact {
+	position:relative;
+	right:0;
+}
+
+.topmenu .txt {
+	display:block;
+	margin-left:0;
+}
+
+.topmenu .txt > div {
+	margin-bottom:5px;
+}
+
+}
+
+
+
+/* laptops  */
+@media only screen 
+and (min-width : 980px) 
+and (max-width : 1224px) {
+/* Styles */
+
+body,html{min-width:980px} 
+
+
+
+
+.topmenu .txt {
+	display:block;
+	margin-left:0;
+}
+
+.topmenu .txt > div {
+	margin-bottom:5px;
+}
+}
+
+
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+/* Styles */
+
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+/* Styles */
+
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+/* Styles */
+
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+.topmenu .txt {
+	display:inline-block;
+
+}
+
+}
+
+/* iPhone 4 ----------- */
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5) {
+/* Styles */
+}
+
+/* Responsive table */
+table.responsive {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+table.responsive tr {
+  border: 1px solid #ddd;
+  padding: 5px; }
+
+table.responsive th, table.responsive td {
+  padding: 10px; }
+
+@media screen and (max-width: 767px) {
+  table.responsive {
+    border: 0; }
+  table.responsive thead {
+    display: none; }
+  table.responsive tr {
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 2px solid #ddd; }
+  table.responsive td {
+    display: block;
+    width: 100%\9;
+    float: left\9;
+    text-align: left;
+    border-bottom: 1px dotted #ccc; }
+  table.responsive td:last-child {
+    border-bottom: 0; }
+  }

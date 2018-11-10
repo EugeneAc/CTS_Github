@@ -1,0 +1,16 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+<div class="col-md-12">
+    <h3 style="text-align: center">@Resources.ResourceError.Error</h3>
+    <h3 style="text-align: center">@Resources.ResourceError.WeAreWorking</h3>
+    <img src="~/Content/Mnemo/images/Error.png" alt="Not found" style="margin-left: auto; margin-right: auto; display: block;">
+</div>
+
+
+<h4>@Html.DisplayFor(x => Model.Exception.Message)</h4>
+<h6>@Html.DisplayFor(x => Model.Exception.StackTrace)</h6>

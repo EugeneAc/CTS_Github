@@ -1,0 +1,38 @@
+﻿@model CTS_Analytics.Models.Mnemonic.tentModel
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMinePlanFact.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.ShahMineName;
+    ViewBag.MinePng = "mine2.png";
+}
+
+<div class="main">
+    <div id="mine2_bg">
+        @{
+            Model.SkipPos1.DivID = "skip-mine2-1";
+        }
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.SkipPos1)
+
+        @{
+            Model.Vagon.DivID = "vagon-mine2-1";
+        }
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.Vagon)
+
+        @{
+            Model.BeltToTechComplex.DivID = "konv-mine2-1";
+        }
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltToTechComplex)
+
+        @{
+            Model.Kotel.DivID = "kotel-mine2-1";
+        }
+
+        @Html.Partial("Partials/_Kotel4MineMnemonic", Model.Kotel)
+
+        @{
+            Model.Sklad.DivID = "sklad-mine2-1";
+        }
+        @Html.Partial("Partials/_Stockpile4MineMnemonic", Model.Sklad)
+
+    </div>
+</div>

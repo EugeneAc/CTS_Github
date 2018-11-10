@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.PageName = Resources.ResourceDashboard.PageName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.LocationName</h2>
+@{ 
+    var urlString = "alarms_" + Resources.ResourceGeneral.CurrentLang;
+}
+
+<iframe src="http://@Request.Url.Host:3000/dashboard/db/@urlString?orgId=1&kiosk&from=1514743200000&to=1546279199999&theme=light" width="100%" onload="resizeIframe(this)" height="1200" frameborder="0" scrolling="no" id="ifrm"></iframe>
+
+<script>
+     function resizeIframe(iframeID) {
+        var iframe = window.parent.document.getElementById('ifrm');
+        iframe.contentWindow.postMessage(document.body.scrollHeight, '*');
+    }
+
+    window.addEventListener('message', function (event) {
+        // IMPORTANT: Check the origin of the data!
+        if (~event.origin.indexOf('http://@Request.Url.Host:3000')) {
+
+        console.log(event.data);
+        } else {
+
+        return;
+        }
+        });
+
+</script>

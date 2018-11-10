@@ -1,0 +1,128 @@
+﻿@model CTS_Analytics.Models.Mnemonic.Mine_raspozn
+@using PagedList.Mvc;
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMine.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Model.MineName;
+    string lastTrainTime = Model.LastTrainDateTime != null ? Model.LastTrainDateTime.Value.ToString("HH:mm") : "";
+}
+
+<div class="main">
+    <div class="page">
+        <div class="page-head">
+            <h2><i class="vagon"></i>@Model.RaspoznName</h2>
+            <div class="result">
+                <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+                <div class="res"><span>@Resources.ResourceMnemonic.HSEWarning</span>><a href='@Url.Action("HseAlarm", "Mnemonic")'><i class="green"></i></a></div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="close-button">
+                <a href='@Url.Action(Model.ReturnID, "Mnemonic")'>@Resources.ResourceMnemonic.Close <i></i></a>
+            </div>
+        </div>
+
+        <div class="side w430">
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.WagonsPassed</span>
+                <div class="count">@Model.WagonsPassed</div>
+                <span class="caption">@Resources.ResourceMnemonic.Pieces</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.RecognintionRate</span>
+                <div class="count">95</div>
+                <span class="caption">%</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.LastTrain</span>
+                <div class="count">@lastTrainTime</div>
+                <span class="caption">@Resources.ResourceMnemonic.HHmm</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="line">
+                <span class="name">@Resources.ResourceMnemonic.WagonCountAtLastTrain</span>
+                <div class="count">@Model.LastTrainWagonCount</div>
+                <span class="caption">@Resources.ResourceMnemonic.Pieces</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+
+        <div id="text">
+            <h3>@Resources.ResourceMnemonic.RecognitionJourlal</h3>
+            <div class="scrollbar-outer">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>@Resources.ResourceMnemonic.Time</th>
+                            <th>@Resources.ResourceMnemonic.TrainNumber</th>
+                            <th>@Resources.ResourceMnemonic.WagonNumber</th>
+                            <th>@Resources.ResourceMnemonic.Recognized</th>
+                            <th>@Resources.ResourceMnemonic.ManualInput</th>
+                            <th>@Resources.ResourceMnemonic.Photo</th>
+                        </tr>
+                    </thead>
+
+                    @{
+                        var counter = 0;
+
+                        foreach (var item in Model.PagedRaspoznTable)
+                        {
+                            counter++;
+                            string autoRecognClass = item.ManualRecogn ? "" : "<i class='icon-done'></i>";
+                            string manualRecognClass = item.ManualRecogn ? "<i class='icon-hand'></i>" : "";
+                    <tr>
+                        <td>@item.Date.ToString("HH:mm dd.MM.yyyy")</td>
+                        <td>@item.IdSostav</td>
+                        <td>@item.WagonNumber</td>
+                        <td>@Html.Raw(autoRecognClass)</td>
+                        <td>@Html.Raw(manualRecognClass)</td>
+                        @if (item.PictureGallery != null)
+                        {
+                            var uniqueDataID = 1;
+                            <td>
+                                @foreach (var pic in item.PictureGallery)
+                                {
+                                    <a data-fancybox="@item.GallleryName" data-caption="<b>@item.WagonNumber</b><span>@item.Date.ToString("yyyy.MM.dd HH:mm:ss")</span>" href="@Html.Raw(@"#data"+item.GallleryName+uniqueDataID)" class="photo">Фото</a>
+                                    <div style="display:none"><img id="@Html.Raw(@"data"+item.GallleryName+uniqueDataID)" src="@pic" /></div>
+                                    uniqueDataID++;
+                                }
+                            </td>
+                        }
+
+                    </tr>
+
+                        }
+                    }
+                </table>
+            </div>
+            @Html.PagedListPager(Model.PagedRaspoznTable, page => Url.Action("Mine_raspozn", new { raspoznID = Model.RaspoznID, page = page }))
+        </div>
+    </div>
+    </div>
+
+
+<script src="~/Content/Mnemo/js/jquery.knob.min.js"></script>
+<script src="~/Content/Mnemo/js/jquery.scrollbar.min.js"></script>
+<link href="~/Content/Mnemo/style/jquery.scrollbar.css" rel="stylesheet">
+<script src="~/Content/Mnemo/js/jquery.fancybox.min.js"></script>
+<script>
+    $(function ($) {
+        jQuery(".photo").fancybox({
+            buttons: [
+                'slideShow',
+                'fullScreen',
+                'thumbs',
+                //'share',
+                'download',
+                'zoom',
+                'close'
+            ],
+
+        });
+        jQuery('.scrollbar-outer').scrollbar();
+        $(".knob").knob();
+
+    });
+</script>

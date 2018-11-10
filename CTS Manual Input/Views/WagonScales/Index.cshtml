@@ -1,0 +1,122 @@
+﻿@model  CTS_Manual_Input.Models.WagonScales_Transfers
+@using PagedList.Mvc;
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Данные вагонных весов</h1>
+@if ((Model.WagonScales.Count > 0) && (Model != null))
+
+{
+	<h2>Добавить новые данные</h2>
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>Расположение</th>
+				<th>Позиция</th>
+				<th>Отгрузка</th>
+				<th>Приемка</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var sc in Model.WagonScales)
+			{
+				<tr>
+					<td>@Html.DisplayFor(s => sc.Location.LocationName)</td>
+					<td>@Html.DisplayFor(s => sc.Name)</td>
+					<td>
+						<input type="button" name="AddButton" class="btn btn-content" value="Добавить новые данные" onclick="location.href='@Url.Action("Add", "WagonScales", new { scaleID = sc.ID})'" />
+					</td>
+					<td>
+						<input type="button" name="AddButton" class="btn btn-content" value="Добавить новые данные (приемка)" onclick="location.href='@Url.Action("Add", "WagonScales", new { scaleID = sc.ID , incomming = true})'" />
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+<h2>Данные вагонных весов</h2>
+@if ((Model.Transfers.Count > 0) && (Model != null))
+{
+	<table class="table table-striped table-hover ">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Номер партии</th>
+				<th>Номер вагона</th>
+				<th>Брутто, т</th>
+				<th>Тара, т</th>
+				<th>Отправитель</th>
+				<th>Получатель</th>
+				<th>Весы</th>
+				<th>Дата отгрузки</th>
+				<th>Оператор</th>
+				<th>Статус</th>
+				<th> </th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (int i = 0; i < Model.Transfers.Count; i++)
+			{
+				<tr>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].ID)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].LotName)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].SublotName)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].Brutto)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].Tare)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].FromDest.LocationName)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].ToDest)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].Equip.Name)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].TransferTimeStamp)</td>
+					<td>@Html.DisplayFor(modelItem => Model.Transfers[i].OperatorName).ToString().Substring(Model.Transfers[i].OperatorName.LastIndexOf('\\') + 1)</td>
+					<td>
+						@if (Model.Transfers[i].InheritedFrom != null)
+					{
+							@Html.DisplayFor(x => Model.Transfers[i].InheritedFrom);
+
+						if ((Model.Transfers[i].Status != 2) && (Model.Transfers[i].Status != 6) && (Model.Transfers[i].Status != 10))
+						{
+								<p>@ProjectConstants.ApproveStatus[10]</p>
+						}
+					}
+						@ProjectConstants.ApproveStatus[Model.Transfers[i].Status]
+					</td>
+
+					@if (Model.Transfers[i].IsValid && ((Model.Transfers[i].Status >= 7) && (Model.Transfers[i].Status <= 10)))
+					{
+						<td align="center">
+							<div style="margin-bottom:5px">
+								@if (Model.CanEdit)
+								{
+									<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("Edit", "WagonScales", new { Id = Model.Transfers[i].ID })'" />
+								}
+							</div>
+							<div>
+								@if (Model.CanDelete)
+								{
+									<input type="button" name="DeleteButton" class="btn btn-danger btn-xs" value="Удалить" onclick="ConfirmDelete('@Url.Action("Delete", "WagonScales", new { Id = Model.Transfers[i].ID })')" />
+								}
+							</div>
+						</td>
+					}
+					else
+					{
+						<td></td>
+					}
+					</tr>
+			}
+		</tbody>
+	</table>
+}
+Страница @(Model.Transfers.PageCount < Model.Transfers.PageNumber ? 0 : Model.Transfers.PageNumber) из @Model.Transfers.PageCount
+
+@Html.PagedListPager(Model.Transfers, page => Url.Action("Index", new { page }))

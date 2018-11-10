@@ -1,0 +1,51 @@
+﻿@model  CTS_Manual_Input.Models.HomePageModel
+@{
+    Layout = "~/Views/Shared/_PreLayout.cshtml";
+    ViewBag.Title = "Начальная страница";
+}
+@{string greetingphrase = "Вы авторизованы для ввода";
+    if (Model.CanEdit == true) { greetingphrase += " и редактирования"; }
+    if (Model.CanDelete == true) { greetingphrase += ", а также удаления"; }
+    if (CTS_Manual_Input.Helpers.UserHelper.LabUser(User.Identity.Name ?? "")) { greetingphrase += " и подтверждения"; }
+
+    { greetingphrase += " данных по"; }
+
+    if (CTS_Manual_Input.Helpers.UserHelper.WagonUser(User.Identity.Name ?? "")) { greetingphrase += " вагонным весам,"; }
+    if (CTS_Manual_Input.Helpers.UserHelper.BeltUser(User.Identity.Name ?? "")) { greetingphrase += " конвейерным весам,"; }
+    if (CTS_Manual_Input.Helpers.UserHelper.SkipUser(User.Identity.Name ?? "")) { greetingphrase += " скиповым подъемам,"; }
+    if (CTS_Manual_Input.Helpers.UserHelper.RockUser(User.Identity.Name ?? "")) { greetingphrase += " утилицазии породы,"; }
+    if (CTS_Manual_Input.Helpers.UserHelper.LabUser(User.Identity.Name ?? "")) { greetingphrase += " лаборатории,"; }
+    if (CTS_Manual_Input.Helpers.UserHelper.DictUser(User.Identity.Name ?? "")) { greetingphrase += " словарям"; }
+
+    greetingphrase += " на следующих объектах";
+}
+<div class="subhead">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center subname">
+                    <div class="name">coal tracking</div>
+                    <span>Приложение для ручного ввода</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="content">
+                <p class="intro">@greetingphrase</p>
+                <div class="row mines">
+                    @foreach (var location in Model.Locations)
+                    {
+                        <div class="col-md-6">
+                            <a href="#"><i></i>@location.LocationName</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,249 @@
+﻿using CTS_Models;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
+
+namespace DBSyncService
+{
+  public class Synchronizer
+  {
+    private static bool SyncFromLocalToCental<T>(ConnectionStringSettings connectionStringSettings) where T : class, ITransfer 
+    {
+      List<T> localTransferList = new List<T>();
+      
+      try
+      {
+        using (UniversalTransferContext<T> localDB = new UniversalTransferContext<T>(connectionStringSettings.ConnectionString))
+        {
+          if (localDB.DbSet.Count() != 0)
+          {
+            localTransferList.AddRange(localDB.DbSet.Where(x => x.OperatorName == "SystemPlatform"));
+          }
+        }       
+
+        if (localTransferList.Count != 0)
+        {
+          using (UniversalTransferContext<T> centralDB = new UniversalTransferContext<T>("centralDBConnection"))
+          {
+            using (var transaction = centralDB.Database.BeginTransaction())
+            {
+              foreach (var t in localTransferList)
+              {
+                T transfer;
+                transfer = t;
+                centralDB.DbSet.AddOrUpdate(transfer);
+              }
+              centralDB.SaveChanges();
+              transaction.Commit();
+            }
+          }
+        }
+
+        return true;
+      }
+
+      catch (Exception ex)
+      {
+        Logger.MakeLog(ex.ToString());
+
+        return false;
+      }
+    }
+
+    private static bool SyncFromCentralToLocal<T, V>(ConnectionStringSettings connectionStringSettings)
+      where T : class, ITransfer
+      where V : class, IScale
+    {
+      List<T> centralTransferList = new List<T>();
+      List<int?> scales = new List<int?>();
+      string propertyName = "";
+
+      if (typeof(T) == typeof(WagonTransfer))
+        propertyName = "WagonScaleID";
+      else if (typeof(T) == typeof(VehiTransfer))
+        propertyName = "VehiScaleID";
+      else if (typeof(T) == typeof(BeltTransfer))
+        propertyName = "BeltScaleID";
+      else if (typeof(T) == typeof(SkipTransfer))
+        propertyName = "SkipID";
+
+      try
+      {
+        using (UniversalScaleContext<V> centralDB = new UniversalScaleContext<V>("centralDBConnection"))
+        {
+          var scalesList = centralDB.DbSet.Where(x => x.LocationID == connectionStringSettings.Name.ToString()).ToArray();
+          foreach (var s in scalesList)
+          {
+            int? value = s.ID;
+            scales.Add(value);
+          }
+        }
+
+        using (UniversalTransferContext<T> centralDB = new UniversalTransferContext<T>("centralDBConnection"))
+        {
+          if (centralDB.DbSet.Count() != 0)
+          {
+            foreach (var s in scales)
+            {
+              var parameter = Expression.Parameter(typeof(T), "x");
+              var member = Expression.Property(parameter, propertyName); //x.Id
+              var constant = Expression.Constant(s, typeof(int?));
+              var body = Expression.Equal(member, constant); //x.Id = 3
+              var finalExpression = Expression.Lambda<Func<T, bool>>(body, parameter); //x => x.Id >= 3
+
+              centralTransferList.AddRange(centralDB.DbSet.Where(finalExpression).Where(x => x.OperatorName != "SystemPlatform")
+                .ToList().Where(x => x.TransferTimeStamp > System.DateTime.Now.AddDays(-8)));
+            }
+          }
+        }
+
+        if (centralTransferList.Count != 0)
+        {
+          using (UniversalTransferContext<T> localDB = new UniversalTransferContext<T>(connectionStringSettings.ConnectionString))
+          {
+            using (var transaction = localDB.Database.BeginTransaction())
+            {
+              foreach (var t in centralTransferList)
+              {
+                T transfer;
+                transfer = t;
+                localDB.DbSet.AddOrUpdate(transfer);
+              }
+
+              localDB.SaveChanges();
+              transaction.Commit();
+            }
+          }
+        }
+
+        return true;
+      }
+
+      catch (Exception ex)
+      {
+        Logger.MakeLog(ex.ToString());
+
+        return false;
+      }
+    }
+
+    private static bool SyncDictionaries<T>(ConnectionStringSettings connectionStringSettings) where T : class
+    {
+      List<T> items = new List<T>();
+
+      try
+      {
+        using (UniversalContext<T> centralDB = new UniversalContext<T>("centralDBConnection"))
+        {
+          if (centralDB.DbSet.Count() != 0)
+          {
+            items.AddRange(centralDB.DbSet.ToList());
+          }
+        }
+
+        if (items.Count != 0)
+        {
+          using (UniversalContext<T> localDB = new UniversalContext<T>(connectionStringSettings.ConnectionString))
+          {
+            using (var transaction = localDB.Database.BeginTransaction())
+            {
+              foreach (var item in items)
+              {
+                localDB.DbSet.AddOrUpdate(item);
+              }
+
+              localDB.SaveChanges();
+              transaction.Commit();
+            }
+          }
+        }
+
+        return true;
+      }
+
+      catch (Exception ex)
+      {
+        Logger.MakeLog(ex.ToString());
+
+        return false;
+      }
+    }
+
+    private static bool RemoveOldLocal<T>(ConnectionStringSettings connectionStringSettings) where T : class, ITransfer
+    {
+      try
+      {
+        using (UniversalTransferContext<T> localDB = new UniversalTransferContext<T>(connectionStringSettings.ConnectionString))
+        {
+          localDB.DbSet.RemoveRange(localDB.DbSet.ToList().Where(x => x.TransferTimeStamp <= DateTime.Now.AddDays(-8)));
+
+          localDB.SaveChanges();
+        }
+
+        return true;
+      }
+
+      catch (Exception ex)
+      {
+        Logger.MakeLog(ex.Message.ToString());
+
+        return false;
+      }
+    }
+
+    public static void SyncOperation()
+    {
+      foreach (ConnectionStringSettings connection in System.Configuration.ConfigurationManager.ConnectionStrings)
+      {
+        if ((connection.Name != "CentralDBConnection") && (connection.Name != "LocalDBConnection") && (connection.Name != "LocalSqlServer"))
+        {
+          bool successSD = SyncDictionaries<Location>(connection) && SyncDictionaries<Item>(connection) &&
+            SyncDictionaries<InnerDestination>(connection) && SyncDictionaries<WagonScale>(connection) &&
+            SyncDictionaries<VehiScale>(connection) && SyncDictionaries<BeltScale>(connection) && SyncDictionaries<Skip>(connection);
+
+          bool successWagonFLTC = SyncFromLocalToCental<WagonTransfer>(connection);
+          bool successWagonROL = false;
+          if (successWagonFLTC)
+            successWagonROL = RemoveOldLocal<WagonTransfer>(connection);
+          bool successWagonFCTL = SyncFromCentralToLocal<WagonTransfer, WagonScale>(connection);
+
+          bool successVehiFLTC = SyncFromLocalToCental<VehiTransfer>(connection);
+          bool successVehiROL = false;
+          if (successVehiFLTC)
+            successVehiROL = RemoveOldLocal<VehiTransfer>(connection);
+          bool successVehiFCTL = SyncFromCentralToLocal<VehiTransfer, VehiScale>(connection);
+
+          bool successBeltFLTC = SyncFromLocalToCental<BeltTransfer>(connection);
+          bool successBeltROL = false;
+          if (successBeltFLTC)
+            successBeltROL = RemoveOldLocal<BeltTransfer>(connection);
+          bool successBeltFCTL = SyncFromCentralToLocal<BeltTransfer, BeltScale>(connection);
+
+          bool successSkipFLTC = SyncFromLocalToCental<SkipTransfer>(connection);
+          bool successSkipROL = false;
+          if (successSkipFLTC)
+            successSkipROL = RemoveOldLocal<SkipTransfer>(connection);
+          bool successSkipFCTL = SyncFromCentralToLocal<SkipTransfer, Skip>(connection);
+
+          Logger.MakeLog(string.Format("Synchronization with {0} finished. WFLTC: {1}, WROL: {2}, WFCTL: {3}, VFLTC: {4}, VROL: {5}, VFCTL: {6}, " +
+            "BFLTC: {7}, BROL: {8}, BFCTL: {9}, SFLTC: {10}, SROL: {1}, SFCTL: {12}, SD: {13}", connection.Name.ToString(), successWagonFLTC.ToString(), successWagonROL.ToString(),
+            successWagonFCTL.ToString(), successVehiFLTC.ToString(), successVehiROL.ToString(), successVehiFCTL.ToString(), successBeltFLTC.ToString(),
+            successBeltROL.ToString(), successBeltFCTL.ToString(), successSkipFLTC.ToString(), successSkipROL.ToString(), successSkipFCTL.ToString(), successSD.ToString()));
+        }
+      }
+    }
+  }
+}      
+
+

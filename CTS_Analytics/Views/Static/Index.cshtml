@@ -1,0 +1,137 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.PageName = Resources.ResourceStatic.ReportGeneral;
+}
+
+
+<div class="report">
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("OverallProduction", "Static")'>@Resources.ResourceStatic.OverallProductionCaption</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "01" , reportAuthor = "3"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("AdvancedOverallMineProduction", "Static")'>@Resources.ResourceStatic.OverallMineProductionAdvanced</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "02", reportAuthor = "3"})' target="_blank"></a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("OverallMineProduction", "Static")'>@Resources.ResourceStatic.OveralMineProduction</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "04", reportAuthor = "1"})' target="_blank"></a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("OperCoalProductionReport", "Static")'>@Resources.ResourceStatic.OperCoalProductionReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "01", reportAuthor = "2"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("AlarmReport", "Static")'>@Resources.ResourceStatic.AlarmReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "05", reportAuthor = "1"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("CoalProductionByMine", "Static")'>@Resources.ResourceStatic.CoalProductionByMine</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "02", reportAuthor = "2"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("StockpilesMonth", "Static")'>@Resources.ResourceStatic.StockpilesMonthReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "05", reportAuthor = "3"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("WagonScalesReport", "Static")'>@Resources.ResourceStatic.WagonScalesReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("GlobalSafety", "Static")'>@Resources.ResourceStatic.GlobalSafetyReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "06", reportAuthor = "3"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("SkipReport", "Static")'>@Resources.ResourceStatic.SkipReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("SiteSafety", "Static")'>@Resources.ResourceStatic.SiteSafetyReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "07", reportAuthor = "3"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("BeltScalesReport", "Static")'>@Resources.ResourceStatic.BeltScalesReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("ComparisonInfoMiningsReport", "Static")'>@Resources.ResourceStatic.ComparisonInfoMiningsReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "04", reportAuthor = "3"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+	<div class="doc">
+		<a href='@Url.Action("Index", "Dynamic")'>@Resources.ResourceDynamic.PageName</a>
+	</div>
+
+	<div class="doc">
+		<span>
+			<a href='@Url.Action("QualityControlReport", "Static")'>@Resources.ResourceStatic.QualityControlReport</a>
+		</span>
+		<span class="pull-right">
+			<a style="color:red" href='@Url.Action("OpenLatestReport", "Static", new {reportCode= "03", reportAuthor = "3"})' target="_blank">@Resources.ResourceStatic.OpenLatestReport</a>
+		</span>
+	</div>
+
+</div>
+
+
+
+
+
+
+

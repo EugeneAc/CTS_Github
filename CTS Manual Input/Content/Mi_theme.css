@@ -1,0 +1,18 @@
+﻿
+.table {
+	font-size : 14px;
+}
+
+
+.table > tbody > tr > td, .table > thead > tr > th {
+	padding: 15px 7px !important;
+}
+
+span.field-validation-error {
+	color: #ef3700;
+}
+
+input[type=checkbox] {
+	transform: scale(1.5);
+	margin-left: 5px;
+}

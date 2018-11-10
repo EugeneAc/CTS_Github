@@ -1,0 +1,334 @@
+﻿using CTS_Manual_Input.Common;
+using CTS_Manual_Input.Models;
+using CTS_Manual_Input.Models.Common;
+using CTS_Models;
+using PagedList;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
+
+namespace CTS_Manual_Input.Controllers
+{
+<<<<<<< HEAD
+	[ErrorAttribute]
+	public class BeltScalesController : Controller
+	{
+		private WeightContext _db;
+		private CentralDBContext _cdb;
+
+		public BeltScalesController()
+		{
+			_db = new WeightContext();
+			_cdb = new CentralDBContext();
+		}
+
+		public BeltScalesController(CentralDBContext cdbcontext, WeightContext dbcontext)
+		{
+			if (dbcontext != null)
+				_db = dbcontext;
+			else
+				_db = new WeightContext();
+			if (cdbcontext != null)
+				_cdb = cdbcontext;
+			else
+				_cdb = new CentralDBContext();
+		}
+
+
+		// GET: BeltScales
+		public ActionResult Index(int page = 1)
+		{
+			string userName = "";
+			if (User != null)
+				userName = User.Identity.Name;
+			int pagesize = 20;
+			var query = from d in _db.BeltScales select d;
+
+			var locations = UserHelper.GetUserDomainGroups(userName);
+			List<CTS_Models.BeltScale> beltscales = new List<CTS_Models.BeltScale>();
+			List<CTS_Models.BeltTransfer> inttransfers = new List<CTS_Models.BeltTransfer>();
+			foreach (var location in locations)
+			{
+				beltscales.AddRange(query.Where(b => b.Location.DomainName.Contains(location)).ToList());
+				inttransfers.AddRange(_cdb.InternalTransfers.Where(b => b.BeltScale.Location.DomainName.Contains(location)).Where(v => v.IsValid).Where(d => d.LasEditDateTime >= DbFunctions.AddDays(System.DateTime.Now,-48)));
+			}
+			inttransfers.GroupBy(t => t.ID).Select(tr => tr.First()).ToList();
+
+			return View(new BeltScale_Transfer
+			{
+				BeltScales = beltscales,
+				InternalTransfers = inttransfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
+				CanEdit = UserHelper.CanEditUser(userName, _db),
+				CanDelete = UserHelper.CanDeleteUser(userName, _db)
+			});
+		}
+
+		public ActionResult Add(int? ScaleId)
+		{
+			if (ScaleId == null)
+			{
+				return HttpNotFound();
+			}
+			var model = new BeltTransfer();
+			model.BeltScaleID = ScaleId;
+			model.LasEditDateTime = DateTime.Now;
+			model.IsValid = true;
+			model.BeltScale = _db.BeltScales.Where(s => s.ID == ScaleId).SingleOrDefault();
+			if (model.BeltScale != null)
+				model.LotName = model.BeltScale.Name.ToString() + "-" + DateTime.Now.ToString("yyMMddHHmmss");
+			model.ID = "B" + ScaleId + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+			return View("Add", model);
+		}
+
+		[HttpPost]
+		public ActionResult Add(BeltTransfer model)
+		{
+			model.BeltScale = _db.BeltScales.Find(model.BeltScaleID);
+			if (ModelState.IsValid)
+			{
+				model.LasEditDateTime = DateTime.Now;
+				model.IsValid = true;
+				model.OperatorName = UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+				_db.InternalTransfers.Add(model);
+				_db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+			return View("Add", model);
+		}
+
+		[CanEditRoleAuthorization]
+		public ActionResult Edit(string ID)
+		{
+			if (ID != null)
+			{
+				return View("Edit", _db.InternalTransfers.Find(ID));
+			}
+			return RedirectToAction("Index");
+		}
+
+		[CanDeleteRoleAuthorization]
+		public ActionResult Delete(string ID)
+		{
+			if (ID == null)
+			{
+				return HttpNotFound();
+			}
+			var transfer = _db.InternalTransfers.Find(ID);
+			if (transfer == null) { transfer = _cdb.InternalTransfers.Find(ID); }
+			if (transfer != null)
+			{
+				transfer.IsValid = false;
+				transfer.LasEditDateTime = DateTime.Now;
+				transfer.OperatorName =  UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+        _db.Entry(transfer).State = EntityState.Modified;
+				_db.SaveChanges();
+			}
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+
+		public ActionResult Edit(BeltTransfer model)
+		{
+			if (ModelState.IsValid)
+			{
+				BeltTransfer transfer = _db.InternalTransfers.Find(model.ID);
+				if (transfer == null) { transfer = _cdb.InternalTransfers.Find(model.ID); }
+				transfer.IsValid = false;
+				transfer.LasEditDateTime = DateTime.Now;
+				transfer.OperatorName =  UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+        _db.Entry(transfer).State = EntityState.Modified;
+				_db.SaveChanges();
+
+				if (Request.Form["Save"] != null)
+				{
+					model.ID = "B" + model.BeltScaleID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+					model.OperatorName =  UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+          string name = Request.UserHostName;
+					model.LasEditDateTime = DateTime.Now;
+					model.IsValid = true;
+					_db.InternalTransfers.Add(model);
+					_db.SaveChanges();
+				}
+
+				return RedirectToAction("Index");
+			}
+			return View("Edit", model);
+		}
+	}
+=======
+    [ErrorAttribute]
+    public class BeltScalesController : Controller
+    {
+        private WeightContext _db;
+        private CentralDBContext _cdb;
+
+        public BeltScalesController()
+        {
+            _db = new WeightContext();
+            _cdb = new CentralDBContext();
+        }
+
+        public BeltScalesController(CentralDBContext cdbcontext, WeightContext dbcontext)
+        {
+            if (dbcontext != null)
+                _db = dbcontext;
+            else
+                _db = new WeightContext();
+            if (cdbcontext != null)
+                _cdb = cdbcontext;
+            else
+                _cdb = new CentralDBContext();
+        }
+
+
+        // GET: BeltScales
+        public ActionResult Index(int page = 1)
+        {
+            string userName = "";
+            if (User != null)
+                userName = User.Identity.Name;
+            int pagesize = 20;
+            var query = from d in _db.BeltScales select d;
+
+            var locations = UserHelper.GetUserDomainGroups(userName);
+            List<CTS_Models.BeltScale> beltscales = new List<CTS_Models.BeltScale>();
+            List<CTS_Models.BeltTransfer> inttransfers = new List<CTS_Models.BeltTransfer>();
+            foreach (var location in locations)
+            {
+                beltscales.AddRange(query.Where(b => b.Location.DomainName.Contains(location)).ToList());
+                inttransfers.AddRange(_cdb.InternalTransfers.Where(b => b.BeltScale.Location.DomainName.Contains(location)).Where(v => v.IsValid).Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2)));
+            }
+            inttransfers.GroupBy(t => t.ID).Select(tr => tr.First()).ToList();
+
+            @ViewBag.Navtext = ">> Данные конвейерных весов";
+            return View(new BeltScale_Transfer
+            {
+                BeltScales = beltscales,
+                InternalTransfers = inttransfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
+                CanEdit = UserHelper.CanEditUser(userName, _db),
+                CanDelete = UserHelper.CanDeleteUser(userName, _db)
+            });
+        }
+
+        public ActionResult Add(int? ScaleId)
+        {
+            if (ScaleId == null)
+            {
+                return HttpNotFound();
+            }
+            var model = new BeltTransfer();
+            model.BeltScaleID = ScaleId;
+            model.LasEditDateTime = DateTime.Now;
+            model.IsValid = true;
+            model.BeltScale = _db.BeltScales.Where(s => s.ID == ScaleId).SingleOrDefault();
+            if (model.BeltScale != null)
+                model.LotName = model.BeltScale.Name.ToString() + "-" + DateTime.Now.ToString("yyMMddHHmmss");
+            model.ID = "B" + ScaleId + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
+            @ViewBag.Navtext = ">> Ввод данных конвейерных весов";
+            return View("Add", model);
+        }
+
+        [HttpPost]
+        public ActionResult Add(BeltTransfer model)
+        {
+            model.BeltScale = _db.BeltScales.Find(model.BeltScaleID);
+
+            if ((model.LotQuantity != null) && ((float)model.LotQuantity > 0))
+            {
+                ModelState.AddModelError("LotQuantity", "Некорректный вес");
+            }
+
+            if (ModelState.IsValid)
+            {
+                model.LasEditDateTime = DateTime.Now;
+                model.IsValid = true;
+                model.OperatorName = UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+                _db.InternalTransfers.Add(model);
+                _db.SaveChanges();
+
+                @ViewBag.Navtext = ">> Ввод данных конвейерных весов";
+                return RedirectToAction("Index");
+            }
+
+            @ViewBag.Navtext = ">> Ввод данных конвейерных весов";
+            return View("Add", model);
+        }
+        [CanEditRoleAuthorization]
+        public ActionResult Edit(string ID)
+        {
+            if (ID != null)
+            {
+                @ViewBag.Navtext = ">> Редактирование данных конвейерных весов";
+                return View("Edit", _db.InternalTransfers.Find(ID));
+            }
+            return RedirectToAction("Index");
+        }
+
+        [CanDeleteRoleAuthorization]
+        public ActionResult Delete(string ID)
+        {
+            if (ID == null)
+            {
+                return HttpNotFound();
+            }
+            var transfer = _db.InternalTransfers.Find(ID);
+            if (transfer == null) { transfer = _cdb.InternalTransfers.Find(ID); }
+            if (transfer != null)
+            {
+                transfer.IsValid = false;
+                transfer.LasEditDateTime = DateTime.Now;
+                transfer.OperatorName = UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+                _db.Entry(transfer).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            @ViewBag.Navtext = ">> Удаление данных конвейерных весов";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+
+        public ActionResult Edit(BeltTransfer model)
+        {
+            if ((model.LotQuantity != null) && ((float)model.LotQuantity > 0))
+            {
+                ModelState.AddModelError("LotQuantity", "Некорректный вес");
+            }
+
+            if (ModelState.IsValid)
+            {
+                BeltTransfer transfer = _db.InternalTransfers.Find(model.ID);
+                if (transfer == null) { transfer = _cdb.InternalTransfers.Find(model.ID); }
+                transfer.IsValid = false;
+                transfer.LasEditDateTime = DateTime.Now;
+                transfer.OperatorName = UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+                _db.Entry(transfer).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                if (Request.Form["Save"] != null)
+                {
+                    model.ID = "B" + model.BeltScaleID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    model.OperatorName = UserHelper.GetOperatorName4DBInsetion(Request.UserHostName, User.Identity.Name);
+                    string name = Request.UserHostName;
+                    model.LasEditDateTime = DateTime.Now;
+                    model.IsValid = true;
+                    _db.InternalTransfers.Add(model);
+                    _db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            @ViewBag.Navtext = ">> Редактирование данных конвейерных весов";
+            return View("Edit", model);
+        }
+    }
+>>>>>>> e83d7b8eb44205f0c06b8ca9ff27831c9b894100
+}
+
+

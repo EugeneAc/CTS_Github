@@ -1,0 +1,87 @@
+﻿@model  CTS_Manual_Input.Models.LabModels.SkipTransfersView
+@using PagedList.Mvc;
+@{
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Данные скиповых подъемов</h2>
+
+
+@if ((Model.SkipTransfers.Count() > 0) && (Model != null))
+{
+
+<input type="submit" value="Добавить несколько анализов" class="btn btn-primary" name="AddBatch" id="AddBatch" />
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>Выбор</th>
+            <th>Дата подъема</th>
+            <th>Скиповой подъем</th>
+            <th>Номер подъема</th>
+            <th>Данные анализа</th>
+            <th> </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.SkipTransfers.Count(); i++)
+        {
+        <tr>
+            <td>
+                <input type="checkbox" class="transferCheck" id=@Model.SkipTransfers[i].ID>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.SkipTransfers[i].TransferTimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.SkipTransfers[i].Equip.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.SkipTransfers[i].LiftingID)
+            </td>
+            <td>
+                @if (Model.SkipTransfers[i].AnalysisID != null)
+                {
+                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="" disabled="">
+                }
+                @if (Model.SkipTransfers[i].AnalysisID == null)
+                {
+                <input type="checkbox" class="custom-control-input" id="customCheck1" disabled="">
+                }
+            </td>
+            <td>
+                <input type="button" name="AnalysisButton" class="btn btn-primary btn-xs" value="Анализ" onclick="location.href='@Url.Action("AnalysisView", "LabSkip",
+                      new { TransferID = Model.SkipTransfers[i].ID })'" />
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+    Страница @(Model.SkipTransfers.PageCount < Model.SkipTransfers.PageNumber ? 0 : Model.SkipTransfers.PageNumber) из @Model.SkipTransfers.PageCount
+
+    @Html.PagedListPager(Model.SkipTransfers, page => Url.Action("Index", new { page }))
+
+
+
+    <script>
+    $("#AddBatch").click(function () {
+        var transfers = "";
+        $('.transferCheck').each(function () {
+            if ($(this).is(':checked')) {
+                transfers += ($(this).attr('id')) + ',';
+            }
+        })
+
+		if (transfers == "")
+		{
+			alert('Необходимо выбрать хотя бы 1 партию!');
+		}
+		else
+		{
+			window.location.href = '@Url.Action("AddBatchConfirm")?alltransfers=' + transfers;
+		}
+        });
+
+    </script>

@@ -1,0 +1,23 @@
+﻿<select id="scales" multiple="multiple" required name="scales" class="multiselect">
+    @if (ViewBag.Scales != null)
+    {
+        foreach (var item in ViewBag.Scales)
+        {
+            if (item.Text != null)
+            {
+        <option value="@item.Value">
+            @item.Text
+        </option>
+            }
+        }
+    }
+</select>
+
+<script type="text/javascript">
+
+        $(function () {
+            $('#scales').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+</script>

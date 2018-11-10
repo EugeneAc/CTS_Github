@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title Analytics</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/sitecss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/daterangepicker.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid wrapper">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(@Resources.ResourceGeneral.HeaderAppName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@Resources.ResourceGeneral.HeaderTabStatic<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabConsolidated, "Consolid", "Static")</li>
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabEquipment, "Consolid", "Static")</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@Resources.ResourceGeneral.HeaderTabDynamic<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabConsolidated, "Consolid", "Dynamic")</li>
+                            <div class="dropdown-divider"></div>
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabWagon, "Wagon", "Dynamic")</li>
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabBelt, "Belt", "Dynamic")</li>
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabSkip, "Skip", "Dynamic")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabDashboard, "Index", "DashBoard")</li>
+                    <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabMnemo, "Index", "Mnemonic")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@Resources.ResourceGeneral.HeaderTabAbout<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabAbout, "About", "Home")</li>
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderTabContacts, "Contact", "Home")</li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <p class="nav navbar-text navbar-right pull-right">@User.Identity.Name  |</p>
+                <ul class="nav navbar-nav navbar-right pull-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@Resources.ResourceGeneral.HeaderLanguageChoose<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderLanguageRus, "ChangeCulture", "Home", new { lang = "ru" }, null)</li>
+                            <li>@Html.ActionLink(@Resources.ResourceGeneral.HeaderLanguageEng, "ChangeCulture", "Home", new { lang = "en" }, null)</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year</p>
+            </footer>
+        </div>
+
+</body>
+</html>
+<script src="~/Scripts/AnalScripts.js" type="text/javascript"></script>

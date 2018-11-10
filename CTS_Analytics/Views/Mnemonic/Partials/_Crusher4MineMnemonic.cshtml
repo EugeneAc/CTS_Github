@@ -1,0 +1,46 @@
+﻿@using System.Linq;
+@model CTS_Analytics.Models.Mnemonic.Mine_crusher
+
+@{
+    var blockClass = Model.HasManualValues ? "hand-type" : "";
+}
+
+<div class="block bluetitle gray @blockClass" id="@Model.DivID">
+    <div class="title">
+        <i class="icon icon_drob"></i>
+        @*<a href="#">@Resources.ResourceMnemonic.Crusher</a>*@
+		<span class="title-not-link">@Resources.ResourceMnemonic.Crusher</span>
+
+
+        @if (Model.HasManualValues)
+		{
+			<span class="hand tooltipstered">@Resources.ResourceMnemonic.ManualInputToolTip</span>
+		}
+    </div>
+    <div class="text">
+        <div class="line">
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.CrushedPerShift</span>
+            <div class="count">@Model.CrushedPerShift</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.CoalFromCrushingMachinePerShift</span>
+            <div class="count">@Model.CoalPerShift</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="line">
+            <span class="name">@Resources.ResourceMnemonic.RocksFromCrushingPerShift</span>
+            <div class="count">@Model.RocksPerShift</div>
+            <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+            <div class="clearfix"></div>
+        </div>
+        <div class="result">
+            <div class="res"><span>@Resources.ResourceMnemonic.CoalWarning</span><a href='@Url.Action("Alarm", "DashBoard")'> <i class="green"></i></a></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

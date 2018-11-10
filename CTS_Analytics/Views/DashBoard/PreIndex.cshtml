@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.PageName = Resources.ResourceDashboard.PageName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+123
+<script>
+    function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+    var data = {
+        user: "admin",
+        email: "",
+        password: "Graf@123"
+    };
+
+    @*var dataType = 'application/json';
+    $.ajax({
+        type: "POST",
+        url: 'http://@Request.Url.Host:3000/login',
+        data: data,
+        dataType: dataType
+    });*@
+
+    function load() {
+        var resoponce = post('http://@Request.Url.Host:3000/login', data);
+        window.location.href = "~/Dashboard/Index";
+    };
+ </script>

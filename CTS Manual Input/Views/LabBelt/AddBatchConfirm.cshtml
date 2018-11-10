@@ -1,0 +1,13 @@
+﻿@{
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Внимание</h2>
+<br />
+<p>Вы собираетесь добавить один анализ к нескольким партиям.</p>
+<p class="text-danger">Если к выбранным партиям уже прикреплены анализы, они будут <strong>перезаписаны.</strong></p>
+<br />
+<p>Вы действительно хотите добавить один анализ к нескольким партиям?</p>
+<br />
+<input type="button" name="CancelButton" class="btn btn-primary btn-xs" value="Нет, вернуться" onclick="location.href='@Url.Action("Index", "LabBelt")'" />
+<input type="button" name="ConfirmButton" class="btn btn-danger btn-xs" value="Да, продолжить" onclick="location.href='@Url.Action("Add", "LabBelt", new { alltransfers = ViewBag.alltransfers })'" />

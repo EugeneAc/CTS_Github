@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SelectListItem>
+<div class="form-group">
+    <label class="control-label col-md-2" for="locations">@Resources.ResourceFilters.Location</label>
+    <select id="locations" multiple="multiple" name="locationsInForm" class="multiselect">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                if (item.Text != null)
+                {
+            <option value="@item.Value">
+                @item.Text
+            </option>
+                }
+            }
+        }
+    </select>
+</div>
+
+<script>
+$(function () {
+    $('#locations').change(function () {
+        $('#WagonScalesContainer').load
+            ('@Url.Action("GetWagonScales", "Filter")?Locations=' + $("#locations").val());
+            $('#BeltScalesContainer').load
+            ('@Url.Action("GetBeltScales", "Filter")?Locations=' + $("#locations").val());
+            $('#SkipContainer').load
+            ('@Url.Action("GetSkips", "Filter")?Locations=' + $("#locations").val());
+            });
+    });
+</script>
+<br/>

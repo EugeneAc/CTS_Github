@@ -1,0 +1,88 @@
+﻿@model CTS_Analytics.Models.Mnemonic.kuzModel
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicMinePlanFact.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+    ViewBag.PageSubName = Resources.ResourceMnemonic.KuzMineName;
+    ViewBag.MinePng = "mine7.png";
+}
+<div class="main">
+    <div id="mine7_bg">
+        @{
+            Model.SkipPos1.DivID = "skip-mine7-1";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.SkipPos1)
+
+        @{
+            Model.SkipPos2.DivID = "skip-mine7-2";
+        }
+
+        @Html.Partial("Partials/_Skip4MineMnemonic", Model.SkipPos2)
+
+        @{
+            Model.Vagon.DivID = "vagon-mine7-1";
+        }
+
+        @Html.Partial("Partials/_WagonScales4MineMnemonic", Model.Vagon)
+
+        @{
+            Model.Crusher.DivID = "drob-mine7-1";
+        }
+
+        @Html.Partial("Partials/_Crusher4MineMnemonic", Model.Crusher)
+
+        @{
+            Model.RockUtil.DivID = "stone-mine7-1";
+        }
+
+        @Html.Partial("Partials/_RockUtil", Model.RockUtil)
+
+        @{
+            Model.BeltPos44.DivID = "konv-mine7-1";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltPos44)
+
+        @{
+            Model.BeltPos1L80_1.DivID = "konv-mine7-2";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltPos1L80_1)
+
+        @{
+            Model.BeltPos1L80_2.DivID = "konv-mine7-3";
+        }
+
+        @Html.Partial("Partials/_BeltScales4MineMnemonic", Model.BeltPos1L80_2)
+
+        @{
+            Model.Kotel.DivID = "kotel-mine7-1";
+        }
+
+        @Html.Partial("Partials/_Kotel4MineMnemonic", Model.Kotel)
+
+        @{
+            Model.Sklad.DivID = "sklad-mine7-1";
+        }
+        @Html.Partial("Partials/_Stockpile4MineMnemonic", Model.Sklad)
+
+        @{
+            Model.Raspozn.DivID = "recognize-mine7-1";
+        }
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn)
+
+        @{
+            Model.HandLeg.DivID = "mine7-hand";
+        }
+        @Html.Partial("Partials/_HandLegend4MineMnemonic", Model.HandLeg)
+
+        <div class="buttons buttons-horz" id="btn_drob-mine7-1">
+            <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>
+            <a href='@Url.Action("Alarm", "DashBoard")' class="arrow-down green">@Resources.ResourceMnemonic.Arrow</a>
+        </div>
+
+        <div class="way" id="kamni-mine7">
+            @Resources.ResourceMnemonic.Rocks
+        </div>
+    </div>
+</div>

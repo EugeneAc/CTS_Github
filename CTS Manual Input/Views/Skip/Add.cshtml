@@ -1,0 +1,38 @@
+﻿@using CTS_Models
+@model CTS_Models.SkipTransfer
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Добавить новые данные по: @ViewBag.Name</h2>
+
+@using (Html.BeginForm("Add", "Skip", new { name = @ViewBag.Name }))
+{
+@Html.AntiForgeryToken()
+<div class="form-horizontal">
+    @Html.HiddenFor(m => m.EquipID)
+    @Html.HiddenFor(m => m.ID)
+	@Html.HiddenFor(m => m.SkipWeight)
+
+    <div class="form-group">
+        @Html.LabelFor(m => Model.LiftingID, "Количество подъемов", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => Model.LiftingID, new { htmlAttributes = new { @class = "form-control", @oninput = "this.value = this.value.replace(/[^0-9]/, '')" } })
+            @Html.ValidationMessageFor(m => Model.LiftingID)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.TransferTimeStamp, "Дата и время снятия показаний", new { @class = "control-label col-md-2" })
+        <div class="col-lg-10 input-group date" id="datetimepicker">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+            @Html.TextBoxFor(m => Model.TransferTimeStamp, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control datepicker" })
+            @Html.ValidationMessageFor(m => Model.TransferTimeStamp)
+        </div>
+    </div>
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+</div>
+}
+

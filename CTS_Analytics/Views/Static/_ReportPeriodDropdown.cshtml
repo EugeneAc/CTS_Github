@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SelectListItem>
+<div class="form-group">
+    <label class="control-label col-md-2" for="ReportPeriod">@Resources.ResourceFilters.Period</label>
+    <select id="ReportPeriod" multiple="multiple" name="SelectedReportPeriod" class="multiselect">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                if (item.Text != null)
+                {
+                    <option value="@item.Value">
+                        @item.Text
+                    </option>
+                }
+            }
+        }
+    </select>
+</div>
+
+<script type="text/javascript">
+
+        $(function () {
+            $('#ReportPeriod').multiselect({
+                includeSelectAllOption: true,
+                selectAllText: '@Resources.ResourceFilters.allSelected',
+                nonSelectedText: '@Resources.ResourceFilters.NonSelected',
+                allSelectedText: '@Resources.ResourceFilters.allSelected',
+                nSelectedText: '@Resources.ResourceFilters.Selected'
+            });
+            $('#ReportPeriod').multiselect('selectAll', false);
+            $('#ReportPeriod').multiselect('updateButtonText');
+    });
+</script>
+

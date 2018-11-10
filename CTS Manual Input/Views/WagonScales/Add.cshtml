@@ -1,0 +1,182 @@
+﻿@using CTS_Models
+@model CTS_Models.TransferList
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Ввод данных вагонных весов</h1>
+@if (Model.Incomming)
+{
+    <h2>Добавить новые данные о приемке партии вагонов</h2>
+}
+else
+{
+    <h2>Добавить новые данные об отгрузке партии вагонов</h2>
+
+}
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("_AllTransfers", "WagonScales", new AjaxOptions { UpdateTargetId = "results", OnSuccess = "onSuccess", OnFailure = "onFailure" }, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        <h3>Данные партии</h3>
+        <div class="jumbotron">
+            @Html.HiddenFor(m => m.Transfer.ID)
+            @Html.HiddenFor(m => m.Transfer.EquipID)
+            @Html.HiddenFor(m => m.Transfer.Status)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.FromDest, "Место отправления", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    <div class="select-style">
+                        @Html.DropDownListFor(m => m.Transfer.FromDestID, ViewBag.FromDestinations as SelectList, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.ToDest, "Пункт назначения", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    @if (!Model.Incomming)
+                    {
+                        @Html.TextBoxFor(m => m.Transfer.ToDest, new { @class = "form-control" });
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Transfer.ToDest, new { @class = "form-control", disabled = "disabled" });
+                    }
+                    @Html.ValidationMessageFor(m => m.Transfer.ToDest)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.LotName, "Партия", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(m => m.Transfer.LotName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Transfer.LotName)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-lg-2" for="Transfer_LotQuantity">Общий вес партии</label>
+                <div class="col-sm-4">
+                    <input class="form-control" id="Transfer_LotQuantity" disabled="" data-val="true" type="text" value="0">
+                </div>
+            </div>
+            <div class="form-group">
+                @if (Model.Incomming)
+                {
+                    @Html.LabelFor(m => m.Transfer.TransferTimeStamp, "Дата отгрузки", new { @class = "control-label col-lg-2" });
+                }
+                else
+                {
+                    @Html.LabelFor(m => m.Transfer.TransferTimeStamp, "Дата прибытия", new { @class = "control-label col-lg-2" });
+                }
+                <div class="col-sm-4 input-group date" id="datetimepicker">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    @Html.TextBoxFor(modelItem => Model.Transfer.TransferTimeStamp, "{0:yyyy/MM/dd HH:mm}", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Transfer.TransferTimeStamp)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.ItemID, "Груз", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    <div class="select-style">
+                        @Html.DropDownListFor(m => m.Transfer.ItemID, ViewBag.Items as SelectList, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>Данные Вагона</h3>
+        <div class="jumbotron">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.SublotName, "Номер вагона", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(m => m.Transfer.SublotName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Transfer.SublotName)
+                    <span class="field-validation-valid" data-valmsg-for="Transfer_SublotName" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.Brutto, "Вес вагона, т", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(m => m.Transfer.Brutto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Transfer.Brutto)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.Tare, "Тара, т", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(m => m.Transfer.Tare, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Transfer.Tare)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Transfer.Comment, "Комментарий", new { @class = "control-label col-lg-2" })
+                <div class="col-sm-4">
+                    @Html.EditorFor(m => m.Transfer.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.Transfer.Comment)
+                </div>
+            </div>
+        </div>
+
+        <input type="submit" value="Добавить вагон" class="btn btn-content btn-lg" name="One" />
+        <p><b><span id="ErrorMessage" style="color:red;font-size:15px;"></span></b></p>
+        <div id="results">
+            @Html.Partial("_AllTransfers", Model)
+        </div>
+
+    }
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    function onSuccess(data)
+    {
+        if (data.modelbadstate)
+        {
+            $('#ErrorMessage').html(data.ErrorMessage)
+        }
+        else
+        {
+            var LotQuantity = parseFloat($('#Transfer_LotQuantity').val());
+            var SublotQuantity = parseFloat($('#Transfer_Brutto').val());
+            var total = LotQuantity + SublotQuantity;
+            $('#Transfer_SublotName').val("");
+            $('#Transfer_Comment').val("");
+            $('#Transfer_Tare').val(0);
+            $('#Transfer_LotQuantity').val(total);
+            $('#Transfer_Brutto').val(0);
+            $('#ErrorMessage').html("");
+        }
+
+    }
+
+    function onFailure(data)
+    {
+        $('#ErrorMessage').html(data.responseJSON.ErrorMessage);
+    }
+
+    function RedirectToIndex(message)
+    {
+        alert(message);
+        window.location.href = "@Url.Action("Index","WagonScales")";
+    }
+
+    function ReloadPage()
+    {
+
+        window.location.href = "@Url.Action("Add","WagonScales")";
+    }
+
+    $(document).ready(function () {
+        $('#Transfer_ToDest').autocomplete({
+            source: '/WagonScales/AutocompleteToDest',
+            minLength: 0
+        });
+    });
+
+    $('#Transfer_ToDest').click(function () {
+        $("#Transfer_ToDest").autocomplete("search", "");
+    });
+</script>
