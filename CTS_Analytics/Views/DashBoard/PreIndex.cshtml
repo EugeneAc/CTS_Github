@@ -2,7 +2,7 @@
     ViewBag.PageName = Resources.ResourceDashboard.PageName;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-123
+
 <script>
     function post(path, params, method) {
         method = method || "post"; // Set method to post by default if not specified.
@@ -42,7 +42,12 @@
     });*@
 
     function load() {
-        var resoponce = post('http://@Request.Url.Host:3000/login', data);
-        window.location.href = "~/Dashboard/Index";
-    };
+        var data = {
+            user: "admin",
+            email: "",
+            password: "Graf@123"
+        };
+        post('http://@Request.Url.Host:3000/login', { 'user': "admin", 'email': "", 'password': "Graf@123"});
+        //window.location.href = '@Url.Action("Index", "DashBoard")';
+    }
  </script>

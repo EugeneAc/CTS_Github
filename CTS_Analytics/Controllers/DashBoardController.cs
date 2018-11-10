@@ -23,11 +23,9 @@ namespace CTS_Analytics.Controllers
 			return View("Index");
 		}
 
-		public ActionResult Index1()
+		public ActionResult PreIndex()
 		{
-			ViewBag.HostName = Request.Url.Host;
-
-			return View("Index");
+			return View();
 		}
 
 		public ActionResult Mine(string ID)
