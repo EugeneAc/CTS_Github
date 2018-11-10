@@ -30,7 +30,7 @@
 
 </head>
 
-<body { padding-top: 0px; }>
+<body>
     <div class="container-fluid wrapper">
 
         <div class="header">
@@ -91,20 +91,7 @@
                 $('#@Resources.ResourceGeneral.CurrentLang').addClass('active');
 
             var url = window.location.href;
-            if (url.includes('Mnemonic'))
-            {
-                if (url.includes('Map'))
-                {
-                    $('#MenuItemMap').addClass('active');
-                }
-                else if (url.includes('doc'))
-                {
-                    $('#MenuItemDoc').addClass('active');
-                }
-                else
-                $('#MenuItemMnemonic').addClass('active');
-            }
-            else if (url.includes('DashBoard'))
+            if (url.includes('DashBoard'))
             {
                 if (url.includes('Alarm')) {
                     $('#MenuItemAlarm').addClass('active');
@@ -113,10 +100,21 @@
                     $('#MenuItemDashBoard').addClass('active');
                 }
             }
-            else if (url.includes('Static') || url.includes('Dynamic'))
-                {
+            else if (url.includes('Static') || url.includes('Dynamic')) {
                 $('#MenuItemReport').addClass('active');
-            }
+                $('#dashboardrange').css('display', 'none');
+                }
+            else {
+                    if (url.includes('Map')) {
+                        $('#MenuItemMap').addClass('active');
+                    }
+                    else if (url.includes('doc')) {
+                        $('#MenuItemDoc').addClass('active');
+                        $('#dashboardrange').css('display', 'none');
+                    }
+                    else
+                        $('#MenuItemMnemonic').addClass('active');
+                }
         });
             function OnHomeClick() {
                  window.location.href = '@Url.Action("Index", "Mnemonic")';

@@ -36,8 +36,8 @@ function setnewdate(element, todate, newtodate, fromdate, newfromdate) {
 $('#dashboardrange').on('apply.daterangepicker', function (ev, picker) {
     var newfromdate = picker.startDate;
     var newtodate = picker.endDate;
-    $.cookie('fromdate', newfromdate);
-    $.cookie('todate', newtodate);
+    $.cookie('fromdate', newfromdate, { path: '/' });
+    $.cookie('todate', newtodate, { path: '/' });
     $('iframe').each(function () {
         var fromdate = new Date(+getUrlParameter('from', $(this).attr('src')));
         var todate = new Date(+getUrlParameter('to', $(this).attr('src')));

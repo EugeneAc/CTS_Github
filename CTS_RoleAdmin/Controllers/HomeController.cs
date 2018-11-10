@@ -31,15 +31,16 @@ namespace CTS_RoleAdmin.Controllers
 		[HttpPost]
 		public ActionResult FindUser(string domainUser)
 		{
-			using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "yourdomain.com")
-			
-				using (UserPrincipal user = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, domainUser)
-				{
-				if (user != null)
-				{
-					//user will contain information such as name, email, phone etc..
-				}
-			}
+            using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "yourdomain.com"))
+
+            using (UserPrincipal user = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, domainUser))
+
+            {
+                if (user != null)
+                {
+                    //user will contain information such as name, email, phone etc..
+                }
+            }
 		
 
 
