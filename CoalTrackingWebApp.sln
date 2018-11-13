@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataEmulator", "DataEmulato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualInput.Tests", "ManualInput.Tests\ManualInput.Tests.csproj", "{B4866F43-969F-48D5-962F-32BE94DE3E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS_BusinessProcesses", "CTS_BusinessProcesses\CTS_BusinessProcesses.csproj", "{FD8FCB1C-08EB-41DA-84D2-F3F9E9FB027F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS_Core", "CTS_BusinessProcesses\CTS_Core.csproj", "{FD8FCB1C-08EB-41DA-84D2-F3F9E9FB027F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS_RoleAdmin", "CTS_RoleAdmin\CTS_RoleAdmin.csproj", "{AFE78B27-178A-4642-B692-C6D90669AB40}"
 EndProject

@@ -3,10 +3,12 @@ using CTS_Manual_Input.Models;
 using CTS_Manual_Input.Models.Common;
 using CTS_Models.DBContext;
 using System.Web.Mvc;
+using CTS_Core;
 
 namespace CTS_Manual_Input.Controllers
 {
     [ErrorAttribute]
+	[CtsAuthorize]
     public class HomeController : Controller
     {
 		CtsDbContext db = new CtsDbContext();

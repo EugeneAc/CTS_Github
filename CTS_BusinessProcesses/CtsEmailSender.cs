@@ -7,7 +7,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Configuration;
 
-namespace CTS_BusinessProcesses
+namespace CTS_Core
 {
 	public static class CtsEmailSender
 	{

@@ -167,7 +167,7 @@ namespace CTS_Analytics.Controllers
                 }).ToArray();
                 foreach (var s in model)
                 {
-                    s.ActFilePath = Directory.EnumerateFiles(ProjectConstants.SkipActFolderPath, s.SkipWeight.ID + ".*").FirstOrDefault();
+                    s.ActFilePath = Directory.EnumerateFiles(CTS_Core.ProjectConstants.SkipActFolderPath, s.SkipWeight.ID + ".*").FirstOrDefault();
                 }
                 //model.Select(s => s.ActFilePath = Directory.EnumerateFiles(ProjectConstants.SkipActFolderPath, s.SkipWeight.ID.ToString() + ".*").FirstOrDefault());
                 return View("Doc-detail/doc_detail_SkipWeights", model);

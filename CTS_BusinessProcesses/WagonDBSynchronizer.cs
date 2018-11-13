@@ -8,7 +8,7 @@ using System.Linq;
 using CTS_Models.DBContext;
 using System.Data.Entity.Migrations;
 
-namespace CTS_BusinessProcesses
+namespace CTS_Core
 {
 	public static class WagonDBSynchronizer
 	{

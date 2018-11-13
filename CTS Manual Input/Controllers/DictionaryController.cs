@@ -15,17 +15,17 @@ using System.Data.Entity.Migrations;
 using System.Web;
 using System.IO;
 using CTS_Manual_Input.Models.SkipModels;
+using CTS_Core;
 
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
-	[DictUserAuthorization]
+	[CtsAuthorize(Roles = Roles.DictUserRoleName)]
 	public class DictionaryController : Controller
 	{
 		private CtsDbContext _cdb = new CtsDbContext();
 
 		#region WagonScales Dictionary 
-		[DictUserAuthorization]
 		public ActionResult WagonScalesIndex()
 		{
 			List<WagonScale> wagonScales = new List<WagonScale>();
@@ -35,7 +35,6 @@ namespace CTS_Manual_Input.Controllers
 			return View(wagonScales);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult WagonScalesAdd()
 		{
 			WagonScalesLocations model = new WagonScalesLocations();
@@ -51,7 +50,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult WagonScalesAdd(WagonScalesLocations model)
 		{
 			if (String.IsNullOrEmpty(model.WagonScale.Name))
@@ -80,7 +78,6 @@ namespace CTS_Manual_Input.Controllers
 			return View("WagonScalesAdd", model);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult WagonScalesEdit(int Id)
 		{
 			if (Id == 0)
@@ -99,7 +96,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult WagonScalesEdit(WagonScale model)
 		{
 			if (String.IsNullOrEmpty(model.Name))
@@ -133,7 +129,6 @@ namespace CTS_Manual_Input.Controllers
 		#endregion
 
 		#region BeltScales Dictionary 
-		[DictUserAuthorization]
 		public ActionResult BeltScalesIndex()
 		{
 			List<BeltScale> beltScales = new List<BeltScale>();
@@ -143,7 +138,6 @@ namespace CTS_Manual_Input.Controllers
 			return View(beltScales);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult BeltScalesAdd()
 		{
 			BeltScalesLocations model = new BeltScalesLocations();
@@ -159,7 +153,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult BeltScalesAdd(BeltScalesLocations model)
 		{
 			var modelbadstate = false;
@@ -204,7 +197,6 @@ namespace CTS_Manual_Input.Controllers
 			return View("BeltScalesAdd", model);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult BeltScalesEdit(int Id)
 		{
 			if (Id == 0)
@@ -223,7 +215,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult BeltScalesEdit(BeltScale model)
 		{
 			var modelbadstate = false;
@@ -273,7 +264,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[OutputCache(VaryByParam = "*", Duration = 0, NoStore = true)]
-		[DictUserAuthorization]
 		public ActionResult GetFromInner(string Locations)
 		{
 			string[] locations = Locations.Split(',');
@@ -290,7 +280,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[OutputCache(VaryByParam = "*", Duration = 0, NoStore = true)]
-		[DictUserAuthorization]
 		public ActionResult GetToInner(string Locations)
 		{
 			string[] locations = Locations.Split(',');
@@ -309,7 +298,6 @@ namespace CTS_Manual_Input.Controllers
 		#endregion
 
 		#region Skip Dictionary 
-		[DictUserAuthorization]
 		public ActionResult SkipsIndex()
 		{
 			List<Skip> skips = new List<Skip>();
@@ -319,7 +307,6 @@ namespace CTS_Manual_Input.Controllers
 			return View(skips);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult SkipsAdd()
 		{
 			SkipsLocations model = new SkipsLocations();
@@ -336,7 +323,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult SkipsAdd(SkipsLocations model)
 		{
 			if (String.IsNullOrEmpty(model.Skip.Name))
@@ -369,7 +355,6 @@ namespace CTS_Manual_Input.Controllers
 			return View("SkipsAdd", model);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult SkipsEdit(int Id)
 		{
 			if (Id == 0)
@@ -389,7 +374,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult SkipsEdit(Skip model)
 		{
 			if (String.IsNullOrEmpty(model.Name))
@@ -480,7 +464,7 @@ namespace CTS_Manual_Input.Controllers
 					string extension = Path.GetExtension(upload.FileName);
 					if ((extension == ".jpeg") || (extension == ".jpg") || (extension == ".png") || (extension == ".pdf"))
 					{
-						upload.SaveAs(Path.Combine(ProjectConstants.SkipActFolderPath, model.ID.ToString() + extension));
+						upload.SaveAs(Path.Combine(CTS_Core.ProjectConstants.SkipActFolderPath, model.ID.ToString() + extension));
 					}
 				}
 
@@ -491,7 +475,6 @@ namespace CTS_Manual_Input.Controllers
 			return View(model);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult SkipWeightsEdit(int Id)
 		{
 			if (Id == 0)
@@ -502,7 +485,7 @@ namespace CTS_Manual_Input.Controllers
 			SkipWeight skipWeight = _cdb.SkipWeights.Find(Id);
 			if (skipWeight != null)
 			{
-				@ViewBag.HasFile = !string.IsNullOrEmpty(Directory.EnumerateFiles(ProjectConstants.SkipActFolderPath, skipWeight.ID + ".*").FirstOrDefault());
+				@ViewBag.HasFile = !string.IsNullOrEmpty(Directory.EnumerateFiles(CTS_Core.ProjectConstants.SkipActFolderPath, skipWeight.ID + ".*").FirstOrDefault());
 				@ViewBag.Title = "Редактирование акта перевески";
 				return View("SkipWeightsEdit", skipWeight);
 			}
@@ -511,10 +494,9 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult SkipWeightsEdit(SkipWeight model, HttpPostedFileBase upload)
 		{
-			string pathToAct = Directory.EnumerateFiles(ProjectConstants.SkipActFolderPath, model.ID + ".*").FirstOrDefault();
+			string pathToAct = Directory.EnumerateFiles(CTS_Core.ProjectConstants.SkipActFolderPath, model.ID + ".*").FirstOrDefault();
 
 			if ((model.Weight <= 0) || (model.Weight > 25))
 			{
@@ -545,7 +527,7 @@ namespace CTS_Manual_Input.Controllers
 							System.IO.File.Delete(pathToAct);
 						}
 
-						upload.SaveAs(Path.Combine(ProjectConstants.SkipActFolderPath, model.ID.ToString() + extension));
+						upload.SaveAs(Path.Combine(CTS_Core.ProjectConstants.SkipActFolderPath, model.ID.ToString() + extension));
 					}
 				}
 
@@ -569,7 +551,6 @@ namespace CTS_Manual_Input.Controllers
 		#endregion
 
 		#region Shifts Dictionary
-		[DictUserAuthorization]
 		public ActionResult ShiftsIndex()
 		{
 			List<Shift> shifts = _cdb.Shifts.ToList();
@@ -594,7 +575,6 @@ namespace CTS_Manual_Input.Controllers
 			return View(locationsShifts);
 		}
 
-		[DictUserAuthorization]
 		public ActionResult ShiftsEdit(string Id, string Name)
 		{
 			if (Id == null)
@@ -615,7 +595,6 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
 		public ActionResult ShiftsEdit(Shift model, string Name)
 		{
 			if (ModelState.IsValid)

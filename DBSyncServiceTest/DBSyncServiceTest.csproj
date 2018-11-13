@@ -69,9 +69,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CTS_BusinessProcesses\CTS_BusinessProcesses.csproj">
+    <ProjectReference Include="..\CTS_BusinessProcesses\CTS_Core.csproj">
       <Project>{fd8fcb1c-08eb-41da-84d2-f3f9e9fb027f}</Project>
-      <Name>CTS_BusinessProcesses</Name>
+      <Name>CTS_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DBSyncService\DBSyncService\DBSyncService\DBSyncService.csproj">
       <Project>{569340ba-4939-4a89-b0a1-2cd3261c1c78}</Project>

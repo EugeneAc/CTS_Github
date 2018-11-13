@@ -12,10 +12,12 @@ using CTS_Models;
 using CTS_Manual_Input.Attributes;
 using CTS_Models.DBContext;
 using System.ComponentModel.DataAnnotations;
+using CTS_Core;
 
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
+	[CtsAuthorize(Roles = Roles.SkipUserRoleName)]
 	public class SkipController : Controller
 	{
 		private CtsDbContext _cdb;
@@ -33,7 +35,6 @@ namespace CTS_Manual_Input.Controllers
 				_cdb = new CtsDbContext();
 		}
 
-		[SkipUserAuthorization]
 		public ActionResult Index(int page = 1)
 		{
 			string userName = User.Identity.Name ?? "";
@@ -56,9 +57,8 @@ namespace CTS_Manual_Input.Controllers
 			});
 		}
 
-        [CanAddRoleAuthorization]
-        [SkipUserAuthorization]
-        public ActionResult Add(int? skipID, string name)
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
+		public ActionResult Add(int? skipID, string name)
 		{
 			if (skipID == null)
 			{
@@ -78,9 +78,8 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanAddRoleAuthorization]
-        [SkipUserAuthorization]
-        [ValidateAntiForgeryToken]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
+		[ValidateAntiForgeryToken]
         public ActionResult Add(SkipTransfer skipTransfer, string name)
 		{
 			if (ModelState.IsValid)
@@ -103,19 +102,13 @@ namespace CTS_Manual_Input.Controllers
 
 		[HttpPost]
 		[ValidateInput(false)]
-		[CanAddRoleAuthorization]
-		[SkipUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		[ValidateAntiForgeryToken]
 		public ActionResult FastAdd(FormCollection form)
 		{
 			string Counter = Convert.ToString(form["Counter"]);
 			string SkipId = Convert.ToString(form["EquipID"]);
 			var skipTransfer = new SkipTransfer();
-
-
-			
-			
-
 
 			skipTransfer.LiftingID = Counter;
 			skipTransfer.EquipID = Convert.ToInt32(SkipId);
@@ -140,9 +133,8 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpGet]
-        [CanEditRoleAuthorization]
-        [SkipUserAuthorization]
-        public ActionResult Edit(string ID)
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
+		public ActionResult Edit(string ID)
 		{
 			if (ID != null)
 			{
@@ -154,9 +146,8 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanEditRoleAuthorization]
-        [SkipUserAuthorization]
-        [ValidateAntiForgeryToken]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
+		[ValidateAntiForgeryToken]
         public ActionResult Edit(SkipTransfer model)
 		{
 			if (ModelState.IsValid)
@@ -190,8 +181,7 @@ namespace CTS_Manual_Input.Controllers
             return View("Edit", model);
 		}
 
-		[CanDeleteRoleAuthorization]
-		[SkipUserAuthorization]
+		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(string Id)
 		{
 			if (Id == null)

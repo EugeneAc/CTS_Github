@@ -1,4 +1,5 @@
-﻿using CTS_Manual_Input.Attributes;
+﻿using CTS_Core;
+using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models;
 using CTS_Manual_Input.Models.Common;
@@ -29,6 +30,7 @@ namespace CTS_Manual_Input.Controllers
 	}
 
 	[ErrorAttribute]
+	[CtsAuthorize(Roles = Roles.WagonUserRoleName)]
 	public class WagonScalesController : Controller
 	{
 		private CtsDbContext _cdb;
@@ -46,7 +48,6 @@ namespace CTS_Manual_Input.Controllers
 				_cdb = new CtsDbContext();
 		}
 
-		[WagonUserAuthorization]
 		public ActionResult Index(int page = 1)
 		{
 			string userName = User.Identity.Name ?? "";
@@ -68,8 +69,7 @@ namespace CTS_Manual_Input.Controllers
 			});
 		}
 
-		[CanAddRoleAuthorization]
-		[WagonUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(int? scaleID, bool incomming = false)
 		{
 			if (scaleID == null)
@@ -121,8 +121,7 @@ namespace CTS_Manual_Input.Controllers
         }
 
 		[HttpPost]
-		[CanAddRoleAuthorization]
-		[WagonUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult _AllTransfers(TransferList model)
 		{
 			model.Transfer.LasEditDateTime = DateTime.Now;
@@ -195,9 +194,7 @@ namespace CTS_Manual_Input.Controllers
 			return View();
 		}
 
-
-		[CanEditRoleAuthorization]
-		[WagonUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(string Id)
 		{
 			if (Id != null)
@@ -211,8 +208,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanEditRoleAuthorization]
-		[WagonUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		[ValidateAntiForgeryToken]
 		public ActionResult SaveChanges(WagonTransfer model)
 		{
@@ -243,8 +239,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[CanDeleteRoleAuthorization]
-		[WagonUserAuthorization]
+		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(string Id)
 		{
 			if (Id == null)

@@ -87,9 +87,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CTS_BusinessProcesses\CTS_BusinessProcesses.csproj">
+    <ProjectReference Include="..\..\..\CTS_BusinessProcesses\CTS_Core.csproj">
       <Project>{fd8fcb1c-08eb-41da-84d2-f3f9e9fb027f}</Project>
-      <Name>CTS_BusinessProcesses</Name>
+      <Name>CTS_Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\CTS_Models\CTS_Models.csproj">
       <Project>{e7ec19a1-45e2-41eb-97c3-c6e3eb822fe9}</Project>

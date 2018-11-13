@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CTS_Models
+﻿namespace CTS_Core
 {
 	public static class Roles
 	{
@@ -24,6 +18,8 @@ namespace CTS_Models
 		public const string WarehouseSetUserRoleName = "CTSmi_WarehouseSet";
 
 		public const string AnalyticsRoleName = "CTS_Analytics";
+
+		public const string RoleAdminRoleName = "CTS_RoleAdmin";
 
 		public const string AdminDebugRoleName = "Administrators, Администраторы";	
 	}

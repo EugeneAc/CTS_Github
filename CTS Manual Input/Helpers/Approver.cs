@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using CTS_BusinessProcesses;
+using CTS_Core;
 
 namespace CTS_Manual_Input.Helpers
 {

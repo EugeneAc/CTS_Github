@@ -1,4 +1,4 @@
-﻿using CTS_BusinessProcesses;
+﻿using CTS_Core;
 using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models;
@@ -15,7 +15,7 @@ using System.Web.Mvc;
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
-	[WarehouseUserAuthorization]
+	[CtsAuthorize(Roles = Roles.WarehouseUserRoleName)]
 	public class WarehouseController : Controller
 	{
 		private CtsDbContext _cdb = new CtsDbContext();
@@ -41,6 +41,7 @@ namespace CTS_Manual_Input.Controllers
 			});
 		}
 
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(int warehouseID, string name)
 		{
 			WarehouseMeasure model = new WarehouseMeasure();
@@ -53,6 +54,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(WarehouseMeasure model, string name)
 		{
 			if ((model.TotalMeasured <= 0) || (model.TotalMeasured == null))
@@ -80,6 +82,7 @@ namespace CTS_Manual_Input.Controllers
 			return View(model);
 		}
 
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(int Id)
 		{
 			if (Id == 0)
@@ -99,7 +102,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[DictUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(WarehouseMeasure model)
 		{
 			if (model.TotalMeasured <= 0)
@@ -127,8 +130,8 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[WarehouseSetUserAuthorization]
-		public ActionResult SetNewBalance(int Id, double Quantity)
+		[CtsAuthorize(Roles = Roles.WarehouseSetUserRoleName)]
+		public ActionResult SetNewBalance(int? Id, double Quantity)
 		{
 			if (Id == null)
 			{
@@ -149,7 +152,5 @@ namespace CTS_Manual_Input.Controllers
 
 			return RedirectToAction("Index");
 		}
-
-
 	}
 }

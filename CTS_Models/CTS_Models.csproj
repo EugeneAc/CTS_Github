@@ -95,7 +95,6 @@
     <Compile Include="DbViewModels\Staff.cs" />
     <Compile Include="Others\Shift.cs" />
     <Compile Include="Skip\SkipWeight.cs" />
-    <Compile Include="Roles.cs" />
     <Compile Include="Validation\ValidateSkipLiftingQuantity.cs" />
     <Compile Include="Wagon\FatherTransfer.cs" />
     <Compile Include="Others\Item.cs" />

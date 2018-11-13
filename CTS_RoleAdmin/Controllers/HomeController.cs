@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using CTS_Models;
 using CTS_Models.DBContext;
 using System.DirectoryServices.AccountManagement;
+using CTS_Core;
 
 namespace CTS_RoleAdmin.Controllers
 {
+	[CtsAuthorize(Roles = Roles.RoleAdminRoleName)]
 	public class HomeController : Controller
 	{
 		public ActionResult Index()

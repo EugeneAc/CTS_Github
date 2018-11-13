@@ -17,7 +17,7 @@ namespace CTS_Manual_Input.Models.SkipModels
 			this.SkipWeight = skipWeight;
 			try
 			{
-				this.ActFilePath = Directory.EnumerateFiles(ProjectConstants.SkipActFolderPath, this.SkipWeight.ID + ".*").FirstOrDefault();
+				this.ActFilePath = Directory.EnumerateFiles(CTS_Core.ProjectConstants.SkipActFolderPath, this.SkipWeight.ID + ".*").FirstOrDefault();
 			}
 			catch
 			{

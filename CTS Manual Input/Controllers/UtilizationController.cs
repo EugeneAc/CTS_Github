@@ -1,4 +1,5 @@
-﻿using CTS_Manual_Input.Attributes;
+﻿using CTS_Core;
+using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models;
 using CTS_Manual_Input.Models.Common;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
+	[CtsAuthorize(Roles = Roles.RockUserRoleName)]
 	public class UtilizationController : Controller
 	{
 		private CtsDbContext _cdb;
@@ -30,7 +32,6 @@ namespace CTS_Manual_Input.Controllers
 				_cdb = new CtsDbContext();
 		}
 
-		[RockUserAuthorization]
 		public ActionResult Index(int page = 1)
 		{
 			string userName = User.Identity.Name ?? "";
@@ -52,8 +53,7 @@ namespace CTS_Manual_Input.Controllers
 			});
 		}
 
-		[CanAddRoleAuthorization]
-		[RockUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(int? rockUtilID, string name)
 		{
 			if (rockUtilID == null)
@@ -74,8 +74,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanAddRoleAuthorization]
-		[RockUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		[ValidateAntiForgeryToken]
 		public ActionResult Add(RockUtilTransfer model, string name)
 		{
@@ -102,8 +101,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Add", model);
 		}
 
-		[CanEditRoleAuthorization]
-		[RockUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(string ID)
 		{
 			if (ID != null)
@@ -116,8 +114,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanEditRoleAuthorization]
-		[RockUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(RockUtilTransfer model)
 		{
@@ -152,8 +149,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[CanDeleteRoleAuthorization]
-		[RockUserAuthorization]
+		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(string ID)
 		{
 			if (ID == null)

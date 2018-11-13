@@ -1,4 +1,5 @@
-﻿using CTS_Manual_Input.Attributes;
+﻿using CTS_Core;
+using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models.Common;
 using CTS_Manual_Input.Models.LabModels;
@@ -14,6 +15,7 @@ using System.Web.Mvc;
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
+	[CtsAuthorize(Roles = Roles.LabUserRoleName)]
 	public class LabBeltController : Controller
 	{
 		private CtsDbContext _cdb;
@@ -30,7 +32,6 @@ namespace CTS_Manual_Input.Controllers
 				_cdb = new CtsDbContext();
 		}
 
-		[LabUserAuthorization]
 		public ActionResult Index(int page = 1)
 		{
 			string userName = User.Identity.Name ?? "";
@@ -51,7 +52,6 @@ namespace CTS_Manual_Input.Controllers
 			});
 		}
 
-		[LabUserAuthorization]
 		public ActionResult AnalysisView(string TransferID)
 		{
 			BeltAnalysis analysis = new BeltAnalysis();
@@ -73,8 +73,7 @@ namespace CTS_Manual_Input.Controllers
 			return View(analysis);
 		}
 
-		[LabUserAuthorization]
-		[CanAddRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult AddBatchConfirm(string alltransfers)
 		{
 			if (alltransfers == "")
@@ -89,8 +88,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpGet]
-		[LabUserAuthorization]
-		[CanAddRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(string alltransfers)
 		{
 			@ViewBag.alltransfers = alltransfers;
@@ -101,8 +99,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[LabUserAuthorization]
-		[CanAddRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(BeltAnalysis model, string alltransfers)
 		{
 			if (ModelState.IsValid)
@@ -161,8 +158,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpGet]
-		[LabUserAuthorization]
-		[CanEditRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -175,8 +171,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost, ActionName("Edit")]
-		[LabUserAuthorization]
-		[CanEditRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult EditConfirmed(BeltAnalysis model)
 		{
 			if (ModelState.IsValid)
@@ -212,8 +207,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[LabUserAuthorization]
-		[CanDeleteRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)

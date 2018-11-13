@@ -9,10 +9,12 @@ using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using CTS_Core;
 
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
+	[CtsAuthorize(Roles = Roles.BeltUserRoleName)]
 	public class BeltScalesController : Controller
 	{
 		private CtsDbContext _cdb;
@@ -30,7 +32,6 @@ namespace CTS_Manual_Input.Controllers
 				_cdb = new CtsDbContext();
 		}
 
-		[BeltUserAuthorization]
 		public ActionResult Index(int page = 1)
 		{
 			string userName = User.Identity.Name ?? "";
@@ -52,9 +53,7 @@ namespace CTS_Manual_Input.Controllers
 			});
 		}
 
-
-		[CanAddRoleAuthorization]
-		[BeltUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(int? scaleId, string name)
 		{
 			if (scaleId == null)
@@ -76,8 +75,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanAddRoleAuthorization]
-		[BeltUserAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		[ValidateAntiForgeryToken]
 		public ActionResult Add(BeltTransfer model, string name)
 		{
@@ -114,8 +112,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Add", model);
 		}
 
-		[CanEditRoleAuthorization]
-		[BeltUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(string ID)
 		{
 			if (ID != null)
@@ -128,8 +125,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanEditRoleAuthorization]
-		[BeltUserAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(BeltTransfer model)
 		{
@@ -167,8 +163,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[CanDeleteRoleAuthorization]
-		[BeltUserAuthorization]
+		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(string ID)
 		{
 			if (ID == null)

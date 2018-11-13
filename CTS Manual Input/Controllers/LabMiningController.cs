@@ -11,16 +11,16 @@ using System.Web.Mvc;
 using CTS_Manual_Input.Models.LabModels;
 using PagedList;
 using CTS_Models;
+using CTS_Core;
 
 namespace CTS_Manual_Input.Controllers
 {
 	[ErrorAttribute]
-	[LabUserAuthorization]
+	[CtsAuthorize(Roles = Roles.LabUserRoleName)]
 	public class LabMiningController : Controller
     {
 		private CtsDbContext _cdb = new CtsDbContext();
 
-		[LabUserAuthorization]
 		public ActionResult Index(int page = 1)
 		{
 			string userName = User.Identity.Name ?? "";
@@ -60,7 +60,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpGet]
-		[CanAddRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(string LocationID)
 		{
 			var model = new MiningAnalysis();
@@ -72,7 +72,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost]
-		[CanAddRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		public ActionResult Add(MiningAnalysis model)
 		{
 			if (ModelState.IsValid)
@@ -92,7 +92,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpGet]
-		[CanEditRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult Edit(int? Id)
 		{
 			if (Id == null)
@@ -105,7 +105,7 @@ namespace CTS_Manual_Input.Controllers
 		}
 
 		[HttpPost, ActionName("Edit")]
-		[CanEditRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		public ActionResult EditConfirmed(MiningAnalysis model)
 		{
 			if (ModelState.IsValid)
@@ -132,7 +132,7 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[CanDeleteRoleAuthorization]
+		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(int? Id)
 		{
 			if (Id == null)
