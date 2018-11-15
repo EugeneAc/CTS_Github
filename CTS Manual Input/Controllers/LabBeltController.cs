@@ -147,7 +147,7 @@ namespace CTS_Manual_Input.Controllers
 					_cdb.SaveChanges();
 				}
 				catch
-				(Exception ex)
+				(Exception)
 				{ }
 				return RedirectToAction("Index");
 			}

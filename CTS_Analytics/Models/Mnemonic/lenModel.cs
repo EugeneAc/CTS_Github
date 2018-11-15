@@ -31,6 +31,6 @@ namespace CTS_Analytics.Models.Mnemonic
         public Mine_rockUtil RockUtil { get; set; }
         public Mine_Kotel Kotel { get; set; }
 
-        public override decimal ProdFact { get { return (decimal)SkipPos1.TotalTonnsPerTimeInterval + (decimal)SkipPos2.TotalTonnsPerTimeInterval; } }
+        public override int ProdFact { get { return (int)(SkipPos1.TotalTonnsPerTimeInterval + SkipPos2.TotalTonnsPerTimeInterval); } }
     }
 }

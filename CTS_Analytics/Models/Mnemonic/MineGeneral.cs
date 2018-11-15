@@ -17,10 +17,10 @@ namespace CTS_Analytics.Models.Mnemonic
 		public string DetailsViewName { get; set; }
 
 		public readonly string LocationID;
-		public decimal Productivity { get; set; }
+		public float Productivity { get; set; }
 		public decimal ProdPlan { get; set; }
-		public virtual decimal ProdFact { get; set; }
-		public float Shipped { get; set; }
+		public virtual int ProdFact { get; set; }
+		public int Shipped { get; set; }
 		public int AtStockpile { get; set; }
 		public bool CoalWarning { get; set; }
 		public bool HSEWarning { get; set; }

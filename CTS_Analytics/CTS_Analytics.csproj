@@ -124,12 +124,6 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="policy.1.0.ArchestrA.MxAccess">
-      <HintPath>..\..\WW-MXAccessToolkit-2014\Global Assembly Cache\policy.1.0.ArchestrA.MxAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="policy.2.0.ArchestrA.MxAccess">
-      <HintPath>..\..\WW-MXAccessToolkit-2014\Global Assembly Cache\policy.2.0.ArchestrA.MxAccess.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -225,8 +219,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AlarmHepler.cs" />
-    <Compile Include="Helpers\ArchestraHelper.cs" />
-    <Compile Include="Helpers\Tag.cs" />
     <Compile Include="Hubs\PushNotifyHub.cs" />
     <Compile Include="Models\api\QueryModel.cs" />
     <Compile Include="Models\api\SearchModel.cs" />

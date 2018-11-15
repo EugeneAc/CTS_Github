@@ -392,7 +392,7 @@ namespace CTS_Analytics.Controllers
                     .ToArray()
                     .Sum();
 
-                model.Productivity = model.ProdFact / staffnum;
+                model.Productivity = (float)model.ProdFact / staffnum;
             }
             catch (Exception e)
             {
@@ -518,6 +518,7 @@ namespace CTS_Analytics.Controllers
                 .Where(s => s.EquipID == wagonScaleID)
                 .Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate)
                 .Where(v => v.IsValid == true)
+                .Where(tr => tr.Direction == ProjectConstants.WagonDirection_ToObject)
                 .ToArray();
             //var shiftransfers = GetDataFromWagonDB(fromShiftDate, toShiftDate, wagonScale.LocationID); // To get data from wagonDB
             model.ShippedPerShiftTonns = (float)shiftransfers.Sum(t => t.Netto);

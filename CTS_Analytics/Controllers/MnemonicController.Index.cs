@@ -124,7 +124,7 @@ namespace CTS_Analytics.Controllers
                         model.Sar3.ProdFact = GetProductionData("sar3", prodFactData);
                         model.Kaz.ProdFact = GetProductionData("kaz", prodFactData);
                         model.Shah.ProdFact = GetProductionData("shah", prodFactData);
-                        model.Tent.ProdFact = (decimal)GetBeltScaleModel(21, cdb, fromDate, toDate).ProductionPerTimeInterval;
+                        model.Tent.ProdFact = (int)GetBeltScaleModel(21, cdb, fromDate, toDate).ProductionPerTimeInterval;
 
                     }
                 });
@@ -259,18 +259,20 @@ namespace CTS_Analytics.Controllers
 
         }
 
-        private decimal GetProductionData(string location, IEnumerable<SkipTransfer> data)
+        private int GetProductionData(string location, IEnumerable<SkipTransfer> data)
         {
             var skipTransfers = data.Where(s => s.Equip.Location.ID == location && s.IsValid == true);
             // var sum = skipTransfers?.Sum(st => st.SkipWeight); // Leave old calculation for a while
             var sum = skipTransfers?.Select(st => int.Parse(st.LiftingID) * st.SkipWeight).Sum(); // TODO Change to this calculation when ready
-            return (decimal)sum;
+            return (int)sum;
         }
 
-		private float GetShippedData(string location, IEnumerable<WagonTransfer> data)
+		private int GetShippedData(string location, IEnumerable<WagonTransfer> data)
 		{
-			var temp = data.Where(t => t.Equip.LocationID.Equals(location));
-			return (float)temp?.Sum(tr => tr.Netto);
+			var temp = data
+                .Where(t => t.Equip.LocationID.Equals(location))
+                .Where(tr => tr.Direction == ProjectConstants.WagonDirection_ToObject);
+			return (int)temp?.Sum(tr => tr.Netto);
 		}
 
 		private float GetStationIncome(IEnumerable<WagonTransfer> data, string locationName = "")

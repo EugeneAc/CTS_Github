@@ -26,6 +26,6 @@ namespace CTS_Analytics.Models.Mnemonic
         public Mine_rockUtil RockUtil { get; set; }
         public Mine_Kotel Kotel { get; set; }
 
-        public override decimal ProdFact { get { return (decimal)BeltToTechComplex.ProductionPerTimeInterval; } }
+        public override int ProdFact { get { return (int)BeltToTechComplex.ProductionPerTimeInterval; } }
     }
 }

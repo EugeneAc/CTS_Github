@@ -44,6 +44,6 @@ namespace CTS_Analytics.Models.Mnemonic
         public RaspoznModel Raspozn1 { get; set; }
         public RaspoznModel Raspozn2 { get; set; }
 
-        public override decimal ProdFact { get { return (decimal)Skip6t.TotalTonnsPerTimeInterval + (decimal)Skip9t.TotalTonnsPerTimeInterval; } }
+        public override int ProdFact { get { return (int)(Skip6t.TotalTonnsPerTimeInterval + Skip9t.TotalTonnsPerTimeInterval); } }
     }
 }

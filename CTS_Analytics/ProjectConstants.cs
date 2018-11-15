@@ -24,5 +24,11 @@ namespace CTS_Analytics
         public static readonly string SystemPlarformOperatorName = "System Platform";
 
         public static readonly string DbSyncOperatorName = "DBSync";
+
+        public static readonly string WagonDirection_ToObject = "на объект";
+
+        public static readonly string WagonDirection_FromObject = "с объекта";
+
+        public static readonly string WagonDirection_UnknownDirection = "Неопределенно";
     }
 }

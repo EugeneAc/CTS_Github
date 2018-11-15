@@ -28,6 +28,6 @@
         public Mine_rockUtil RockUtil { get; set; }
         public Mine_Kotel Kotel { get; set; }
 
-        public override decimal ProdFact { get { return (decimal)Skip1.TotalTonnsPerTimeInterval + (decimal)Skip2.TotalTonnsPerTimeInterval; } }
+        public override int ProdFact { get { return (int)(Skip1.TotalTonnsPerTimeInterval + Skip2.TotalTonnsPerTimeInterval); } }
     }
 }
