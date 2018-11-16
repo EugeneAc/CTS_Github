@@ -158,7 +158,9 @@ namespace CTS_Analytics.Controllers
                         model.Shah.Shipped = GetShippedData("shah", shippedData);
                         model.Tent.Shipped = GetShippedData("tent", shippedData);
 
-                        model.StAbay.Outcome = GetShippedData("sabay", shippedData);
+						model.COF.Shipped = GetShippedData("cofv", shippedData);
+
+						model.StAbay.Outcome = GetShippedData("sabay", shippedData);
                         model.StDubov.Outcome = GetShippedData("sdub", shippedData);
                         model.StRaspor.Outcome = GetShippedData("srasp", shippedData);
                         model.StUgler.Outcome = GetShippedData("sugl", shippedData);
@@ -271,7 +273,7 @@ namespace CTS_Analytics.Controllers
 		{
 			var temp = data
                 .Where(t => t.Equip.LocationID.Equals(location))
-                .Where(tr => tr.Direction == ProjectConstants.WagonDirection_ToObject);
+                .Where(tr => tr.Direction == ProjectConstants.WagonDirection_FromObject);
 			return (int)temp?.Sum(tr => tr.Netto);
 		}
 

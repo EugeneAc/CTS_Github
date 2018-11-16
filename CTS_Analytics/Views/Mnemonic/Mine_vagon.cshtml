@@ -71,7 +71,7 @@
                                 <th>@Resources.ResourceMnemonic.WagonNumber</th>
                                 <th>@Resources.ResourceMnemonic.Netto, @Resources.ResourceMnemonic.Tonns</th>
                                 <th>@Resources.ResourceMnemonic.Brutto, @Resources.ResourceMnemonic.Tonns</th>
-                                <th>@Resources.ResourceMnemonic.Recipient</th>
+                                <th>@Resources.ResourceMnemonic.Direction</th>
                                 <th>@Resources.ResourceMnemonic.Photo </th>
                             </tr>
                         </thead>
@@ -87,14 +87,7 @@
                                 <td>@transfer.WagonTransfer.SublotName</td>
                                 <td>@transfer.WagonTransfer.Netto</td>
                                 <td>@transfer.WagonTransfer.Brutto</td>
-                                @if (transfer.WagonTransfer.ToDest != null)
-                                {
-                                    <td>@transfer.WagonTransfer.ToDest</td>
-                                }
-                                else
-                                {
-                                    <td></td>
-                                }
+								<td>@transfer.WagonTransfer.Direction</td>
 
                                 @if (transfer.Photo != null && transfer.Photo.PictureGallery.Count > 0)
                                 {
