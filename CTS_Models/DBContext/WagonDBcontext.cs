@@ -2,8 +2,9 @@ namespace CTS_Models.DBContext
 {
     using System.Data.Entity;
 	using CTS_Models.WagonDB;
+    using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
 
-	public partial class WagonDBcontext : DbContext
+    public partial class WagonDBcontext : DbContext
     {
         public WagonDBcontext()
             : base("name=WagonDB")

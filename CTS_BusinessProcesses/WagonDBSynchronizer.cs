@@ -57,7 +57,7 @@ namespace CTS_Core
 							{
 								try
 								{
-									var scale = wagonScales.Where(x => x.LocationID == t.scales.name).FirstOrDefault();
+									var scale = wagonScales.FirstOrDefault(x => x.LocationID == t.scales.name);
 									var item = items.Where(x => x.Name == t.gruz).FirstOrDefault();
 
 									var transfer = new WagonTransfer()
