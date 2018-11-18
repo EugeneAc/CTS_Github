@@ -2,7 +2,7 @@ namespace CTS_Models.DBContext
 {
     using System.Data.Entity;
 	using CTS_Models.WagonDB;
-    using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+    using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices; // do not delete https://stackoverflow.com/questions/14033193/entity-framework-provider-type-could-not-be-loaded
 
     public partial class WagonDBcontext : DbContext
     {
