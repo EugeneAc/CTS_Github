@@ -150,9 +150,13 @@ namespace CTS_Analytics.Controllers
         private Station.FromStationData GetFromMineData (Station model, DateTime fromDate, DateTime toDate, CtsDbContext db, string mineId)
         {
             var fromStationData = new Station.FromStationData();
+            var stationDbEntity = db.Locations.Find(model.LocationID);
             fromStationData.WagonTransfers = db.WagonTransfers
-                .Where(t => t.Equip.Location.ID == mineId && t.ToDest == model.LocationID && t.IsValid == true)
-                .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate).ToList();
+                .Where(t => t.Equip.Location.ID == mineId && t.IsValid == true)
+                .Where(t => t.ToDest.Contains(stationDbEntity.LocationName) || t.ToDest == model.LocationID)
+                .Where(t => t.Direction==ProjectConstants.WagonDirection_FromObject)
+                .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
+                .ToList();
             var location = db.Locations.Find(mineId);
             fromStationData.MineID = location.ID;
             fromStationData.MineName = location.LocationName;

@@ -37,6 +37,9 @@ namespace CTS_Models.WagonDB
         [Required]
         public byte[] img { get; set; }
 
-		public int? sync { get; set; }
+        [Column(TypeName = "image")]
+        public byte[] img2 { get; set; }
+
+        public int? sync { get; set; }
 	}
 }

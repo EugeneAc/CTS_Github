@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices;
+using SqlProviderServices = System.Data.Entity.SqlServer.SqlProviderServices; // do not delete https://stackoverflow.com/questions/14033193/entity-framework-provider-type-could-not-be-loaded
 
 namespace CTS_Models.DBContext
 {
