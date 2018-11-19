@@ -702,7 +702,6 @@ namespace CTS_Analytics.Controllers
                 var dbvagonNums = wagdb.vagon_nums
                     .Where(d => d.date_time >= fromDate && d.date_time <= toDate)
                     .Where(f => !string.IsNullOrEmpty(f.number) || !string.IsNullOrEmpty(f.number_operator))
-                    .Where(m => m.img != null)
                     .Where(i => i.recognid == recognID)
                     .Select(s => new WagonNumDate
                     {
@@ -713,11 +712,8 @@ namespace CTS_Analytics.Controllers
                     })
                      .OrderByDescending(d => d.Date)
                     .ToList();
- 
-                return dbvagonNums
-                    .GroupBy(n => n.WagonNum)
-                    .Select(f => f.First())
-                    .ToList();
+
+                return dbvagonNums;
             }
         }
 
