@@ -120,8 +120,15 @@
                  window.location.href = '@Url.Action("Index", "Mnemonic")';
         }
 
-        function cb(start, end) {
+		function cb(start, end) {
             $('#dashboardrange').html('<a>@Resources.ResourceGeneral.Date<span>' + start.format('DD.MM.YYYY') + ' - ' + end.format('DD.MM.YYYY') + '</span></a>');
+            $('iframe').each(function () {
+                var fromdate = new Date(+getUrlParameter('from', $(this).attr('src')));
+                var todate = new Date(+getUrlParameter('to', $(this).attr('src')));
+                var newfromdate = start;
+                var newtodate = end;
+                setnewdate(this, +todate, +newtodate, +fromdate, +newfromdate);
+            });
         }
 
         $('document').ready(function () {
