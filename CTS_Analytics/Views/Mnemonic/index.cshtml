@@ -888,9 +888,7 @@
 
 <script>
     $('#dashboardrange').on('apply.daterangepicker', function (ev, picker) {
-            var fromdate = picker.startDate;
-            var todate = picker.endDate;
-            window.location.href = '@Url.Action("Index")?fromdate=' + fromdate + '&todate=' + todate;
+        window.location.href = '@Url.Action("Index")';
     });
 
 </script>

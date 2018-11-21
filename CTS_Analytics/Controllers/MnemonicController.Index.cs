@@ -193,15 +193,15 @@ namespace CTS_Analytics.Controllers
                 {
                     using (var cdb = new CtsDbContext())
                     {
-                        AlarmHepler.GetMileInAlarmLevel(model.Kuz, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Kost, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Abay, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Len, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Sar1, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Sar3, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Kaz, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Shah, fromDate, toDate);
-                        AlarmHepler.GetMileInAlarmLevel(model.Tent, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Kuz, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Kost, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Abay, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Len, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Sar1, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Sar3, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Kaz, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Shah, fromDate, toDate);
+                        AlarmHepler.GetMineAlarmLevel(model.Tent, fromDate, toDate);
                     }
                 });
                 Task.WaitAll(prodFactDataTask, planDataTask, shippedDataTask, atStockpileTask, warningTask);

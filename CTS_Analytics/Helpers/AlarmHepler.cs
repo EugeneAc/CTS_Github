@@ -68,10 +68,8 @@ namespace CTS_Analytics.Helpers
             return alarmCountModel;
         }
 
-        public static void GetMileInAlarmLevel (MineGeneral mine, DateTime fromDate, DateTime toDate)
+        public static void GetMineAlarmLevel (MineGeneral mine, DateTime fromDate, DateTime toDate)
         {
-            var warningPrio = 350;
-            var alarmPrio = 450;
             string queryString = "select am.Priority " +
                 "from [WWALMDB].[dbo].[AlarmMaster] am " +
                 "join[WWALMDB].[dbo].[AlarmDetail] ad on am.AlarmId = ad.AlarmId " +
@@ -100,23 +98,16 @@ namespace CTS_Analytics.Helpers
             new SqlConnection(ConfigurationManager.ConnectionStrings["WWALMDB"].ConnectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
-                try
-                {
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        if (reader.GetInt16(0) == warningPrio)
+                        if (reader.GetInt16(0) == ProjectConstants.CoalWarningPrio)
                             mine.CoalWarning = true;
-                        if (reader.GetInt16(0) == alarmPrio)
+                        if (reader.GetInt16(0) == ProjectConstants.CoalAlarmPrio)
                             mine.CoalAlarm = true;
                     }
                     reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex, "Exception from Alarm DB for GetMileInAlarmLevel");
-                }
             }
         }
     }
