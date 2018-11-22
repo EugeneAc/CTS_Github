@@ -38,8 +38,8 @@ namespace CTS_Analytics.Helpers
                 "and t2.time=am.Time " +
                 "group by am.time, am.tagname) " +
                 "and ad.AlarmState = 'UNACK_RTN' " +
-                "and am.Priority<500 " +
-                "and am.Priority>200 " +
+                "and am.Priority<999 " +
+                "and am.Priority>0 " +
                 $"and am.Time >= '{fromDate.ToString("yyyy-MM-dd")} {fromDate.ToString("HH:mm:ss")}' " +
                 $"and am.Time <= '{toDate.ToString("yyyy-MM-dd")} {toDate.ToString("HH:mm:ss")}'" +
                 "order by Time desc";
@@ -88,8 +88,8 @@ namespace CTS_Analytics.Helpers
                 "and t2.time=am.Time " +
                 "group by am.time, am.tagname) " +
                 "and ad.AlarmState = 'UNACK_RTN' " +
-                $"and am.Priority<500 " +
-                $"and am.Priority>200" +
+                $"and am.Priority<999 " +
+                $"and am.Priority>0" +
                 $"and am.Time >= '{fromDate.ToString("yyyy-MM-dd")} {fromDate.ToString("HH:mm:ss")}' " +
                 $"and am.Time <= '{toDate.ToString("yyyy-MM-dd")} {toDate.ToString("HH:mm:ss")}'" +
                 "order by Time desc";
@@ -102,9 +102,9 @@ namespace CTS_Analytics.Helpers
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        if (reader.GetInt16(0) == ProjectConstants.CoalWarningPrio)
+                        if (reader.GetInt16(0) > ProjectConstants.CoalWarningPrio)
                             mine.CoalWarning = true;
-                        if (reader.GetInt16(0) == ProjectConstants.CoalAlarmPrio)
+                        if (reader.GetInt16(0) > ProjectConstants.CoalAlarmPrio)
                             mine.CoalAlarm = true;
                     }
                     reader.Close();

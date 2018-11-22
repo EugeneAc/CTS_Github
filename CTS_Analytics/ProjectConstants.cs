@@ -31,8 +31,8 @@ namespace CTS_Analytics
 
         public static readonly string WagonDirection_UnknownDirection = "Неопределенно";
 
-        public static readonly int CoalWarningPrio = Int32.Parse(ConfigurationManager.AppSettings["CoalWarningPrio"]);
+        public static readonly int CoalWarningPrio = Int32.Parse(ConfigurationManager.AppSettings["CoalWarningPrioLimit"]);
 
-        public static readonly int CoalAlarmPrio = Int32.Parse(ConfigurationManager.AppSettings["CoalAlarmPrio"]);
+        public static readonly int CoalAlarmPrio = Int32.Parse(ConfigurationManager.AppSettings["CoalAlarmPrioLimit"]);
     }
 }
