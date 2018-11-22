@@ -11,5 +11,6 @@ namespace CTS_RoleAdmin
 		public string UserEmail { get; set; }
 		public List<CtsRole> ManualInputRoles { get; set; }
 		public List<CtsRole> AnalyticsRoles { get; set; }
+		public List<CtsRole> RoleAdminRoles { get; set; }
 	}
 }

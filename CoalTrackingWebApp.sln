@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS_Core", "CTS_BusinessPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS_RoleAdmin", "CTS_RoleAdmin\CTS_RoleAdmin.csproj", "{AFE78B27-178A-4642-B692-C6D90669AB40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoleAdmin.Tests", "RoleAdmin.Tests\RoleAdmin.Tests.csproj", "{3A06D422-B15D-44C6-A0A5-AB0862103C59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,12 @@ Global
 		{AFE78B27-178A-4642-B692-C6D90669AB40}.LocalDebug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE78B27-178A-4642-B692-C6D90669AB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE78B27-178A-4642-B692-C6D90669AB40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A06D422-B15D-44C6-A0A5-AB0862103C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A06D422-B15D-44C6-A0A5-AB0862103C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A06D422-B15D-44C6-A0A5-AB0862103C59}.LocalDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A06D422-B15D-44C6-A0A5-AB0862103C59}.LocalDebug|Any CPU.Build.0 = Debug|Any CPU
+		{3A06D422-B15D-44C6-A0A5-AB0862103C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A06D422-B15D-44C6-A0A5-AB0862103C59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

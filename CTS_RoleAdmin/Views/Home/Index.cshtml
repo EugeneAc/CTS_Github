@@ -17,7 +17,7 @@
 	</div>
 }
 
-<br/>
+<br />
 <div class="row">
 	<div class="col-md-12">
 		<div class="content">
@@ -30,3 +30,35 @@
 	</div>
 </div>
 
+<br/>
+<input type="text" id="UserLoginInput" value="Enter login"/>
+<input type="button" id="UserLoginBtn" value="Check"/>
+
+<script>
+	$(document).ready(function () {
+
+		$('#UserLoginBtn').click(function () {
+
+
+
+
+
+			$.ajax({
+				url: "CheckIfUserExists/?userLogin=" + $("#UserLoginInput").val(),
+				type: "POST",
+				dataType: 'JSON',
+				cache: false,
+				async: true,
+				success: function (data) {
+					if (data.userFound) { 
+						alert("Message Sent");
+					} else {
+						alert("Message Not Sent, Please check details");
+					}
+
+				}
+			});
+		});
+	});
+	
+</script>

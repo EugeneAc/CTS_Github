@@ -7,15 +7,18 @@ using CTS_Models;
 using CTS_Models.DBContext;
 using System.DirectoryServices.AccountManagement;
 using CTS_Core;
+using RoleAdmin.Handlers;
 
 namespace CTS_RoleAdmin.Controllers
 {
 	[CtsAuthorize(Roles = Roles.RoleAdminRoleName)]
+	[Authorize]
 	public class HomeController : Controller
 	{
 		public ActionResult Index()
 		{
-			return View();
+         
+            return View();
 		}
 
 		public ActionResult RoleList()
@@ -24,25 +27,17 @@ namespace CTS_RoleAdmin.Controllers
 			return View(GetCtsUsers());
 		}
 
-		public ActionResult FindUser()
+		public ActionResult EditUser(string userLogin)
 		{
+
 
 			return View();
 		}
 
 		[HttpPost]
-		public ActionResult FindUser(string domainUser)
+		public ActionResult EditUser(CtsUser model)
 		{
-            using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "yourdomain.com"))
-
-            using (UserPrincipal user = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, domainUser))
-
-            {
-                if (user != null)
-                {
-                    //user will contain information such as name, email, phone etc..
-                }
-            }
+           
 		
 
 
@@ -50,7 +45,15 @@ namespace CTS_RoleAdmin.Controllers
 			return View();
 		}
 
+		public ActionResult CheckIfUserExists(string userLogin)
+		{
+			if(DomainUsersHandler.FindUser(userLogin, "kazprom") != null)
+			{
+				return Json(new { userFound = true });
+			}
 
+			return Json(new { userFound = false });
+		}
 
 
 		public ActionResult Add()
@@ -106,34 +109,52 @@ namespace CTS_RoleAdmin.Controllers
 			return ctsRoles;
 		}
 
+		private List<CtsRole> GetRoleAdminRoles()
+		{
+			//Add hardcoded roles from CTS_Models.Roles:
+			var ctsRoles = new List<CtsRole>()
+			{
+				new CtsRole { GroupName = Roles.RoleAdminRoleName, GroupDescription = "Упр-е ролями CTS" },
+			};
+
+			return ctsRoles;
+		}
+
 		private List<CtsUser> GetCtsUsers()
 		{
 			var users = new List<CtsUser>();
 			var miRoles = GetMIRoles();
 			var analyticsRoles = GetAnalyticsRoles();
+			var roleAdminRoles = GetRoleAdminRoles();
 
 			var ctx = new PrincipalContext(ContextType.Machine);
-			foreach (var r in miRoles.Concat(analyticsRoles))
+			//check every declared group to be a cts role
+			foreach (var r in miRoles.Concat(analyticsRoles).Concat(roleAdminRoles))
 			{
+				//try to find a local group with such a name
 				var foundGroup = GroupPrincipal.FindByIdentity(ctx, r.GroupName);
 				if (foundGroup != null)
 				{
+					//pick out every person from found group and add him to ctsUsers list
 					foreach (Principal p in foundGroup.GetMembers())
 					{
 						var ctsUser = users.Find(x => x.UserName == p.Name);
 						if (ctsUser == null)
 						{
+							//if there's still no such a user in ctsUser list, add him there
 							var newUser = new CtsUser()
 							{
 								UserName = p.Name,
 								AnalyticsRoles = new List<CtsRole>(analyticsRoles.Select(item => (CtsRole)item.Clone()).ToList()),
+								RoleAdminRoles = new List<CtsRole>(roleAdminRoles.Select(item => (CtsRole)item.Clone()).ToList()),
 								ManualInputRoles = new List<CtsRole>(miRoles.Select(item => (CtsRole)item.Clone()).ToList())
 							};
 							users.Add(newUser);
 							ctsUser = newUser;
 						}
 
-						var group = ctsUser.ManualInputRoles.Concat(ctsUser.AnalyticsRoles).Where(x => x.GroupName == r.GroupName).FirstOrDefault();
+						//mark user to have this role
+						var group = ctsUser.ManualInputRoles.Concat(ctsUser.AnalyticsRoles).Concat(roleAdminRoles).Where(x => x.GroupName == r.GroupName).FirstOrDefault();
 						group.HasRole = true;
 					}
 				}
