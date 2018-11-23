@@ -81,8 +81,8 @@ namespace CTS_Manual_Input.Controllers
 				return RedirectToAction("Index");
 			}
 
+			GetDestinationsItemsAndScalesToVeiwBag(_cdb.VehiScales.Where(x => x.ID == model.EquipID).Select(x => x.LocationID).FirstOrDefault());
 			ViewBag.Name = name;
-			model.FromDest = EquipmentProvider.GetUserLocations(_cdb, User.Identity.Name ?? "").Where(x => x.ID == model.Equip.LocationID).FirstOrDefault();
 			@ViewBag.Title = "Ввод данных автомобильных весов";
 			return View("Add", model);
 		}

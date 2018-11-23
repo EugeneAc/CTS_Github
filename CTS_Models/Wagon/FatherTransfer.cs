@@ -11,7 +11,7 @@ namespace CTS_Models
 		public virtual Location FromDest { get; set; }
 		[MaxLength(255)]
 		public string ToDest { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Введите номер")]
 		[MaxLength(255)]
 		public string LotName { get; set; }
 		[ValidateLotQuantity]

@@ -22,3 +22,8 @@
     #goTopBtn:hover {
         background-color: #555;
     }
+
+.form-horizontal
+{
+	max-width : 98%;
+}
