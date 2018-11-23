@@ -111,7 +111,7 @@ namespace CTS_Manual_Input.Controllers
 			}
 			if (model.MeasureDate > System.DateTime.Today)
 			{
-				ModelState.AddModelError("ValidFrom", "Неправильная дата - замер не может быть произведен в будущем");
+				ModelState.AddModelError("MeasureDate", "Неправильная дата - замер не может быть произведен в будущем");
 			}
 			if (ModelState.IsValid)
 			{
