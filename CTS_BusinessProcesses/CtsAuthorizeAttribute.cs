@@ -13,7 +13,7 @@ namespace CTS_Core
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
 			bool disableAuthentication = false;
-
+			var rtrtrrt = base.Roles;
 #if DEBUG
 			disableAuthentication = true;
 #endif

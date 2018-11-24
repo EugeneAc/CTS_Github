@@ -8,6 +8,7 @@ using CTS_Models.DBContext;
 using System.DirectoryServices.AccountManagement;
 using CTS_Core;
 using RoleAdmin.Handlers;
+using System.Security.Principal;
 
 namespace CTS_RoleAdmin.Controllers
 {
@@ -17,28 +18,30 @@ namespace CTS_RoleAdmin.Controllers
 	{
 		public ActionResult Index()
 		{
-         
-            return View();
+
+			return View();
 		}
 
 		public ActionResult RoleList()
 		{
+			List<CtsUser> users;
+			users = GetCtsUsers();
 
-			return View(GetCtsUsers());
+			return View(users);
 		}
 
 		public ActionResult EditUser(string userLogin)
 		{
+			var userWithHisGroups = GetUserGroup(userLogin);
 
-
-			return View();
+			return View(userWithHisGroups);
 		}
 
 		[HttpPost]
 		public ActionResult EditUser(CtsUser model)
 		{
-           
-		
+
+
 
 
 
@@ -47,7 +50,7 @@ namespace CTS_RoleAdmin.Controllers
 
 		public ActionResult CheckIfUserExists(string userLogin)
 		{
-			if(DomainUsersHandler.FindUser(userLogin, "kazprom") != null)
+			if (DomainUsersHandler.FindUser(userLogin, "kazprom") != null)
 			{
 				return Json(new { userFound = true });
 			}
@@ -66,6 +69,31 @@ namespace CTS_RoleAdmin.Controllers
 		{
 
 			return PartialView();
+		}
+
+		private CtsUser GetUserGroup(string userLogin)
+		{
+			var user = new CtsUser();
+			user.ManualInputRoles = GetMIRoles();
+			user.AnalyticsRoles = GetAnalyticsRoles();
+			user.RoleAdminRoles = GetRoleAdminRoles();
+
+			var ctx = new PrincipalContext(ContextType.Machine);
+
+			foreach (var r in user.ManualInputRoles.Concat(user.AnalyticsRoles).Concat(user.RoleAdminRoles))
+			{
+				var foundGroup = GroupPrincipal.FindByIdentity(ctx, r.GroupName);
+				var members = foundGroup.GetMembers().ToList();
+				foreach (var p in foundGroup.GetMembers())
+				{
+					if (p.Name == userLogin)
+					{
+						r.HasRole = true;
+					}
+				}
+			}
+
+			return user;
 		}
 
 		private List<CtsRole> GetMIRoles()
@@ -146,7 +174,8 @@ namespace CTS_RoleAdmin.Controllers
 							{
 								UserName = p.Name,
 								AnalyticsRoles = new List<CtsRole>(analyticsRoles.Select(item => (CtsRole)item.Clone()).ToList()),
-								RoleAdminRoles = new List<CtsRole>(roleAdminRoles.Select(item => (CtsRole)item.Clone()).ToList()),
+	
+							RoleAdminRoles = new List<CtsRole>(roleAdminRoles.Select(item => (CtsRole)item.Clone()).ToList()),
 								ManualInputRoles = new List<CtsRole>(miRoles.Select(item => (CtsRole)item.Clone()).ToList())
 							};
 							users.Add(newUser);
