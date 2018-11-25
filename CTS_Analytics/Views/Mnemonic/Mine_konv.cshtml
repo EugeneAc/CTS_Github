@@ -41,6 +41,13 @@
 
         <div id="text">
             <h3>@Resources.ResourceMnemonic.BeltScaleJournal</h3>
+            <div class="checkbox-inline">
+                @Html.CheckBoxFor(model => model.FilterManualInput,
+                                                               new {
+                                                               @data_url = Url.Action("Mine_konv", new { ID = Model.ReturnID, beltScaleID = Model.BeltID })
+                                                               })
+                @Resources.ResourceMnemonic.ManualInputFilter
+            </div>
             <div class="scrollbar-outer">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -68,10 +75,10 @@
                                 <td>@lotQuantity</td>
                                 <td>@totalQuantity</td>
                             </tr>}
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
-            @Html.PagedListPager(Model.PagedBeltTransfers, page => Url.Action("Mine_konv", new {ID = Model.ReturnID, beltScaleID = Model.BeltID, page = page }))
+            @Html.PagedListPager(Model.PagedBeltTransfers, page => Url.Action("Mine_konv", new { ID = Model.ReturnID, beltScaleID = Model.BeltID, page = page }))
         </div>
     </div>
 </div>

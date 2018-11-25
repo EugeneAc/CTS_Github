@@ -540,4 +540,7 @@
   <data name="OpenSkipAct" xml:space="preserve">
     <value>View file</value>
   </data>
+  <data name="ManualInputFilter" xml:space="preserve">
+    <value>Filter only Manual Input</value>
+  </data>
 </root>

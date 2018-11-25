@@ -610,6 +610,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Фильтр только по ручномувводу.
+        /// </summary>
+        public static string ManualInputFilter {
+            get {
+                return ResourceManager.GetString("ManualInputFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ручной ввод.
         /// </summary>
         public static string ManualInputToolTip {

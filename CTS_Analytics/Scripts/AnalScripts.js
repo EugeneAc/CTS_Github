@@ -54,10 +54,13 @@ $('#dashboardrange').on('apply.daterangepicker', function (ev, picker) {
 window.onscroll = function () { scrollFunction() };
 
 function scrollFunction() {
+    var upBtn = document.getElementById("goTopBtn");
+    if (upBtn !== null) {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("goTopBtn").style.display = "block";
     } else {
         document.getElementById("goTopBtn").style.display = "none";
+        }
     }
 }
 
@@ -66,3 +69,11 @@ function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
+
+$('#FilterManualInput').click(function () {
+    var addUrl = '&FilterManualInput=false';
+    if ($(this).is(':checked')) {
+        addUrl = '&FilterManualInput=true';
+    } 
+    window.location.href = $(this).data('url') + addUrl;
+});
