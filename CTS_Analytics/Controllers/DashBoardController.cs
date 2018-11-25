@@ -97,7 +97,12 @@ namespace CTS_Analytics.Controllers
 
         public ActionResult Alarm()
         {
-            return View("Alarm");
+            return View();
+        }
+
+        public ActionResult Alarm_other()
+        {
+            return View();
         }
 
         public ActionResult ChangeCulture(string lang)

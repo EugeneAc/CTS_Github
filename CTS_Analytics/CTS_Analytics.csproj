@@ -905,8 +905,6 @@
     <Content Include="Views\Static\_FileTable.cshtml" />
     <Content Include="Views\Shared\_FromDateToDate.cshtml" />
     <Content Include="Views\Shared\_LocationsDropDown.cshtml" />
-    <Content Include="Views\DashBoard\_TimePicker.cshtml" />
-    <Content Include="Views\DashBoard\_BmMineDash.cshtml" />
     <Content Include="Views\Shared\_FileFormatsDropDown.cshtml" />
     <Content Include="Views\Dynamic\Index.cshtml" />
     <Content Include="Views\Dynamic\GetReport.cshtml" />
@@ -961,7 +959,9 @@
     <Content Include="Views\Mnemonic\Mine_raspozn.cshtml" />
     <Content Include="Views\DashBoard\Alarm.cshtml" />
     <Content Include="Views\Mnemonic\HseAlarm.cshtml" />
-    <Content Include="Views\DashBoard\PreIndex.cshtml" />
+    <Content Include="Views\DashBoard\Alarm_other.cshtml" />
+    <Content Include="Views\DashBoard\_DashAlarmLayout.cshtml" />
+    <Content Include="Views\DashBoard\_DashLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
