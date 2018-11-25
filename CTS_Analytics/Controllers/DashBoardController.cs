@@ -23,11 +23,6 @@ namespace CTS_Analytics.Controllers
 			return View("Index");
 		}
 
-		public ActionResult PreIndex()
-		{
-			return View();
-		}
-
 		public ActionResult Mine(string ID)
 		{
 			string viewID;

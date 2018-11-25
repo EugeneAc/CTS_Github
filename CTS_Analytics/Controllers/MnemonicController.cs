@@ -252,9 +252,15 @@ namespace CTS_Analytics.Controllers
 
         #region Mine3rdLevel
 
-        public ActionResult Mine_skip(string ID, int skipID, int? page)
+        public ActionResult Mine_skip(string ID, int skipID, int? page, bool FilterManualInput = false)
         {
             var model = GetSkipModel(skipID);
+            model.FilterManualInput = FilterManualInput;
+            if (FilterManualInput)
+            {
+                model.SkipTransfers = model.SkipTransfers.Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName).ToList();
+            }
+
             model.ReturnID = ID;
             model.SkipID = skipID;
             int pageSize = 20;
@@ -263,9 +269,15 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_konv(string ID, int beltScaleID, int? page)
+        public ActionResult Mine_konv(string ID, int beltScaleID, int? page, bool FilterManualInput = false)
         {
             var model = GetBeltScaleModel(beltScaleID);
+            model.FilterManualInput = FilterManualInput;
+            if (FilterManualInput)
+            {
+                model.BeltTransfers = model.BeltTransfers.Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName).ToList();
+            }
+
             model.ReturnID = ID;
             model.BeltID = beltScaleID;
             int pageSize = 24;
@@ -285,9 +297,16 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page)
+        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page, bool FilterManualInput = false)
         {
             var model = GetWagonScaleModel(wagonScaleID);
+
+            model.FilterManualInput = FilterManualInput;
+            if (FilterManualInput)
+            {
+                model.WagonTransfers = model.WagonTransfers.Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName).ToList();
+            }
+            
             model.WagonScaleID = wagonScaleID;
             int pageSize = 20;
             int pageNumber = (page ?? 1);
@@ -362,7 +381,7 @@ namespace CTS_Analytics.Controllers
             var toDate = GetDateFromCookie("todate");
             using (var db = new CtsDbContext())
             {
-                return GetWagonScaleModel(wagonScaleID, db, fromDate, toDate); ;
+                return GetWagonScaleModel(wagonScaleID, db, fromDate, toDate);
             }
         }
 

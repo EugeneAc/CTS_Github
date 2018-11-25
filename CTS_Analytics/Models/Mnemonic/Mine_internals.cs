@@ -15,6 +15,7 @@ namespace CTS_Analytics.Models.Mnemonic
         public string DetailsViewName { get; set; }
         public int ManualValue { get; set; }
         public int Automatic { get; set; }
+        public bool FilterManualInput { get; set; }
 
         public Mine_internals(string locaitonID)
         {

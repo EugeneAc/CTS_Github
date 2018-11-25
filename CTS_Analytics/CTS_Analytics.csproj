@@ -202,13 +202,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DynamicController.cs" />
-    <Compile Include="Controllers\api\GrafanaController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MnemonicController.cs" />
     <Compile Include="Controllers\MnemonicController.Stations.cs" />
     <Compile Include="Controllers\MnemonicController.Index.cs" />
@@ -219,7 +216,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AlarmHepler.cs" />
-    <Compile Include="Hubs\PushNotifyHub.cs" />
     <Compile Include="Models\api\QueryModel.cs" />
     <Compile Include="Models\api\SearchModel.cs" />
     <Compile Include="Models\DynamicModel.cs" />
@@ -390,6 +386,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Dummy.txt" />
     <Content Include="Content\anal_theme.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
@@ -894,10 +891,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_OldLayout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\_ScalesDynDropDown.cshtml" />
     <Content Include="Views\Static\Consolid.cshtml" />
     <Content Include="Views\Shared\_WagonScalesDynDropDown.cshtml" />
     <Content Include="Views\Shared\_BeltScalesDynDropDown.cshtml" />
@@ -964,7 +957,6 @@
     <Content Include="Views\DashBoard\_DashLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Grafana\" />
   </ItemGroup>
   <ItemGroup>

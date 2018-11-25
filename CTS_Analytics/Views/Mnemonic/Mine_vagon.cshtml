@@ -58,7 +58,16 @@
 
 
         <div id="text">
+
             <h3>@Resources.ResourceMnemonic.WagonLoadingJourlal</h3>
+            <div class="checkbox-inline">
+                @Html.CheckBoxFor(model => model.FilterManualInput,
+                                                                new {
+                                                                   @data_url = Url.Action("Mine_vagon", new { ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID })
+                                                                })
+                @Resources.ResourceMnemonic.ManualInputFilter
+            </div>
+
             @if (Model.WagonTransfers != null)
             {
                 <div class="scrollbar-outer">
@@ -80,32 +89,32 @@
                             {
                                 string manualMarker = (transfer.WagonTransfer.OperatorName != ProjectConstants.DbSyncOperatorName) ? "<i class='icon-hand' style='visibility: visible;'></i>" : "";
                                 string rowStyle = (transfer.WagonTransfer.OperatorName != ProjectConstants.DbSyncOperatorName) ? "background-color:#FFF0AC" : "";
-                            <tr style="@rowStyle">
-                                <td>@Html.Raw(manualMarker)</td>
-                                <td>@transfer.WagonTransfer.TransferTimeStamp.ToString("HH:mm dd.MM.yyyy")</td>
-                                <td>@transfer.WagonTransfer.LotName</td>
-                                <td>@transfer.WagonTransfer.SublotName</td>
-                                <td>@transfer.WagonTransfer.Netto</td>
-                                <td>@transfer.WagonTransfer.Brutto</td>
-								<td>@transfer.WagonTransfer.Direction</td>
+                                <tr style="@rowStyle">
+                                    <td>@Html.Raw(manualMarker)</td>
+                                    <td>@transfer.WagonTransfer.TransferTimeStamp.ToString("HH:mm dd.MM.yyyy")</td>
+                                    <td>@transfer.WagonTransfer.LotName</td>
+                                    <td>@transfer.WagonTransfer.SublotName</td>
+                                    <td>@transfer.WagonTransfer.Netto</td>
+                                    <td>@transfer.WagonTransfer.Brutto</td>
+                                    <td>@transfer.WagonTransfer.Direction</td>
 
-                                @if (transfer.Photo != null && transfer.Photo.PictureGallery.Any())
-                                {
-                                    var uniqueDataID = 1;
-                                    <td>
-                                        @foreach (var photo in transfer.Photo.PictureGallery)
-                                        {
-                                            <a data-fancybox="@transfer.Photo.GallleryName" data-caption="<b>@transfer.Photo.WagonNumber</b><span>@transfer.Photo.Date.ToString("yyyy.MM.dd HH:mm:ss")</span>" href="@Html.Raw(@"#data"+transfer.Photo.GallleryName+uniqueDataID)" class="photo">Фото</a>
-                                            <div style="display:none"><img id="@Html.Raw(@"data"+transfer.Photo.GallleryName+uniqueDataID)" src="@photo" /></div>
-                                            uniqueDataID++;
-                                        }
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td></td>
-                                }
-                            </tr>
+                                    @if (transfer.Photo != null && transfer.Photo.PictureGallery.Any())
+                                    {
+                                        var uniqueDataID = 1;
+                                        <td>
+                                            @foreach (var photo in transfer.Photo.PictureGallery)
+                                            {
+                                                <a data-fancybox="@transfer.Photo.GallleryName" data-caption="<b>@transfer.Photo.WagonNumber</b><span>@transfer.Photo.Date.ToString("yyyy.MM.dd HH:mm:ss")</span>" href="@Html.Raw(@"#data"+transfer.Photo.GallleryName+uniqueDataID)" class="photo">Фото</a>
+                                                <div style="display:none"><img id="@Html.Raw(@"data"+transfer.Photo.GallleryName+uniqueDataID)" src="@photo" /></div>
+                                                uniqueDataID++;
+                                            }
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -139,4 +148,6 @@
         $(".knob").knob();
 
     });
+
+
 </script>
