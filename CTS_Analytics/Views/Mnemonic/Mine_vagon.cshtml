@@ -60,12 +60,11 @@
         <div id="text">
 
             <h3>@Resources.ResourceMnemonic.WagonLoadingJourlal</h3>
-            <div class="checkbox-inline">
-                @Html.CheckBoxFor(model => model.FilterManualInput,
-                                                                new {
-                                                                   @data_url = Url.Action("Mine_vagon", new { ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID })
-                                                                })
-                @Resources.ResourceMnemonic.ManualInputFilter
+            <div class="checkbox-inline" data-url='@Url.Action("Mine_vagon", new { ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID })'>
+                @Html.CheckBoxFor(model => model.FilterManualInput)
+                <span class="filter-element">@Resources.ResourceMnemonic.ManualInputFilter</span>
+                @Html.CheckBoxFor(model => model.OrderByTransferTimeStampAsc)
+                <span>@Resources.ResourceMnemonic.OrderByTransferTimeStampAsc</span>
             </div>
 
             @if (Model.WagonTransfers != null)
@@ -85,7 +84,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var transfer in Model.PagedWagonTrasnfersAndPhotos.OrderByDescending(d => d.WagonTransfer.TransferTimeStamp))
+                            @foreach (var transfer in Model.PagedWagonTrasnfersAndPhotos)
                             {
                                 string manualMarker = (transfer.WagonTransfer.OperatorName != ProjectConstants.DbSyncOperatorName) ? "<i class='icon-hand' style='visibility: visible;'></i>" : "";
                                 string rowStyle = (transfer.WagonTransfer.OperatorName != ProjectConstants.DbSyncOperatorName) ? "background-color:#FFF0AC" : "";

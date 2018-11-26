@@ -59,12 +59,11 @@
 
         <div id="text">
             <h3>@Resources.ResourceMnemonic.SkipsLiftingJournal</h3>
-            <div class="checkbox-inline">
-                @Html.CheckBoxFor(model => model.FilterManualInput,
-                                                                    new {
-                                                                    @data_url = Url.Action("Mine_skip", new { ID = Model.ReturnID, skipID = Model.SkipID })
-                                                                    })
-                @Resources.ResourceMnemonic.ManualInputFilter
+            <div class="checkbox-inline" data-url='@Url.Action("Mine_skip", new { ID = Model.ReturnID, skipID = Model.SkipID })'>
+                @Html.CheckBoxFor(model => model.FilterManualInput)
+                <span class="filter-element">@Resources.ResourceMnemonic.ManualInputFilter</span>
+                @Html.CheckBoxFor(model => model.OrderByTransferTimeStampAsc)
+                <span>@Resources.ResourceMnemonic.OrderByTransferTimeStampAsc</span>
             </div>
             <div class="scrollbar-outer">
                 <table class="table table-striped table-hover">

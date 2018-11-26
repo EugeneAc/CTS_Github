@@ -252,13 +252,19 @@ namespace CTS_Analytics.Controllers
 
         #region Mine3rdLevel
 
-        public ActionResult Mine_skip(string ID, int skipID, int? page, bool FilterManualInput = false)
+        public ActionResult Mine_skip(string ID, int skipID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false)
         {
             var model = GetSkipModel(skipID);
-            model.FilterManualInput = FilterManualInput;
-            if (FilterManualInput)
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
             {
                 model.SkipTransfers = model.SkipTransfers.Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName).ToList();
+            }
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.SkipTransfers = model.SkipTransfers.OrderBy(t => t.TransferTimeStamp).ToList();
             }
 
             model.ReturnID = ID;
@@ -269,13 +275,19 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_konv(string ID, int beltScaleID, int? page, bool FilterManualInput = false)
+        public ActionResult Mine_konv(string ID, int beltScaleID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false)
         {
             var model = GetBeltScaleModel(beltScaleID);
-            model.FilterManualInput = FilterManualInput;
-            if (FilterManualInput)
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
             {
                 model.BeltTransfers = model.BeltTransfers.Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName).ToList();
+            }
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.BeltTransfers = model.BeltTransfers.OrderBy(t => t.TransferTimeStamp).ToList();
             }
 
             model.ReturnID = ID;
@@ -297,16 +309,22 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page, bool FilterManualInput = false)
+        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false)
         {
             var model = GetWagonScaleModel(wagonScaleID);
 
-            model.FilterManualInput = FilterManualInput;
-            if (FilterManualInput)
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
             {
                 model.WagonTransfers = model.WagonTransfers.Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName).ToList();
             }
-            
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.WagonTransfers = model.WagonTransfers.OrderBy(t=>t.TransferTimeStamp).ToList();
+            }
+
             model.WagonScaleID = wagonScaleID;
             int pageSize = 20;
             int pageNumber = (page ?? 1);

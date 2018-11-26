@@ -718,6 +718,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сортировать по возрастанию времени.
+        /// </summary>
+        public static string OrderByTransferTimeStampAsc {
+            get {
+                return ResourceManager.GetString("OrderByTransferTimeStampAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to № заказа.
         /// </summary>
         public static string OrderNumber {

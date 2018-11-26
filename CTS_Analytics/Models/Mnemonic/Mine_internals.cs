@@ -16,6 +16,7 @@ namespace CTS_Analytics.Models.Mnemonic
         public int ManualValue { get; set; }
         public int Automatic { get; set; }
         public bool FilterManualInput { get; set; }
+        public bool OrderByTransferTimeStampAsc { get; set; }
 
         public Mine_internals(string locaitonID)
         {

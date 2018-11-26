@@ -70,10 +70,16 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
 }
 
-$('#FilterManualInput').click(function () {
-    var addUrl = '&FilterManualInput=false';
-    if ($(this).is(':checked')) {
-        addUrl = '&FilterManualInput=true';
-    } 
-    window.location.href = $(this).data('url') + addUrl;
-});
+$('#FilterManualInput').click(setupFilters); 
+$('#OrderByTransferTimeStampAsc').click(setupFilters); 
+
+function setupFilters() {
+    var addUrl = '';
+    if ($('#FilterManualInput').is(':checked')) {
+        addUrl += '&FilterManualInput=true';
+    }
+    if ($('#OrderByTransferTimeStampAsc').is(':checked')) {
+        addUrl += '&OrderByTransferTimeStampAsc=true';
+    }
+    window.location.href = $(this).parent().data('url') + addUrl;
+}
