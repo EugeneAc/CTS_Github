@@ -541,7 +541,7 @@
     <value>Файл</value>
   </data>
   <data name="ManualInputFilter" xml:space="preserve">
-    <value>Фильтр только по ручномувводу</value>
+    <value>Фильтр только по ручному вводу</value>
   </data>
   <data name="OrderByTransferTimeStampAsc" xml:space="preserve">
     <value>Сортировать по возрастанию времени</value>

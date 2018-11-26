@@ -610,7 +610,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Фильтр только по ручномувводу.
+        ///   Looks up a localized string similar to Фильтр только по ручному вводу.
         /// </summary>
         public static string ManualInputFilter {
             get {
