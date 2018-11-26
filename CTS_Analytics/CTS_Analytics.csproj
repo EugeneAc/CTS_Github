@@ -206,6 +206,7 @@
     <Compile Include="Controllers\DynamicController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MnemonicController.cs" />
     <Compile Include="Controllers\MnemonicController.Stations.cs" />
     <Compile Include="Controllers\MnemonicController.Index.cs" />
@@ -958,6 +959,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Grafana\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
