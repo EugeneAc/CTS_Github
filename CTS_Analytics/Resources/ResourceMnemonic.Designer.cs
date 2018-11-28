@@ -1258,6 +1258,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Фильтр по номеру вагона.
+        /// </summary>
+        public static string WagonNumberFilter {
+            get {
+                return ResourceManager.GetString("WagonNumberFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Вагонов.
         /// </summary>
         public static string Wagons {

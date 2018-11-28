@@ -124,6 +124,7 @@ namespace CTS_Analytics.Models.Mnemonic
         public List<WagonTransfer> WagonTransfers { get; set; }
         public PagedList.IPagedList<WagonTransfersAndPhoto> PagedWagonTrasnfersAndPhotos { get; set; }
         public List<RaspoznItem> WagonPictureList { get; set; }
+        public string WagonNumberFilter { get; set; }
     }
 
     public class WagonTransfersAndPhoto
@@ -146,5 +147,6 @@ namespace CTS_Analytics.Models.Mnemonic
         public int LastTrainWagonCount { get; set; }
         public RaspoznModel RaspoznTable { get; set; }
         public PagedList.IPagedList<RaspoznItem> PagedRaspoznTable { get; set; }
+        public string WagonNumberFilter { get; set; }
     }
 }

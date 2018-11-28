@@ -70,16 +70,31 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
 }
 
+
+// Фильтры на 3 уровне
 $('#FilterManualInput').click(setupFilters); 
 $('#OrderByTransferTimeStampAsc').click(setupFilters); 
+$('#wagonSearchFilter').click(setupFilters); 
+$('#WagonNumberFilter').keypress(function (e) {
+    if (e.which === 13) {
+        setupFilters();
+    }
+});
 
 function setupFilters() {
     var addUrl = '';
     if ($('#FilterManualInput').is(':checked')) {
         addUrl += '&FilterManualInput=true';
     }
+
     if ($('#OrderByTransferTimeStampAsc').is(':checked')) {
         addUrl += '&OrderByTransferTimeStampAsc=true';
     }
-    window.location.href = $(this).parent().data('url') + addUrl;
+
+    var searchtext = $('#WagonNumberFilter').val();
+    if (searchtext !== undefined) {
+        addUrl += '&wagonNumberFilter=' + searchtext;
+    }
+
+    window.location.href = $('#FilterContainer').data('url') + addUrl;
 }

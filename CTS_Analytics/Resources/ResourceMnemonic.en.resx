@@ -546,4 +546,7 @@
   <data name="OrderByTransferTimeStampAsc" xml:space="preserve">
     <value>Order by time asc</value>
   </data>
+  <data name="WagonNumberFilter" xml:space="preserve">
+    <value>Filter by wagon number</value>
+  </data>
 </root>

@@ -60,11 +60,14 @@
         <div id="text">
 
             <h3>@Resources.ResourceMnemonic.WagonLoadingJourlal</h3>
-            <div class="checkbox-inline" data-url='@Url.Action("Mine_vagon", new { ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID })'>
+            <div id="FilterContainer" class="checkbox-inline" data-url='@Url.Action("Mine_vagon", new { ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID })'>
+                @Html.TextBoxFor(model => model.WagonNumberFilter)
+                <span id="wagonSearchFilter" class="glyphicon glyphicon-search"></span>
+                <span class="filter-element">@Resources.ResourceMnemonic.WagonNumberFilter</span>
                 @Html.CheckBoxFor(model => model.FilterManualInput)
                 <span class="filter-element">@Resources.ResourceMnemonic.ManualInputFilter</span>
                 @Html.CheckBoxFor(model => model.OrderByTransferTimeStampAsc)
-                <span>@Resources.ResourceMnemonic.OrderByTransferTimeStampAsc</span>
+                <span class="filter-element">@Resources.ResourceMnemonic.OrderByTransferTimeStampAsc</span>
             </div>
 
             @if (Model.WagonTransfers != null)

@@ -309,7 +309,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false)
+        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false, string wagonNumberFilter = "")
         {
             var model = GetWagonScaleModel(wagonScaleID);
 
@@ -323,6 +323,12 @@ namespace CTS_Analytics.Controllers
             if (orderByTransferTimeStampAsc)
             {
                 model.WagonTransfers = model.WagonTransfers.OrderBy(t=>t.TransferTimeStamp).ToList();
+            }
+
+            model.WagonNumberFilter = wagonNumberFilter;
+            if (!string.IsNullOrEmpty(wagonNumberFilter))
+            {
+                model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
             }
 
             model.WagonScaleID = wagonScaleID;
@@ -346,7 +352,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_raspozn(int raspoznID, int? page)
+        public ActionResult Mine_raspozn(int raspoznID, int? page, string wagonNumberFilter="")
         {
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
@@ -360,12 +366,20 @@ namespace CTS_Analytics.Controllers
             int pageNumber = (page ?? 1);
             var model = new Mine_raspozn(locationID);
                 model.RaspoznTable = GetRaspoznModel(raspoznID, fromDate, toDate,pageSize,(pageNumber-1)*pageSize);
+            if (!string.IsNullOrEmpty(wagonNumberFilter))
+            {
+                model.RaspoznTable.RaspoznList = model.RaspoznTable.RaspoznList.Where(w => w.WagonNumber.Contains(wagonNumberFilter)).ToList();
+            };
+
             model.PagedRaspoznTable = model.RaspoznTable.RaspoznList.ToPagedList(pageNumber, pageSize);
             model.RaspoznID = raspoznID;
             model.LastTrainDateTime = model.RaspoznTable.RaspoznList.FirstOrDefault()?.Date;
             model.WagonsPassed = model.RaspoznTable.RaspoznList.Count();
             model.LastTrainWagonCount = model.RaspoznTable.RaspoznList.GroupBy(g => g.IdSostav).FirstOrDefault()?.Count() ?? 0;
             model.MineName = GetLocationNameOnCurrentLanguate(locationID);
+            model.WagonNumberFilter = wagonNumberFilter;
+            
+
             return View(model);
         }
 
