@@ -1,5 +1,4 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models.Common;
 using CTS_Manual_Input.Models.LabModels;
@@ -37,7 +36,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
 
-			var beltScales = EquipmentProvider.GetUserAuthorizedEquipment<BeltScale>(_cdb, userName);
+			var beltScales = EquipmentProvider.GetUserAuthorizedEquipment<BeltScale>(_cdb, User.Identity);
 			var beltScalesArray = beltScales.Select(x => x.ID).ToArray();
 			var transfers = _cdb.InternalTransfers.Where(t => beltScalesArray.Contains((int)t.EquipID))
 				.Where(v => v.IsValid).Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2));
@@ -47,8 +46,8 @@ namespace CTS_Manual_Input.Controllers
 			return View(new BeltTransfersView
 			{
 				BeltTransfers = transfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
-				CanEdit = UserHelper.CanEditUser(userName),
-				CanDelete = UserHelper.CanDeleteUser(userName)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -126,7 +125,7 @@ namespace CTS_Manual_Input.Controllers
 				//Bind model
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 
 				foreach (var t in transfers)
 				{
@@ -179,12 +178,12 @@ namespace CTS_Manual_Input.Controllers
 				BeltAnalysis beltAnalysis = _cdb.BeltAnalyzes.Find(model.ID);
 				beltAnalysis.IsValid = false;
 				beltAnalysis.LasEditDateTime = DateTime.Now;
-				beltAnalysis.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				beltAnalysis.OperatorName = User.Identity.Name;
 				_cdb.Entry(beltAnalysis).State = EntityState.Modified;
 
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.InheritedFrom = beltAnalysis.ID;
 
 				List<BeltTransfer> transfers = new List<BeltTransfer>();
@@ -220,7 +219,7 @@ namespace CTS_Manual_Input.Controllers
 			{
 				analisys.IsValid = false;
 				analisys.LasEditDateTime = DateTime.Now;
-				analisys.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				analisys.OperatorName = User.Identity.Name;
 
 				_cdb.Entry(analisys).State = EntityState.Modified;
 			}

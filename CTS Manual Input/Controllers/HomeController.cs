@@ -15,10 +15,9 @@ namespace CTS_Manual_Input.Controllers
         public ActionResult Index()
         {
             var model = new HomePageModel();
-            var groups = UserHelper.GetUserDomainGroups(User.Identity.Name);
-            model.CanEdit = UserHelper.CanEditUser(User.Identity.Name);
-            model.CanDelete = UserHelper.CanDeleteUser(User.Identity.Name);
-			model.Locations = EquipmentProvider.GetUserLocations(db, User.Identity.Name);
+            model.CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity);
+            model.CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity);
+			model.Locations = EquipmentProvider.GetUserLocations(db, User.Identity);
 
             @ViewBag.Title = "Главная страница";
             return View(model);

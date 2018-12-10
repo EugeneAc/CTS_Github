@@ -1,7 +1,5 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
-using CTS_Manual_Input.Models.ApproveModels;
 using CTS_Manual_Input.Models.Common;
 using CTS_Models;
 using CTS_Models.DBContext;
@@ -25,13 +23,13 @@ namespace CTS_Manual_Input.Controllers
 		{
 			@ViewBag.Title = "Ожидают подтверждения (данные скиповых подъемов)";
 
-			return View(Approver.GetTransfersToApprove<SkipTransfer, Skip>(_cdb, User.Identity.Name ?? ""));
+			return View(Approver.GetTransfersToApprove<SkipTransfer, Skip>(_cdb, User.Identity));
 		}
 
 		[CtsAuthorize(Roles = Roles.SkipUserRoleName)]
 		public ActionResult SkipApprove(string transfers, bool isApproved)
 		{
-			Approver.ChangeTransfersStatus<SkipTransfer>(transfers, isApproved, User.Identity.Name ?? "");
+			Approver.ChangeTransfersStatus<SkipTransfer>(transfers, isApproved, User.Identity);
 
 			return RedirectToAction("SkipIndex");
 		}
@@ -41,13 +39,13 @@ namespace CTS_Manual_Input.Controllers
 		{
 			@ViewBag.Title = "Ожидают подтверждения (данные конвейерных весов)";
 
-			return View(Approver.GetTransfersToApprove<BeltTransfer, BeltScale>(_cdb, User.Identity.Name ?? ""));
+			return View(Approver.GetTransfersToApprove<BeltTransfer, BeltScale>(_cdb, User.Identity));
 		}
 
 		[CtsAuthorize(Roles = Roles.BeltUserRoleName)]
 		public ActionResult BeltApprove(string transfers, bool isApproved)
 		{
-			Approver.ChangeTransfersStatus<BeltTransfer>(transfers, isApproved, User.Identity.Name ?? "");
+			Approver.ChangeTransfersStatus<BeltTransfer>(transfers, isApproved, User.Identity);
 
 			return RedirectToAction("BeltIndex");
 		}
@@ -57,13 +55,13 @@ namespace CTS_Manual_Input.Controllers
 		{
 			@ViewBag.Title = "Ожидают подтверждения (данные вагонных весов)";
 
-			return View(Approver.GetTransfersToApprove<WagonTransfer, WagonScale>(_cdb, User.Identity.Name ?? ""));
+			return View(Approver.GetTransfersToApprove<WagonTransfer, WagonScale>(_cdb, User.Identity));
 		}
 
 		[CtsAuthorize(Roles = Roles.WagonUserRoleName)]
 		public ActionResult WagonApprove(string transfers, bool isApproved)
 		{
-			Approver.ChangeTransfersStatus<WagonTransfer>(transfers, isApproved, User.Identity.Name ?? "");
+			Approver.ChangeTransfersStatus<WagonTransfer>(transfers, isApproved, User.Identity);
 
 			return RedirectToAction("WagonIndex");
 		}
@@ -73,13 +71,13 @@ namespace CTS_Manual_Input.Controllers
 		{
 			@ViewBag.Title = "Ожидают подтверждения (данные автомобильных весов)";
 
-			return View(Approver.GetTransfersToApprove<VehiTransfer, VehiScale>(_cdb, User.Identity.Name ?? ""));
+			return View(Approver.GetTransfersToApprove<VehiTransfer, VehiScale>(_cdb, User.Identity));
 		}
 
 		[CtsAuthorize(Roles = Roles.VehiUserRoleName)]
 		public ActionResult VehiApprove(string transfers, bool isApproved)
 		{
-			Approver.ChangeTransfersStatus<VehiTransfer>(transfers, isApproved, User.Identity.Name ?? "");
+			Approver.ChangeTransfersStatus<VehiTransfer>(transfers, isApproved, User.Identity);
 
 			return RedirectToAction("VehiIndex");
 		}
@@ -89,13 +87,13 @@ namespace CTS_Manual_Input.Controllers
 		{
 			@ViewBag.Title = "Ожидают подтверждения (данные утилизации породы)";
 
-			return View(Approver.GetTransfersToApprove<RockUtilTransfer, RockUtil>(_cdb, User.Identity.Name ?? ""));
+			return View(Approver.GetTransfersToApprove<RockUtilTransfer, RockUtil>(_cdb, User.Identity));
 		}
 
 		[CtsAuthorize(Roles = Roles.RockUserRoleName)]
 		public ActionResult RockApprove(string transfers, bool isApproved)
 		{
-			Approver.ChangeTransfersStatus<RockUtilTransfer>(transfers, isApproved, User.Identity.Name ?? "");
+			Approver.ChangeTransfersStatus<RockUtilTransfer>(transfers, isApproved, User.Identity);
 
 			return RedirectToAction("RockIndex");
 		}

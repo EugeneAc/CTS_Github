@@ -1,5 +1,6 @@
 ﻿using CTS_Analytics.Filters;
 using CTS_Analytics.Models;
+using CTS_Core;
 using CTS_Models;
 using CTS_Models.DBContext;
 using System;
@@ -12,7 +13,8 @@ namespace CTS_Analytics.Controllers
 {
 
     [Culture]
-    public class FilterController : Controller
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+	public class FilterController : Controller
     {
 		CtsDbContext cdb = new CtsDbContext();
 

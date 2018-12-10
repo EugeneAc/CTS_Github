@@ -13,11 +13,13 @@ using System.Configuration;
 using CTS_Models.DBContext;
 using CTS_Analytics.Models.StaticReports;
 using System.Globalization;
+using CTS_Core;
 
 namespace CTS_Analytics.Controllers
 {
     [Culture]
-    public class StaticController : Controller
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+	public class StaticController : Controller
     {
         readonly string _directorypath = ProjectConstants.ReportFolderPath;
         readonly string _reportDateTimeRegex = ProjectConstants.ReportDateTimeRegex;

@@ -7,9 +7,7 @@ using CTS_Manual_Input.Helpers;
 using PagedList;
 using System.Data.Entity;
 using CTS_Manual_Input.Models.Common;
-using System.Web;
 using CTS_Models;
-using CTS_Manual_Input.Attributes;
 using CTS_Models.DBContext;
 using System.ComponentModel.DataAnnotations;
 using CTS_Core;
@@ -40,7 +38,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
 
-			var skips = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, userName);
+			var skips = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, User.Identity);
 			var skipsArray = skips.Select(x => x.ID).ToArray();
 			var transfers = _cdb.SkipTransfers.Where(t => skipsArray.Contains((int)t.EquipID))
 				.Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2));
@@ -52,8 +50,8 @@ namespace CTS_Manual_Input.Controllers
 				Skips = skips,
 				SkipTransfers = transfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
 				Counters = new Dictionary<string, string>(),
-				CanEdit = UserHelper.CanEditUser(userName),
-				CanDelete = UserHelper.CanDeleteUser(userName)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -67,7 +65,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			var model = new SkipTransfer();
 			model.EquipID = skipID;
-			model.Equip = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, userName).Where(s => s.ID == skipID).SingleOrDefault();
+			model.Equip = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, User.Identity).Where(s => s.ID == skipID).SingleOrDefault();
 			model.SkipWeight = model.Equip.Weight;
 			model.TransferTimeStamp = System.DateTime.Now;
 			model.ID = "S" + skipID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -88,7 +86,7 @@ namespace CTS_Manual_Input.Controllers
 				skipTransfer.TransferTimeStamp = skipTransfer.TransferTimeStamp;
 				skipTransfer.IsValid = false;
 				skipTransfer.Status = 1;
-				skipTransfer.OperatorName =  UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				skipTransfer.OperatorName =  User.Identity.Name;
 				_cdb.SkipTransfers.Add(skipTransfer);
 				_cdb.SaveChanges();
 
@@ -117,7 +115,7 @@ namespace CTS_Manual_Input.Controllers
 			skipTransfer.IsValid = false;
 			skipTransfer.Status = 1;
 			skipTransfer.SkipWeight = _cdb.Skips.Where(x => x.ID == skipTransfer.EquipID).FirstOrDefault().Weight;
-			skipTransfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+			skipTransfer.OperatorName = User.Identity.Name;
 			skipTransfer.ID = "S" + SkipId + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
 			var vc = new ValidationContext(skipTransfer, null, null);
@@ -156,7 +154,7 @@ namespace CTS_Manual_Input.Controllers
 				editedTransfer.IsValid = true;
 				editedTransfer.Status = 3;
 				editedTransfer.LasEditDateTime = DateTime.Now;
-				editedTransfer.OperatorName =  UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				editedTransfer.OperatorName =  User.Identity.Name;
         _cdb.Entry(editedTransfer).State = EntityState.Modified;
 
 				var transfer = new SkipTransfer();
@@ -167,7 +165,7 @@ namespace CTS_Manual_Input.Controllers
 				transfer.TransferTimeStamp = model.TransferTimeStamp;
 				transfer.EquipID = model.EquipID;
 				transfer.SkipWeight = model.SkipWeight;
-				transfer.OperatorName =  UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				transfer.OperatorName =  User.Identity.Name;
 				transfer.IsValid = false;
 				transfer.Status = 2;
 
@@ -194,7 +192,7 @@ namespace CTS_Manual_Input.Controllers
 				transfer.IsValid = true;
 				transfer.Status = 4;
 				transfer.LasEditDateTime = DateTime.Now;
-				transfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				transfer.OperatorName = User.Identity.Name;
 				_cdb.Entry(transfer).State = EntityState.Modified;
 				_cdb.SaveChanges();
 			}

@@ -1,4 +1,5 @@
 ﻿using CTS_Analytics.Filters;
+using CTS_Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 namespace CTS_Analytics.Controllers
 {
 	[Culture]
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public class DashBoardController : Controller
 	{
 

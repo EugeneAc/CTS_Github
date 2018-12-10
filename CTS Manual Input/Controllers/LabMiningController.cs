@@ -1,5 +1,4 @@
-﻿using CTS_Manual_Input.Attributes;
-using CTS_Manual_Input.Helpers;
+﻿using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models.Common;
 using CTS_Models.DBContext;
 using System;
@@ -25,7 +24,7 @@ namespace CTS_Manual_Input.Controllers
 		{
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
-			var locations = EquipmentProvider.GetUserLocations(_cdb, userName);
+			var locations = EquipmentProvider.GetUserLocations(_cdb, User.Identity);
 			var locationsArray = locations.Select(x => x.ID).ToArray();
 			var analysis = _cdb.MiningAnalyzes.Where(t => locationsArray.Contains(t.LocationID)).Where(v => v.IsValid).ToList();
 			@ViewBag.Title = "Анализы по добыче";
@@ -34,8 +33,8 @@ namespace CTS_Manual_Input.Controllers
 			{
 				Locations = locations,
 				MiningAnalysis = analysis.OrderByDescending(t => t.AnalysisTimeStamp).ToPagedList(page, pagesize),
-				CanEdit = UserHelper.CanEditUser(userName),
-				CanDelete = UserHelper.CanDeleteUser(userName)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -65,7 +64,7 @@ namespace CTS_Manual_Input.Controllers
 		{
 			var model = new MiningAnalysis();
 			model.LocationID = LocationID;
-			model.Location = EquipmentProvider.GetUserLocations(_cdb, User.Identity.Name ?? "").Where(x => x.ID == LocationID).FirstOrDefault();
+			model.Location = EquipmentProvider.GetUserLocations(_cdb, User.Identity).Where(x => x.ID == LocationID).FirstOrDefault();
 
 			@ViewBag.Title = "Добавление анализа по добыче";
 			return View(model);
@@ -79,14 +78,14 @@ namespace CTS_Manual_Input.Controllers
 			{
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				_cdb.MiningAnalyzes.Add(model);
 				_cdb.SaveChanges();
 
 				return RedirectToAction("Index");
 			}
 
-			model.Location = EquipmentProvider.GetUserLocations(_cdb, User.Identity.Name ?? "").Where(x => x.ID == model.LocationID).FirstOrDefault();
+			model.Location = EquipmentProvider.GetUserLocations(_cdb, User.Identity).Where(x => x.ID == model.LocationID).FirstOrDefault();
 			@ViewBag.Title = "Добавление анализа по добыче";
 			return View("Add", model);
 		}
@@ -113,12 +112,12 @@ namespace CTS_Manual_Input.Controllers
 				MiningAnalysis analysis = _cdb.MiningAnalyzes.Find(model.ID);
 				analysis.IsValid = false;
 				analysis.LasEditDateTime = DateTime.Now;
-				analysis.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				analysis.OperatorName = User.Identity.Name;
 				_cdb.Entry(analysis).State = EntityState.Modified;
 
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.InheritedFrom = analysis.ID;
 				_cdb.MiningAnalyzes.Add(model);
 
@@ -127,7 +126,7 @@ namespace CTS_Manual_Input.Controllers
 				return RedirectToAction("Index");
 			}
 
-			model.Location = EquipmentProvider.GetUserLocations(_cdb, User.Identity.Name ?? "").Where(x => x.ID == model.LocationID).FirstOrDefault();
+			model.Location = EquipmentProvider.GetUserLocations(_cdb, User.Identity).Where(x => x.ID == model.LocationID).FirstOrDefault();
 			@ViewBag.Title = "Редактирование анализа по добыче";
 			return View("Edit", model);
 		}
@@ -145,7 +144,7 @@ namespace CTS_Manual_Input.Controllers
 			{
 				analisys.IsValid = false;
 				analisys.LasEditDateTime = DateTime.Now;
-				analisys.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				analisys.OperatorName = User.Identity.Name;
 
 				_cdb.Entry(analisys).State = EntityState.Modified;
 			}

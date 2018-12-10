@@ -7,10 +7,12 @@ using System.Web;
 using System.Web.Mvc;
 using CTS_Analytics.Filters;
 using CTS_Models.DBContext;
+using CTS_Core;
 
 namespace CTS_Analytics.Controllers
 {
 	[Culture]
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public class HomeController : Controller
 	{
 		CtsDbContext cdb = new CtsDbContext();

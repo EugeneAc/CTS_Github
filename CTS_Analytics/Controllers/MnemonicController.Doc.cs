@@ -1,4 +1,5 @@
 ﻿using CTS_Analytics.Models.Mnemonic.Doc_detail;
+using CTS_Core;
 using CTS_Models.DBContext;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,8 @@ using System.Web.Mvc;
 
 namespace CTS_Analytics.Controllers
 {
-    public partial class MnemonicController : Controller
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+	public partial class MnemonicController : Controller
     {
         public ActionResult doc()
         {

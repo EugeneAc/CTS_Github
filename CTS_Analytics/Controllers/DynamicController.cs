@@ -1,5 +1,6 @@
 ﻿using CTS_Analytics.Filters;
 using CTS_Analytics.Models;
+using CTS_Core;
 using CTS_Models.DBContext;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Web.Mvc;
 namespace CTS_Analytics.Controllers
 {
 	[Culture]
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public class DynamicController : Controller
 	{
 		CtsDbContext cdb = new CtsDbContext();

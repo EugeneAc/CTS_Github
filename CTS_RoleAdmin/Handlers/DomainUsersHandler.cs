@@ -17,17 +17,16 @@ namespace RoleAdmin.Handlers
 		{
 			UserPrincipal user;
 
-			using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domain, "y.aniskina", "rty-561"))
-			{
-				user = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, userLogin);
-			}
-
-
-			//using (HostingEnvironment.Impersonate())
+			//using (PrincipalContext ctx = new PrincipalContext(ContextType.Domain, domain, "y.aniskina", "rty-561"))
 			//{
-			//	var context = new PrincipalContext(ContextType.Domain, "kazprom", null, ContextOptions.Negotiate | ContextOptions.SecureSocketLayer);
-			//	user =  UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, userLogin);
+			//	user = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, userLogin);
 			//}
+
+			using (HostingEnvironment.Impersonate())
+			{
+				var context = new PrincipalContext(ContextType.Domain, "kazprom", null, ContextOptions.Negotiate | ContextOptions.SecureSocketLayer);
+				user = UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, userLogin);
+			}
 
 			return user;
 		}

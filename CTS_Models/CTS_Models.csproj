@@ -88,12 +88,18 @@
     <Compile Include="Migrations\201811010909076_AlarmComment.Designer.cs">
       <DependentUpon>201811010909076_AlarmComment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811260809490_UserRole.cs" />
+    <Compile Include="Migrations\201811260809490_UserRole.Designer.cs">
+      <DependentUpon>201811260809490_UserRole.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Others\AlarmComment.cs" />
     <Compile Include="Others\BoilerConsNorm.cs" />
+    <Compile Include="Others\CtsRole.cs" />
     <Compile Include="Others\InnerDestination.cs" />
     <Compile Include="DbViewModels\Staff.cs" />
     <Compile Include="Others\Shift.cs" />
+    <Compile Include="Others\CtsUser.cs" />
     <Compile Include="Skip\SkipWeight.cs" />
     <Compile Include="Validation\ValidateSkipLiftingQuantity.cs" />
     <Compile Include="Wagon\FatherTransfer.cs" />
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811010909076_AlarmComment.resx">
       <DependentUpon>201811010909076_AlarmComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811260809490_UserRole.resx">
+      <DependentUpon>201811260809490_UserRole.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

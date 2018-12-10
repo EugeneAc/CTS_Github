@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Caching;
 
-namespace CTS_Manual_Input.Helpers
+namespace CTS_Core
 {
 	public sealed class Cacher
 	{

@@ -1,5 +1,4 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models.Common;
 using CTS_Manual_Input.Models.LabModels;
@@ -37,7 +36,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
 
-			var wagonScales = EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, userName);
+			var wagonScales = EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, User.Identity);
 			var wagonScalesArray = wagonScales.Select(x => x.ID).ToArray();
 			var transfers = _cdb.WagonTransfers.Where(t => wagonScalesArray.Contains((int)t.EquipID))
 				.Where(v => v.IsValid).Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2));
@@ -70,8 +69,8 @@ namespace CTS_Manual_Input.Controllers
 			return View(new WagonBatchView
 			{
 				WagonBatches = batches.ToPagedList(page, pagesize),
-				CanEdit = UserHelper.CanEditUser(User.Identity.Name),
-				CanDelete = UserHelper.CanDeleteUser(User.Identity.Name)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -111,7 +110,7 @@ namespace CTS_Manual_Input.Controllers
 			{
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				//cdb.WagonAnalyzes.Add(model);
 
 				List<WagonTransfer> transfers = new List<WagonTransfer>();
@@ -158,12 +157,12 @@ namespace CTS_Manual_Input.Controllers
 				WagonAnalysis wagonAnalysis = _cdb.WagonAnalyzes.Find(model.ID);
 				wagonAnalysis.IsValid = false;
 				wagonAnalysis.LasEditDateTime = DateTime.Now;
-				wagonAnalysis.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				wagonAnalysis.OperatorName = User.Identity.Name;
 				_cdb.Entry(wagonAnalysis).State = EntityState.Modified;
 
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.InheritedFrom = wagonAnalysis.ID;
 
 				List<WagonTransfer> transfers = new List<WagonTransfer>();
@@ -186,7 +185,6 @@ namespace CTS_Manual_Input.Controllers
 			return View("Edit", model);
 		}
 
-		[LabUserAuthorization]
 		[CtsAuthorize(Roles = Roles.DeleteUserRoleName)]
 		public ActionResult Delete(int? id)
 		{
@@ -200,7 +198,7 @@ namespace CTS_Manual_Input.Controllers
 			{
 				analisys.IsValid = false;
 				analisys.LasEditDateTime = DateTime.Now;
-				analisys.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				analisys.OperatorName = User.Identity.Name;
 
 				_cdb.Entry(analisys).State = EntityState.Modified;
 			}

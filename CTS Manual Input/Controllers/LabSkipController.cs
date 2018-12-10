@@ -1,5 +1,4 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models.Common;
 using CTS_Manual_Input.Models.LabModels;
@@ -37,7 +36,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
 
-			var skips = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, userName);
+			var skips = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, User.Identity);
 			var skipsArray = skips.Select(x => x.ID).ToArray();
 			var transfers = _cdb.SkipTransfers.Where(t => skipsArray.Contains((int)t.EquipID))
 				.Where(v => v.IsValid).Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2));
@@ -47,8 +46,8 @@ namespace CTS_Manual_Input.Controllers
 			return View(new SkipTransfersView
 			{
 				SkipTransfers = transfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
-				CanEdit = UserHelper.CanEditUser(userName),
-				CanDelete = UserHelper.CanDeleteUser(userName)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -127,7 +126,7 @@ namespace CTS_Manual_Input.Controllers
 				//Bind model
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 
 				foreach (var t in transfers)
 				{
@@ -176,12 +175,12 @@ namespace CTS_Manual_Input.Controllers
 				SkipAnalysis skipAnalysis = _cdb.SkipAnalyzes.Find(model.ID);
 				skipAnalysis.IsValid = false;
 				skipAnalysis.LasEditDateTime = DateTime.Now;
-				skipAnalysis.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				skipAnalysis.OperatorName = User.Identity.Name;
 				_cdb.Entry(skipAnalysis).State = EntityState.Modified;
 
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = true;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.InheritedFrom = skipAnalysis.ID;
 
 				List<SkipTransfer> transfers = new List<SkipTransfer>();
@@ -217,7 +216,7 @@ namespace CTS_Manual_Input.Controllers
 			{
 				analisys.IsValid = false;
 				analisys.LasEditDateTime = DateTime.Now;
-				analisys.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				analisys.OperatorName = User.Identity.Name;
 
 				_cdb.Entry(analisys).State = EntityState.Modified;
 			}

@@ -1,5 +1,4 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models;
 using CTS_Manual_Input.Models.Common;
@@ -26,7 +25,7 @@ namespace CTS_Manual_Input.Controllers
 			List<WarehouseMeasure> measures = _cdb.WarehouseMeasures.ToList();
 			List<Warehouse> warehouses = new List<Warehouse>();
 
-			var locations = EquipmentProvider.GetUserLocations(_cdb, User.Identity.Name ?? "");
+			var locations = EquipmentProvider.GetUserLocations(_cdb, User.Identity);
 			if (locations != null)
 			{
 				var locationsArray = locations.Select(x => x.ID).ToList();
@@ -67,7 +66,7 @@ namespace CTS_Manual_Input.Controllers
 			}
 			if (ModelState.IsValid)
 			{
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.LasEditDateTime = System.DateTime.Now;
 				model.MeasureDate = model.MeasureDate.Date;
 
@@ -118,7 +117,7 @@ namespace CTS_Manual_Input.Controllers
 				WarehouseMeasure measure = _cdb.WarehouseMeasures.Find(model.ID);
 				measure.TotalMeasured = model.TotalMeasured;
 				measure.Comment = model.Comment;
-				measure.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				measure.OperatorName = User.Identity.Name;
 				measure.LasEditDateTime = System.DateTime.Now;
 				_cdb.Entry(measure).State = EntityState.Modified;
 				_cdb.SaveChanges();

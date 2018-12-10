@@ -18,7 +18,7 @@
     <AssemblyName>CTS Manual Input</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -154,7 +154,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Attributes\EquipAthorizationAttributes.cs" />
     <Compile Include="Controllers\ApproveController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\LabBeltController.cs" />
@@ -164,13 +163,10 @@
     <Compile Include="Controllers\UtilizationController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Helpers\Approver.cs" />
-    <Compile Include="Helpers\Cacher.cs" />
     <Compile Include="Helpers\EquipmentProvider.cs" />
     <Compile Include="Models\ApproveModels\AnalysisToApprove.cs" />
     <Compile Include="Models\ApproveModels\TransfersToApprove.cs" />
-    <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Attributes\ErrorAttribute.cs" />
-    <Compile Include="Attributes\RoleAuthorizationAttribute.cs" />
     <Compile Include="Controllers\BeltScalesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SkipController.cs" />
@@ -611,7 +607,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>23297</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:23297/</IISUrl>
+          <IISUrl>http://localhost/CTS Manual Input</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

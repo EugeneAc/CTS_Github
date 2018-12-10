@@ -1,5 +1,4 @@
-﻿using CTS_Manual_Input.Attributes;
-using CTS_Manual_Input.Models.Common;
+﻿using CTS_Manual_Input.Models.Common;
 using CTS_Manual_Input.Models.Dictionary;
 using CTS_Models;
 using CTS_Models.DBContext;
@@ -412,7 +411,7 @@ namespace CTS_Manual_Input.Controllers
 		public ActionResult SkipWeightsIndex(int page = 1)
 		{
 			int pagesize = 20;
-			List<Skip> skips = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, User.Identity.Name ?? "");
+			List<Skip> skips = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, User.Identity);
 			List<SkipWeight> skipWeights = _cdb.SkipWeights.ToList();
 			var skipWeightsWithActs = new List<SkipWeightWithAct>();
 			foreach (var s in skipWeights)
@@ -452,7 +451,7 @@ namespace CTS_Manual_Input.Controllers
 			}
 			if (ModelState.IsValid)
 			{
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.LasEditDateTime = System.DateTime.Now;
 				var ffddf = _cdb.SkipWeights.DefaultIfEmpty();
 				model.ID = _cdb.SkipWeights.DefaultIfEmpty().Max(p => p == null ? 1 : p.ID + 1);
@@ -512,7 +511,7 @@ namespace CTS_Manual_Input.Controllers
 				skipWeight.Weight = model.Weight;
 				skipWeight.ValidFrom = model.ValidFrom;
 				skipWeight.OrderNo = model.OrderNo;
-				skipWeight.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				skipWeight.OperatorName = User.Identity.Name;
 				skipWeight.LasEditDateTime = System.DateTime.Now;
 				_cdb.Entry(skipWeight).State = EntityState.Modified;
 				_cdb.SaveChanges();

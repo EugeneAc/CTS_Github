@@ -14,12 +14,14 @@ using System.Net;
 using CTS_Models;
 using CTS_Models.DBContext;
 using System.IO;
+using CTS_Core;
 
 namespace CTS_Analytics.Controllers
 {
     [Culture]
     [Error]
-    public partial class MnemonicController : Controller
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+	public partial class MnemonicController : Controller
     {
         class WagonNumDate
         {

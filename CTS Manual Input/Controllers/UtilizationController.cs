@@ -1,5 +1,4 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models;
 using CTS_Manual_Input.Models.Common;
@@ -37,7 +36,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
 
-			var rockUtils = EquipmentProvider.GetUserAuthorizedEquipment<RockUtil>(_cdb, userName);
+			var rockUtils = EquipmentProvider.GetUserAuthorizedEquipment<RockUtil>(_cdb, User.Identity);
 			var rockUtilsArray = rockUtils.Select(x => x.ID).ToArray();
 			var transfers = _cdb.RockUtilTransfers.Where(t => rockUtilsArray.Contains((int)t.EquipID))
 				.Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2));
@@ -48,8 +47,8 @@ namespace CTS_Manual_Input.Controllers
 			{
 				RockUtils = rockUtils,
 				RockUtilTranfers = transfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
-				CanEdit = UserHelper.CanEditUser(userName),
-				CanDelete = UserHelper.CanDeleteUser(userName)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -62,7 +61,7 @@ namespace CTS_Manual_Input.Controllers
 			}
 			string userName = User.Identity.Name ?? "";
 			var model = new RockUtilTransfer();
-			model.Equip = EquipmentProvider.GetUserAuthorizedEquipment<RockUtil>(_cdb, userName).Where(s => s.ID == rockUtilID).Single();
+			model.Equip = EquipmentProvider.GetUserAuthorizedEquipment<RockUtil>(_cdb, User.Identity).Where(s => s.ID == rockUtilID).Single();
 			model.EquipID = rockUtilID;
 			model.ID = "R" + rockUtilID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 			model.TransferTimeStamp = System.DateTime.Now;
@@ -89,7 +88,7 @@ namespace CTS_Manual_Input.Controllers
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = false;
 				model.Status = 1;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				_cdb.RockUtilTransfers.Add(model);
 				_cdb.SaveChanges();
 
@@ -128,13 +127,13 @@ namespace CTS_Manual_Input.Controllers
 				transfer.IsValid = true;
 				transfer.Status = 3;
 				transfer.LasEditDateTime = DateTime.Now;
-				transfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				transfer.OperatorName = User.Identity.Name;
 				_cdb.Entry(transfer).State = EntityState.Modified;
 				_cdb.SaveChanges();
 
 				model.InheritedFrom = transfer.ID;
 				model.ID = "R" + model.EquipID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				string name = Request.UserHostName;
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = false;
@@ -162,7 +161,7 @@ namespace CTS_Manual_Input.Controllers
 				transfer.IsValid = true;
 				transfer.Status = 4;
 				transfer.LasEditDateTime = DateTime.Now;
-				transfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				transfer.OperatorName = User.Identity.Name;
 				_cdb.Entry(transfer).State = EntityState.Modified;
 				_cdb.SaveChanges();
 			}

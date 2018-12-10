@@ -40,6 +40,8 @@ namespace CTS_Models.DBContext
 		public virtual DbSet<Recogn> Recogn { get; set; }
 		public virtual DbSet<WagonNumsCache> WagonNumsCache { get; set; }
 		public virtual DbSet<AlarmComment> AlarmComment { get; set; }
+		public virtual DbSet<CtsUser> CtsUser { get; set; }
+		public virtual DbSet<CtsRole> CtsRole { get; set; }
 
 
 		public DbSet<OraclePlanWithShop_ID> OraclePlansWithShop_ID { get; set; }

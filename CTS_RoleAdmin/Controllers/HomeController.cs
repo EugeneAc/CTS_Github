@@ -13,12 +13,12 @@ using System.Security.Principal;
 namespace CTS_RoleAdmin.Controllers
 {
 	[CtsAuthorize(Roles = Roles.RoleAdminRoleName)]
-	[Authorize]
 	public class HomeController : Controller
 	{
 		public ActionResult Index()
 		{
-
+		//var user = AuthorizeProvider.GetUserRolesFromDb(User.Identity.Name.Split(new char[] { '\\' }).Last(), User.Identity.Name.Split(new char[] { '\\' }).First());
+		DomainUsersHandler.FindUser("y.aniskina", "kazprom");
 			return View();
 		}
 

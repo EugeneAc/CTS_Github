@@ -3,21 +3,25 @@
     Layout = "~/Views/Shared/_PreLayout.cshtml";
     ViewBag.Title = "Начальная страница";
 }
-@{string greetingphrase = "Вы авторизованы для ввода";
-    if (Model.CanEdit == true) { greetingphrase += " и редактирования"; }
-    if (Model.CanDelete == true) { greetingphrase += ", а также удаления"; }
-    if (CTS_Manual_Input.Helpers.UserHelper.LabUser(User.Identity.Name ?? "")) { greetingphrase += " и подтверждения"; }
+@{string greetingphrase = "Вы авторизованы для";
+	if (CTS_Core.CtsAuthorizeProvider.CanAddUser(User.Identity)) { greetingphrase += " ввода"; }
+	if (Model.CanEdit == true) { greetingphrase += " и редактирования"; }
+	if (Model.CanDelete == true) { greetingphrase += ", а также удаления"; }
+	if (CTS_Core.CtsAuthorizeProvider.CanApproveUser(User.Identity)) { greetingphrase += " и подтверждения"; }
 
-    { greetingphrase += " данных по"; }
+	{ greetingphrase += " данных"; }
 
-    if (CTS_Manual_Input.Helpers.UserHelper.WagonUser(User.Identity.Name ?? "")) { greetingphrase += " вагонным весам,"; }
-    if (CTS_Manual_Input.Helpers.UserHelper.BeltUser(User.Identity.Name ?? "")) { greetingphrase += " конвейерным весам,"; }
-    if (CTS_Manual_Input.Helpers.UserHelper.SkipUser(User.Identity.Name ?? "")) { greetingphrase += " скиповым подъемам,"; }
-    if (CTS_Manual_Input.Helpers.UserHelper.RockUser(User.Identity.Name ?? "")) { greetingphrase += " утилицазии породы,"; }
-    if (CTS_Manual_Input.Helpers.UserHelper.LabUser(User.Identity.Name ?? "")) { greetingphrase += " лаборатории,"; }
-    if (CTS_Manual_Input.Helpers.UserHelper.DictUser(User.Identity.Name ?? "")) { greetingphrase += " словарям"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WagonUserRoleName)) { greetingphrase += " вагонных весов,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.BeltUserRoleName)) { greetingphrase += " конвейерных весов,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.SkipUserRoleName)) { greetingphrase += " скиповых подъемов,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.VehiUserRoleName)) { greetingphrase += " автомобильных весов,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.RockUserRoleName)) { greetingphrase += " утилизации породы,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.LabUserRoleName)) { greetingphrase += " лаборатории,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WarehouseUserRoleName) ||
+		CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WarehouseSetUserRoleName)) { greetingphrase += " складов,"; }
+	if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.DictUserRoleName)) { greetingphrase += " словарей"; }
 
-    greetingphrase += " на следующих объектах";
+	greetingphrase += " на следующих объектах";
 }
 <div class="subhead">
     <div class="container">

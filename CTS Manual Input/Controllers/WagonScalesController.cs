@@ -1,5 +1,4 @@
 ﻿using CTS_Core;
-using CTS_Manual_Input.Attributes;
 using CTS_Manual_Input.Helpers;
 using CTS_Manual_Input.Models;
 using CTS_Manual_Input.Models.Common;
@@ -53,7 +52,7 @@ namespace CTS_Manual_Input.Controllers
 			string userName = User.Identity.Name ?? "";
 			int pagesize = 20;
 
-			var wagonScales = EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, userName);
+			var wagonScales = EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, User.Identity);
 			var wagonScalesArray = wagonScales.Select(x => x.ID).ToArray();
 			var transfers = _cdb.WagonTransfers.Where(t => wagonScalesArray.Contains((int)t.EquipID))
 				.Where(d => d.TransferTimeStamp >= DbFunctions.AddDays(System.DateTime.Now, -2));
@@ -64,8 +63,8 @@ namespace CTS_Manual_Input.Controllers
 			{
 				WagonScales = wagonScales,
 				Transfers = transfers.OrderByDescending(t => t.TransferTimeStamp).ToPagedList(page, pagesize),
-				CanEdit = UserHelper.CanEditUser(userName),
-				CanDelete = UserHelper.CanDeleteUser(userName)
+				CanEdit = CtsAuthorizeProvider.CanEditUser(User.Identity),
+				CanDelete = CtsAuthorizeProvider.CanDeleteUser(User.Identity)
 			});
 		}
 
@@ -77,7 +76,7 @@ namespace CTS_Manual_Input.Controllers
 				return HttpNotFound();
 			}
             
-			var scale = EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, User.Identity.Name ?? "").Where(s => s.ID == scaleID).SingleOrDefault();
+			var scale = EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, User.Identity).Where(s => s.ID == scaleID).SingleOrDefault();
 			var model = new TransferList();
             model.Transfer = new WagonTransfer()
 			{
@@ -127,7 +126,7 @@ namespace CTS_Manual_Input.Controllers
 			model.Transfer.LasEditDateTime = DateTime.Now;
 			model.Transfer.IsValid = false;
 			model.Transfer.Status = 1;
-			model.Transfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+			model.Transfer.OperatorName = User.Identity.Name;
 			var oldid = model.Transfer.ID;
 			model.Transfer.ID = "W" + model.Transfer.EquipID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
@@ -218,14 +217,14 @@ namespace CTS_Manual_Input.Controllers
 				transfer.IsValid = true;
 				transfer.Status = 3;
 				transfer.LasEditDateTime = DateTime.Now;
-				transfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				transfer.OperatorName = User.Identity.Name;
 				_cdb.Entry(transfer).State = EntityState.Modified;
 				_cdb.SaveChanges();
 
 				model.LasEditDateTime = DateTime.Now;
 				model.IsValid = false;
 				model.Status = 2;
-				model.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				model.OperatorName = User.Identity.Name;
 				model.InheritedFrom = model.ID;
 				model.ID = "W" + model.EquipID + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 				_cdb.WagonTransfers.Add(model);
@@ -252,7 +251,7 @@ namespace CTS_Manual_Input.Controllers
 				transfer.IsValid = true;
 				transfer.Status = 4;
 				transfer.LasEditDateTime = DateTime.Now;
-				transfer.OperatorName = UserHelper.GetOperatorName4DBInsertion(Request.UserHostName, User.Identity.Name);
+				transfer.OperatorName = User.Identity.Name;
 				_cdb.Entry(transfer).State = EntityState.Modified;
 				_cdb.SaveChanges();
 			}
@@ -268,8 +267,8 @@ namespace CTS_Manual_Input.Controllers
         private void GetDestinationsItemsAndScalesToVeiwBag(string locationID)
         {
             SelectList destinations = new SelectList(_cdb.Locations.Where(l=>l.ID.Contains(locationID)), "ID", "LocationName");
-            SelectList items = new SelectList(EquipmentProvider.GetItems(_cdb, User.Identity.Name ?? ""), "ID", "Name");
-            SelectList scales = new SelectList(EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, User.Identity.Name ?? ""), "ID", "Name");
+            SelectList items = new SelectList(EquipmentProvider.GetItems(_cdb, User.Identity), "ID", "Name");
+            SelectList scales = new SelectList(EquipmentProvider.GetUserAuthorizedEquipment<WagonScale>(_cdb, User.Identity), "ID", "Name");
 
             ViewBag.Destinations = destinations;
             ViewBag.FromDestinations = destinations;

@@ -61,32 +61,33 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            @if (CTS_Manual_Input.Helpers.UserHelper.WagonUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WagonUserRoleName))
                             {
                                 <li>@Html.ActionLink("Вагонные весы", "Index", "WagonScales")</li>
                             }
-                            @if (CTS_Manual_Input.Helpers.UserHelper.BeltUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.BeltUserRoleName))
                             {
                                 <li>@Html.ActionLink("Конвейерные весы", "Index", "BeltScales")</li>
                             }
-							@if (CTS_Manual_Input.Helpers.UserHelper.VehiUser(User.Identity.Name ?? ""))
+							@if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.VehiUserRoleName))
 							{
 								<li>@Html.ActionLink("Авто весы", "Index", "VehiScales")</li>
 							}
-                            @if (CTS_Manual_Input.Helpers.UserHelper.SkipUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.SkipUserRoleName))
                             {
                                 <li>@Html.ActionLink("Скипы", "Index", "Skip")</li>
                             }
-                            @if (CTS_Manual_Input.Helpers.UserHelper.RockUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.RockUserRoleName))
                             {
                                 <li>@Html.ActionLink("Порода", "Index", "Utilization")</li>
                             }
-                            @if (CTS_Manual_Input.Helpers.UserHelper.WarehouseUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WarehouseUserRoleName) ||
+								CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WarehouseSetUserRoleName))
                             {
                                 <li>@Html.ActionLink("Склад", "Index", "Warehouse")</li>
                             }
 
-                            @if (CTS_Manual_Input.Helpers.UserHelper.LabUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.LabUserRoleName))
                             {
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span>Лаборатория</a>
@@ -99,28 +100,28 @@
                                 </li>
                             }
 
-                            @if (CTS_Manual_Input.Helpers.UserHelper.CanApproveUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.ApproveUserRoleName))
                             {
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span>Подтверждение</a>
                                     <ul class="dropdown-menu">
-                                        @if (CTS_Manual_Input.Helpers.UserHelper.WagonUser(User.Identity.Name ?? ""))
+                                        @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WagonUserRoleName))
                                         {
                                             <li>@Html.ActionLink("Вагонные весы", "WagonIndex", "Approve")</li>
                                         }
-                                        @if (CTS_Manual_Input.Helpers.UserHelper.BeltUser(User.Identity.Name ?? ""))
+                                        @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.BeltUserRoleName))
                                         {
                                             <li>@Html.ActionLink("Конвейерные весы", "BeltIndex", "Approve")</li>
                                         }
-                                        @if (CTS_Manual_Input.Helpers.UserHelper.SkipUser(User.Identity.Name ?? ""))
+                                        @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.SkipUserRoleName))
                                         {
                                             <li>@Html.ActionLink("Скиповой подъем", "SkipIndex", "Approve")</li>
                                         }
-										@if (CTS_Manual_Input.Helpers.UserHelper.VehiUser(User.Identity.Name ?? ""))
+										@if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.VehiUserRoleName))
 										{
 											<li>@Html.ActionLink("Автомобильные весы", "VehiIndex", "Approve")</li>
 										}
-                                        @if (CTS_Manual_Input.Helpers.UserHelper.RockUser(User.Identity.Name ?? ""))
+                                        @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.RockUserRoleName))
                                         {
                                             <li>@Html.ActionLink("Порода", "RockIndex", "Approve")</li>
                                         }
@@ -128,7 +129,7 @@
                                 </li>
                             }
 
-                            @if (CTS_Manual_Input.Helpers.UserHelper.DictUser(User.Identity.Name ?? ""))
+                            @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.DictUserRoleName))
                             {
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="caret"></span>Словари</a>

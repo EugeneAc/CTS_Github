@@ -11,14 +11,11 @@ using CTS_Models.DBContext;
 using CTS_Models.DbViewModels;
 using CTS_Analytics.Helpers;
 using Newtonsoft.Json;
+using CTS_Core;
 
 namespace CTS_Analytics.Controllers
 {
-	//[Authorize(Roles = Roles.AnalyticsRoleName
-	//	#if DEBUG
-	//		+ Roles.AdminDebugRoleName
-	//	#endif
-	//)]
+	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public partial class MnemonicController : Controller
     {
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
