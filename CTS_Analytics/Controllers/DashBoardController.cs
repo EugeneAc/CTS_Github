@@ -25,11 +25,6 @@ namespace CTS_Analytics.Controllers
 			return View("Index");
 		}
 
-		public ActionResult PreIndex()
-		{
-			return View();
-		}
-
 		public ActionResult Mine(string ID)
 		{
 			string viewID;
@@ -99,7 +94,12 @@ namespace CTS_Analytics.Controllers
 
         public ActionResult Alarm()
         {
-            return View("Alarm");
+            return View();
+        }
+
+        public ActionResult Alarm_other()
+        {
+            return View();
         }
 
         public ActionResult ChangeCulture(string lang)

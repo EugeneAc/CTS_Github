@@ -14,26 +14,27 @@ function ConfirmSetBalance(url) {
 }
 
 function logout() {
-    try {
-        document.execCommand("ClearAuthenticationCache");
-        var agt = navigator.userAgent.toLowerCase();
-        if (agt.indexOf("msie") !== -1) {
-            document.execCommand("ClearAuthenticationCache", "false");
-        }
-        //window.crypto is defined in Chrome, but it has no logout function
-        else if (window.crypto && typeof window.crypto.logout !== "function") {
-            window.crypto.logout();
-        }
-        else {
-            //window.location = "/page/to/instruct/the/user/to/close/the/browser";
-        }
-        window.close();
-        open(location, '_self').close();
-    }
-    catch (e) {
-        window.close();
-        open(location, '_self').close();
-    }
+    $.post("/home/logout");
+    //try {
+    //    document.execCommand("ClearAuthenticationCache");
+    //    var agt = navigator.userAgent.toLowerCase();
+    //    if (agt.indexOf("msie") !== -1) {
+    //        document.execCommand("ClearAuthenticationCache", "false");
+    //    }
+    //    //window.crypto is defined in Chrome, but it has no logout function
+    //    else if (window.crypto && typeof window.crypto.logout !== "function") {
+    //        window.crypto.logout();
+    //    }
+    //    else {
+    //        //window.location = "/page/to/instruct/the/user/to/close/the/browser";
+    //    }
+    //    window.close();
+    //    open(location, '_self').close();
+    //}
+    //catch (e) {
+    //    window.close();
+    //    open(location, '_self').close();
+    //}
 }
 
 $(function () {

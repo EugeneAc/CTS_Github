@@ -54,10 +54,13 @@ $('#dashboardrange').on('apply.daterangepicker', function (ev, picker) {
 window.onscroll = function () { scrollFunction() };
 
 function scrollFunction() {
+    var upBtn = document.getElementById("goTopBtn");
+    if (upBtn !== null) {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         document.getElementById("goTopBtn").style.display = "block";
     } else {
         document.getElementById("goTopBtn").style.display = "none";
+        }
     }
 }
 
@@ -65,4 +68,33 @@ function scrollFunction() {
 function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+}
+
+
+// Фильтры на 3 уровне
+$('#FilterManualInput').click(setupFilters); 
+$('#OrderByTransferTimeStampAsc').click(setupFilters); 
+$('#wagonSearchFilter').click(setupFilters); 
+$('#WagonNumberFilter').keypress(function (e) {
+    if (e.which === 13) {
+        setupFilters();
+    }
+});
+
+function setupFilters() {
+    var addUrl = '';
+    if ($('#FilterManualInput').is(':checked')) {
+        addUrl += '&FilterManualInput=true';
+    }
+
+    if ($('#OrderByTransferTimeStampAsc').is(':checked')) {
+        addUrl += '&OrderByTransferTimeStampAsc=true';
+    }
+
+    var searchtext = $('#WagonNumberFilter').val();
+    if (searchtext !== undefined) {
+        addUrl += '&wagonNumberFilter=' + searchtext;
+    }
+
+    window.location.href = $('#FilterContainer').data('url') + addUrl;
 }

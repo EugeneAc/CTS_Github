@@ -61,11 +61,29 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Другие инциденты.
+        /// </summary>
+        public static string OtherIncidents {
+            get {
+                return ResourceManager.GetString("OtherIncidents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Дашборды.
         /// </summary>
         public static string PageName {
             get {
                 return ResourceManager.GetString("PageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ж/Д инциденты.
+        /// </summary>
+        public static string RailRoadIncidents {
+            get {
+                return ResourceManager.GetString("RailRoadIncidents", resourceCulture);
             }
         }
     }

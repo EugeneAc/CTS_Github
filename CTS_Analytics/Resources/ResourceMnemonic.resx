@@ -540,4 +540,13 @@
   <data name="OpenSkipAct" xml:space="preserve">
     <value>Файл</value>
   </data>
+  <data name="ManualInputFilter" xml:space="preserve">
+    <value>Фильтр только по ручному вводу</value>
+  </data>
+  <data name="OrderByTransferTimeStampAsc" xml:space="preserve">
+    <value>Сортировать по возрастанию времени</value>
+  </data>
+  <data name="WagonNumberFilter" xml:space="preserve">
+    <value>Фильтр по номеру вагона</value>
+  </data>
 </root>

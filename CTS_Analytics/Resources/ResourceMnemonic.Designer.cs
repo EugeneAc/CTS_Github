@@ -610,6 +610,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Фильтр только по ручному вводу.
+        /// </summary>
+        public static string ManualInputFilter {
+            get {
+                return ResourceManager.GetString("ManualInputFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ручной ввод.
         /// </summary>
         public static string ManualInputToolTip {
@@ -705,6 +714,15 @@ namespace Resources {
         public static string OpenSkipAct {
             get {
                 return ResourceManager.GetString("OpenSkipAct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сортировать по возрастанию времени.
+        /// </summary>
+        public static string OrderByTransferTimeStampAsc {
+            get {
+                return ResourceManager.GetString("OrderByTransferTimeStampAsc", resourceCulture);
             }
         }
         
@@ -1236,6 +1254,15 @@ namespace Resources {
         public static string WagonNumber {
             get {
                 return ResourceManager.GetString("WagonNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Фильтр по номеру вагона.
+        /// </summary>
+        public static string WagonNumberFilter {
+            get {
+                return ResourceManager.GetString("WagonNumberFilter", resourceCulture);
             }
         }
         

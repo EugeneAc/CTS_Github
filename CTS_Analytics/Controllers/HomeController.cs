@@ -1,3 +1,4 @@
+﻿
 ﻿using CTS_Analytics.Models;
 using CTS_Models;
 using System;
@@ -15,39 +16,6 @@ namespace CTS_Analytics.Controllers
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public class HomeController : Controller
 	{
-		CtsDbContext cdb = new CtsDbContext();
-		public ActionResult Index()
-		{
-			return View();
-		}
-
-		public ActionResult About()
-		{
-			ViewBag.Message = "Your application description page.";
-
-			return View();
-		}
-
-		public ActionResult GetScales(string Locations)
-		{
-			string[] locations = Locations.Split(Convert.ToChar(@","));
-			var scales = new List<WagonScale>();
-			foreach (var l in locations)
-			{
-				scales.AddRange(cdb.WagonScales.Where(s => s.LocationID == l));
-			}
-			ViewBag.Scales = scales.Select(N => new SelectListItem { Text = N.Name, Value = N.ID.ToString() }); ;
-			ViewBag.Message = "Your application description page.";
-
-			return PartialView("_ScalesDynDropDown");
-		}
-
-		public ActionResult Contact()
-		{
-			ViewBag.Message = "Your contact page.";
-
-			return View();
-		}
 
 		public ActionResult ChangeCulture(string lang)
 		{

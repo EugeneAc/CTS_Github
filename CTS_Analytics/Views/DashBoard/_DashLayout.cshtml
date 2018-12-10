@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.PageName = Resources.ResourceDashboard.PageName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@RenderBody()
+
+<button onclick="topFunction()" id="goTopBtn">^</button>
+<script>
+     function resizeIframe(iframeID) {
+        var iframe = window.parent.document.getElementById('ifrm');
+        iframe.contentWindow.postMessage(document.body.scrollHeight, '*');
+    }
+
+    window.addEventListener('message', function (event) {
+        // IMPORTANT: Check the origin of the data!
+        if (~event.origin.indexOf('http://@Request.Url.Host:3000')) {
+        } else {
+
+        return;
+        }
+        });
+
+</script>

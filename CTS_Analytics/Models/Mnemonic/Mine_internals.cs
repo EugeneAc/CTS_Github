@@ -15,6 +15,8 @@ namespace CTS_Analytics.Models.Mnemonic
         public string DetailsViewName { get; set; }
         public int ManualValue { get; set; }
         public int Automatic { get; set; }
+        public bool FilterManualInput { get; set; }
+        public bool OrderByTransferTimeStampAsc { get; set; }
 
         public Mine_internals(string locaitonID)
         {
@@ -122,6 +124,7 @@ namespace CTS_Analytics.Models.Mnemonic
         public List<WagonTransfer> WagonTransfers { get; set; }
         public PagedList.IPagedList<WagonTransfersAndPhoto> PagedWagonTrasnfersAndPhotos { get; set; }
         public List<RaspoznItem> WagonPictureList { get; set; }
+        public string WagonNumberFilter { get; set; }
     }
 
     public class WagonTransfersAndPhoto
@@ -144,5 +147,6 @@ namespace CTS_Analytics.Models.Mnemonic
         public int LastTrainWagonCount { get; set; }
         public RaspoznModel RaspoznTable { get; set; }
         public PagedList.IPagedList<RaspoznItem> PagedRaspoznTable { get; set; }
+        public string WagonNumberFilter { get; set; }
     }
 }

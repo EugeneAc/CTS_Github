@@ -4,6 +4,8 @@ using CTS_Manual_Input.Models.Common;
 using CTS_Models.DBContext;
 using System.Web.Mvc;
 using CTS_Core;
+using System.Web;
+using System;
 
 namespace CTS_Manual_Input.Controllers
 {
@@ -39,10 +41,14 @@ namespace CTS_Manual_Input.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult Logout()
         {
-            //FormsAuthentication.SignOut();
-            return Redirect("~/");
+            Session.Abandon();
+
+            return RedirectToAction("Index");
+
+            //return new HttpUnauthorizedResult();
         }
 
         public ActionResult Failure(ViewDataDictionary exModel)

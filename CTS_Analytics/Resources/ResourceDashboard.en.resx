@@ -120,4 +120,10 @@
   <data name="PageName" xml:space="preserve">
     <value>Dashboards</value>
   </data>
+  <data name="RailRoadIncidents" xml:space="preserve">
+    <value>Railroad Incidents</value>
+  </data>
+  <data name="OtherIncidents" xml:space="preserve">
+    <value>Other Incidents</value>
+  </data>
 </root>

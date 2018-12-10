@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.PageName = Resources.ResourceDashboard.PageName;
+    Layout = "~/Views/DashBoard/_DashLayout.cshtml";
+}
+
+<div class="topmenu">
+    <a id="dashboardAlarmLink" href='@Url.Action("Alarm", "DashBoard")'>@Resources.ResourceDashboard.RailRoadIncidents</a>
+    <a id="dashboardAlarmOtherLink" href='@Url.Action("Alarm_other", "DashBoard")'>@Resources.ResourceDashboard.OtherIncidents</a>
+</div>
+
+@RenderBody()

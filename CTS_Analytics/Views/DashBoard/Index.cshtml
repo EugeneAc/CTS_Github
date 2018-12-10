@@ -1,26 +1,7 @@
 ﻿@{
     ViewBag.PageName = Resources.ResourceDashboard.PageName;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/DashBoard/_DashLayout.cshtml";
 }
 
 <iframe src="http://@Request.Url.Host:3000/dashboard/db/index_@Resources.ResourceGeneral.CurrentLang?orgId=1&kiosk&from=1514743200000&to=1546279199999&theme=light" scrolling="no" width="100%" onload="resizeIframe(this)" height="1200" frameborder="0" id="ifrm" style="box-sizing: border-box;">
     </iframe>
-<button onclick="topFunction()" id="goTopBtn">^</button>
-<script>
-     function resizeIframe(iframeID) {
-        var iframe = window.parent.document.getElementById('ifrm');
-        iframe.contentWindow.postMessage(document.body.scrollHeight, '*');
-    }
-
-    window.addEventListener('message', function (event) {
-        // IMPORTANT: Check the origin of the data!
-        if (~event.origin.indexOf('http://@Request.Url.Host:3000')) {
-
-        console.log(event.data);
-        } else {
-
-        return;
-        }
-        });
-
-</script>

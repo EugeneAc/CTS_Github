@@ -120,4 +120,10 @@
   <data name="PageName" xml:space="preserve">
     <value>Дашборды</value>
   </data>
+  <data name="RailRoadIncidents" xml:space="preserve">
+    <value>Ж/Д инциденты</value>
+  </data>
+  <data name="OtherIncidents" xml:space="preserve">
+    <value>Другие инциденты</value>
+  </data>
 </root>

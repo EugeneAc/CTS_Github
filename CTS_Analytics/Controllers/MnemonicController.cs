@@ -254,9 +254,21 @@ namespace CTS_Analytics.Controllers
 
         #region Mine3rdLevel
 
-        public ActionResult Mine_skip(string ID, int skipID, int? page)
+        public ActionResult Mine_skip(string ID, int skipID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false)
         {
             var model = GetSkipModel(skipID);
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
+            {
+                model.SkipTransfers = model.SkipTransfers.Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName).ToList();
+            }
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.SkipTransfers = model.SkipTransfers.OrderBy(t => t.TransferTimeStamp).ToList();
+            }
+
             model.ReturnID = ID;
             model.SkipID = skipID;
             int pageSize = 20;
@@ -265,9 +277,21 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_konv(string ID, int beltScaleID, int? page)
+        public ActionResult Mine_konv(string ID, int beltScaleID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false)
         {
             var model = GetBeltScaleModel(beltScaleID);
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
+            {
+                model.BeltTransfers = model.BeltTransfers.Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName).ToList();
+            }
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.BeltTransfers = model.BeltTransfers.OrderBy(t => t.TransferTimeStamp).ToList();
+            }
+
             model.ReturnID = ID;
             model.BeltID = beltScaleID;
             int pageSize = 24;
@@ -287,9 +311,28 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page)
+        public ActionResult Mine_vagon(string ID, int wagonScaleID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false, string wagonNumberFilter = "")
         {
             var model = GetWagonScaleModel(wagonScaleID);
+
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
+            {
+                model.WagonTransfers = model.WagonTransfers.Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName).ToList();
+            }
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.WagonTransfers = model.WagonTransfers.OrderBy(t=>t.TransferTimeStamp).ToList();
+            }
+
+            model.WagonNumberFilter = wagonNumberFilter;
+            if (!string.IsNullOrEmpty(wagonNumberFilter))
+            {
+                model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
+            }
+
             model.WagonScaleID = wagonScaleID;
             int pageSize = 20;
             int pageNumber = (page ?? 1);
@@ -311,7 +354,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
-        public ActionResult Mine_raspozn(int raspoznID, int? page)
+        public ActionResult Mine_raspozn(int raspoznID, int? page, string wagonNumberFilter="")
         {
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
@@ -325,12 +368,20 @@ namespace CTS_Analytics.Controllers
             int pageNumber = (page ?? 1);
             var model = new Mine_raspozn(locationID);
                 model.RaspoznTable = GetRaspoznModel(raspoznID, fromDate, toDate,pageSize,(pageNumber-1)*pageSize);
+            if (!string.IsNullOrEmpty(wagonNumberFilter))
+            {
+                model.RaspoznTable.RaspoznList = model.RaspoznTable.RaspoznList.Where(w => w.WagonNumber.Contains(wagonNumberFilter)).ToList();
+            };
+
             model.PagedRaspoznTable = model.RaspoznTable.RaspoznList.ToPagedList(pageNumber, pageSize);
             model.RaspoznID = raspoznID;
             model.LastTrainDateTime = model.RaspoznTable.RaspoznList.FirstOrDefault()?.Date;
             model.WagonsPassed = model.RaspoznTable.RaspoznList.Count();
             model.LastTrainWagonCount = model.RaspoznTable.RaspoznList.GroupBy(g => g.IdSostav).FirstOrDefault()?.Count() ?? 0;
             model.MineName = GetLocationNameOnCurrentLanguate(locationID);
+            model.WagonNumberFilter = wagonNumberFilter;
+            
+
             return View(model);
         }
 
@@ -364,7 +415,7 @@ namespace CTS_Analytics.Controllers
             var toDate = GetDateFromCookie("todate");
             using (var db = new CtsDbContext())
             {
-                return GetWagonScaleModel(wagonScaleID, db, fromDate, toDate); ;
+                return GetWagonScaleModel(wagonScaleID, db, fromDate, toDate);
             }
         }
 
