@@ -15,6 +15,7 @@ namespace DBSyncService
 		private Timer WarehouseTimer = null;
 		private int syncTimerInterval = 60000;
 		private int weightTimerInterval = 60000;
+		private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
 		public DBSync()
 		{
@@ -55,25 +56,25 @@ namespace DBSyncService
 			WarehouseTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.WarehouseTimer_tick);
 			WarehouseTimer.Enabled = true;
 
-			Logger.MakeLog(string.Format("Service started. Timer interval DB Synchronization = {0} minutes, Skip weight change = {1} minutes, WarehouseTimer will raise in {2} minutes.", (syncTimerInterval / 60000).ToString(), (weightTimerInterval / 60000).ToString(), (WarehouseTimer.Interval / 60000).ToString()));
+			_logger.Trace(string.Format("Service started. Timer interval DB Synchronization = {0} minutes, Skip weight change = {1} minutes, WarehouseTimer will raise in {2} minutes.", (syncTimerInterval / 60000).ToString(), (weightTimerInterval / 60000).ToString(), (WarehouseTimer.Interval / 60000).ToString()));
 		}
 
 		protected override void OnStop()
 		{
 			SyncTimer.Enabled = false;
-			Logger.MakeLog("Service Stopped");
+			_logger.Trace("Service Stopped");
 		}
 
 		protected override void OnPause()
 		{
 			SyncTimer.Enabled = false;
-			Logger.MakeLog("Service Paused");
+			_logger.Trace("Service Paused");
 		}
 
 		protected override void OnContinue()
 		{
 			SyncTimer.Enabled = true;
-			Logger.MakeLog("Service Continued");
+			_logger.Trace("Service Continued");
 		}
 
 		private void SyncTimer_tick(object sender, ElapsedEventArgs e)
