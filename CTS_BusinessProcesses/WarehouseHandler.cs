@@ -11,6 +11,7 @@ namespace CTS_Core
 {
 	public static class WarehouseHandler
 	{
+		private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 		static CtsDbContext _centalDB = new CtsDbContext();
 
 		static MineWarehouseLogicModel _kuzEquip = new MineWarehouseLogicModel(plusSkipID: new List<int> { 2, 3 }, minusWagonID: new List<int> { 3 }, minusRockID: new List<int> { 2 }, warehouseID: 2);
@@ -41,8 +42,8 @@ namespace CTS_Core
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog("Unsuccess with CalculateWarehouseTransferAutomatic");
-				Logger.MakeLog(ex.ToString());
+				_logger.Error("Unsuccess with CalculateWarehouseTransferAutomatic");
+				_logger.Error(ex.ToString());
 				return;
 			}
 
@@ -64,7 +65,7 @@ namespace CTS_Core
 			var tentInsertTask = ExecuteStoredProcedure(_tentEquip.WarehouseID, tentQuantity, timeStamp);
 			var lenInsertTask = ExecuteStoredProcedure(_lenEquip.WarehouseID, lenQuantity, timeStamp);
 
-			Logger.MakeLog(String.Format("Successfully finished CalculateWarehouseTransferAutomatic. kuz: {0}, kost: {1}, abay: {2}, sar1: {3}, sar3: {4}, shah: {5}, tent: {6}, len: {7}",
+			_logger.Trace(String.Format("Successfully finished CalculateWarehouseTransferAutomatic. kuz: {0}, kost: {1}, abay: {2}, sar1: {3}, sar3: {4}, shah: {5}, tent: {6}, len: {7}",
 															kuzInsertTask, kostInsertTask, abayInsertTask, sar1InsertTask, sar3InsertTask, shahInsertTask, tentInsertTask, lenInsertTask));
 		}
 
@@ -85,8 +86,8 @@ namespace CTS_Core
 						}
 						catch (Exception ex)
 						{
-							Logger.MakeLog("Unsuccess with CalculateBalance - LiftingID is not a number");
-							Logger.MakeLog(ex.ToString());
+							_logger.Error("Unsuccess with CalculateBalance - LiftingID is not a number");
+							_logger.Error(ex.ToString());
 						}
 					}
 				}
@@ -97,7 +98,8 @@ namespace CTS_Core
 				total += ((mine.PlusWagonID != null) && (wagonTransfers != null)) ?
 					(double)wagonTransfers.Where(s => (s.Status == 0) || (s.Status == 9) || (s.Status == 10)).Where(x => mine.PlusWagonID.Contains((int)x.EquipID)).Sum(t => t.Netto) : 0;
 				total -= ((mine.MinusWagonID != null) && (wagonTransfers != null)) ?
-					(double)wagonTransfers.Where(s => (s.Status == 0) || (s.Status == 9) || (s.Status == 10)).Where(x => mine.MinusWagonID.Contains((int)x.EquipID)).Sum(t => t.Netto) : 0;
+					(double)wagonTransfers.Where(s => (s.Status == 0) || (s.Status == 9) || (s.Status == 10)).Where(x => mine.MinusWagonID.Contains((int)x.EquipID))
+																					.Where(x => x.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject).Sum(t => t.Netto) : 0;
 				total -= ((mine.MinusRockID != null) && (rockTransfers != null)) ?
 					(double)rockTransfers.Where(s => (s.Status == 0) || (s.Status == 9) || (s.Status == 10)).Where(x => mine.MinusRockID.Contains((int)x.EquipID)).Sum(t => t.LotQuantity) : 0;
 
@@ -112,8 +114,8 @@ namespace CTS_Core
 						}
 						catch (Exception ex)
 						{
-							Logger.MakeLog("Unsuccess with CalculateBalance - LiftingID is not a number");
-							Logger.MakeLog(ex.ToString());
+							_logger.Error("Unsuccess with CalculateBalance - LiftingID is not a number");
+							_logger.Error(ex.ToString());
 						}
 					}
 				}
@@ -130,8 +132,8 @@ namespace CTS_Core
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog("Unsuccess with CalculateBalance");
-				Logger.MakeLog(ex.ToString());
+				_logger.Error("Unsuccess with CalculateBalance");
+				_logger.Error(ex.ToString());
 			}
 
 			return total;
@@ -164,8 +166,8 @@ namespace CTS_Core
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog("Unsuccess with ExecuteStoredProcedure");
-				Logger.MakeLog(ex.ToString());
+				_logger.Error("Unsuccess with ExecuteStoredProcedure");
+				_logger.Error(ex.ToString());
 
 				return "Exception occured";
 			}
@@ -218,7 +220,7 @@ namespace CTS_Core
 			var tentInsertTask = ExecuteStoredProcedure(_tentEquip.WarehouseID, tentQuantity, timeStamp, true);
 			var lenInsertTask = ExecuteStoredProcedure(_lenEquip.WarehouseID, lenQuantity, timeStamp, true);
 
-			Logger.MakeLog(String.Format("Successfully finished CalculateWarehouseTransferAfterApprove. kuz: {0}, kost: {1}, abay: {2}, sar1: {3}, sar3: {4}, shah: {5}, tent: {6}, len: {7}",
+			_logger.Trace(String.Format("Successfully finished CalculateWarehouseTransferAfterApprove. kuz: {0}, kost: {1}, abay: {2}, sar1: {3}, sar3: {4}, shah: {5}, tent: {6}, len: {7}",
 																kuzInsertTask, kostInsertTask, abayInsertTask, sar1InsertTask, sar3InsertTask, shahInsertTask, tentInsertTask, lenInsertTask));
 		}
 

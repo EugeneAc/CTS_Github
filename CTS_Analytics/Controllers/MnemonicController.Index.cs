@@ -270,7 +270,7 @@ namespace CTS_Analytics.Controllers
 		{
 			var temp = data
                 .Where(t => t.Equip.LocationID.Equals(location))
-                .Where(tr => tr.Direction == ProjectConstants.WagonDirection_FromObject);
+                .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject);
 			return (int)temp?.Sum(tr => tr.Netto);
 		}
 

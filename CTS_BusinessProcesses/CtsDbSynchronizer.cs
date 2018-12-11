@@ -12,6 +12,8 @@ namespace CTS_Core
 {
 	public static class CtsDbSynchronizer
 	{
+		private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
 		private static bool SyncFromLocalToCental<TTransfer, TEquip>(ConnectionStringSettings connectionStringSettings)
 			where TTransfer : class, ITransfer
 			where TEquip : class, IEquip
@@ -72,13 +74,13 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("{0} Successfully synchronized FromLocalToCentral {1}: {2}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString(), stringForLogger));
+				_logger.Trace(string.Format("{0} Successfully synchronized FromLocalToCentral {1}: {2}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString(), stringForLogger));
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog(string.Format("{0} Unsuccess with FromLocalToCentral {1}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString()));
-				Logger.MakeLog(ex.ToString());
+				_logger.Error(string.Format("{0} Unsuccess with FromLocalToCentral {1}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString()));
+				_logger.Error(ex.ToString());
 
 				return false;
 			}
@@ -128,13 +130,13 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("{0} Successfully synchronized FromCentralToLocal {1}: {2}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString(), stringForLogger));
+				_logger.Trace(string.Format("{0} Successfully synchronized FromCentralToLocal {1}: {2}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString(), stringForLogger));
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog(string.Format("{0} Unsuccess with FromCentralToLocal {1}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString()));
-				Logger.MakeLog(ex.ToString());
+				_logger.Error(string.Format("{0} Unsuccess with FromCentralToLocal {1}", connectionStringSettings.Name.ToString(), typeof(TTransfer).ToString()));
+				_logger.Error(ex.ToString());
 
 				return false;
 			}
@@ -175,13 +177,13 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("{0} Successfully synchronized SyncFromCentralToLocalAndDeleteWarehouseTransfers: {1}", connectionStringSettings.Name.ToString(), stringForLogger));
+				_logger.Trace(string.Format("{0} Successfully synchronized SyncFromCentralToLocalAndDeleteWarehouseTransfers: {1}", connectionStringSettings.Name.ToString(), stringForLogger));
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog(string.Format("{0} Unsuccess with SyncFromCentralToLocalAndDeleteWarehouseTransfers", connectionStringSettings.Name.ToString()));
-				Logger.MakeLog(ex.ToString());
+				_logger.Error(string.Format("{0} Unsuccess with SyncFromCentralToLocalAndDeleteWarehouseTransfers", connectionStringSettings.Name.ToString()));
+				_logger.Error(ex.ToString());
 
 				return false;
 			}
@@ -212,13 +214,13 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("{0} Successfully synchronized SyncFromCentralToLocalAndDeleteWagonNumsCache", connectionStringSettings.Name.ToString()));
+				_logger.Trace(string.Format("{0} Successfully synchronized SyncFromCentralToLocalAndDeleteWagonNumsCache", connectionStringSettings.Name.ToString()));
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog(string.Format("{0} Unsuccess with SyncFromCentralToLocalAndDeleteWagonNumsCache", connectionStringSettings.Name.ToString()));
-				Logger.MakeLog(ex.ToString());
+				_logger.Error(string.Format("{0} Unsuccess with SyncFromCentralToLocalAndDeleteWagonNumsCache", connectionStringSettings.Name.ToString()));
+				_logger.Error(ex.ToString());
 
 				return false;
 			}
@@ -252,14 +254,14 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("{0} Successfully synchronized Dictionary {1}", connectionStringSettings.Name.ToString(), typeof(T).ToString()));
+				_logger.Trace(string.Format("{0} Successfully synchronized Dictionary {1}", connectionStringSettings.Name.ToString(), typeof(T).ToString()));
 				return true;
 			}
 
 			catch (Exception ex)
 			{
-				Logger.MakeLog(string.Format("{0} Unsuccess with SyncDictionary {1}", connectionStringSettings.Name.ToString(), typeof(T).ToString()));
-				Logger.MakeLog(ex.ToString());
+				_logger.Error(string.Format("{0} Unsuccess with SyncDictionary {1}", connectionStringSettings.Name.ToString(), typeof(T).ToString()));
+				_logger.Error(ex.ToString());
 
 				return false;
 			}
@@ -283,14 +285,14 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("{0} Successfully RemovedOldLocal {1}: {2}", connectionStringSettings.Name.ToString(), typeof(T).ToString(), stringForLogger));
+				_logger.Trace(string.Format("{0} Successfully RemovedOldLocal {1}: {2}", connectionStringSettings.Name.ToString(), typeof(T).ToString(), stringForLogger));
 				return true;
 			}
 
 			catch (Exception ex)
 			{
-				Logger.MakeLog(string.Format("{0} Unsuccess with RemoveOldLocal {1}", connectionStringSettings.Name.ToString(), typeof(T).ToString()));
-				Logger.MakeLog(ex.ToString());
+				_logger.Error(string.Format("{0} Unsuccess with RemoveOldLocal {1}", connectionStringSettings.Name.ToString(), typeof(T).ToString()));
+				_logger.Error(ex.ToString());
 
 				return false;
 			}

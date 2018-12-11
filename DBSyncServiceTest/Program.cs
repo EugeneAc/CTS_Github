@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DBSyncServiceTest
+namespace ServiceTestConsole
 {
 	class Program
 	{
@@ -16,7 +16,7 @@ namespace DBSyncServiceTest
 			while (true)
 			{
 				//CTS_BusinessProcesses.CtsDbSynchronizer.SyncOperation();
-				//CTS_BusinessProcesses.WagonDBSynchronizer.SyncVesWagon();
+				CTS_Core.WagonDBSynchronizer.SyncVesWagon();
 				//CTS_BusinessProcesses.WagonDBSynchronizer.SyncWagonNums();
 				//CTS_BusinessProcesses.SkipWeightsHandler.ManageWeights();
 				//CTS_BusinessProcesses.WarehouseHandler.CalculateWarehouseTransferAutomatic();

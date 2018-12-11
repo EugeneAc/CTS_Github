@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS Manual Input", "CTS Man
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSyncService", "DBSyncService\DBSyncService\DBSyncService\DBSyncService.csproj", "{569340BA-4939-4A89-B0A1-2CD3261C1C78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBSyncServiceTest", "DBSyncServiceTest\DBSyncServiceTest.csproj", "{832E33A9-B130-48E4-83AB-E69BE1D03830}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTestConsole", "DBSyncServiceTest\ServiceTestConsole.csproj", "{832E33A9-B130-48E4-83AB-E69BE1D03830}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTS_Models", "CTS_Models\CTS_Models.csproj", "{E7EC19A1-45E2-41EB-97C3-C6E3EB822FE9}"
 EndProject

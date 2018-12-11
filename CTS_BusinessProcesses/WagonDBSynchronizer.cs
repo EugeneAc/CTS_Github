@@ -12,6 +12,8 @@ namespace CTS_Core
 {
 	public static class WagonDBSynchronizer
 	{
+		private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
 		public static bool SyncVesWagon()
 		{
 			string stringForLoggerAccepted = "";
@@ -125,16 +127,16 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog(string.Format("Successfully Synchronized VesWagon: {0}", stringForLoggerAccepted));
-				Logger.MakeLog(string.Format("Successfully Synchronized VesWagon, not accepted transfers: {0}", stringForLoggerRejected));
-				Logger.MakeLog(string.Format("Successfully Synchronized VesWagon, transfers with wrong properties: {0}", stringForLoggerWrong));
+				_logger.Trace(string.Format("Successfully Synchronized VesWagon: {0}", stringForLoggerAccepted));
+				_logger.Trace(string.Format("Successfully Synchronized VesWagon, not accepted transfers: {0}", stringForLoggerRejected));
+				_logger.Trace(string.Format("Successfully Synchronized VesWagon, transfers with wrong properties: {0}", stringForLoggerWrong));
 
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog("Unsuccess with SyncVesWagon");
-				Logger.MakeLog(ex.Message.ToString());
+				_logger.Error("Unsuccess with SyncVesWagon");
+				_logger.Error(ex.Message.ToString());
 
 				return false;
 			}
@@ -185,13 +187,13 @@ namespace CTS_Core
 					}
 				}
 
-				Logger.MakeLog("Successfully Synchronized WagonNums");
+				_logger.Trace("Successfully Synchronized WagonNums");
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Logger.MakeLog("Unsuccess with SyncWagonNums");
-				Logger.MakeLog(ex.Message.ToString());
+				_logger.Error("Unsuccess with SyncWagonNums");
+				_logger.Error(ex.Message.ToString());
 
 				return false;
 			}

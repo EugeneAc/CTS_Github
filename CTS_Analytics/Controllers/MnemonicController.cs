@@ -571,7 +571,7 @@ namespace CTS_Analytics.Controllers
                 .Where(s => s.EquipID == wagonScaleID)
                 .Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate)
                 .Where(v => v.IsValid == true)
-                .Where(tr => tr.Direction == ProjectConstants.WagonDirection_FromObject)
+                .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
                 .ToArray();
             //var shiftransfers = GetDataFromWagonDB(fromShiftDate, toShiftDate, wagonScale.LocationID); // To get data from wagonDB
             model.ShippedPerShiftTonns = (float)shiftransfers.Sum(t => t.Netto);

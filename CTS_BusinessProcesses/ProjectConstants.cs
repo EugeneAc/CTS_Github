@@ -16,5 +16,11 @@ namespace CTS_Core
 				return ConfigurationManager.AppSettings["SkipActPath"];
 			}
 		}
+
+		public static readonly string WagonDirection_ToObject = "на объект";
+
+		public static readonly string WagonDirection_FromObject = "с объекта";
+
+		public static readonly string WagonDirection_UnknownDirection = "Неопределенно";
 	}
 }

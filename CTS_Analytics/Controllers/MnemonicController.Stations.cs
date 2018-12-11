@@ -156,7 +156,7 @@ namespace CTS_Analytics.Controllers
             fromStationData.WagonTransfers = db.WagonTransfers
                 .Where(t => t.Equip.Location.ID == mineId && t.IsValid == true)
                 .Where(t => t.ToDest.Contains(stationDbEntity.LocationName) || t.ToDest == model.LocationID)
-                .Where(t => t.Direction==ProjectConstants.WagonDirection_FromObject)
+                .Where(t => t.Direction==CTS_Core.ProjectConstants.WagonDirection_FromObject)
                 .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
                 .ToList();
             var location = db.Locations.Find(mineId);

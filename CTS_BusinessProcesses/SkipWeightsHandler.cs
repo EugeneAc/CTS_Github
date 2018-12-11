@@ -10,6 +10,8 @@ namespace CTS_Core
 {
 	public static class SkipWeightsHandler
 	{
+		private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
 		public static void ManageWeights ()
 		{
 			var stringForLogger = new StringBuilder();
@@ -40,12 +42,12 @@ namespace CTS_Core
 
 				centralDB.SaveChanges();
 				stringForLogger.Insert(0, "Weight changed for ");
-				Logger.MakeLog(stringForLogger.ToString());
+				_logger.Trace(stringForLogger.ToString());
 			}
 			catch(Exception ex)
 			{
-				Logger.MakeLog("Unsuccess with SkipWeightHandler");
-				Logger.MakeLog(ex.ToString());
+				_logger.Error("Unsuccess with SkipWeightHandler");
+				_logger.Error(ex.ToString());
 			}
 		}
 	}
