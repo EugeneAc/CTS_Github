@@ -1141,6 +1141,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Техника.
+        /// </summary>
+        public static string Technika {
+            get {
+                return ResourceManager.GetString("Technika", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Шахта Тентекская.
         /// </summary>
         public static string TentMineName {
@@ -1281,6 +1290,15 @@ namespace Resources {
         public static string WagonScales_many {
             get {
                 return ResourceManager.GetString("WagonScales-many", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Поиск вагона.
+        /// </summary>
+        public static string WagonSearch {
+            get {
+                return ResourceManager.GetString("WagonSearch", resourceCulture);
             }
         }
         

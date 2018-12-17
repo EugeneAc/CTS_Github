@@ -956,6 +956,7 @@
     <Content Include="Views\DashBoard\Alarm_other.cshtml" />
     <Content Include="Views\DashBoard\_DashAlarmLayout.cshtml" />
     <Content Include="Views\DashBoard\_DashLayout.cshtml" />
+    <Content Include="Views\Mnemonic\Doc-detail\doc_detail_Wagon_search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Grafana\" />

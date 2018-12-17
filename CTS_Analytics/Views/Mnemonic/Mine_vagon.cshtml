@@ -122,7 +122,18 @@
                     </table>
                 </div>
             }
-            @Html.PagedListPager(Model.PagedWagonTrasnfersAndPhotos, page => Url.Action("Mine_vagon", new { ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID, page = page }))
+            @Html.PagedListPager(Model.PagedWagonTrasnfersAndPhotos, page =>
+       {
+           string longurl = Request.Url.AbsoluteUri;
+           var uriBuilder = new UriBuilder(longurl);
+           var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+           query["ID"] = Model.ReturnID;
+           query["wagonScaleID"] = Model.WagonScaleID.ToString();
+           query["page"] = page.ToString();
+           uriBuilder.Query = query.ToString();
+           longurl = uriBuilder.ToString();
+           return longurl;
+       })
         </div>
     </div>
 </div>

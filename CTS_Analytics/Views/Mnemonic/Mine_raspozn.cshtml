@@ -102,7 +102,17 @@
                     }
                 </table>
             </div>
-            @Html.PagedListPager(Model.PagedRaspoznTable, page => Url.Action("Mine_raspozn", new { raspoznID = Model.RaspoznID, page = page }))
+            @Html.PagedListPager(Model.PagedRaspoznTable, page =>
+       {
+           string longurl = Request.Url.AbsoluteUri;
+           var uriBuilder = new UriBuilder(longurl);
+           var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+           query["raspoznID"] = Model.RaspoznID.ToString();
+           query["page"] = page.ToString();
+           uriBuilder.Query = query.ToString();
+           longurl = uriBuilder.ToString();
+           return longurl;
+       })
         </div>
     </div>
     </div>

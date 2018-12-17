@@ -110,7 +110,9 @@
                     }
                     else if (url.includes('doc')) {
                         $('#MenuItemDoc').addClass('active');
+                        if (!url.includes('wagon_search'))
                         $('#dashboardrange').css('display', 'none');
+                        
                     }
                     else
                         $('#MenuItemMnemonic').addClass('active');
@@ -120,14 +122,14 @@
                  window.location.href = '@Url.Action("Index", "Mnemonic")';
         }
 
-		function cb(start, end) {
+        function updateDates(start, end) {
             $('#dashboardrange').html('<a>@Resources.ResourceGeneral.Date<span>' + start.format('DD.MM.YYYY') + ' - ' + end.format('DD.MM.YYYY') + '</span></a>');
             $('iframe').each(function () {
                 var fromdate = new Date(+getUrlParameter('from', $(this).attr('src')));
                 var todate = new Date(+getUrlParameter('to', $(this).attr('src')));
                 var newfromdate = start;
                 var newtodate = end;
-                setnewdate(this, +todate, +newtodate, +fromdate, +newfromdate);
+                setNewdateToIframes(this, +todate, +newtodate, +fromdate, +newfromdate);
             });
         }
 
@@ -172,8 +174,8 @@
                     '@Resources.ResourceGeneral.ThisQuater': [moment().startOf('quarter'), moment().endOf('quarter')],
                     '@Resources.ResourceGeneral.ThisYear': [moment().startOf('year'), moment().endOf('year')]
                 }
-            }, cb);
-            cb(start, end);
+            }, updateDates);
+            updateDates(start, end);
         });
     </script>
     <script defer type="text/javascript" src="~/Content/Mnemo/tooltipster/dist/js/tooltipster.bundle.min.js"></script>

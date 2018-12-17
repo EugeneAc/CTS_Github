@@ -549,4 +549,10 @@
   <data name="WagonNumberFilter" xml:space="preserve">
     <value>Фильтр по номеру вагона</value>
   </data>
+  <data name="Technika" xml:space="preserve">
+    <value>Техника</value>
+  </data>
+  <data name="WagonSearch" xml:space="preserve">
+    <value>Поиск вагона</value>
+  </data>
 </root>

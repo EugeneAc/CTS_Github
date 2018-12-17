@@ -1,6 +1,8 @@
-﻿using CTS_Analytics.Models.Mnemonic.Doc_detail;
+﻿using CTS_Analytics.Models.Mnemonic;
+using CTS_Analytics.Models.Mnemonic.Doc_detail;
 using CTS_Core;
 using CTS_Models.DBContext;
+using PagedList;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -214,6 +216,55 @@ namespace CTS_Analytics.Controllers
                                );
             var fsResult = new FileStreamResult(fileStream, MimeMapping.GetMimeMapping(filePath));
             return fsResult;
+        }
+
+        public ActionResult doc_detail_Wagon_Search(string locationID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false, string wagonNumberFilter = "")
+        {
+            var model = new Mine_vagon(locationID);
+            var fromDate = GetDateFromCookie("fromdate");
+            var toDate = GetDateFromCookie("todate");
+            using (var db = new CtsDbContext())
+            {
+                model.WagonTransfers = GetWagonTransfersFromCentralDb(null, db, fromDate, toDate)
+              .ToList();
+            }
+            
+            model.FilterManualInput = filterManualInput;
+            if (filterManualInput)
+            {
+                model.WagonTransfers = model.WagonTransfers.Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName).ToList();
+            }
+
+            model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
+            if (orderByTransferTimeStampAsc)
+            {
+                model.WagonTransfers = model.WagonTransfers.OrderBy(t => t.TransferTimeStamp).ToList();
+            }
+
+            model.WagonNumberFilter = wagonNumberFilter;
+            if (!string.IsNullOrEmpty(wagonNumberFilter))
+            {
+                model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            model.WagonPictureList = model.WagonTransfers
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(wt => GetWagonPhoto(wt.SublotName, wt.TransferTimeStamp))
+                .ToList();
+            var transfersAndPictures = from wt in model.WagonTransfers
+                                       join ph in model.WagonPictureList on wt.SublotName equals ph.WagonNumber into wtp
+                                       from w in wtp.DefaultIfEmpty()
+                                       select new WagonTransfersAndPhoto()
+                                       {
+                                           WagonTransfer = wt,
+                                           Photo = w
+                                       };
+            model.PagedWagonTrasnfersAndPhotos = transfersAndPictures.ToPagedList(pageNumber, pageSize);
+
+            return View("Doc-detail/doc_detail_Wagon_search", model);
         }
     }
 }

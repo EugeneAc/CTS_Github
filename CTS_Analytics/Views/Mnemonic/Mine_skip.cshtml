@@ -92,7 +92,18 @@
 
                 </table>
             </div>
-            @Html.PagedListPager(Model.PagedkipTransfers, page => Url.Action("Mine_skip", new { ID = Model.ReturnID, skipID = Model.SkipID, page = page }))
+            @Html.PagedListPager(Model.PagedkipTransfers, page =>
+       {
+           string longurl = Request.Url.AbsoluteUri;
+           var uriBuilder = new UriBuilder(longurl);
+           var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+           query["ID"] = Model.ReturnID;
+           query["skipID"] = Model.SkipID.ToString();
+           query["page"] = page.ToString();
+           uriBuilder.Query = query.ToString();
+           longurl = uriBuilder.ToString();
+           return longurl;
+       })
         </div>
 
     </div>

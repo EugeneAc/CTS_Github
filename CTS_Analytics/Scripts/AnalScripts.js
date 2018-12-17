@@ -7,7 +7,7 @@ String.prototype.includes = function (str) {
     }
 
     return returnValue;
-}
+};
 
 function getUrlParameter(sParam, url) {
     var sPageURL = decodeURIComponent(url),
@@ -24,7 +24,7 @@ function getUrlParameter(sParam, url) {
     }
 }
 
-function setnewdate(element, todate, newtodate, fromdate, newfromdate) {
+function setNewdateToIframes(element, todate, newtodate, fromdate, newfromdate) {
     var url = $(element).attr('src');
     url = url.replace('to=' + +todate, 'to=' + +newtodate);
     url = url.replace('from=' + +fromdate, 'from=' + +newfromdate);
@@ -41,7 +41,7 @@ $('#dashboardrange').on('apply.daterangepicker', function (ev, picker) {
     $('iframe').each(function () {
         var fromdate = new Date(+getUrlParameter('from', $(this).attr('src')));
         var todate = new Date(+getUrlParameter('to', $(this).attr('src')));
-        setnewdate(this, +todate, +newtodate, +fromdate, +newfromdate);
+        setNewdateToIframes(this, +todate, +newtodate, +fromdate, +newfromdate);
     });
     var url = window.location.href;
     if (url.includes('Mnemonic')) {
@@ -82,19 +82,49 @@ $('#WagonNumberFilter').keypress(function (e) {
 });
 
 function setupFilters() {
-    var addUrl = '';
+    var url = $('#FilterContainer').data('url');
     if ($('#FilterManualInput').is(':checked')) {
-        addUrl += '&FilterManualInput=true';
+        url = setUrlParameter('FilterManualInput', 'true', url);
     }
 
     if ($('#OrderByTransferTimeStampAsc').is(':checked')) {
-        addUrl += '&OrderByTransferTimeStampAsc=true';
+        url = setUrlParameter('OrderByTransferTimeStampAsc', 'true', url);
     }
 
     var searchtext = $('#WagonNumberFilter').val();
-    if (searchtext !== undefined) {
-        addUrl += '&wagonNumberFilter=' + searchtext;
+    if (searchtext !== "") {
+        url = setUrlParameter('&wagonNumberFilter', searchtext, url);
     }
 
-    window.location.href = $('#FilterContainer').data('url') + addUrl;
+    window.location.href = url;
+}
+
+function setUrlParameter(key, value, url) {
+
+    var baseUrl = url.split('?')[0],
+        urlQueryString = '?' + url.split('?')[1],
+        newParam = key + '=' + value,
+        params = '?' + newParam;
+
+    // If the "search" string exists, then build params from it
+    if (urlQueryString !== "?undefined") {
+        var updateRegex = new RegExp('([\?&])' + key + '[^&]*');
+        var removeRegex = new RegExp('([\?&])' + key + '=[^&;]+[&;]?');
+
+        if (typeof value === 'undefined' || value === null || value === '') { // Remove param if value is empty
+            params = urlQueryString.replace(removeRegex, "$1");
+            params = params.replace(/[&;]$/, "");
+
+        } else if (urlQueryString.match(updateRegex) !== null) { // If param exists already, update it
+            params = urlQueryString.replace(updateRegex, "$1" + newParam);
+
+        } else { // Otherwise, add it to end of query string
+            params = urlQueryString + '&' + newParam;
+        }
+    }
+
+    // no parameter was set so we don't need the question mark
+    params = params === '?' ? '' : params;
+
+    return baseUrl + params;
 }

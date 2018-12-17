@@ -558,24 +558,16 @@ namespace CTS_Analytics.Controllers
             model.WagonScaleName = wagonScale.Name;
             model.MineName = wagonScale.Location.LocationName;
 
-            model.WagonTransfers = db.WagonTransfers
-                .Where(s => s.EquipID == wagonScaleID)
-                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
-                .Where(v => v.IsValid == true)
-                .OrderByDescending(t => t.TransferTimeStamp)
+            model.WagonTransfers = GetWagonTransfersFromCentralDb(wagonScaleID, db, fromDate, toDate)
                 .ToList();
             //model.WagonTransfers.AddRange(GetDataFromWagonDB(fromDate, toDate, wagonScale.LocationID)); // To get data from wagonDB
             var fromShiftDate = GetStartShiftTime(wagonScale.LocationID, db);
             var toShiftDate = GetEndShiftTime(wagonScale.LocationID, db, fromShiftDate);
-            var shiftransfers = db.WagonTransfers
-                .Where(s => s.EquipID == wagonScaleID)
-                .Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate)
-                .Where(v => v.IsValid == true)
+            var shiftransfers = GetWagonTransfersFromCentralDb(wagonScaleID, db, fromShiftDate, toShiftDate)
                 .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
                 .ToArray();
             //var shiftransfers = GetDataFromWagonDB(fromShiftDate, toShiftDate, wagonScale.LocationID); // To get data from wagonDB
             model.ShippedPerShiftTonns = (float)shiftransfers.Sum(t => t.Netto);
-            //var lastTrainTransfers = db.WagonTransfers.Where(s => s.WagonScaleID == wagonScaleID).OrderByDescending(t => t.TransferTimeStamp).GroupBy(w => w.LotName).FirstOrDefault();
             var lastTrainTransfers = model.WagonTransfers.OrderByDescending(t => t.TransferTimeStamp).ToList();
 
             if (lastTrainTransfers != null && lastTrainTransfers.Count > 0)
@@ -612,6 +604,15 @@ namespace CTS_Analytics.Controllers
             return model;
         }
 
+        private IEnumerable<WagonTransfer> GetWagonTransfersFromCentralDb(int? wagonScaleID, CtsDbContext db, DateTime fromDate, DateTime toDate)
+        {
+            return db.WagonTransfers.Include(w=>w.Equip.Location)
+                .Where(s => wagonScaleID != null ? s.EquipID == wagonScaleID : true)
+                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
+                .Where(v => v.IsValid == true)
+                .OrderByDescending(t => t.TransferTimeStamp);
+        }
+
         #endregion
 
         private IEnumerable<WagonTransfer> GetDataFromWagonDB(DateTime fromDate, DateTime toDate, string locationID)
@@ -640,12 +641,20 @@ namespace CTS_Analytics.Controllers
         private DateTime GetDateFromCookie(string cookieName)
         {
             HttpCookie dateCoookie = Request.Cookies[cookieName];
+            DateTime returnDate = new DateTime();
             if (dateCoookie != null)
                 return DateTime.ParseExact(HttpUtility.UrlDecode(dateCoookie.Value), "ddd MMM dd yyyy HH:mm:ss 'GMT'K", CultureInfo.InvariantCulture);
             else if (cookieName != "todate")
-                return new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                returnDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             else
-                return new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddMinutes(-1);
+                returnDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddMinutes(-1);
+
+            HttpCookie cookie = new HttpCookie(cookieName);
+            cookie.HttpOnly = false;
+            cookie.Value = returnDate.AddHours(DateTimeOffset.Now.Offset.Hours*-1).ToString("ddd MMM dd yyyy HH:mm:ss 'GMT'K" , CultureInfo.InvariantCulture);
+            cookie.Expires = DateTime.Now.AddYears(1);
+            Response.Cookies.Add(cookie);
+            return returnDate;
         }
 
         private RaspoznItem GetWagonPhoto(string wagonNumber, DateTime recognDateTime, bool manualFlag = false)
