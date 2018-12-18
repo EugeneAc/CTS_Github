@@ -249,19 +249,15 @@ namespace CTS_Analytics.Controllers
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
-            model.WagonPictureList = model.WagonTransfers
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .Select(wt => GetWagonPhoto(wt.SublotName, wt.TransferTimeStamp))
-                .ToList();
-            var transfersAndPictures = from wt in model.WagonTransfers
-                                       join ph in model.WagonPictureList on wt.SublotName equals ph.WagonNumber into wtp
-                                       from w in wtp.DefaultIfEmpty()
-                                       select new WagonTransfersAndPhoto()
-                                       {
-                                           WagonTransfer = wt,
-                                           Photo = w
-                                       };
+            var transfersAndPictures = model.WagonTransfers.Select(w => new WagonTransfersAndPhoto()
+            {
+                WagonTransfer = w
+            }).ToList();
+            for (int i = (pageNumber - 1) * pageSize; i < pageNumber * pageSize; i++)
+            {
+                transfersAndPictures[i].Photo = GetWagonPhoto(transfersAndPictures[i].WagonTransfer.SublotName, transfersAndPictures[i].WagonTransfer.TransferTimeStamp);
+            }
+
             model.PagedWagonTrasnfersAndPhotos = transfersAndPictures.ToPagedList(pageNumber, pageSize);
 
             return View("Doc-detail/doc_detail_Wagon_search", model);
