@@ -18,7 +18,7 @@
     <AssemblyName>CTS Manual Input</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
@@ -187,6 +187,7 @@
     <Compile Include="Models\LabModels\WagonBatchView.cs" />
     <Compile Include="Models\Mnemonic\MnemonicMain.cs" />
     <Compile Include="Models\RockUtilModels\RockUtil_Transfer.cs" />
+    <Compile Include="Models\SkipModels\SkipTransferFormModel.cs" />
     <Compile Include="Models\SkipModels\SkipWeightWithAct.cs" />
     <Compile Include="Models\Validation\ValidateWeight.cs" />
     <Compile Include="Models\ExternalTransfersModels\WagonScales_Transfers.cs" />
@@ -606,7 +607,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>23297</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/CTS Manual Input</IISUrl>
+          <IISUrl>http://localhost:23297/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -63,7 +63,7 @@ namespace CTS_Manual_Input.Controllers
 				return HttpNotFound();
 			}
 			string userName = User.Identity.Name ?? "";
-			var model = new SkipTransfer();
+			var model = new SkipTransferFormModel();
 			model.EquipID = skipID;
 			model.Equip = EquipmentProvider.GetUserAuthorizedEquipment<Skip>(_cdb, User.Identity).Where(s => s.ID == skipID).SingleOrDefault();
 			model.SkipWeight = model.Equip.Weight;
@@ -78,16 +78,21 @@ namespace CTS_Manual_Input.Controllers
 		[HttpPost]
 		[CtsAuthorize(Roles = Roles.AddUserRoleName)]
 		[ValidateAntiForgeryToken]
-        public ActionResult Add(SkipTransfer skipTransfer, string name)
+        public ActionResult Add(SkipTransferFormModel skipTransfer, string name)
 		{
 			if (ModelState.IsValid)
 			{
-				skipTransfer.LasEditDateTime = DateTime.Now;
-				skipTransfer.TransferTimeStamp = skipTransfer.TransferTimeStamp;
-				skipTransfer.IsValid = false;
-				skipTransfer.Status = 1;
-				skipTransfer.OperatorName =  User.Identity.Name;
-				_cdb.SkipTransfers.Add(skipTransfer);
+                var transfer = new SkipTransfer();
+			    transfer.ID = skipTransfer.ID;
+			    transfer.EquipID = skipTransfer.EquipID;
+			    transfer.LiftingID = skipTransfer.LiftingID;
+			    transfer.TransferTimeStamp = skipTransfer.TransferTimeStamp;
+			    transfer.LasEditDateTime = DateTime.Now;
+			    transfer.TransferTimeStamp = skipTransfer.TransferTimeStamp;
+			    transfer.IsValid = false;
+			    transfer.Status = 1;
+			    transfer.OperatorName =  User.Identity.Name;
+				_cdb.SkipTransfers.Add(transfer);
 				_cdb.SaveChanges();
 
                 return RedirectToAction("Index");
@@ -114,7 +119,7 @@ namespace CTS_Manual_Input.Controllers
 			skipTransfer.TransferTimeStamp = DateTime.Now;
 			skipTransfer.IsValid = false;
 			skipTransfer.Status = 1;
-			skipTransfer.SkipWeight = _cdb.Skips.Where(x => x.ID == skipTransfer.EquipID).FirstOrDefault().Weight;
+			skipTransfer.SkipWeight = _cdb.Skips.FirstOrDefault(x => x.ID == skipTransfer.EquipID).Weight ;
 			skipTransfer.OperatorName = User.Identity.Name;
 			skipTransfer.ID = "S" + SkipId + (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 
@@ -137,7 +142,13 @@ namespace CTS_Manual_Input.Controllers
 			if (ID != null)
 			{
 				@ViewBag.Title = "Редактирование данных скиповых подъемов";
-				return View("Edit", _cdb.SkipTransfers.Find(ID));
+			    var skipTransfer = _cdb.SkipTransfers.Find(ID);
+			    if (skipTransfer != null)
+			    {
+			        var transfer = new SkipTransferFormModel(skipTransfer);
+
+			        return View("Edit", transfer);
+                }
 			}
 
 			return RedirectToAction("Index");
@@ -146,7 +157,7 @@ namespace CTS_Manual_Input.Controllers
 		[HttpPost]
 		[CtsAuthorize(Roles = Roles.EditUserRoleName)]
 		[ValidateAntiForgeryToken]
-        public ActionResult Edit(SkipTransfer model)
+        public ActionResult Edit(SkipTransferFormModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -155,7 +166,7 @@ namespace CTS_Manual_Input.Controllers
 				editedTransfer.Status = 3;
 				editedTransfer.LasEditDateTime = DateTime.Now;
 				editedTransfer.OperatorName =  User.Identity.Name;
-        _cdb.Entry(editedTransfer).State = EntityState.Modified;
+                _cdb.Entry(editedTransfer).State = EntityState.Modified;
 
 				var transfer = new SkipTransfer();
 				transfer.InheritedFrom = model.ID;
