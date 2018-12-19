@@ -122,7 +122,7 @@ namespace CTS_Analytics.Models.Mnemonic
 		public float LastTrainVagonCount { get; set; }
         public string LastTrainDirection { get; set; }
         public List<WagonTransfer> WagonTransfers { get; set; }
-        public PagedList.IPagedList<WagonTransfersAndPhoto> PagedWagonTrasnfersAndPhotos { get; set; }
+        public PagedList.StaticPagedList<WagonTransfersAndPhoto> PagedWagonTrasnfersAndPhotos { get; set; }
         public List<RaspoznItem> WagonPictureList { get; set; }
         public string WagonNumberFilter { get; set; }
     }

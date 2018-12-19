@@ -247,18 +247,7 @@ namespace CTS_Analytics.Controllers
                 model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
             }
 
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            var transfersAndPictures = model.WagonTransfers.Select(w => new WagonTransfersAndPhoto()
-            {
-                WagonTransfer = w
-            }).ToList();
-            for (int i = (pageNumber - 1) * pageSize; i < pageNumber * pageSize; i++)
-            {
-                transfersAndPictures[i].Photo = GetWagonPhoto(transfersAndPictures[i].WagonTransfer.SublotName, transfersAndPictures[i].WagonTransfer.TransferTimeStamp);
-            }
-
-            model.PagedWagonTrasnfersAndPhotos = transfersAndPictures.ToPagedList(pageNumber, pageSize);
+            model.PagedWagonTrasnfersAndPhotos = GetPagedWagonTransfersAndPhotos(page, model.WagonTransfers);
 
             return View("Doc-detail/doc_detail_Wagon_search", model);
         }
