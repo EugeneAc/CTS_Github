@@ -16,13 +16,11 @@ namespace CTS_Models.WagonDB
         [Column(TypeName = "datetime2")]
         public DateTime date_time_tara { get; set; }
 
-        [Required]
         [StringLength(8)]
         public string vagon_num { get; set; }
 
         public int? id_vagon_nums { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string nakladn { get; set; }
 
@@ -34,7 +32,6 @@ namespace CTS_Models.WagonDB
         public int? poluchid { get; set; }
         public virtual otprav_poluch poluch { get; set; }
 
-        [Required]
         [StringLength(30)]
         public string gruz { get; set; }
 
@@ -52,7 +49,6 @@ namespace CTS_Models.WagonDB
 
         public int? id_operator { get; set; }
 
-        [Required]
         [StringLength(10)]
         public string speed { get; set; }
 
