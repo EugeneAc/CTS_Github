@@ -333,19 +333,7 @@ namespace CTS_Analytics.Controllers
                 model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
             }
 
-            model.WagonScaleID = wagonScaleID;
-            int pageSize = 20;
-            int pageNumber = (page ?? 1);
-            var transfersAndPictures = model.WagonTransfers.Select(w => new WagonTransfersAndPhoto()
-            {
-                WagonTransfer = w
-            }).ToList();
-            for (int i = (pageNumber - 1) * pageSize; i < pageNumber * pageSize; i++)
-            {
-                transfersAndPictures[i].Photo = GetWagonPhoto(transfersAndPictures[i].WagonTransfer.SublotName, transfersAndPictures[i].WagonTransfer.TransferTimeStamp);
-            }
-
-            model.PagedWagonTrasnfersAndPhotos = transfersAndPictures.ToPagedList(pageNumber, pageSize);
+            model.PagedWagonTrasnfersAndPhotos = GetPagedWagonTransfersAndPhotos(page, model.WagonTransfers);
 
             return View(model);
         }
@@ -918,6 +906,24 @@ namespace CTS_Analytics.Controllers
                 .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
                 .Any();
             return model;
+        }
+
+        private StaticPagedList<WagonTransfersAndPhoto> GetPagedWagonTransfersAndPhotos(int? page, List<WagonTransfer> wagonTranfers)
+        {
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            var elementCount = wagonTranfers.Count;
+            var transfersAndPictures = wagonTranfers
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(wt => new WagonTransfersAndPhoto()
+                {
+                    Photo = GetWagonPhoto(wt.SublotName, wt.TransferTimeStamp),
+                    WagonTransfer = wt
+                })
+                .ToList();
+
+           return new StaticPagedList<WagonTransfersAndPhoto>(transfersAndPictures, pageNumber, pageSize, elementCount);
         }
     }
 }
