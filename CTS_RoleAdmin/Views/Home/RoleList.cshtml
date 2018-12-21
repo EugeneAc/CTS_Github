@@ -1,38 +1,59 @@
-﻿@model List<CtsUser>
+﻿@model CTS_RoleAdmin.Models.RolesIndexViewModel
 
 @{
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
-<input type="text" id="UserLoginInput" value="Enter login" />
-<input type="button" id="UserLoginBtn" value="Check" data-root="@Url.Content("~/")" />
+@{Html.RenderPartial("_CheckIfUserExistsForm");}
+
+<table class="table table-striped table-hover ">
+    <thead>
+        <tr>
+            <th>
+                Пользователь (логин)
+            </th>
+            @foreach (var group in Model.AllCtsRoles)
+            {
+                <th>
+                    @group.RoleName
+                </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.AllCtsUsers)
+        {
+            <tr>
+                <td>
+                    @user.Login
+                </td>
+                @foreach (var role in Model.AllCtsRoles)
+                {
+                    <td>
+                        <input type="checkbox" checked="@user.CtsRoles.Contains(role)" disabled="disabled">
+                    </td>
+                }
+                <td style="text-align:center">
+                    <div>
+                        <span>
+                            <input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("AddEditUser", "Home", new { userLogin = user.Login, userDomain = user.Domain })'" />
+                        </span>
+                        <span>
+                            <input type="button" name="DeleteButton" class="btn btn-danger btn-xs" value="Удалить" onclick="ConfirmDelete('@Url.Action("DeleteUser", "Home", new { userLogin = user.Login, userDomain = user.Domain })')" />
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <script>
-	$(document).ready(function () {
-
-		$('#UserLoginBtn').click(function () {
-
-
-			var root = $("#UserLoginBtn").data('root');
-
-
-			$.ajax({
-				url: root + "Home/CheckIfUserExists/?userLogin=" + $("#UserLoginInput").val(),
-				type: "POST",
-				dataType: 'JSON',
-				cache: false,
-				async: true,
-				success: function (data) {
-					if (data.userFound) {
-						window.location.href = root + "Home/EditUser/?userLogin=" + $("#UserLoginInput").val();
-					} else {
-						alert("Пользователь с доменным логином " + $("#UserLoginInput").val() + " не найден");
-					}
-
-				}
-			});
-		});
-	});
-
+    function ConfirmDelete(url) {
+        var r = confirm("Подтвердите удаление");
+        if (r) {
+            window.location.href = url;
+        }
+    }
 </script>

@@ -11,7 +11,8 @@ namespace CTS_Models
 	{
 		[Key]
 		public string RoleName { get; set; }
-		public ICollection<CtsUser> CtsUsers { get; set; }
+	    //public string Description { get; set; }
+        public ICollection<CtsUser> CtsUsers { get; set; }
 		public CtsRole()
 		{
 			CtsUsers = new List<CtsUser>();

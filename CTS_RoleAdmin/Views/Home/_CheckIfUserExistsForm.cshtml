@@ -1,0 +1,26 @@
+﻿<br />
+<input type="text" id="UserLoginInput" value="Логин пользователя" />
+<input type="button" id="UserLoginBtn" value="Check" data-root="@Url.Content("~/")" />
+<br />
+
+<script>
+    $(document).ready(function () {
+        $('#UserLoginBtn').click(function () {
+            var root = $("#UserLoginBtn").data('root');
+            $.ajax({
+                url: root + "Home/CheckIfUserExists/?userLogin=" + $("#UserLoginInput").val(),
+                type: "POST",
+                dataType: 'JSON',
+                cache: false,
+                async: true,
+                success: function (data) {
+                    if (data.userFound) {
+                        window.location.href = root + "Home/AddEditUser/?userLogin=" + $("#UserLoginInput").val() + "&userDomain=" + data.domain;
+                    } else {
+                        alert("Пользователь с доменным логином " + $("#UserLoginInput").val() + " не найден");
+                    }
+                }
+            });
+        });
+    });
+</script>

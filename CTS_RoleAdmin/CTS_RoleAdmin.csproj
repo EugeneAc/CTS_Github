@@ -18,7 +18,7 @@
     <AssemblyName>CTS_RoleAdmin</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
@@ -148,13 +148,16 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CtsDomains.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\DomainUsersHandler.cs" />
-    <Compile Include="Models\CtsUser.cs" />
-    <Compile Include="Models\CtsRole.cs" />
+    <Compile Include="Models\AddEditUserViewModel.cs" />
+    <Compile Include="Models\CtsUserAdmin.cs" />
+    <Compile Include="Models\CtsRoleAdmin.cs" />
+    <Compile Include="Models\RolesIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -329,8 +332,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\RoleList.cshtml" />
-    <Content Include="Views\Home\_RolesCheckBoxForm.cshtml" />
-    <Content Include="Views\Home\Add.cshtml" />
+    <Content Include="Views\Home\AddEditUser.cshtml" />
+    <Content Include="Views\Home\_CheckIfUserExistsForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -370,7 +373,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49300</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/CTS_RoleAdmin</IISUrl>
+          <IISUrl>http://localhost:49300/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

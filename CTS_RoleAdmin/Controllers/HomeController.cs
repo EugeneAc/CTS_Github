@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,188 +11,219 @@ using System.DirectoryServices.AccountManagement;
 using CTS_Core;
 using RoleAdmin.Handlers;
 using System.Security.Principal;
+using CTS_RoleAdmin.Models;
 
 namespace CTS_RoleAdmin.Controllers
 {
 	[CtsAuthorize(Roles = Roles.RoleAdminRoleName)]
 	public class HomeController : Controller
 	{
-		public ActionResult Index()
+	    private CtsDbContext _cdb = new CtsDbContext();
+
+        public ActionResult Index()
 		{
-		//var user = AuthorizeProvider.GetUserRolesFromDb(User.Identity.Name.Split(new char[] { '\\' }).Last(), User.Identity.Name.Split(new char[] { '\\' }).First());
-		DomainUsersHandler.FindUser("y.aniskina", "kazprom");
+
 			return View();
 		}
 
 		public ActionResult RoleList()
 		{
-			List<CtsUser> users;
-			users = GetCtsUsers();
+            var model = new RolesIndexViewModel
+            {
+                AllCtsRoles = _cdb.CtsRole.ToList(),
+                AllCtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
+            };
 
-			return View(users);
+            return View(model);
 		}
 
-		public ActionResult EditUser(string userLogin)
+		public ActionResult AddEditUser(string userLogin, string userDomain)
 		{
-			var userWithHisGroups = GetUserGroup(userLogin);
+		    AddEditUserViewModel model;
+		    var ctsRoles = _cdb.CtsRole;
+            var user = _cdb.CtsUser.Find(userLogin, userDomain);
+		    if (user == null)
+		    {
+		        model = new AddEditUserViewModel(userLogin, userDomain, ctsRoles.ToList());
+		    }
+		    else
+		    {
+		        model = new AddEditUserViewModel(user, ctsRoles.ToList());
+		    }
 
-			return View(userWithHisGroups);
+			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult EditUser(CtsUser model)
+		public ActionResult AddEditUser(AddEditUserViewModel model)
 		{
+		    var user = _cdb.CtsUser.Find(model.UserLogin, model.UserDomain);
+		    if (user == null)
+		    {
+		        user = new CtsUser() { Login = model.UserLogin, Domain = model.UserDomain };
+		        _cdb.CtsUser.Add(user);
+		    }
+            user.CtsRoles = model.CtsRoles.Where(x => x.Value).Select(x => x.Key).ToList();
+		    _cdb.SaveChanges();
 
-
-
-
-
-			return View();
+            return RedirectToAction("RoleList");
 		}
 
-		public ActionResult CheckIfUserExists(string userLogin)
-		{
-			if (DomainUsersHandler.FindUser(userLogin, "kazprom") != null)
-			{
-				return Json(new { userFound = true });
-			}
+	    [HttpPost]
+	    public ActionResult DeleteUser(string userLogin, string userDomain)
+	    {
+	        var user = _cdb.CtsUser.Find(userLogin, userDomain);
+	        if (user == null)
+	        {
+	            return HttpNotFound("Пользователь не найден");
+	        }
+
+	        foreach (var role in user.CtsRoles)
+	        {
+	            user.CtsRoles.Remove(role);
+	        }
+
+	        _cdb.CtsUser.Remove(user);
+	        _cdb.SaveChanges();
+
+	        return RedirectToAction("RoleList");
+        }
+
+	    public ActionResult CheckIfUserExists(string userLogin)
+	    {
+	       UserPrincipal user;
+		   foreach (CtsDomains domain in (CtsDomains[])Enum.GetValues(typeof(CtsDomains)))
+		   {
+		       user = DomainUsersHandler.FindUser(userLogin, domain.ToString());
+               if (user != null)
+		       {
+		           return Json(new { userFound = true, domain = user.Name.Split(new char[] { '\\' }).First()});
+		       }
+            }
 
 			return Json(new { userFound = false });
 		}
 
+		//private CtsUserAdmin GetUserGroup(string userLogin)
+		//{
+		//	var user = new CtsUserAdmin();
+		//	user.ManualInputRoles = GetMIRoles();
+		//	user.AnalyticsRoles = GetAnalyticsRoles();
+		//	user.RoleAdminRoles = GetRoleAdminRoles();
 
-		public ActionResult Add()
-		{
+		//	var ctx = new PrincipalContext(ContextType.Machine);
 
-			return View();
-		}
+		//	foreach (var r in user.ManualInputRoles.Concat(user.AnalyticsRoles).Concat(user.RoleAdminRoles))
+		//	{
+		//		var foundGroup = GroupPrincipal.FindByIdentity(ctx, r.GroupName);
+		//		var members = foundGroup.GetMembers().ToList();
+		//		foreach (var p in foundGroup.GetMembers())
+		//		{
+		//			if (p.Name == userLogin)
+		//			{
+		//				r.HasRole = true;
+		//			}
+		//		}
+		//	}
 
-		public ActionResult RolesForm(string userName)
-		{
+		//	return user;
+		//}
 
-			return PartialView();
-		}
+		//private List<CtsRoleAdmin> GetMIRoles()
+		//{
+		//	//Add hardcoded roles from CTS_Models.Roles:
+		//	var ctsRoles = new List<CtsRoleAdmin>()
+		//	{   new CtsRoleAdmin() { GroupName = Roles.AddUserRoleName, GroupDescription = "Добавление" },
+		//		new CtsRoleAdmin() { GroupName = Roles.EditUserRoleName, GroupDescription = "Редактирование" },
+		//		new CtsRoleAdmin() { GroupName = Roles.DeleteUserRoleName, GroupDescription = "Удаление" },
+		//		new CtsRoleAdmin() { GroupName = Roles.ApproveUserRoleName, GroupDescription = "Подтверждение" },
+		//		new CtsRoleAdmin() { GroupName = Roles.SkipUserRoleName, GroupDescription = "Скипы" },
+		//		new CtsRoleAdmin() { GroupName = Roles.BeltUserRoleName, GroupDescription = "Конв. весы" },
+		//		new CtsRoleAdmin() { GroupName = Roles.WagonUserRoleName, GroupDescription = "Вагон. весы" },
+		//		new CtsRoleAdmin() { GroupName = Roles.LabUserRoleName, GroupDescription = "Лаборатория" },
+		//		new CtsRoleAdmin() { GroupName = Roles.VehiUserRoleName, GroupDescription = "Авто весы" },
+		//		new CtsRoleAdmin() { GroupName = Roles.DictUserRoleName, GroupDescription = "Словари" },
+		//		new CtsRoleAdmin() { GroupName = Roles.RockUserRoleName, GroupDescription = "Утил.породы" },
+		//		new CtsRoleAdmin() { GroupName = Roles.WarehouseUserRoleName, GroupDescription = "Замер склада" },
+		//		new CtsRoleAdmin() { GroupName = Roles.WarehouseSetUserRoleName, GroupDescription = "Уст.баланс склада" },
+		//	};
 
-		private CtsUser GetUserGroup(string userLogin)
-		{
-			var user = new CtsUser();
-			user.ManualInputRoles = GetMIRoles();
-			user.AnalyticsRoles = GetAnalyticsRoles();
-			user.RoleAdminRoles = GetRoleAdminRoles();
+		//	//Add roles corresponding to CTS locations:
+		//	var cdb = new CtsDbContext();
+		//	var locations = cdb.Locations.Where(x => x.ID != "test").ToList();
+		//	foreach (var loc in locations)
+		//	{
+		//		ctsRoles.Add(new CtsRoleAdmin { GroupName = loc.LocationName.Substring(loc.LocationName.LastIndexOf(' ') + 1), GroupDescription = loc.LocationName });
+		//	}
 
-			var ctx = new PrincipalContext(ContextType.Machine);
+		//	return ctsRoles;
+		//}
 
-			foreach (var r in user.ManualInputRoles.Concat(user.AnalyticsRoles).Concat(user.RoleAdminRoles))
-			{
-				var foundGroup = GroupPrincipal.FindByIdentity(ctx, r.GroupName);
-				var members = foundGroup.GetMembers().ToList();
-				foreach (var p in foundGroup.GetMembers())
-				{
-					if (p.Name == userLogin)
-					{
-						r.HasRole = true;
-					}
-				}
-			}
+		//private List<CtsRoleAdmin> GetAnalyticsRoles()
+		//{
+		//	//Add hardcoded roles from CTS_Models.Roles:
+		//	var ctsRoles = new List<CtsRoleAdmin>()
+		//	{
+		//		new CtsRoleAdmin { GroupName = Roles.AnalyticsRoleName, GroupDescription = "Сайт Аналитики" },
+		//	};
 
-			return user;
-		}
+		//	return ctsRoles;
+		//}
 
-		private List<CtsRole> GetMIRoles()
-		{
-			//Add hardcoded roles from CTS_Models.Roles:
-			var ctsRoles = new List<CtsRole>()
-			{   new CtsRole() { GroupName = Roles.AddUserRoleName, GroupDescription = "Добавление" },
-				new CtsRole() { GroupName = Roles.EditUserRoleName, GroupDescription = "Редактирование" },
-				new CtsRole() { GroupName = Roles.DeleteUserRoleName, GroupDescription = "Удаление" },
-				new CtsRole() { GroupName = Roles.ApproveUserRoleName, GroupDescription = "Подтверждение" },
-				new CtsRole() { GroupName = Roles.SkipUserRoleName, GroupDescription = "Скипы" },
-				new CtsRole() { GroupName = Roles.BeltUserRoleName, GroupDescription = "Конв. весы" },
-				new CtsRole() { GroupName = Roles.WagonUserRoleName, GroupDescription = "Вагон. весы" },
-				new CtsRole() { GroupName = Roles.LabUserRoleName, GroupDescription = "Лаборатория" },
-				new CtsRole() { GroupName = Roles.VehiUserRoleName, GroupDescription = "Авто весы" },
-				new CtsRole() { GroupName = Roles.DictUserRoleName, GroupDescription = "Словари" },
-				new CtsRole() { GroupName = Roles.RockUserRoleName, GroupDescription = "Утил.породы" },
-				new CtsRole() { GroupName = Roles.WarehouseUserRoleName, GroupDescription = "Замер склада" },
-				new CtsRole() { GroupName = Roles.WarehouseSetUserRoleName, GroupDescription = "Уст.баланс склада" },
-			};
+		//private List<CtsRoleAdmin> GetRoleAdminRoles()
+		//{
+		//	//Add hardcoded roles from CTS_Models.Roles:
+		//	var ctsRoles = new List<CtsRoleAdmin>()
+		//	{
+		//		new CtsRoleAdmin { GroupName = Roles.RoleAdminRoleName, GroupDescription = "Упр-е ролями CTS" },
+		//	};
 
-			//Add roles corresponding to CTS locations:
-			var cdb = new CtsDbContext();
-			var locations = cdb.Locations.Where(x => x.ID != "test").ToList();
-			foreach (var loc in locations)
-			{
-				ctsRoles.Add(new CtsRole { GroupName = loc.LocationName.Substring(loc.LocationName.LastIndexOf(' ') + 1), GroupDescription = loc.LocationName });
-			}
+		//	return ctsRoles;
+		//}
 
-			return ctsRoles;
-		}
+		//private List<CtsUserAdmin> GetCtsUsers()
+		//{
+		//	var users = new List<CtsUserAdmin>();
+		//	var miRoles = GetMIRoles();
+		//	var analyticsRoles = GetAnalyticsRoles();
+		//	var roleAdminRoles = GetRoleAdminRoles();
 
-		private List<CtsRole> GetAnalyticsRoles()
-		{
-			//Add hardcoded roles from CTS_Models.Roles:
-			var ctsRoles = new List<CtsRole>()
-			{
-				new CtsRole { GroupName = Roles.AnalyticsRoleName, GroupDescription = "Сайт Аналитики" },
-			};
-
-			return ctsRoles;
-		}
-
-		private List<CtsRole> GetRoleAdminRoles()
-		{
-			//Add hardcoded roles from CTS_Models.Roles:
-			var ctsRoles = new List<CtsRole>()
-			{
-				new CtsRole { GroupName = Roles.RoleAdminRoleName, GroupDescription = "Упр-е ролями CTS" },
-			};
-
-			return ctsRoles;
-		}
-
-		private List<CtsUser> GetCtsUsers()
-		{
-			var users = new List<CtsUser>();
-			var miRoles = GetMIRoles();
-			var analyticsRoles = GetAnalyticsRoles();
-			var roleAdminRoles = GetRoleAdminRoles();
-
-			var ctx = new PrincipalContext(ContextType.Machine);
-			//check every declared group to be a cts role
-			foreach (var r in miRoles.Concat(analyticsRoles).Concat(roleAdminRoles))
-			{
-				//try to find a local group with such a name
-				var foundGroup = GroupPrincipal.FindByIdentity(ctx, r.GroupName);
-				if (foundGroup != null)
-				{
-					//pick out every person from found group and add him to ctsUsers list
-					foreach (Principal p in foundGroup.GetMembers())
-					{
-						var ctsUser = users.Find(x => x.UserName == p.Name);
-						if (ctsUser == null)
-						{
-							//if there's still no such a user in ctsUser list, add him there
-							var newUser = new CtsUser()
-							{
-								UserName = p.Name,
-								AnalyticsRoles = new List<CtsRole>(analyticsRoles.Select(item => (CtsRole)item.Clone()).ToList()),
+		//	var ctx = new PrincipalContext(ContextType.Machine);
+		//	//check every declared group to be a cts role
+		//	foreach (var r in miRoles.Concat(analyticsRoles).Concat(roleAdminRoles))
+		//	{
+		//		//try to find a local group with such a name
+		//		var foundGroup = GroupPrincipal.FindByIdentity(ctx, r.GroupName);
+		//		if (foundGroup != null)
+		//		{
+		//			//pick out every person from found group and add him to ctsUsers list
+		//			foreach (Principal p in foundGroup.GetMembers())
+		//			{
+		//				var ctsUser = users.Find(x => x.UserLogin == p.Name);
+		//				if (ctsUser == null)
+		//				{
+		//					//if there's still no such a user in ctsUser list, add him there
+		//					var newUser = new CtsUserAdmin()
+		//					{
+		//						UserLogin = p.Name,
+		//						AnalyticsRoles = new List<CtsRoleAdmin>(analyticsRoles.Select(item => (CtsRoleAdmin)item.Clone()).ToList()),
 	
-							RoleAdminRoles = new List<CtsRole>(roleAdminRoles.Select(item => (CtsRole)item.Clone()).ToList()),
-								ManualInputRoles = new List<CtsRole>(miRoles.Select(item => (CtsRole)item.Clone()).ToList())
-							};
-							users.Add(newUser);
-							ctsUser = newUser;
-						}
+		//					RoleAdminRoles = new List<CtsRoleAdmin>(roleAdminRoles.Select(item => (CtsRoleAdmin)item.Clone()).ToList()),
+		//						ManualInputRoles = new List<CtsRoleAdmin>(miRoles.Select(item => (CtsRoleAdmin)item.Clone()).ToList())
+		//					};
+		//					users.Add(newUser);
+		//					ctsUser = newUser;
+		//				}
 
-						//mark user to have this role
-						var group = ctsUser.ManualInputRoles.Concat(ctsUser.AnalyticsRoles).Concat(roleAdminRoles).Where(x => x.GroupName == r.GroupName).FirstOrDefault();
-						group.HasRole = true;
-					}
-				}
-			}
+		//				//mark user to have this role
+		//				var group = ctsUser.ManualInputRoles.Concat(ctsUser.AnalyticsRoles).Concat(roleAdminRoles).Where(x => x.GroupName == r.GroupName).FirstOrDefault();
+		//				group.HasRole = true;
+		//			}
+		//		}
+		//	}
 
-			return users;
-		}
+		//	return users;
+		//}
 
 
 
