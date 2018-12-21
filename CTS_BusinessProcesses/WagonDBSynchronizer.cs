@@ -115,8 +115,11 @@ namespace CTS_Core
 						foreach (var t in acceptedTransfers)
 						{
 							var originalTransfer = wagDB.ves_vagon.Find(Int32.Parse(t.ID));
-							originalTransfer.sync = 1;
-							wagDB.Entry(originalTransfer).State = EntityState.Modified;
+						    if (originalTransfer != null)
+						    {
+						        originalTransfer.sync = 1;
+						        wagDB.Entry(originalTransfer).State = EntityState.Modified;
+						    }
 						}
 
 						using (var transaction = wagDB.Database.BeginTransaction())

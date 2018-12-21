@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.Linq;
+using System.ServiceProcess;
 using System.Threading.Tasks;
 
 namespace CtsService
@@ -11,9 +12,20 @@ namespace CtsService
 	[RunInstaller(true)]
 	public partial class ProjectInstaller : System.Configuration.Install.Installer
 	{
-		public ProjectInstaller()
+	    ServiceInstaller serviceInstaller;
+	    ServiceProcessInstaller processInstaller;
+
+        public ProjectInstaller()
 		{
-			InitializeComponent();
-		}
+		    InitializeComponent();
+		    serviceInstaller = new ServiceInstaller();
+		    processInstaller = new ServiceProcessInstaller();
+
+		    processInstaller.Account = ServiceAccount.LocalSystem;
+		    serviceInstaller.StartType = ServiceStartMode.Automatic;
+		    serviceInstaller.ServiceName = "CtsService";
+		    Installers.Add(processInstaller);
+		    Installers.Add(serviceInstaller);
+        }
 	}
 }
