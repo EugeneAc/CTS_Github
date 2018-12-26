@@ -666,7 +666,7 @@ namespace CTS_Analytics.Controllers
                 {
                     Date = recognDateTime,
                     WagonNumber = wagonNumber,
-                    GallleryName = "G" + wagonNumber,
+                    GallleryName = "G" + wagonNumber + (int)recognDateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                     PictureGallery = photos.Where(p => !string.IsNullOrEmpty(p)).ToList(),
                     ManualRecogn = manualFlag,
                 };
