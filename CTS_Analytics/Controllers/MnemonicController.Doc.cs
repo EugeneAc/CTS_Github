@@ -2,7 +2,6 @@
 using CTS_Analytics.Models.Mnemonic.Doc_detail;
 using CTS_Core;
 using CTS_Models.DBContext;
-using PagedList;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -225,7 +224,7 @@ namespace CTS_Analytics.Controllers
             var toDate = GetDateFromCookie("todate");
             using (var db = new CtsDbContext())
             {
-                model.WagonTransfers = GetWagonTransfersFromCentralDb(null, db, fromDate, toDate)
+                model.WagonTransfers = _cdbService.GetWagonTransfersIncludeLocations(null, fromDate, toDate)
               .ToList();
             }
             

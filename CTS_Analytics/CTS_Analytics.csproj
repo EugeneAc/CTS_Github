@@ -208,7 +208,7 @@
     <Compile Include="Controllers\MnemonicController.Index.cs" />
     <Compile Include="Controllers\MnemonicController.Doc.cs" />
     <Compile Include="Controllers\StaticController.cs" />
-    <Compile Include="Factories\MnemonicModelFactory.cs" />
+    <Compile Include="Factories\MnemonicModelBuilder.cs" />
     <Compile Include="Filters\CultureAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

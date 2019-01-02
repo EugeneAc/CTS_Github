@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CTS_Models
 {
-	public class Warehouse
-	{
+	public class Warehouse : IEquip
+    {
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.None)]
 		public int ID { get; set; }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace CTS_Models
 {
 	public class WarehouseTransfer
-	{
+    {
 		[Key]
 		public string ID { get; set; }
 		public int? WarehouseID { get; set; }

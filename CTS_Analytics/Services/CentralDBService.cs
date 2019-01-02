@@ -1,10 +1,9 @@
 ﻿using CTS_Models;
 using CTS_Models.DBContext;
-using DataEmulator;
 using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace CTS_Analytics.Services
 {
@@ -12,9 +11,11 @@ namespace CTS_Analytics.Services
     {
         private readonly CtsDbContext cdb;
 
+
         public CentralDBService()
         {
             this.cdb = new CtsDbContext();
+           
         }
 
         public decimal GetPlanData(string location, DateTime fromDate, DateTime toDate)
@@ -51,9 +52,10 @@ namespace CTS_Analytics.Services
             return cdb.Locations.Find(locationId); ;
         }
 
-        public Skip FindSkipBySkipId(int skipID)
+        public TEquip FindEquipmentById<TEquip>(int Id) where TEquip : class, IEquip
         {
-            return cdb.Skips.Find(skipID);
+            var bd = new CtsEquipContext<TEquip>();
+            return bd.DbSet.Find(Id);
         }
 
         public DateTime GetStartShiftTime(string locationId)
@@ -109,17 +111,37 @@ namespace CTS_Analytics.Services
                 .Last();
                 return DateTime.Today.AddDays(1).Add(endTime);
             }
+
             return System.DateTime.Today.Add(endTime);
         }
 
-        public List<SkipTransfer> GetSkipTransfers(int skipID, DateTime fromDate, DateTime toDate)
+        public List<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
         {
-            return cdb.SkipTransfers
-               .Where(s => s.EquipID == skipID)
+            var db = new CtsTransferContext<TTransfer>();
+            return db.DbSet
+               .Where(s => s.EquipID == Id)
                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
                .Where(v => v.IsValid == true)
                .OrderByDescending(t => t.TransferTimeStamp)
                .ToList();
+        }
+
+        public IEnumerable<WagonTransfer> GetWagonTransfersIncludeLocations(int? wagonScaleID, DateTime fromDate, DateTime toDate)
+        {
+            return cdb.WagonTransfers.Include(w => w.Equip.Location)
+                .Where(s => wagonScaleID != null ? s.EquipID == wagonScaleID : true)
+                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
+                .Where(v => v.IsValid == true)
+                .OrderByDescending(t => t.TransferTimeStamp);
+        }
+
+        public WarehouseTransfer[] GetWarehouseTransfers(int Id, DateTime fromDate, DateTime toDate)
+        {
+            return cdb.WarehouseTransfers
+               .Where(s => s.WarehouseID == Id)
+               .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
+               .OrderByDescending(t => t.TransferTimeStamp)
+               .ToArray();
         }
     }
 }
