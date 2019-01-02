@@ -3,12 +3,10 @@ using System.Web;
 using System.Linq;
 using System.Web.Mvc;
 using System;
-using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using CTS_Models;
 using CTS_Models.DBContext;
-using CTS_Models.DbViewModels;
 using CTS_Analytics.Helpers;
 using Newtonsoft.Json;
 using CTS_Core;
@@ -112,6 +110,7 @@ namespace CTS_Analytics.Controllers
             {
                 var prodFactDataTask = Task.Run(() =>
                 {
+                    var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
                     using (var cdb = new CtsDbContext())
                     {
                         var prodFactData = cdb.SkipTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Where(v => v.IsValid == true).ToArray();
@@ -123,7 +122,7 @@ namespace CTS_Analytics.Controllers
                         model.Sar3.ProdFact = GetProductionData("sar3", prodFactData);
                         model.Kaz.ProdFact = GetProductionData("kaz", prodFactData);
                         model.Shah.ProdFact = GetProductionData("shah", prodFactData);
-                        model.Tent.ProdFact = (int)GetBeltScaleModel(21, cdb, fromDate, toDate).ProductionPerTimeInterval;
+                        model.Tent.ProdFact = (int)factory.GetBeltScaleModel(21, fromDate, toDate).ProductionPerTimeInterval;
 
                     }
                 });

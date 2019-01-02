@@ -1,4 +1,5 @@
-﻿using CTS_Analytics.Models.Mnemonic;
+﻿using CTS_Analytics.Factories;
+using CTS_Analytics.Models.Mnemonic;
 using CTS_Core;
 using CTS_Models.DBContext;
 using System;
@@ -54,10 +55,11 @@ namespace CTS_Analytics.Controllers
             var model = new sprdModel("sprd");
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             using (var db = new CtsDbContext())
             {
                 GetGeneralStationData(model, fromDate, toDate, db);
-                model.Sklad = GetWarehouseModel(1, db, fromDate, toDate); // TODO поменять ID когда заведем склад в базе
+                model.Sklad = factory.GetWarehouseModel(1, fromDate, toDate); // TODO поменять ID когда заведем склад в базе
             }
 
             return View(model);
@@ -81,10 +83,11 @@ namespace CTS_Analytics.Controllers
             var model = new sraspModel("srasp");
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             using (var db = new CtsDbContext())
             {
                 GetGeneralStationData(model, fromDate, toDate, db);
-                model.Sklad = GetWarehouseModel(10, db, fromDate, toDate); 
+                model.Sklad = factory.GetWarehouseModel(10, fromDate, toDate); 
             }
 
             return View(model);
@@ -92,13 +95,14 @@ namespace CTS_Analytics.Controllers
 
         private void GetStationWagonScalesData(Station model, DateTime fromDate, DateTime toDate, CtsDbContext db)
         {
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var location = db.Locations.Find(model.LocationID);
             model.WagonScales = new Station.Station_wagon();
             model.WagonScales.WagonScalesID = db.WagonScales
                 .Where(m => m.Location.ID == model.LocationID)
                 .FirstOrDefault()?
                 .ID ?? 1;
-            var wagonScaleModel = GetWagonScaleModel(model.WagonScales.WagonScalesID, db, fromDate, toDate);
+            var wagonScaleModel = factory.GetWagonScaleModel(model.WagonScales.WagonScalesID, fromDate, toDate);
             model.WagonScales.TotalWagons = wagonScaleModel.WagonTransfers.Count();
             model.WagonScales.TotalTonns = (int)wagonScaleModel.WagonTransfers.Select(t => t.Brutto).Sum();
             model.WagonScales.LastTrainDirection = wagonScaleModel.LastTrainDirection;
