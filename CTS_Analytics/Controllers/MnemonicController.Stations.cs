@@ -175,23 +175,6 @@ namespace CTS_Analytics.Controllers
             return fromStationData;
         }
 
-        private string GetLocationNameOnCurrentLanguate(string locationID)
-        {
-            using (var db = new CtsDbContext())
-            {
-                var location = db.Locations.Find(locationID);
-                var name = location.LocationName;
-                if (getUserLang(Request.Cookies["lang"]) == "en")
-                {
-                    name = location.LocationNameEng;
-                }
 
-                if (getUserLang(Request.Cookies["lang"]) == "kk")
-                {
-                    name = location.LocationNameKZ;
-                }
-                return name;
-            }
-        }
     }
 }

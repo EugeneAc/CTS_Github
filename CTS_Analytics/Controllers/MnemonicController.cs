@@ -15,6 +15,8 @@ using CTS_Models;
 using CTS_Models.DBContext;
 using System.IO;
 using CTS_Core;
+using CTS_Analytics.Factories;
+using CTS_Analytics.Services;
 
 namespace CTS_Analytics.Controllers
 {
@@ -23,6 +25,13 @@ namespace CTS_Analytics.Controllers
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public partial class MnemonicController : Controller
     {
+        private readonly CentralDBService _cdbService;
+
+        public MnemonicController()
+        {
+            this._cdbService = new CentralDBService();
+        }
+
         class WagonNumDate
         {
             public string WagonNum { get; set; }
@@ -53,32 +62,36 @@ namespace CTS_Analytics.Controllers
         public ActionResult shah()
         {
             var model = new shahModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_shah";
             using (var db = new CtsDbContext())
             {
-                model.Skip = GetSkipModel(4, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.Skip = factory.GetSkipModel(4, fromDate, toDate);
                 model.Belt = GetBeltScaleModel(5, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(7, db, fromDate, toDate);
                 model.Sklad = GetWarehouseModel(5, db, fromDate, toDate);
                 model.RockUtil = GetRockUtilModel(6, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
+                model.Kotel = GetMineKotelModel("shah");
+                return View(model);
             }
-            model.Kotel = GetMineKotelModel("shah");
-            return View(model);
+            
         }
 
         public ActionResult sar1()
         {
             var model = new sar1Model();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_sar";
             using (var db = new CtsDbContext())
             {
-                model.Skip1 = GetSkipModel(7, db, fromDate, toDate);
-                model.Skip2 = GetSkipModel(8, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.Skip1 = factory.GetSkipModel(7, fromDate, toDate);
+                model.Skip2 = factory.GetSkipModel(8, fromDate, toDate);
                 model.BeltToVagon1 = GetBeltScaleModel(11, db, fromDate, toDate);
                 model.BeltToVagon2 = GetBeltScaleModel(12, db, fromDate, toDate);
                 model.BeltToBoiler = GetBeltScaleModel(13, db, fromDate, toDate);
@@ -86,7 +99,6 @@ namespace CTS_Analytics.Controllers
                 model.Raspozn = GetRaspoznModel(9, fromDate, toDate, 5);
                 model.Sklad = GetWarehouseModel(6, db, fromDate, toDate);
                 model.RockUtil = GetRockUtilModel(9, db, fromDate, toDate); 
-                GetGeneralData(model, fromDate, toDate, db);
             }
             model.Kotel = GetMineKotelModel("sar1");
             return View(model);
@@ -95,18 +107,19 @@ namespace CTS_Analytics.Controllers
         public ActionResult abay()
         {
             var model = new abayModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_abay";
             using (var db = new CtsDbContext())
             {
-                model.Skip1 = GetSkipModel(17, db, fromDate, toDate);
-                model.Skip2 = GetSkipModel(18, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.Skip1 = factory.GetSkipModel(17, fromDate, toDate);
+                model.Skip2 = factory.GetSkipModel(18, fromDate, toDate);
                 model.BeltPos1 = GetBeltScaleModel(23, db, fromDate, toDate);
                 model.BeltPos9 = GetBeltScaleModel(22, db, fromDate, toDate);
                 model.BeltBoiler = GetBeltScaleModel(24, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(10, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Raspozn = GetRaspoznModel(1, fromDate, toDate, 5);
                 model.Sklad = GetWarehouseModel(4, db, fromDate, toDate);
                 model.RockUtil = GetRockUtilModel(5, db, fromDate, toDate);
@@ -118,20 +131,21 @@ namespace CTS_Analytics.Controllers
         public ActionResult kost()
         {
             var model = new kostModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kost";
             using (var db = new CtsDbContext())
             {
-                model.Skip6t = GetSkipModel(5, db, fromDate, toDate);
-                model.Skip9t = GetSkipModel(6, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.Skip6t = factory.GetSkipModel(5, fromDate, toDate);
+                model.Skip9t = factory.GetSkipModel(6, fromDate, toDate);
                 model.BeltFromSkip6t = GetBeltScaleModel(6, db, fromDate, toDate);
                 model.BeltFromSkip9t = GetBeltScaleModel(7, db, fromDate, toDate);
                 model.BeltToSklad = GetBeltScaleModel(8, db, fromDate, toDate);
                 model.BeltToVagon = GetBeltScaleModel(9, db, fromDate, toDate);
                 model.BeltToBoiler = GetBeltScaleModel(10, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(2, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Sklad = GetWarehouseModel(3, db, fromDate, toDate);
                 model.Raspozn1 = GetRaspoznModel(4, fromDate, toDate, 5);
                 model.Raspozn2 = GetRaspoznModel(4, fromDate, toDate, 5);
@@ -145,18 +159,19 @@ namespace CTS_Analytics.Controllers
         public ActionResult kuz()
         {
             var model = new kuzModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kuz";
             using (var db = new CtsDbContext())
             {
-                model.SkipPos1 = GetSkipModel(3, db, fromDate, toDate);
-                model.SkipPos2 = GetSkipModel(2, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.SkipPos1 = factory.GetSkipModel(3, fromDate, toDate);
+                model.SkipPos2 = factory.GetSkipModel(2, fromDate, toDate);
                 model.BeltPos44 = GetBeltScaleModel(2, db, fromDate, toDate);
                 model.BeltPos1L80_1 = GetBeltScaleModel(3, db, fromDate, toDate);
                 model.BeltPos1L80_2 = GetBeltScaleModel(4, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(3, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Sklad = GetWarehouseModel(2, db, fromDate, toDate);
                 model.Raspozn = GetRaspoznModel(5, fromDate, toDate, 5);
                 model.RockUtil = GetRockUtilModel(2, db, fromDate, toDate);
@@ -168,16 +183,17 @@ namespace CTS_Analytics.Controllers
         public ActionResult tent()
         {
             var model = new tentModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_tent";
             using (var db = new CtsDbContext())
             {
-                model.SkipPos1 = GetSkipModel(11, db, fromDate, toDate);
-                model.SkipPos2 = GetSkipModel(12, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.SkipPos1 = factory.GetSkipModel(11, fromDate, toDate);
+                model.SkipPos2 = factory.GetSkipModel(12, fromDate, toDate);
                 model.BeltToTechComplex = GetBeltScaleModel(21, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(6, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Sklad = GetWarehouseModel(9, db, fromDate, toDate);
             }
             model.Kotel = GetMineKotelModel("tent");
@@ -187,17 +203,18 @@ namespace CTS_Analytics.Controllers
         public ActionResult kaz()
         {
             var model = new kazModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kaz";
             using (var db = new CtsDbContext())
             {
-                model.SkipPos1 = GetSkipModel(15, db, fromDate, toDate);
-                model.SkipPos2 = GetSkipModel(16, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.SkipPos1 = factory.GetSkipModel(15, fromDate, toDate);
+                model.SkipPos2 = factory.GetSkipModel(16, fromDate, toDate);
                 model.Belt1 = GetBeltScaleModel(18, db, fromDate, toDate);
                 model.Belt2 = GetBeltScaleModel(19, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(9, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Raspozn = GetRaspoznModel(3, fromDate, toDate, 5);
                 model.RockUtil = GetRockUtilModel(4, db, fromDate, toDate);
             }
@@ -208,17 +225,18 @@ namespace CTS_Analytics.Controllers
         public ActionResult sar3()
         {
             var model = new sar3Model();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_sar";
             using (var db = new CtsDbContext())
             {
-                model.Skip = GetSkipModel(10, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.Skip = factory.GetSkipModel(10, fromDate, toDate);
                 model.BeltToTech1 = GetBeltScaleModel(14, db, fromDate, toDate);
                 model.BeltToTech2 = GetBeltScaleModel(15, db, fromDate, toDate);
                 model.VagonObogatitel = GetWagonScaleModel(5, db, fromDate, toDate);
                 model.VagonSaburkhan = GetWagonScaleModel(5, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Raspozn1 = GetRaspoznModel(8, fromDate, toDate, 5);
                 model.Raspozn2 = GetRaspoznModel(10, fromDate, toDate, 5);
                 model.Sklad = GetWarehouseModel(7, db, fromDate, toDate);
@@ -231,17 +249,18 @@ namespace CTS_Analytics.Controllers
         public ActionResult len()
         {
             var model = new lenModel();
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_len";
             using (var db = new CtsDbContext())
             {
-                model.SkipPos1 = GetSkipModel(13, db, fromDate, toDate);
-                model.SkipPos2 = GetSkipModel(14, db, fromDate, toDate);
+                factory.GetGeneralData(model, fromDate, toDate);
+                model.SkipPos1 = factory.GetSkipModel(13, fromDate, toDate);
+                model.SkipPos2 = factory.GetSkipModel(14, fromDate, toDate);
                 model.Belt1 = GetBeltScaleModel(16, db, fromDate, toDate);
                 model.Belt2 = GetBeltScaleModel(17, db, fromDate, toDate);
                 model.Vagon = GetWagonScaleModel(8, db, fromDate, toDate);
-                GetGeneralData(model, fromDate, toDate, db);
                 model.Raspozn = GetRaspoznModel(6, fromDate, toDate, 5);
                 model.Sklad = GetWarehouseModel(8, db, fromDate, toDate);
                 model.RockUtil = GetRockUtilModel(7, db, fromDate, toDate);
@@ -371,16 +390,34 @@ namespace CTS_Analytics.Controllers
 
         #endregion
 
+        public string GetLocationNameOnCurrentLanguate(string locationID)
+        {
+            using (var db = new CtsDbContext())
+            {
+                var location = db.Locations.Find(locationID);
+                var name = location.LocationName;
+                if (getUserLang(Request.Cookies["lang"]) == "en")
+                {
+                    name = location.LocationNameEng;
+                }
+
+                if (getUserLang(Request.Cookies["lang"]) == "kk")
+                {
+                    name = location.LocationNameKZ;
+                }
+                return name;
+            }
+        }
+
         #region GetMineEquipmentMethods
 
         private Mine_skip GetSkipModel(int skipID)
         {
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
-            using (var db = new CtsDbContext())
-            {
-                return GetSkipModel(skipID, db, fromDate, toDate); ;
-            }
+            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            return factory.GetSkipModel(skipID, fromDate, toDate); ;
+
         }
 
         private Mine_konv GetBeltScaleModel(int beltID)
@@ -413,86 +450,6 @@ namespace CTS_Analytics.Controllers
             }
         }
 
-        private void GetGeneralData(MineGeneral model, DateTime fromDate, DateTime toDate, CtsDbContext db)
-        {
-            model.ProdPlan = GetPlanData(model.LocationID, db, fromDate, toDate);
-            var location = db.Locations.Find(model.LocationID);
-            var oracleShop = (OracleShop)Enum.Parse(typeof(OracleShop), model.LocationID);
-            try
-            {
-                var staffnum = db.LocalStaffs
-                    .Where(s => s.ShopID == (int)oracleShop)
-                    .Where(d => d.Date <= toDate && d.Date >= fromDate)
-                    .Select(v => v.CNT)
-                    .DefaultIfEmpty()
-                    .Select(int.Parse)
-                    .ToArray()
-                    .Sum();
-
-                model.Productivity = (float)model.ProdFact / staffnum;
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Exception getting data for GetGeneralData");
-            }
-
-            model.MineName = GetLocationNameOnCurrentLanguate(model.LocationID);
-        }
-
-        private Mine_skip GetSkipModel(int skipID, CtsDbContext db, DateTime fromDate, DateTime toDate)
-        {
-            string lang = getUserLang(Request.Cookies["lang"]);
-            var skip = db.Skips.Find(skipID);
-            if (skip == null)
-            {
-                return new Mine_skip("Unknown");
-            }
-
-            var model = new Mine_skip(skip.LocationID);
-            model.SkipID = skipID;
-            model.SkipName = skip.Name;
-            model.MineName = skip.Location.LocationName;
-            if (lang == "en")
-            {
-                model.SkipName = skip.NameEng;
-                model.MineName = skip.Location.LocationNameEng;
-            }
-
-            if (lang == "kk")
-            {
-                model.SkipName = skip.NameKZ;
-                model.MineName = skip.Location.LocationNameKZ;
-            }
-
-            model.SkipTransfers = db.SkipTransfers
-                .Where(s => s.EquipID == skipID)
-                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
-                .Where(v => v.IsValid == true)
-                .OrderByDescending(t => t.TransferTimeStamp)
-                .ToList();
-            model.TotalSkipsPerTimeInterval = model.SkipTransfers.Sum(s => int.Parse(s.LiftingID));
-            // model.TotalTonnsPerTimeInterval = model.SkipTransfers.Sum(t => t.SkipWeight); // Leave it for a while
-            model.TotalTonnsPerTimeInterval = model.SkipTransfers.Select(t => t.SkipWeight * int.Parse(t.LiftingID)).Sum(); // TODO Change to this calculation when ready
-            model.LastSkipLiftingTime = model.SkipTransfers.Count() > 0 ? model.SkipTransfers.First().TransferTimeStamp : new DateTime?();
-
-            var fromShiftDate = GetStartShiftTime(skip.LocationID, db);
-            var toShiftDate = GetEndShiftTime(skip.LocationID, db, fromShiftDate);
-            var shiftskiptransfers = db.SkipTransfers.Where(s => s.EquipID == skipID).Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate).Where(v => v.IsValid == true).ToArray();
-            model.TotalSkipsPerThisShift = shiftskiptransfers.Sum(s => int.Parse(s.LiftingID));
-            // model.TotalTonnsPerThisShift = shiftskiptransfers.Sum(t => t.SkipWeight); // Leave it for a while
-            model.TotalTonnsPerThisShift = shiftskiptransfers.Select(t => t.SkipWeight * int.Parse(t.LiftingID)).Sum(); // TODO Change to this calculation when ready
-
-            model.HasManualValues = model
-                .SkipTransfers
-                .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
-                .Any()
-                ||
-                shiftskiptransfers
-                .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
-                .Any();
-            return model;
-        }
-
         private Mine_konv GetBeltScaleModel(int beltID, CtsDbContext db, DateTime fromDate, DateTime toDate)
         {
             string lang = getUserLang(Request.Cookies["lang"]);
@@ -518,8 +475,8 @@ namespace CTS_Analytics.Controllers
                 .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
                 .Where(v => v.IsValid == true).OrderByDescending(t => t.TransferTimeStamp).ToList();
             model.ProductionPerTimeInterval = model.BeltTransfers.Sum(t => t.LotQuantity).GetValueOrDefault();
-            var fromShiftDate = GetStartShiftTime(belt.LocationID, db);
-            var toShiftDate = GetEndShiftTime(belt.LocationID, db, fromShiftDate);
+            var fromShiftDate = _cdbService.GetStartShiftTime(belt.LocationID);
+            var toShiftDate = _cdbService.GetEndShiftTime(belt.LocationID, fromShiftDate);
             var shiftransfers = db.InternalTransfers.Where(s => s.EquipID == beltID).Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate).Where(v => v.IsValid == true).ToArray();
             model.ProductionPerShift = shiftransfers.Sum(t => t.LotQuantity).GetValueOrDefault();
             model.HasManualValues = model
@@ -545,8 +502,8 @@ namespace CTS_Analytics.Controllers
             model.WagonTransfers = GetWagonTransfersFromCentralDb(wagonScaleID, db, fromDate, toDate)
                 .ToList();
             //model.WagonTransfers.AddRange(GetDataFromWagonDB(fromDate, toDate, wagonScale.LocationID)); // To get data from wagonDB
-            var fromShiftDate = GetStartShiftTime(wagonScale.LocationID, db);
-            var toShiftDate = GetEndShiftTime(wagonScale.LocationID, db, fromShiftDate);
+            var fromShiftDate = _cdbService.GetStartShiftTime(wagonScale.LocationID);
+            var toShiftDate = _cdbService.GetEndShiftTime(wagonScale.LocationID, fromShiftDate);
             var shiftransfers = GetWagonTransfersFromCentralDb(wagonScaleID, db, fromShiftDate, toShiftDate)
                 .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
                 .ToArray();
@@ -792,8 +749,8 @@ namespace CTS_Analytics.Controllers
             }
 
             model.StockPileCapacity = (int)warehouse.TotalCapacity;
-            var fromShiftDate = GetStartShiftTime(warehouse.LocationID, db);
-            var toShiftDate = GetEndShiftTime(warehouse.LocationID, db, fromShiftDate);
+            var fromShiftDate = _cdbService.GetStartShiftTime(warehouse.LocationID);
+            var toShiftDate = _cdbService.GetEndShiftTime(warehouse.LocationID, fromShiftDate);
             var shiftransfers = db.WarehouseTransfers
                 .Where(s => s.WarehouseID == warehouseID)
                 .Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate)?
@@ -802,62 +759,6 @@ namespace CTS_Analytics.Controllers
             model.IncomePerShift = (int)shiftransfers?.Sum();
 
             return model;
-        }
-
-        private DateTime GetStartShiftTime(string locationId, CtsDbContext db)
-        {
-            var nowTime = TimeSpan.Parse(System.DateTime.Now.ToString("HH:mm:ss"));
-            var times = db.Shifts
-                .Where(l => l.LocationID == locationId)
-                .ToArray();
-            if (times.Count() == 0)
-                return DateTime.Today;
-
-            var startTime = times
-                .Where(t => t.TimeStart < nowTime)
-                .OrderByDescending(c => c.TimeStart)
-                .Select(f => f.TimeStart)
-                .FirstOrDefault();
-            if (startTime == default(TimeSpan))
-            {
-                nowTime = new TimeSpan(23, 59, 59);
-                startTime = times
-                .Where(t => t.TimeStart < nowTime)
-                .OrderByDescending(c => c.TimeStart)
-                .Select(f => f.TimeStart)
-                .First();
-                return DateTime.Today.AddDays(-1).Add(startTime);
-            }
-
-            return DateTime.Today.Add(startTime);
-        }
-
-        private DateTime GetEndShiftTime(string locationId, CtsDbContext db, DateTime startShiftTime)
-        {
-            var nowTime = TimeSpan.Parse(startShiftTime.ToString("HH:mm:ss"));
-            var times = db.Shifts
-                .Where(l => l.LocationID == locationId)
-                .ToArray();
-            if (times.Count() == 0)
-                return startShiftTime.AddHours(24);
-
-            var endTime = times
-                .Where(t => t.TimeStart > nowTime)
-                .OrderByDescending(c => c.TimeStart)
-                .Select(f => f.TimeStart)
-                .LastOrDefault();
-
-            if (endTime == default(TimeSpan))
-            {
-                nowTime = new TimeSpan(0, 00, 1);
-                endTime = times
-                .Where(t => t.TimeStart > nowTime)
-                .OrderByDescending(c => c.TimeStart)
-                .Select(f => f.TimeStart)
-                .Last();
-                return DateTime.Today.AddDays(1).Add(endTime);
-            }
-            return System.DateTime.Today.Add(endTime);
         }
 
         private Mine_rockUtil GetRockUtilModel(int rockUtilID, CtsDbContext db, DateTime fromDate, DateTime toDate)
@@ -890,8 +791,8 @@ namespace CTS_Analytics.Controllers
                 .OrderByDescending(t => t.TransferTimeStamp);
 
             model.RocksPerPeriod = rockTransfers.Sum(v => v.LotQuantity) ?? 0;
-            var fromShiftDate = GetStartShiftTime(rockUtil.LocationID, db);
-            var toShiftDate = GetEndShiftTime(rockUtil.LocationID, db, fromShiftDate);
+            var fromShiftDate = _cdbService.GetStartShiftTime(rockUtil.LocationID);
+            var toShiftDate = _cdbService.GetEndShiftTime(rockUtil.LocationID, fromShiftDate);
             var shiftTransfers = db.RockUtilTransfers.Where(s => s.EquipID == rockUtilID)
                 .Where(d => d.TransferTimeStamp >= fromShiftDate && d.TransferTimeStamp <= toShiftDate)
                 .Where(v => v.IsValid == true)

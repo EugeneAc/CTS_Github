@@ -12,6 +12,8 @@ using CTS_Models.DbViewModels;
 using CTS_Analytics.Helpers;
 using Newtonsoft.Json;
 using CTS_Core;
+using CTS_Analytics.Factories;
+using CTS_Analytics.Services;
 
 namespace CTS_Analytics.Controllers
 {
@@ -127,18 +129,16 @@ namespace CTS_Analytics.Controllers
                 });
                 var planDataTask = Task.Run(() =>
                 {
-                    using (var cdb = new CtsDbContext())
-                    {
-                        model.Kuz.ProdPlan = GetPlanData("kuz", cdb, fromDate, toDate);
-                        model.Kost.ProdPlan = GetPlanData("kost",  cdb, fromDate, toDate);
-                        model.Abay.ProdPlan = GetPlanData("abay",  cdb, fromDate, toDate);
-                        model.Len.ProdPlan = GetPlanData("len",  cdb, fromDate, toDate);
-                        model.Sar1.ProdPlan = GetPlanData("sar1",  cdb, fromDate, toDate);
-                        model.Sar3.ProdPlan = GetPlanData("sar3",  cdb, fromDate, toDate);
-                        model.Kaz.ProdPlan = GetPlanData("kaz",  cdb, fromDate, toDate);
-                        model.Shah.ProdPlan = GetPlanData("shah",  cdb, fromDate, toDate);
-                        model.Tent.ProdPlan = GetPlanData("tent",  cdb, fromDate, toDate);
-                    }
+                        var service = new CentralDBService();
+                        model.Kuz.ProdPlan = service.GetPlanData("kuz", fromDate, toDate);
+                        model.Kost.ProdPlan = service.GetPlanData("kost",  fromDate, toDate);
+                        model.Abay.ProdPlan = service.GetPlanData("abay",  fromDate, toDate);
+                        model.Len.ProdPlan = service.GetPlanData("len",  fromDate, toDate);
+                        model.Sar1.ProdPlan = service.GetPlanData("sar1", fromDate, toDate);
+                        model.Sar3.ProdPlan = service.GetPlanData("sar3", fromDate, toDate);
+                        model.Kaz.ProdPlan = service.GetPlanData("kaz",  fromDate, toDate);
+                        model.Shah.ProdPlan = service.GetPlanData("shah",  fromDate, toDate);
+                        model.Tent.ProdPlan = service.GetPlanData("tent",  fromDate, toDate);
                 });
                 var shippedDataTask = Task.Run(() =>
                 {
@@ -242,20 +242,6 @@ namespace CTS_Analytics.Controllers
                 toDate = epoch.AddMilliseconds(todate);
             else
                 toDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1);
-        }
-
-        private decimal GetPlanData(string location, CtsDbContext cdb, DateTime fromDate, DateTime toDate)
-        {
-            var planSum = cdb.LocalPlansBWithLocationID
-                .Where(l => location.Contains(l.LocationID))
-                .Where(d => d.Date >= fromDate && d.Date <= toDate)
-                .Select(p => p.Plan)
-                .DefaultIfEmpty()
-                .Sum();
-            if (location == "sar1" || location == "sar3")
-                planSum = planSum / 2;
-            return planSum;
-
         }
 
         private int GetProductionData(string location, IEnumerable<SkipTransfer> data)
