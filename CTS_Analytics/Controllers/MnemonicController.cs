@@ -62,7 +62,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult shah()
         {
             var model = new shahModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_shah";
@@ -83,7 +83,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult sar1()
         {
             var model = new sar1Model();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_sar";
@@ -107,7 +107,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult abay()
         {
             var model = new abayModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_abay";
@@ -131,7 +131,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult kost()
         {
             var model = new kostModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kost";
@@ -159,7 +159,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult kuz()
         {
             var model = new kuzModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kuz";
@@ -183,7 +183,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult tent()
         {
             var model = new tentModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_tent";
@@ -203,7 +203,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult kaz()
         {
             var model = new kazModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kaz";
@@ -225,7 +225,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult sar3()
         {
             var model = new sar3Model();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_sar";
@@ -249,7 +249,7 @@ namespace CTS_Analytics.Controllers
         public ActionResult len()
         {
             var model = new lenModel();
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_len";
@@ -415,7 +415,7 @@ namespace CTS_Analytics.Controllers
         {
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
-            var factory = new MnemonicModelFactory(getUserLang(Request.Cookies["lang"]));
+            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
             return factory.GetSkipModel(skipID, fromDate, toDate); ;
 
         }

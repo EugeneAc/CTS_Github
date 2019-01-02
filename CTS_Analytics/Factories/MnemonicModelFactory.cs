@@ -7,13 +7,13 @@ using System.Web;
 
 namespace CTS_Analytics.Factories
 {
-    public class MnemonicModelFactory
+    public class MnemonicModelBuilder
     {
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly string userLanguage;
         private readonly CentralDBService _cdbService;
 
-        public MnemonicModelFactory(string userLanguage)
+        public MnemonicModelBuilder(string userLanguage)
         {
             this.userLanguage = userLanguage;
             this._cdbService = new CentralDBService();
