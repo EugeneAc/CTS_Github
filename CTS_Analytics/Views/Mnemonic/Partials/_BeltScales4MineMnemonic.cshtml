@@ -16,13 +16,13 @@
     <div class="text">
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.ProductionPerShift</span>
-            <div class="count">@Model.ProductionPerShift.ToString("F")</div>
+            <div class="count">@Model.ProductionPerShift.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.ProdFact</span>
-            <div class="count">@Model.ProductionPerTimeInterval.ToString("F")</div>
+            <div class="count">@Model.ProductionPerTimeInterval.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>

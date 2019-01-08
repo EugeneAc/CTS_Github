@@ -14,7 +14,7 @@
         var factClass = (Model.TotalFact >= Model.TotalPlan) ? "green" : "red";
     <div class="plan-fact">
         @Resources.ResourceMnemonic.PlanFact (@Resources.ResourceMnemonic.Tonns):
-        <div class="result"><b class="green">@Model.TotalPlan</b> / <b class="@factClass">@Model.TotalFact</b></div>
+        <div class="result"><b class="green">@Model.TotalPlan.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</b> / <b class="@factClass">@Model.TotalFact.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</b></div>
     </div>
     }
 </div>

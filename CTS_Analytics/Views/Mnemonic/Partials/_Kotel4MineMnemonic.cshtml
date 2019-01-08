@@ -19,13 +19,13 @@
     <div class="text">
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.BoilerConsumptionFact</span>
-            <div class="count">@Model.ConsumptionFact</div>
+            <div class="count">@Model.ConsumptionFact.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.BoilerConsumptionNorm</span>
-            <div class="count">@Model.ConsumptionNorm</div>
+            <div class="count">@Model.ConsumptionNorm.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>

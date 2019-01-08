@@ -18,17 +18,17 @@
     <div class="text">
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.ProductionPerShift</span>
-            <div class="count">@Model.TotalSkipsPerThisShift</div>
+            <div class="count">@Model.TotalSkipsPerThisShift.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Skips</span>
-            <div class="count count2">@Model.TotalTonnsPerThisShift</div>
+            <div class="count count2">@Model.TotalTonnsPerThisShift.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.ProdFact</span>
-            <div class="count">@Model.TotalSkipsPerTimeInterval</div>
+            <div class="count">@Model.TotalSkipsPerTimeInterval.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Skips</span>
-            <div class="count count2">@Model.TotalTonnsPerTimeInterval</div>
+            <div class="count count2">@Model.TotalTonnsPerTimeInterval.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>

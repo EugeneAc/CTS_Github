@@ -16,27 +16,27 @@
 
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.CoalFromCrushingMachinePerShift</span>
-            <div class="count">@Model.IncomePerShift</div>
+            <div class="count">@Model.IncomePerShift.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
 
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.StockpileIncome</span>
-            <div class="count">@Model.IncomePerTimeInterval</div>
+            <div class="count">@Model.IncomePerTimeInterval.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
 
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.StockPileTotal</span>
-            <div class="count">@Model.AtStockPile</div>
+            <div class="count">@Model.AtStockPile.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.StockpileFree</span>
-            <div class="count">@stockpileFree</div>
+            <div class="count">@stockpileFree.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>

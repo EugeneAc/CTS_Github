@@ -8,7 +8,7 @@
         @Resources.ResourceMnemonic.PlanFact (@Resources.ResourceMnemonic.Tonns):
         <div class="input-group-sm">
         </div>
-        <div class="result"><b class="green">@Model.ProdPlan</b> / <b class="@factClass">@Model.ProdFact</b></div>
+        <div class="result"><b class="green">@Model.ProdPlan.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</b> / <b class="@factClass">@Model.ProdFact.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</b></div>
     </div>
 
     <div class="plan-fact">

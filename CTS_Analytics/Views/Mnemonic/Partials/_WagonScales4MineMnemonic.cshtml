@@ -18,13 +18,13 @@
     <div class="text">
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.LoadedPerShift</span>
-            <div class="count">@Model.ShippedPerShiftTonns</div>
+            <div class="count">@Model.ShippedPerShiftTonns.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.LoadedAtLastTrain</span>
-            <div class="count">@Model.ShippedToLastTrainTonns</div>
+            <div class="count">@Model.ShippedToLastTrainTonns.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
             <div class="clearfix"></div>
         </div>
@@ -36,7 +36,7 @@
         </div>
         <div class="line">
             <span class="name">@Resources.ResourceMnemonic.WagonCountAtLastTrain</span>
-            <div class="count">@Model.LastTrainVagonCount</div>
+            <div class="count">@Model.LastTrainVagonCount.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
             <span class="caption">@Resources.ResourceMnemonic.Pieces</span>
             <div class="clearfix"></div>
         </div>

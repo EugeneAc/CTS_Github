@@ -23,7 +23,7 @@
 		<div class="line">
 			<span class="name">@Resources.ResourceMnemonic.CoalFromCrushingMachinePerShift</span>
 			<div class="count">@if (Model.IncomePerShift > 0)
-			{@Model.IncomePerShift }
+			{@Model.IncomePerShift.ToString("N0", System.Globalization.CultureInfo.CurrentCulture) }
 		else
 		{ <span>0</span>}</div>
 			<span class="caption">@Resources.ResourceMnemonic.Tonns</span>
@@ -33,7 +33,7 @@
 		<div class="line">
 			<span class="name">@Resources.ResourceMnemonic.StockpileIncome</span>
 			<div class="count">@if (Model.IncomePerTimeInterval > 0)
-			{@Model.IncomePerTimeInterval }
+			{@Model.IncomePerTimeInterval.ToString("N0", System.Globalization.CultureInfo.CurrentCulture) }
 		else
 		{ <span>0</span>}</div>
 			<span class="caption">@Resources.ResourceMnemonic.Tonns</span>
@@ -43,7 +43,7 @@
 		<div class="line">
 			<span class="name">@Resources.ResourceMnemonic.StockPileTotal</span>
 			<div class="count">@if (Model.AtStockPile > 0)
-			{@Model.AtStockPile }
+			{@Model.AtStockPile.ToString("N0", System.Globalization.CultureInfo.CurrentCulture) }
 		else
 		{ <span>0</span>}</div>
 			<span class="caption">@Resources.ResourceMnemonic.Tonns</span>
@@ -51,7 +51,7 @@
 		</div>
 		<div class="line">
 			<span class="name">@Resources.ResourceMnemonic.StockpileFree</span>
-			<div class="count">@stockpileFree</div>
+			<div class="count">@stockpileFree.ToString("N0", System.Globalization.CultureInfo.CurrentCulture)</div>
 			<span class="caption">@Resources.ResourceMnemonic.Tonns</span>
 			<div class="clearfix"></div>
 		</div>
