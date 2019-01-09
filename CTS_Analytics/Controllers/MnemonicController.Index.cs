@@ -110,7 +110,6 @@ namespace CTS_Analytics.Controllers
             {
                 var prodFactDataTask = Task.Run(() =>
                 {
-                    var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
                     using (var cdb = new CtsDbContext())
                     {
                         var prodFactData = cdb.SkipTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Where(v => v.IsValid == true).ToArray();
@@ -122,7 +121,7 @@ namespace CTS_Analytics.Controllers
                         model.Sar3.ProdFact = GetProductionData("sar3", prodFactData);
                         model.Kaz.ProdFact = GetProductionData("kaz", prodFactData);
                         model.Shah.ProdFact = GetProductionData("shah", prodFactData);
-                        model.Tent.ProdFact = (int)factory.GetBeltScaleModel(21, fromDate, toDate).ProductionPerTimeInterval;
+                        model.Tent.ProdFact = (int)Builder.GetBeltScaleModel(21).ProductionPerTimeInterval;
 
                     }
                 });

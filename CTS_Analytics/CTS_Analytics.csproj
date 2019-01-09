@@ -381,6 +381,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceFilters.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\WagonDBService.cs" />
     <Compile Include="Services\CentralDBService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

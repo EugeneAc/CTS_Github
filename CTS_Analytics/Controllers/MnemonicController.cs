@@ -24,13 +24,26 @@ namespace CTS_Analytics.Controllers
 	public partial class MnemonicController : Controller
     {
         private readonly CentralDBService _cdbService;
+        private readonly WagonDbService _wagDbService;
+        private MnemonicModelBuilder _builder;
+        private MnemonicModelBuilder Builder
+        {
+            get
+            {
+                if (_builder == null) 
+                    _builder = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]), GetDateFromCookie("fromdate"), GetDateFromCookie("todate"));
+
+                return _builder;
+            }
+        }
 
         public MnemonicController()
         {
             this._cdbService = new CentralDBService();
+            this._wagDbService = new WagonDbService();
         }
 
-        class WagonNumDate
+        public class WagonNumDate
         {
             public string WagonNum { get; set; }
             public DateTime Date { get; set; }
@@ -60,16 +73,14 @@ namespace CTS_Analytics.Controllers
         public ActionResult shah()
         {
             var model = new shahModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
+
             model.DetailsViewName = "doc_detail_shah";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.Skip = factory.GetSkipModel(4, fromDate, toDate);
-                model.Belt = factory.GetBeltScaleModel(5, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(7, fromDate, toDate);
-                model.Sklad = factory.GetWarehouseModel(5, fromDate, toDate);
-                model.RockUtil = factory.GetRockUtilModel(6, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.Skip = Builder.GetSkipModel(4);
+                model.Belt = Builder.GetBeltScaleModel(5);
+                model.Vagon = Builder.GetWagonScaleModel(7);
+                model.Sklad = Builder.GetWarehouseModel(5);
+                model.RockUtil = Builder.GetRockUtilModel(6);
                 model.Kotel = GetMineKotelModel("shah");
             return View(model);
         }
@@ -77,20 +88,17 @@ namespace CTS_Analytics.Controllers
         public ActionResult sar1()
         {
             var model = new sar1Model();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_sar";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.Skip1 = factory.GetSkipModel(7, fromDate, toDate);
-                model.Skip2 = factory.GetSkipModel(8, fromDate, toDate);
-                model.BeltToVagon1 = factory.GetBeltScaleModel(11, fromDate, toDate);
-                model.BeltToVagon2 = factory.GetBeltScaleModel(12, fromDate, toDate);
-                model.BeltToBoiler = factory.GetBeltScaleModel(13, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(4, fromDate, toDate);
-                model.Raspozn = GetRaspoznModel(9, fromDate, toDate, 5);
-                model.Sklad = factory.GetWarehouseModel(6, fromDate, toDate);
-                model.RockUtil = factory.GetRockUtilModel(9, fromDate, toDate); 
+                Builder.GetGeneralData(model);
+                model.Skip1 = Builder.GetSkipModel(7);
+                model.Skip2 = Builder.GetSkipModel(8);
+                model.BeltToVagon1 = Builder.GetBeltScaleModel(11);
+                model.BeltToVagon2 = Builder.GetBeltScaleModel(12);
+                model.BeltToBoiler = Builder.GetBeltScaleModel(13);
+                model.Vagon = Builder.GetWagonScaleModel(4);
+                model.Raspozn = Builder.GetRaspoznModel(9, 5);
+                model.Sklad = Builder.GetWarehouseModel(6);
+                model.RockUtil = Builder.GetRockUtilModel(9); 
             model.Kotel = GetMineKotelModel("sar1");
             return View(model);
         }
@@ -98,20 +106,17 @@ namespace CTS_Analytics.Controllers
         public ActionResult abay()
         {
             var model = new abayModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_abay";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.Skip1 = factory.GetSkipModel(17, fromDate, toDate);
-                model.Skip2 = factory.GetSkipModel(18, fromDate, toDate);
-                model.BeltPos1 = factory.GetBeltScaleModel(23, fromDate, toDate);
-                model.BeltPos9 = factory.GetBeltScaleModel(22, fromDate, toDate);
-                model.BeltBoiler = factory.GetBeltScaleModel(24, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(10, fromDate, toDate);
-                model.Raspozn = GetRaspoznModel(1, fromDate, toDate, 5);
-                model.Sklad = factory.GetWarehouseModel(4, fromDate, toDate);
-                model.RockUtil = factory.GetRockUtilModel(5, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.Skip1 = Builder.GetSkipModel(17);
+                model.Skip2 = Builder.GetSkipModel(18);
+                model.BeltPos1 = Builder.GetBeltScaleModel(23);
+                model.BeltPos9 = Builder.GetBeltScaleModel(22);
+                model.BeltBoiler = Builder.GetBeltScaleModel(24);
+                model.Vagon = Builder.GetWagonScaleModel(10);
+                model.Raspozn = Builder.GetRaspoznModel(1, 5);
+                model.Sklad = Builder.GetWarehouseModel(4);
+                model.RockUtil = Builder.GetRockUtilModel(5);
             model.Kotel = GetMineKotelModel("abay");
             return View(model);
         }
@@ -119,24 +124,21 @@ namespace CTS_Analytics.Controllers
         public ActionResult kost()
         {
             var model = new kostModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kost";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.Skip6t = factory.GetSkipModel(5, fromDate, toDate);
-                model.Skip9t = factory.GetSkipModel(6, fromDate, toDate);
-                model.BeltFromSkip6t = factory.GetBeltScaleModel(6, fromDate, toDate);
-                model.BeltFromSkip9t = factory.GetBeltScaleModel(7, fromDate, toDate);
-                model.BeltToSklad = factory.GetBeltScaleModel(8, fromDate, toDate);
-                model.BeltToVagon = factory.GetBeltScaleModel(9, fromDate, toDate);
-                model.BeltToBoiler = factory.GetBeltScaleModel(10, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(2, fromDate, toDate);
-                model.Sklad = factory.GetWarehouseModel(3, fromDate, toDate);
-                model.Raspozn1 = GetRaspoznModel(4, fromDate, toDate, 5);
-                model.Raspozn2 = GetRaspoznModel(4, fromDate, toDate, 5);
-                model.RockUtil38 = factory.GetRockUtilModel(3, fromDate, toDate);
-                model.RockUtil39 = factory.GetRockUtilModel(3, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.Skip6t = Builder.GetSkipModel(5);
+                model.Skip9t = Builder.GetSkipModel(6);
+                model.BeltFromSkip6t = Builder.GetBeltScaleModel(6);
+                model.BeltFromSkip9t = Builder.GetBeltScaleModel(7);
+                model.BeltToSklad = Builder.GetBeltScaleModel(8);
+                model.BeltToVagon = Builder.GetBeltScaleModel(9);
+                model.BeltToBoiler = Builder.GetBeltScaleModel(10);
+                model.Vagon = Builder.GetWagonScaleModel(2);
+                model.Sklad = Builder.GetWarehouseModel(3);
+                model.Raspozn1 = Builder.GetRaspoznModel(4, 5);
+                model.Raspozn2 = Builder.GetRaspoznModel(4, 5);
+                model.RockUtil38 = Builder.GetRockUtilModel(3);
+                model.RockUtil39 = Builder.GetRockUtilModel(3);
             model.Kotel = GetMineKotelModel("kost");
             return View(model);
         }
@@ -144,20 +146,17 @@ namespace CTS_Analytics.Controllers
         public ActionResult kuz()
         {
             var model = new kuzModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kuz";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.SkipPos1 = factory.GetSkipModel(3, fromDate, toDate);
-                model.SkipPos2 = factory.GetSkipModel(2, fromDate, toDate);
-                model.BeltPos44 = factory.GetBeltScaleModel(2, fromDate, toDate);
-                model.BeltPos1L80_1 = factory.GetBeltScaleModel(3, fromDate, toDate);
-                model.BeltPos1L80_2 = factory.GetBeltScaleModel(4, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(3, fromDate, toDate);
-                model.Sklad = factory.GetWarehouseModel(2, fromDate, toDate);
-                model.Raspozn = GetRaspoznModel(5, fromDate, toDate, 5);
-                model.RockUtil = factory.GetRockUtilModel(2, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.SkipPos1 = Builder.GetSkipModel(3);
+                model.SkipPos2 = Builder.GetSkipModel(2);
+                model.BeltPos44 = Builder.GetBeltScaleModel(2);
+                model.BeltPos1L80_1 = Builder.GetBeltScaleModel(3);
+                model.BeltPos1L80_2 = Builder.GetBeltScaleModel(4);
+                model.Vagon = Builder.GetWagonScaleModel(3);
+                model.Sklad = Builder.GetWarehouseModel(2);
+                model.Raspozn = Builder.GetRaspoznModel(5, 5);
+                model.RockUtil = Builder.GetRockUtilModel(2);
             model.Kotel = GetMineKotelModel("kuz");
             return View(model);
         }
@@ -165,16 +164,13 @@ namespace CTS_Analytics.Controllers
         public ActionResult tent()
         {
             var model = new tentModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_tent";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.SkipPos1 = factory.GetSkipModel(11, fromDate, toDate);
-                model.SkipPos2 = factory.GetSkipModel(12, fromDate, toDate);
-                model.BeltToTechComplex = factory.GetBeltScaleModel(21, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(6, fromDate, toDate);
-                model.Sklad = factory.GetWarehouseModel(9, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.SkipPos1 = Builder.GetSkipModel(11);
+                model.SkipPos2 = Builder.GetSkipModel(12);
+                model.BeltToTechComplex = Builder.GetBeltScaleModel(21);
+                model.Vagon = Builder.GetWagonScaleModel(6);
+                model.Sklad = Builder.GetWarehouseModel(9);
 
             model.Kotel = GetMineKotelModel("tent");
             return View(model);
@@ -183,18 +179,15 @@ namespace CTS_Analytics.Controllers
         public ActionResult kaz()
         {
             var model = new kazModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_kaz";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.SkipPos1 = factory.GetSkipModel(15, fromDate, toDate);
-                model.SkipPos2 = factory.GetSkipModel(16, fromDate, toDate);
-                model.Belt1 = factory.GetBeltScaleModel(18, fromDate, toDate);
-                model.Belt2 = factory.GetBeltScaleModel(19, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(9, fromDate, toDate);
-                model.Raspozn = GetRaspoznModel(3, fromDate, toDate, 5);
-                model.RockUtil = factory.GetRockUtilModel(4, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.SkipPos1 = Builder.GetSkipModel(15);
+                model.SkipPos2 = Builder.GetSkipModel(16);
+                model.Belt1 = Builder.GetBeltScaleModel(18);
+                model.Belt2 = Builder.GetBeltScaleModel(19);
+                model.Vagon = Builder.GetWagonScaleModel(9);
+                model.Raspozn = Builder.GetRaspoznModel(3, 5);
+                model.RockUtil = Builder.GetRockUtilModel(4);
 
             model.Kotel = GetMineKotelModel("kaz");
             return View(model);
@@ -203,20 +196,17 @@ namespace CTS_Analytics.Controllers
         public ActionResult sar3()
         {
             var model = new sar3Model();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_sar";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.Skip = factory.GetSkipModel(10, fromDate, toDate);
-                model.BeltToTech1 = factory.GetBeltScaleModel(14, fromDate, toDate);
-                model.BeltToTech2 = factory.GetBeltScaleModel(15, fromDate, toDate);
-                model.VagonObogatitel = factory.GetWagonScaleModel(5, fromDate, toDate);
-                model.VagonSaburkhan = factory.GetWagonScaleModel(5, fromDate, toDate);
-                model.Raspozn1 = GetRaspoznModel(8, fromDate, toDate, 5);
-                model.Raspozn2 = GetRaspoznModel(10, fromDate, toDate, 5);
-                model.Sklad = factory.GetWarehouseModel(7, fromDate, toDate);
-                model.RockUtil = factory.GetRockUtilModel(10, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.Skip = Builder.GetSkipModel(10);
+                model.BeltToTech1 = Builder.GetBeltScaleModel(14);
+                model.BeltToTech2 = Builder.GetBeltScaleModel(15);
+                model.VagonObogatitel = Builder.GetWagonScaleModel(5);
+                model.VagonSaburkhan = Builder.GetWagonScaleModel(5);
+                model.Raspozn1 = Builder.GetRaspoznModel(8, 5);
+                model.Raspozn2 = Builder.GetRaspoznModel(10, 5);
+                model.Sklad = Builder.GetWarehouseModel(7);
+                model.RockUtil = Builder.GetRockUtilModel(10);
 
             model.Kotel = GetMineKotelModel("sar3");
             return View(model);
@@ -225,19 +215,16 @@ namespace CTS_Analytics.Controllers
         public ActionResult len()
         {
             var model = new lenModel();
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             model.DetailsViewName = "doc_detail_len";
-                factory.GetGeneralData(model, fromDate, toDate);
-                model.SkipPos1 = factory.GetSkipModel(13, fromDate, toDate);
-                model.SkipPos2 = factory.GetSkipModel(14, fromDate, toDate);
-                model.Belt1 = factory.GetBeltScaleModel(16, fromDate, toDate);
-                model.Belt2 = factory.GetBeltScaleModel(17, fromDate, toDate);
-                model.Vagon = factory.GetWagonScaleModel(8, fromDate, toDate);
-                model.Raspozn = GetRaspoznModel(6, fromDate, toDate, 5);
-                model.Sklad = factory.GetWarehouseModel(8, fromDate, toDate);
-                model.RockUtil = factory.GetRockUtilModel(7, fromDate, toDate);
+                Builder.GetGeneralData(model);
+                model.SkipPos1 = Builder.GetSkipModel(13);
+                model.SkipPos2 = Builder.GetSkipModel(14);
+                model.Belt1 = Builder.GetBeltScaleModel(16);
+                model.Belt2 = Builder.GetBeltScaleModel(17);
+                model.Vagon = Builder.GetWagonScaleModel(8);
+                model.Raspozn = Builder.GetRaspoznModel(6, 5);
+                model.Sklad = Builder.GetWarehouseModel(8);
+                model.RockUtil = Builder.GetRockUtilModel(7);
             model.Kotel = GetMineKotelModel("len");
             return View(model);
         }
@@ -332,6 +319,7 @@ namespace CTS_Analytics.Controllers
 
         public ActionResult Mine_raspozn(int raspoznID, int? page, string wagonNumberFilter="")
         {
+
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
             string locationID = "test";
@@ -343,7 +331,7 @@ namespace CTS_Analytics.Controllers
             int pageSize = 24;
             int pageNumber = (page ?? 1);
             var model = new Mine_raspozn(locationID);
-                model.RaspoznTable = GetRaspoznModel(raspoznID, fromDate, toDate,pageSize,(pageNumber-1)*pageSize);
+                model.RaspoznTable = Builder.GetRaspoznModel(raspoznID,pageSize,(pageNumber-1)*pageSize);
             if (!string.IsNullOrEmpty(wagonNumberFilter))
             {
                 model.RaspoznTable.RaspoznList = model.RaspoznTable.RaspoznList.Where(w => w.WagonNumber.Contains(wagonNumberFilter)).ToList();
@@ -386,62 +374,27 @@ namespace CTS_Analytics.Controllers
 
         private Mine_skip GetSkipModel(int skipID)
         {
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-            return factory.GetSkipModel(skipID, fromDate, toDate); ;
+            return Builder.GetSkipModel(skipID); ;
 
         }
 
         private Mine_konv GetBeltScaleModel(int beltID)
         {
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-                return factory.GetBeltScaleModel(beltID, fromDate, toDate);
+                return Builder.GetBeltScaleModel(beltID);
         }
 
         private Mine_vagon GetWagonScaleModel(int wagonScaleID, int pageSize = 20, int page = 1)
         {
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-                return factory.GetWagonScaleModel(wagonScaleID, fromDate, toDate);
+                return Builder.GetWagonScaleModel(wagonScaleID);
 
         }
 
         private Mine_sklad GetWarehouseModel(int warehouseID)
         {
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
-            var factory = new MnemonicModelBuilder(getUserLang(Request.Cookies["lang"]));
-                return factory.GetWarehouseModel(warehouseID, fromDate, toDate); ;
+                return Builder.GetWarehouseModel(warehouseID);
         }
 
         #endregion
-
-        private IEnumerable<WagonTransfer> GetDataFromWagonDB(DateTime fromDate, DateTime toDate, string locationID)
-        {
-            using (var wagdb = new WagonDBcontext())
-            {
-                var vagons = wagdb.ves_vagon.Where(v => v.scales.objects.name == locationID).
-                    Where(t => t.date_time_brutto >= fromDate && t.date_time_brutto <= toDate).
-                    Select(s => new WagonTransfer()
-                    {
-                        ID = s.id.ToString(),
-                        Brutto = s.ves_brutto / 1000,
-                        SublotName = s.vagon_num,
-                        LotName = s.nakladn,
-                        Tare = s.ves_tara / 1000,
-                        TransferTimeStamp = s.date_time_brutto,
-                        ToDest = s.poluch.display_name,
-                        FromDestID = s.otpravl.name,
-                        IsValid = true,
-                    }
-                    ).ToArray();
-                return vagons.OrderByDescending(t => t.TransferTimeStamp);
-            }
-        }
 
         private DateTime GetDateFromCookie(string cookieName)
         {
@@ -462,128 +415,6 @@ namespace CTS_Analytics.Controllers
             return returnDate;
         }
 
-        private RaspoznItem GetWagonPhoto(string wagonNumber, DateTime recognDateTime, bool manualFlag = false)
-        {
-            using (var wagdb = new WagonDBcontext())
-            {
-                var timeFrom = recognDateTime.AddSeconds(-2);
-                var timeTo = recognDateTime.AddSeconds(2);
-                var photosDb = wagdb.vagon_nums
-                    .Where(t => t.date_time >= timeFrom & t.date_time <= timeTo)
-                    .Where(v => ((v.number == wagonNumber) || (v.number_operator == wagonNumber)))
-                    .ToList();
-                var photos = photosDb
-                    .Select(s => s.img != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img)) : null)
-                    .ToList();
-                photos.AddRange(photosDb
-                    .Select(s => s.img2 != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img2)) : null));
-
-                if (photos == null || !photos.Any())
-                {
-                    return new RaspoznItem();
-                }
-
-                var item = new RaspoznItem()
-                {
-                    Date = recognDateTime,
-                    WagonNumber = wagonNumber,
-                    GallleryName = "G" + wagonNumber + (int)recognDateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                    PictureGallery = photos.Where(p => !string.IsNullOrEmpty(p)).ToList(),
-                    ManualRecogn = manualFlag,
-                };
-                return item;
-            }
-        }
-
-        private RaspoznItem GetMockWagonPhoto(string wagonNumber)
-        {
-            using (var fileReader = new FileStream(Server.MapPath("~/Content/Mnemo/pic/mockWagonNumber.jpg"), FileMode.Open, FileAccess.Read))
-            {
-                var item = new RaspoznItem()
-                {
-                    Date = System.DateTime.Now,
-                    WagonNumber = wagonNumber,
-                    GallleryName = "Gallery1",
-                    PictureGallery = new List<string>()
-                };
-                try
-                {
-                    byte[] bytes = new byte[fileReader.Length];
-                    int numBytesToRead = (int)fileReader.Length;
-                    int n = fileReader.Read(bytes, 0, numBytesToRead);
-                    item.PictureGallery.Add(string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(bytes)));
-                }
-                catch (Exception)
-                {
-                    item.PictureGallery.Add(string.Empty);
-                }
-                return item;
-            }
-        }
-
-        private RaspoznModel GetFakeRaspoznModel(string MineID)
-        {
-            return new RaspoznModel()
-            {
-                RaspoznList = new List<RaspoznItem>()
-                {
-                   GetMockWagonPhoto("1111 1234"),
-                   GetMockWagonPhoto("2222 1234"),
-                   GetMockWagonPhoto("3333 1234"),
-                   GetMockWagonPhoto("4444 1234"),
-                   GetMockWagonPhoto("5555 1234")
-                }
-            };
-        }
-
-        private RaspoznModel GetRaspoznModel(int recognID, DateTime fromDate, DateTime toDate, int takeCount = int.MaxValue, int offset = 0)
-        {
-            var model = new RaspoznModel();
-            var dbvagonNums = GetWagonNumsAndDates(recognID, fromDate, toDate);
-            model.RaspoznID = recognID;
-            model.RaspoznList = dbvagonNums.Select(s => new RaspoznItem
-            {
-                Date = s.Date,
-                WagonNumber = s.WagonNum,
-                ManualRecogn = s.ManualFlag,
-                IdSostav = s.IdSostav
-            })
-            .ToList();
-            for (int i = 0; i < model.RaspoznList.Count(); i++)
-            {
-                if (i>= offset && i<= offset+takeCount)
-                {
-                    var idSostav = model.RaspoznList[i].IdSostav; // this is PAIN
-                    model.RaspoznList[i] = GetWagonPhoto(model.RaspoznList[i].WagonNumber, model.RaspoznList[i].Date, model.RaspoznList[i].ManualRecogn);
-                    model.RaspoznList[i].IdSostav = idSostav;
-                }
-            }
-
-            return model;
-        }
-
-        private List<WagonNumDate> GetWagonNumsAndDates(int recognID, DateTime fromDate, DateTime toDate)
-        {
-            using (var wagdb = new WagonDBcontext())
-            {
-                var dbvagonNums = wagdb.vagon_nums
-                    .Where(d => d.date_time >= fromDate && d.date_time <= toDate)
-                    .Where(f => !string.IsNullOrEmpty(f.number) || !string.IsNullOrEmpty(f.number_operator))
-                    .Where(i => i.recognid == recognID)
-                    .Select(s => new WagonNumDate
-                    {
-                        WagonNum = s.number != null ? s.number :
-                        s.number_operator != null ? s.number_operator : "0",
-                        Date = s.date_time,
-                        IdSostav = s.id_sostav ?? 0
-                    })
-                     .OrderByDescending(d => d.Date)
-                    .ToList();
-
-                return dbvagonNums;
-            }
-        }
-
         private StaticPagedList<WagonTransfersAndPhoto> GetPagedWagonTransfersAndPhotos(int? page, List<WagonTransfer> wagonTranfers)
         {
             int pageSize = 20;
@@ -594,7 +425,7 @@ namespace CTS_Analytics.Controllers
                 .Take(pageSize)
                 .Select(wt => new WagonTransfersAndPhoto()
                 {
-                    Photo = GetWagonPhoto(wt.SublotName, wt.TransferTimeStamp),
+                    Photo = _wagDbService.GetWagonPhoto(wt.SublotName, wt.TransferTimeStamp),
                     WagonTransfer = wt
                 })
                 .ToList();

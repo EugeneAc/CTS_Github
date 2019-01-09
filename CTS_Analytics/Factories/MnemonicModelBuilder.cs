@@ -2,6 +2,7 @@
 using CTS_Analytics.Services;
 using CTS_Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CTS_Analytics.Factories
@@ -11,14 +12,20 @@ namespace CTS_Analytics.Factories
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly string userLanguage;
         private readonly CentralDBService _cdbService;
+        private readonly WagonDbService _wagDbService;
+        private readonly DateTime fromDate;
+        private readonly DateTime toDate;
 
-        public MnemonicModelBuilder(string userLanguage)
+        public MnemonicModelBuilder(string userLanguage, DateTime fromDate, DateTime toDate)
         {
             this.userLanguage = userLanguage;
             this._cdbService = new CentralDBService();
+            this._wagDbService = new WagonDbService();
+            this.fromDate = fromDate;
+            this.toDate = toDate;
         }
 
-        public void GetGeneralData(MineGeneral model, DateTime fromDate, DateTime toDate)
+        public void GetGeneralData(MineGeneral model)
         {
             model.ProdPlan = _cdbService.GetPlanData(model.LocationID, fromDate, toDate);
             var location = _cdbService.FindLocationByLocationID(model.LocationID);
@@ -36,7 +43,7 @@ namespace CTS_Analytics.Factories
             model.MineName = GetLocationNameOnCurrentLanguate(model.LocationID);
         }
 
-        public Mine_skip GetSkipModel(int skipID, DateTime fromDate, DateTime toDate)
+        public Mine_skip GetSkipModel(int skipID)
         {
             var skip = _cdbService.FindEquipmentById<Skip>(skipID);
             if (skip == null)
@@ -82,7 +89,7 @@ namespace CTS_Analytics.Factories
             return model;
         }
 
-        public Mine_konv GetBeltScaleModel(int beltID, DateTime fromDate, DateTime toDate)
+        public Mine_konv GetBeltScaleModel(int beltID)
         {
             var belt = _cdbService.FindEquipmentById<BeltScale>(beltID);
             var model = new Mine_konv(belt.LocationID);
@@ -118,7 +125,7 @@ namespace CTS_Analytics.Factories
             return model;
         }
 
-        public Mine_vagon GetWagonScaleModel(int wagonScaleID, DateTime fromDate, DateTime toDate)
+        public Mine_vagon GetWagonScaleModel(int wagonScaleID)
         {
             var wagonScale = _cdbService.FindEquipmentById<WagonScale>(wagonScaleID);
             var model = new Mine_vagon(wagonScale.LocationID);
@@ -171,7 +178,7 @@ namespace CTS_Analytics.Factories
             return model;
         }
 
-        public Mine_sklad GetWarehouseModel(int warehouseID,  DateTime fromDate, DateTime toDate)
+        public Mine_sklad GetWarehouseModel(int warehouseID)
         {
             var warehouse = _cdbService.FindEquipmentById<Warehouse>(warehouseID);
             var model = new Mine_sklad(warehouse.LocationID);
@@ -207,7 +214,7 @@ namespace CTS_Analytics.Factories
             return model;
         }
 
-        public Mine_rockUtil GetRockUtilModel(int rockUtilID, DateTime fromDate, DateTime toDate)
+        public Mine_rockUtil GetRockUtilModel(int rockUtilID)
         {
             var rockUtil = _cdbService.FindEquipmentById<RockUtil>(rockUtilID);
             if (rockUtil == null)
@@ -245,6 +252,32 @@ namespace CTS_Analytics.Factories
                 shiftTransfers
                 .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
                 .Any();
+            return model;
+        }
+
+        public RaspoznModel GetRaspoznModel(int recognID, int takeCount = int.MaxValue, int offset = 0)
+        {
+            var model = new RaspoznModel();
+            model.RaspoznID = recognID;
+            model.RaspoznList = _wagDbService.GetWagonNumsAndDates(recognID, fromDate, toDate)
+                .Select(s => new RaspoznItem
+            {
+                Date = s.Date,
+                WagonNumber = s.WagonNum,
+                ManualRecogn = s.ManualFlag,
+                IdSostav = s.IdSostav
+            })
+            .ToList();
+            for (int i = 0; i < model.RaspoznList.Count(); i++)
+            {
+                if (i >= offset && i <= offset + takeCount)
+                {
+                    var idSostav = model.RaspoznList[i].IdSostav; // this is PAIN
+                    model.RaspoznList[i] = _wagDbService.GetWagonPhoto(model.RaspoznList[i].WagonNumber, model.RaspoznList[i].Date, model.RaspoznList[i].ManualRecogn);
+                    model.RaspoznList[i].IdSostav = idSostav;
+                }
+            }
+
             return model;
         }
 
