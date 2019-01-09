@@ -48,7 +48,8 @@ namespace CTS_RoleAdmin.Controllers
 		    }
 		    else
 		    {
-		        model = new AddEditUserViewModel(user, ctsRoles.ToList());
+		        _cdb.Entry(user).Collection(x => x.CtsRoles).Load();
+                model = new AddEditUserViewModel(user, ctsRoles.ToList());
 		    }
 
 			return View(model);

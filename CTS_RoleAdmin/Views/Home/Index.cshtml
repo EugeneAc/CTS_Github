@@ -30,37 +30,3 @@
 	</div>
 </div>
 
-<br />
-<input type="text" id="UserLoginInput" value="Enter login" />
-<input type="button" id="UserLoginBtn" value="Check" data-root="@Url.Content("~/")" />
-
-<script>
-	$(document).ready(function () {
-
-		$('#UserLoginBtn').click(function () {
-
-
-			var root = $("#UserLoginBtn").data('root');
-
-
-			$.ajax({
-				url: root + "Home/CheckIfUserExists/?userLogin=" + $("#UserLoginInput").val(),
-				type: "POST",
-				dataType: 'JSON',
-				cache: false,
-				async: true,
-				success: function (data) {
-					if (data.userFound) {
-						window.location.href = root + "Home/EditUser/?userLogin=" + $("#UserLoginInput").val();
-					} else {
-						alert("Пользователь с доменным логином " + $("#UserLoginInput").val() + " не найден");
-					}
-
-				}
-			});
-		});
-	});
-
-</script>
-
-
