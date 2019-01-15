@@ -8,7 +8,7 @@ namespace CTS_RoleAdmin.Models
 {
     public class AddEditUserViewModel
     {
-        public Dictionary<CtsRole, bool> CtsRoles { get; set; }
+        public Dictionary<string, bool> CtsRoles { get; set; }
         public string UserLogin { get; set; }
         public string UserDomain { get; set; }
 
@@ -18,13 +18,13 @@ namespace CTS_RoleAdmin.Models
         {
             UserLogin = userName;
             UserDomain = userDomain;
-            CtsRoles = ctsRoles.ToDictionary(x => x, x => false);
+            CtsRoles = ctsRoles.ToDictionary(x => x.RoleName, x => false);
         }
         public AddEditUserViewModel(CtsUser user, List<CtsRole> ctsRoles)
         {
             UserLogin = user.Login;
             UserDomain = user.Domain;
-            CtsRoles = ctsRoles.ToDictionary(x => x, x => user.CtsRoles.Contains(x));
+            CtsRoles = ctsRoles.ToDictionary(x => x.RoleName, x => user.CtsRoles.Contains(x));
         }
     }
 }

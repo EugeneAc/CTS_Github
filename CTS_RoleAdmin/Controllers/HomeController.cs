@@ -58,14 +58,21 @@ namespace CTS_RoleAdmin.Controllers
 		[HttpPost]
 		public ActionResult AddEditUser(AddEditUserViewModel model)
 		{
-		    var user = _cdb.CtsUser.Find(model.UserLogin, model.UserDomain);
-		    if (user == null)
+            var user = _cdb.CtsUser.Include(s => s.CtsRoles)
+                .Where(x => x.Login == model.UserLogin)
+                .FirstOrDefault(s => s.Domain == model.UserDomain);
+            if (user == null)
 		    {
 		        user = new CtsUser() { Login = model.UserLogin, Domain = model.UserDomain };
 		        _cdb.CtsUser.Add(user);
 		    }
-            user.CtsRoles = model.CtsRoles.Where(x => x.Value).Select(x => x.Key).ToList();
-		    _cdb.SaveChanges();
+
+            user.CtsRoles.Clear();
+            user.CtsRoles = model.CtsRoles
+                .Where(x => x.Value)
+                .Select(x => _cdb.CtsRole.Find(x.Key))
+                .ToList();
+            _cdb.SaveChanges();
 
             return RedirectToAction("RoleList");
 		}
