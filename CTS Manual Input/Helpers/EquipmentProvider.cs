@@ -41,7 +41,10 @@ namespace CTS_Manual_Input.Helpers
 			if (!(Cacher.Instance.TryRead(domain + userLogin + "Locations") is List<Location> locations))
 			{
 				locations = new List<Location>();
-				var groups = CtsAuthorizeProvider.GetUserRolesFromDb(user).Select(x => x.RoleName).ToArray();
+#if DEBUG
+			    return cdb.Locations.ToList();
+#endif
+                var groups = CtsAuthorizeProvider.GetUserRolesFromDb(user).Select(x => x.RoleName).ToArray();
 				locations.AddRange(cdb.Locations.Where(n => groups.Contains(n.LocationName)).ToList());
 				if (locations.Count > 0)
 				{

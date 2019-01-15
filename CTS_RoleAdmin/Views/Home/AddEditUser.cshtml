@@ -1,2 +1,23 @@
 ﻿@model CTS_RoleAdmin.Models.AddEditUserViewModel
 
+<h3>Редактирование ролей пользователя @Model.UserLogin</h3>
+<br />
+
+@using (Html.BeginForm("AddEditUser", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        @foreach (var role in Model.CtsRoles)
+        {
+        <div class="form-group">
+            <input type="checkbox" name="role.Value" value="true" checked="@role.Value">
+            <label>@role.Key.RoleName</label>
+        </div>
+        }
+
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    </div>
+}
+
+
