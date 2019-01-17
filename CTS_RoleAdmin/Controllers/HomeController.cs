@@ -77,7 +77,6 @@ namespace CTS_RoleAdmin.Controllers
             return RedirectToAction("RoleList");
 		}
 
-	    [HttpPost]
 	    public ActionResult DeleteUser(string userLogin, string userDomain)
 	    {
 	        var user = _cdb.CtsUser.Find(userLogin, userDomain);
