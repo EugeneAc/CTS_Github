@@ -107,7 +107,7 @@ namespace CTS_RoleAdmin.Controllers
 		       user = DomainUsersHandler.FindUser(userLogin, domain.ToString());
                if (user != null)
 		       {
-		           return Json(new { userFound = true, domain = user.Name.Split(new char[] { '\\' }).First()});
+		           return Json(new { userFound = true, domain = user.Context.Name});
 		       }
             }
 
