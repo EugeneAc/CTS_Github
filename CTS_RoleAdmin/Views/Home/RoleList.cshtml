@@ -3,10 +3,10 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/TablePage.css" rel="stylesheet" />
 @{Html.RenderPartial("_CheckIfUserExistsForm");}
 
-<table class="table table-striped table-hover ">
+<table class="table table-striped table-hover table-bordered">
     <thead>
         <tr>
             <th>
@@ -30,9 +30,12 @@
                 </td>
                 @foreach (var role in Model.AllCtsRoles)
                 {
-                    <td>
-                        <input type="checkbox" checked="@user.CtsRoles.Contains(role)" disabled="disabled">
-                    </td>
+                <td>
+                    @if (user.CtsRoles.Contains(role))
+                    {
+                         <span class="glyphicon glyphicon-ok"></span>
+                    }
+                </td>
                 }
                 <td style="text-align:center">
                     <div>

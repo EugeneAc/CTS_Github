@@ -148,7 +148,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="CtsDomains.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +179,7 @@
     <Content Include="Content\fonts\MuseoSansCyrl-900.svg" />
     <Content Include="Content\fonts\MuseoSansCyrl-900Italic.svg" />
     <Content Include="Content\RolesStyles.css" />
+    <Content Include="Content\TablePage.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\MuseoSansCyrl-100.svg" />
     <Content Include="fonts\MuseoSansCyrl-100Italic.svg" />

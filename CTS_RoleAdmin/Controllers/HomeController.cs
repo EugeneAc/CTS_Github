@@ -12,6 +12,7 @@ using CTS_Core;
 using RoleAdmin.Handlers;
 using System.Security.Principal;
 using CTS_RoleAdmin.Models;
+using System.Configuration;
 
 namespace CTS_RoleAdmin.Controllers
 {
@@ -68,7 +69,7 @@ namespace CTS_RoleAdmin.Controllers
 		    }
 
             user.CtsRoles.Clear();
-            user.CtsRoles = model.CtsRoles
+            user.CtsRoles = model.CtsRoles?
                 .Where(x => x.Value)
                 .Select(x => _cdb.CtsRole.Find(x.Key))
                 .ToList();
@@ -99,7 +100,9 @@ namespace CTS_RoleAdmin.Controllers
 	    public ActionResult CheckIfUserExists(string userLogin)
 	    {
 	       UserPrincipal user;
-		   foreach (CtsDomains domain in (CtsDomains[])Enum.GetValues(typeof(CtsDomains)))
+            var domains = ConfigurationManager.AppSettings["DomainNames"].Split(',', ';').Select(s => s.Trim());
+
+           foreach (var domain in domains)
 		   {
 		       user = DomainUsersHandler.FindUser(userLogin, domain.ToString());
                if (user != null)
