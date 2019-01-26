@@ -12,6 +12,9 @@ namespace CTS_RoleAdmin.Models
         public string UserLogin { get; set; }
         public string UserDomain { get; set; }
 
+        public string ReturnView { get; set; }
+        public bool AllRoles { get; set; }
+
         public AddEditUserViewModel() { }
 
         public AddEditUserViewModel(string userName, string userDomain, List<CtsRole> ctsRoles)

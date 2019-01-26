@@ -1,25 +1,56 @@
-﻿@model CTS_RoleAdmin.Models.AddEditUserViewModel
+﻿@using CTS_RoleAdmin.HtmlHelpers;
+
+@model CTS_RoleAdmin.Models.AddEditUserViewModel
 
 <h3>Редактирование ролей пользователя @Model.UserLogin</h3>
-<br/>
+<br />
 
 @using (Html.BeginForm("AddEditUser", "Home", FormMethod.Post))
 {
+<div class="form-group">
+    <label class="checkbox-inline">
+        <input type="checkbox" name="checkedAll" id="checkAll" checked="@Model.CtsRoles.Values.All(v=>v.Equals(true))" />Выбрать все
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" id="allRoles" name="allRoles" checked="@Model.AllRoles" />Показать все роли
+    </label>
+</div>
     @Html.AntiForgeryToken()
-<div class="form-horizontal">
-    @Html.HiddenFor(m => Model.UserLogin)
-    @Html.HiddenFor(m => Model.UserDomain)
-    @foreach (var role in Model.CtsRoles)
-    {
+    <div class="form-horizontal">
+        @Html.HiddenFor(m => Model.UserLogin)
+        @Html.HiddenFor(m => Model.UserDomain)
+        @Html.HiddenFor(m => Model.ReturnView)
+        @foreach (var role in Model.CtsRoles)
+        {
 
         <div class="form-group">
-            <input type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='True' checked="@role.Value">
-            <label>@role.Key</label>
+            <label>
+                <input type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='True' checked="@role.Value">
+                <label> @Html.GetRoleDescription(role.Key) : @role.Key </label>
+            </label>
+                
         </div>
-    }
+        }
 
-    <input type="submit" value="Сохранить" class="btn btn-primary" />
-</div>
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    </div>
+
+
+
+}
+
+@section scripts
+{
+    <script>
+        $("#checkAll").click(function () {
+            $('.form-horizontal input:checkbox').not(this).prop('checked', this.checked);
+        });
+        $("#allRoles").click(function () {
+            if (this.checked) {
+                window.location.href = '/home/addedituser?userLogin=@Model.UserLogin&userdomain=@Model.UserDomain';
+            }
+        });
+    </script>
 }
 
 

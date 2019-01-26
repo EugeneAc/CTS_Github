@@ -153,6 +153,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\DomainUsersHandler.cs" />
+    <Compile Include="HtmlHelpers\RoleDescriptionHelper.cs" />
     <Compile Include="Models\AddEditUserViewModel.cs" />
     <Compile Include="Models\CtsUserAdmin.cs" />
     <Compile Include="Models\CtsRoleAdmin.cs" />

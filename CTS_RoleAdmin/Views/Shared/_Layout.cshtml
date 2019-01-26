@@ -26,7 +26,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3">
-						<a href="/" class="logo">Логотип</a>
+						<a href='@Url.Action("Index")' class="logo">Логотип</a>
 					</div>
 					<div class="col-md-6">
 						<div class="name text-center">
@@ -83,7 +83,7 @@
 		</footer>
 	</div>
 
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>
 
@@ -138,6 +138,6 @@
 
 		@Scripts.Render("~/bundles/jquery")
 		@Scripts.Render("~/bundles/bootstrap")
-		@RenderSection("scripts", required: false)
+		@
 	</body>
 	</html>*@

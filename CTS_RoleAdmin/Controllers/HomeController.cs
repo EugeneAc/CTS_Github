@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using CTS_Models;
 using CTS_Models.DBContext;
 using System.DirectoryServices.AccountManagement;
 using CTS_Core;
 using RoleAdmin.Handlers;
-using System.Security.Principal;
 using CTS_RoleAdmin.Models;
 using System.Configuration;
 
@@ -27,21 +22,36 @@ namespace CTS_RoleAdmin.Controllers
 			return View();
 		}
 
-		public ActionResult RoleList()
+		public ActionResult MiRoleList()
 		{
             var model = new RolesIndexViewModel
             {
-                AllCtsRoles = _cdb.CtsRole.ToList(),
-                AllCtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
+                CtsRoles = _cdb.CtsRole.Where(r => r.RoleName.ToLower().StartsWith("cts")).ToList(),
+                CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
             };
 
-            return View(model);
+            return View("RoleList",model);
 		}
 
-		public ActionResult AddEditUser(string userLogin, string userDomain)
+        public ActionResult LocationsRoleList()
+        {
+            var model = new RolesIndexViewModel
+            {
+                CtsRoles = _cdb.CtsRole
+                .Where(r => r.RoleName.ToLower().StartsWith("ш")
+                         || r.RoleName.ToLower().StartsWith("ст")
+                         || r.RoleName.ToLower().StartsWith("цоф"))
+              .ToList(),
+                CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
+            };
+
+            return View("RoleList", model);
+        }
+
+        public ActionResult AddEditUser(string userLogin, string userDomain, string[] roles)
 		{
 		    AddEditUserViewModel model;
-		    var ctsRoles = _cdb.CtsRole;
+		    var ctsRoles = roles?.Select(r => _cdb.CtsRole.Find(r)) ?? _cdb.CtsRole;
             var user = _cdb.CtsUser.Find(userLogin, userDomain);
 		    if (user == null)
 		    {
@@ -53,7 +63,9 @@ namespace CTS_RoleAdmin.Controllers
                 model = new AddEditUserViewModel(user, ctsRoles.ToList());
 		    }
 
-			return View(model);
+            model.AllRoles = roles == null;
+            model.ReturnView = HttpContext.Request.UrlReferrer.Segments.Last();
+            return View(model);
 		}
 
 		[HttpPost]
@@ -75,7 +87,7 @@ namespace CTS_RoleAdmin.Controllers
                 .ToList();
             _cdb.SaveChanges();
 
-            return RedirectToAction("RoleList");
+            return RedirectToAction(model.ReturnView ?? "index");
 		}
 
 	    public ActionResult DeleteUser(string userLogin, string userDomain)
