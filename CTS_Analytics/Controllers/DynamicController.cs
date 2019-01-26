@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CTS_Analytics.Controllers
 {
 	[Culture]
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public class DynamicController : Controller
+	public class DynamicController : CtsAnalController
 	{
 		CtsDbContext cdb = new CtsDbContext();
 		private List<String> fileFormats = new List<String> { "web", "pdf" };
@@ -110,42 +109,6 @@ namespace CTS_Analytics.Controllers
 			}
 
 			return Json(new { url = url.ToString() });
-		}
-
-		public ActionResult ChangeCulture(string lang)
-		{
-			string returnUrl = Request.UrlReferrer.AbsolutePath;
-			// Список культур
-			List<string> cultures = new List<string>() { "ru", "en", "kk" };
-			if (!cultures.Contains(lang))
-			{
-				lang = "ru";
-			}
-			// Сохраняем выбранную культуру в куки
-			HttpCookie cookie = Request.Cookies["lang"];
-			if (cookie != null)
-				cookie.Value = lang;   // если куки уже установлено, то обновляем значение
-			else
-			{
-				cookie = new HttpCookie("lang");
-				cookie.HttpOnly = false;
-				cookie.Value = lang;
-				cookie.Expires = DateTime.Now.AddYears(1);
-			}
-			Response.Cookies.Add(cookie);
-			return Redirect(returnUrl);
-		}
-
-		private string getUserLang(HttpCookie cookie)
-		{
-			string lang = "";
-
-			if (cookie != null)
-				lang = cookie.Value;
-			else
-				lang = "ru";
-
-			return lang;
 		}
 	}
 }

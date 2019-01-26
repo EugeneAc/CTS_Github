@@ -53,9 +53,9 @@
 
         <div class="sidebar">
             <div class="lang">
-                @Html.ActionLink("Рус", "ChangeCulture", "Home", new { lang = "ru" }, new { @id = "ru" })
-                @Html.ActionLink("Eng", "ChangeCulture", "Home", new { lang = "en" }, new { @id = "en" })
-                @Html.ActionLink("Қаз", "ChangeCulture", "Home", new { lang = "kk" }, new { @id = "kk" })
+                @Html.ActionLink("Рус", "ChangeCulture", new { lang = "ru" }, new { @id = "ru" })
+                @Html.ActionLink("Eng", "ChangeCulture", new { lang = "en" }, new { @id = "en" })
+                @Html.ActionLink("Қаз", "ChangeCulture", new { lang = "kk" }, new { @id = "kk" })
             </div>
             <div class="menu">
                 <a id="MenuItemMnemonic" title="@Resources.ResourceGeneral.HeaderTabMnemo" onclick='OnHomeClick()'><i class="icon icon_1"></i><span>@Resources.ResourceGeneral.HeaderTabMnemo</span></a>

@@ -21,7 +21,7 @@ namespace CTS_Analytics.Controllers
     [Culture]
     [Error]
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public partial class MnemonicController : Controller
+	public partial class MnemonicController : CtsAnalController
     {
         private readonly CentralDBService _cdbService;
         private readonly WagonDbService _wagDbService;
@@ -49,18 +49,6 @@ namespace CTS_Analytics.Controllers
             public DateTime Date { get; set; }
             public bool ManualFlag { get; set; }
             public int IdSostav { get; set; }
-        }
-
-        private string getUserLang(HttpCookie cookie)
-        {
-            string lang = "";
-
-            if (cookie != null)
-                lang = cookie.Value;
-            else
-                lang = "ru";
-
-            return lang;
         }
 
         public ActionResult HseAlarm()

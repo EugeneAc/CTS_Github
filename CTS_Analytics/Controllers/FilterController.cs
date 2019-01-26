@@ -6,7 +6,6 @@ using CTS_Models.DBContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CTS_Analytics.Controllers
@@ -14,7 +13,7 @@ namespace CTS_Analytics.Controllers
 
     [Culture]
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public class FilterController : Controller
+	public class FilterController : CtsAnalController
     {
 		CtsDbContext cdb = new CtsDbContext();
 
@@ -81,18 +80,6 @@ namespace CTS_Analytics.Controllers
                 model.Skips = scales.Select(N => new SelectListItem { Text = string.Concat(string.Concat(N.Name, " / "), N.Location.LocationName), Value = "S" + N.ID.ToString() });
 
             return PartialView("_SkipsDynDropDown", model);
-        }
-
-        private string getUserLang(HttpCookie cookie)
-        {
-            string lang = "";
-
-            if (cookie != null)
-                lang = cookie.Value;
-            else
-                lang = "ru";
-
-            return lang;
         }
     }
 }

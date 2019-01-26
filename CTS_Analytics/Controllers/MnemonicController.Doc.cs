@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace CTS_Analytics.Controllers
 {
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public partial class MnemonicController : Controller
+	public partial class MnemonicController : CtsAnalController
     {
         public ActionResult doc()
         {

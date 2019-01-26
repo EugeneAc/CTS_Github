@@ -1,5 +1,4 @@
-﻿using CTS_Analytics.Factories;
-using CTS_Analytics.Models.Mnemonic;
+﻿using CTS_Analytics.Models.Mnemonic;
 using CTS_Core;
 using CTS_Models.DBContext;
 using System;
@@ -9,7 +8,7 @@ using System.Web.Mvc;
 namespace CTS_Analytics.Controllers
 {
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public partial class MnemonicController : Controller
+	public partial class MnemonicController : CtsAnalController
     {
         public ActionResult cofv()
         {

@@ -9,7 +9,6 @@ using System.IO;
 using CTS_Analytics.Filters;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
-using System.Configuration;
 using CTS_Models.DBContext;
 using CTS_Analytics.Models.StaticReports;
 using System.Globalization;
@@ -19,37 +18,13 @@ namespace CTS_Analytics.Controllers
 {
     [Culture]
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public class StaticController : Controller
+	public class StaticController : CtsAnalController
     {
         readonly string _directorypath = ProjectConstants.ReportFolderPath;
         readonly string _reportDateTimeRegex = ProjectConstants.ReportDateTimeRegex;
         readonly string _reportDateTimeParseFormat = ProjectConstants.ReportDateTimeParseFormat;
         private CtsDbContext _cdb = new CtsDbContext();
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
-        public ActionResult ChangeCulture(string lang)
-        {
-            string returnUrl = Request.UrlReferrer.AbsolutePath;
-            // Список культур
-            List<string> cultures = new List<string>() { "ru", "en", "kk" };
-            if (!cultures.Contains(lang))
-            {
-                lang = "ru";
-            }
-            // Сохраняем выбранную культуру в куки
-            HttpCookie cookie = Request.Cookies["lang"];
-            if (cookie != null)
-                cookie.Value = lang;   // если куки уже установлено, то обновляем значение
-            else
-            {
-                cookie = new HttpCookie("lang");
-                cookie.HttpOnly = false;
-                cookie.Value = lang;
-                cookie.Expires = DateTime.Now.AddYears(1);
-            }
-            Response.Cookies.Add(cookie);
-            return Redirect(returnUrl);
-        }
 
         // GET: Static
         public ActionResult Index()
@@ -266,175 +241,6 @@ namespace CTS_Analytics.Controllers
             return fsResult;
         }
 
-        #region Old Report
-
-        public ActionResult Consolid()
-        {
-            string lang = getUserLang(Request.Cookies["lang"]);
-            var model = new StaticConsolidated();
-            model.FromDate = System.DateTime.Today.AddDays(-7);
-            model.ToDate = System.DateTime.Today.AddDays(1);
-            if (lang == "en")
-                model.Locations = _cdb.Locations.ToList().Select(N => new SelectListItem { Text = N.LocationNameEng, Value = N.ID.ToString() });
-            else if (lang == "kk")
-                model.Locations = _cdb.Locations.ToList().Select(N => new SelectListItem { Text = N.LocationNameKZ, Value = N.ID.ToString() });
-            else
-                model.Locations = _cdb.Locations.ToList().Select(N => new SelectListItem { Text = N.LocationName, Value = N.ID.ToString() });
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult GetFileTable(StaticConsolidated model)
-        {
-            string regexp = "";
-            if (model.locationsInForm != null)
-            {
-                regexp = regexp + Getregexp(model.locationsInForm);
-            }
-
-            List<string> idarray = new List<string>();
-            if (model.beltScalesInForm == null && model.wagonScalesInForm == null && model.skipsInForm == null)
-            {
-                idarray.Add("c");
-            }
-
-            if (model.wagonScalesInForm != null)
-            {
-                idarray.AddRange(model.wagonScalesInForm);
-                regexp = regexp + Getregexp(idarray.ToArray());
-            }
-
-            if (model.beltScalesInForm != null)
-            {
-                idarray.AddRange(model.beltScalesInForm);
-                regexp = regexp + Getregexp(idarray.ToArray());
-            }
-
-            if (model.skipsInForm != null)
-            {
-                idarray.AddRange(model.skipsInForm);
-                regexp = regexp + Getregexp(idarray.ToArray());
-            }
-
-            Regex reg = new Regex(regexp);
-
-            var viewmodel = new FileTableModel();
-            viewmodel.FileList = new List<file>();
-
-            try
-            {
-                var selectedfiles = from o in Directory.GetFiles(_directorypath, "*.*",
-                   SearchOption.AllDirectories)
-                                    let x = new FileInfo(o)
-                                    where (x.CreationTime >= model.FromDate && x.CreationTime <= model.ToDate)
-                                    where Regex.IsMatch(Path.GetFileNameWithoutExtension(o), regexp, RegexOptions.IgnoreCase)
-                                    select o.ToLower();
-
-                foreach (var file in selectedfiles)
-                {
-                    Regex locationregex = new Regex(@"^([a-z]+)", RegexOptions.IgnoreCase);
-                    Regex equipregex = new Regex(@"_(W|S|B|C)([0-9]+)", RegexOptions.IgnoreCase);
-                    Regex equipregex1 = new Regex(@"([0-9]+)_(W|S|B)([0-9]+)", RegexOptions.IgnoreCase);
-                    string filename = Path.GetFileNameWithoutExtension(file);
-                    string lang = getUserLang(Request.Cookies["lang"]);
-
-                    Match locationmatch = locationregex.Match(filename);
-                    string lo = "";
-                    if (locationmatch.Success)
-                        if (lang == "en")
-                            lo = _cdb.Locations.FirstOrDefault(l => l.ID.Contains(locationmatch.Value)).LocationNameEng;
-                        else if (lang == "kk")
-                            lo = _cdb.Locations.FirstOrDefault(l => l.ID.Contains(locationmatch.Value)).LocationNameKZ;
-
-                    Match equipmatch = equipregex.Match(filename);
-                    Match equipmatch1 = equipregex1.Match(filename);
-                    bool res = equipmatch1.Success;
-                    string sc = "";
-
-                    if (equipmatch.Success)
-                    {
-                        string id = equipmatch.Value.Substring(2, equipmatch.Value.Length - 2);
-
-                        if (equipmatch.Value[1] == Convert.ToChar("c"))
-                        {
-                            if (equipmatch1.Value.Length > 3)
-                            {
-                                id = equipmatch1.Value.Substring(3, equipmatch1.Value.Length - 3);
-                            }
-                            if (filename.Contains("c1"))
-                            {
-                                sc = Resources.ResourceStatic.ConsolidatedWeek + " ";
-                            }
-                            else if (filename.Contains("c2"))
-                            {
-                                sc = Resources.ResourceStatic.ConsolidatedMonth + " ";
-                            }
-                            else
-                            {
-                                sc = Resources.ResourceStatic.ConsolidatedDaily + " ";
-                            }
-                        }
-                        else
-                        {
-                            sc = Resources.ResourceStatic.Daily + " ";
-                        }
-
-                        if ((equipmatch.Value[1] == Convert.ToChar("w")) || equipmatch1.Groups[2].Value.Contains("w"))
-                        {
-                            if (lang == "en")
-                                sc = sc + _cdb.WagonScales.FirstOrDefault(s => s.ID.ToString() == id).NameEng;
-                            else if (lang == "kk")
-                                sc = sc + _cdb.WagonScales.FirstOrDefault(s => s.ID.ToString() == id).NameKZ;
-                            else
-                                sc = sc + _cdb.WagonScales.FirstOrDefault(s => s.ID.ToString() == id).Name;
-                        }
-                        else if ((equipmatch.Value[1] == Convert.ToChar("s")) || equipmatch1.Groups[2].Value.Contains("s"))
-                        {
-                            if (lang == "en")
-                                sc = sc + _cdb.Skips.FirstOrDefault(s => s.ID.ToString() == id).NameEng;
-                            else if (lang == "kk")
-                                sc = sc + _cdb.Skips.FirstOrDefault(s => s.ID.ToString() == id).NameKZ;
-                            else
-                                sc = sc + _cdb.Skips.FirstOrDefault(s => s.ID.ToString() == id).Name;
-                        }
-                        else if ((equipmatch.Value[1] == Convert.ToChar("b")) || equipmatch1.Groups[2].Value.Contains("b"))
-                        {
-                            if (lang == "en")
-                                sc = sc + _cdb.BeltScales.FirstOrDefault(s => s.ID.ToString() == id).NameEng;
-                            else if (lang == "kk")
-                                sc = sc + _cdb.BeltScales.FirstOrDefault(s => s.ID.ToString() == id).NameKZ;
-                            else
-                                sc = sc + _cdb.BeltScales.FirstOrDefault(s => s.ID.ToString() == id).Name;
-                        }
-
-                    }
-
-                    viewmodel.FileList.Add(new file() { FileName = file, Location = lo, Equipment = sc, CreationDate = new DirectoryInfo(file).CreationTime });
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-            ViewBag.FileCount = viewmodel.FileList.Count();
-            return PartialView("_FileTable", viewmodel);
-        }
-
-        private string Getregexp(string[] idarray)
-        {
-            string regexp = "(";
-            foreach (string id in idarray)
-            {
-                regexp = regexp + (id + @"|");
-            }
-            regexp = regexp.Remove(regexp.Length - 1, 1);
-            regexp = regexp + @")\w*";
-            return regexp;
-        }
-        #endregion
-
         // private methods below
 
         /// <summary>
@@ -627,18 +433,6 @@ namespace CTS_Analytics.Controllers
         public FileResult Download(string filePath)
         {
             return File(Server.MapPath("~/App_Data/Reports.zip"), "application/octet-stream", "Reports.zip");
-        }
-
-        private string getUserLang(HttpCookie cookie)
-        {
-            string lang = "";
-
-            if (cookie != null)
-                lang = cookie.Value;
-            else
-                lang = "ru";
-
-            return lang;
         }
 
         private List<SelectListItem> GetPeriods()

@@ -10,13 +10,12 @@ using CTS_Models.DBContext;
 using CTS_Analytics.Helpers;
 using Newtonsoft.Json;
 using CTS_Core;
-using CTS_Analytics.Factories;
 using CTS_Analytics.Services;
 
 namespace CTS_Analytics.Controllers
 {
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public partial class MnemonicController : Controller
+	public partial class MnemonicController : CtsAnalController
     {
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private string[] _locations = new string[] { "shah", "kuz", "kost", "abay", "len", "sar1", "sar3", "kaz", "tent" };
