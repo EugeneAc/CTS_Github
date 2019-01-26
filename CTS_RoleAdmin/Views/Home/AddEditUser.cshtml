@@ -24,19 +24,13 @@
         {
 
         <div class="form-group">
-            <label>
-                <input type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='True' checked="@role.Value">
-                <label> @Html.GetRoleDescription(role.Key) : @role.Key </label>
-            </label>
-                
+            <input class="" type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='True' checked="@role.Value">
+            <label>@Html.GetRoleDescription(role.Key) : @role.Key </label>
         </div>
         }
 
         <input type="submit" value="Сохранить" class="btn btn-primary" />
     </div>
-
-
-
 }
 
 @section scripts
