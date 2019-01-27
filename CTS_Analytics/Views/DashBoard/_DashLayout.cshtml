@@ -1,12 +1,53 @@
 ﻿@{
     ViewBag.PageName = Resources.ResourceDashboard.PageName;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var activeMenuElement = "#topmenu" + ViewBag.LocationID;
 }
+<div class="topmenu">
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineAbayRoleName))
+    {
+        <a id="topmenuabay" href='@Url.Action("Abay", "DashBoard")'>@Resources.ResourceMnemonic.AbayMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKazRoleName))
+    {
+        <a id="topmenukaz" href='@Url.Action("Kaz", "Dashboard")'>@Resources.ResourceMnemonic.KazMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKostRoleName))
+    {
+        <a id="topmenukost" href='@Url.Action("Kost", "Dashboard")'>@Resources.ResourceMnemonic.KostMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKuzRoleName))
+    {
+        <a id="topmenukuz" href='@Url.Action("Kuz", "Dashboard")'>@Resources.ResourceMnemonic.KuzMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineLenRoleName))
+    {
+        <a id="topmenulen" href='@Url.Action("Len", "Dashboard")'>@Resources.ResourceMnemonic.LenMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineSar1RoleName))
+    {
+        <a id="topmenusar1" href='@Url.Action("Sar1", "Dashboard")'>@Resources.ResourceMnemonic.Sar1MineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineSar3RoleName))
+    {
+        <a id="topmenusar3" href='@Url.Action("Sar3", "Dashboard")'>@Resources.ResourceMnemonic.Sar3MineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineShahRoleName))
+    {
+        <a id="topmenushah" href='@Url.Action("Shah", "Dashboard")'>@Resources.ResourceMnemonic.ShahMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineTentRoleName))
+    {
+        <a id="topmenutent" href='@Url.Action("Tent", "Dashboard")'>@Resources.ResourceMnemonic.TentMineName</a>
+    }
+</div>
 
 @RenderBody()
 
 <button onclick="topFunction()" id="goTopBtn">^</button>
-<script>
+
+@section scripts {
+    <script>
      function resizeIframe(iframeID) {
         var iframe = window.parent.document.getElementById('ifrm');
         iframe.contentWindow.postMessage(document.body.scrollHeight, '*');
@@ -20,5 +61,9 @@
         return;
         }
         });
+    </script>
 
-</script>
+    <script>
+        $('@activeMenuElement').addClass("active");
+    </script>
+}

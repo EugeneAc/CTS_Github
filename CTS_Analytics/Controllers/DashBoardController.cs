@@ -5,7 +5,7 @@ using System.Web.Mvc;
 namespace CTS_Analytics.Controllers
 {
 	[Culture]
-	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+	[CtsAuthorize(Roles = Roles.AnalyticsDashboardRoleName)]
 	public class DashBoardController : CtsAnalController
 	{
 
@@ -24,7 +24,7 @@ namespace CTS_Analytics.Controllers
 		public ActionResult Mine(string ID)
 		{
 			string viewID;
-			switch (ID)
+			switch (ID.ToLower())
 			{
 				case "kuz":
 					{
@@ -62,6 +62,12 @@ namespace CTS_Analytics.Controllers
                         ViewBag.LocationName = "Шахта Саранская - 3 / Saranskaya - 3 Mine";
                         break;
                     }
+                case "sar":
+                    {
+                        viewID = "sar";
+                        ViewBag.LocationName = "Шахта Саранская / Saranskaya - Mine";
+                        break;
+                    }
                 case "kaz":
                     {
                         viewID = "kaz";
@@ -85,8 +91,62 @@ namespace CTS_Analytics.Controllers
 					break;
 			}
 			ViewBag.LocationID = viewID;
-			return View();
+			return View("Mine");
 		}
+
+        [CtsAuthorize(Roles = Roles.MineAbayRoleName)]
+        public ActionResult Abay()
+        {
+            return Mine("abay");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineKuzRoleName)]
+        public ActionResult Kuz()
+        {
+            return Mine("kuz");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineKostRoleName)]
+        public ActionResult Kost()
+        {
+            return Mine("Kost");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineLenRoleName)]
+        public ActionResult Len()
+        {
+            return Mine("Len");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineSar1RoleName)]
+        public ActionResult Sar1()
+        {
+            return Mine("sar1");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineSar3RoleName)]
+        public ActionResult Sar3()
+        {
+            return Mine("sar3");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineKazRoleName)]
+        public ActionResult Kaz()
+        {
+            return Mine("kaz");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineShahRoleName)]
+        public ActionResult Shah()
+        {
+            return Mine("shah");
+        }
+
+        [CtsAuthorize(Roles = Roles.MineTentRoleName)]
+        public ActionResult Tent()
+        {
+            return Mine("tent");
+        }
 
         public ActionResult Alarm()
         {

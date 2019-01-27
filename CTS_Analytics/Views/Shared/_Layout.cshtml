@@ -60,7 +60,10 @@
             <div class="menu">
                 <a id="MenuItemMnemonic" title="@Resources.ResourceGeneral.HeaderTabMnemo" onclick='OnHomeClick()'><i class="icon icon_1"></i><span>@Resources.ResourceGeneral.HeaderTabMnemo</span></a>
                 <a id="MenuItemReport" title="@Resources.ResourceGeneral.HeaderTabReports" href='@Url.Action("Index", "Static")'><i class="icon icon_2"></i><span>@Resources.ResourceGeneral.HeaderTabReports</span></a>
-                <a id="MenuItemDashBoard" title="@Resources.ResourceGeneral.HeaderTabDashboard" href='@Url.Action("Index", "DashBoard")'><i class="icon icon_3"></i><span>@Resources.ResourceGeneral.HeaderTabDashboard</span></a>
+                @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.AnalyticsDashboardRoleName))
+                {
+                    <a id="MenuItemDashBoard" title="@Resources.ResourceGeneral.HeaderTabDashboard" href='@Url.Action("Index", "DashBoard")'><i class="icon icon_3"></i><span>@Resources.ResourceGeneral.HeaderTabDashboard</span></a>
+                }
                 <a id="MenuItemMap" title="@Resources.ResourceGeneral.HeaderTabMap" href='@Url.Action("Map", "Mnemonic")'><i class="icon icon_4"></i><span>@Resources.ResourceGeneral.HeaderTabMap</span></a>
                 <a id="MenuItemDoc" title="@Resources.ResourceMnemonic.Thesaurus" href='@Url.Action("doc", "Mnemonic")'><i class="icon icon_5"></i><span>@Resources.ResourceMnemonic.Thesaurus</span></a>
                 <a id="MenuItemAlarm" title="@Resources.ResourceMnemonic.Incidents" href='@Url.Action("Alarm", "DashBoard")'><i class="icon icon_6"></i><span>@Resources.ResourceMnemonic.Incidents</span></a>
@@ -112,7 +115,7 @@
                         $('#MenuItemDoc').addClass('active');
                         if (!url.includes('wagon_search'))
                         $('#dashboardrange').css('display', 'none');
-                        
+
                     }
                     else
                         $('#MenuItemMnemonic').addClass('active');
@@ -180,12 +183,15 @@
     </script>
     <script defer type="text/javascript" src="~/Content/Mnemo/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
     <script>
-    jQuery(function() {
-    jQuery('[title]').tooltipster({
-    side: ["right", "top"]
-    });
+        jQuery(function () {
+            jQuery('[title]').tooltipster({
+                side: ["right", "top"]
+            });
 
-    });
+        });
     </script>
 </body>
 </html>
+
+
+

@@ -24,7 +24,8 @@
         {
 
         <div class="form-group">
-            <input class="" type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='True' checked="@role.Value">
+            <input class="" type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='@role.Value.ToString()' checked="@role.Value">
+            <input name='@("CtsRoles[" + role.Key + "]")' type="hidden" value="false" />
             <label>@Html.GetRoleDescription(role.Key) : @role.Key </label>
         </div>
         }
@@ -38,12 +39,25 @@
     <script>
         $("#checkAll").click(function () {
             $('.form-horizontal input:checkbox').not(this).prop('checked', this.checked);
+            $('.form-horizontal input:checkbox').not(this).prop('value', this.checked);
         });
         $("#allRoles").click(function () {
             if (this.checked) {
                 window.location.href = '/home/addedituser?userLogin=@Model.UserLogin&userdomain=@Model.UserDomain';
             }
         });
+        $(document).on("click", "[type='checkbox']", function (e) {
+            $(this).prop('value', this.checked);
+        });
+
+        function SetCheckBoxValue(cbox) {
+            if (cbox.checked) {
+                $(cbox).attr("value", "true");
+            } else {
+                $(cbox).attr("value", "false");
+            }
+        }
+
     </script>
 }
 

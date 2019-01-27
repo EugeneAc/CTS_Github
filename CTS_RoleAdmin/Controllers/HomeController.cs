@@ -22,11 +22,22 @@ namespace CTS_RoleAdmin.Controllers
 			return View();
 		}
 
-		public ActionResult MiRoleList()
+        public ActionResult RoleAdminRoleList()
+        {
+            var model = new RolesIndexViewModel
+            {
+                CtsRoles = _cdb.CtsRole.Where(r => r.RoleName.ToLower().Contains("roleadmin")).ToList(),
+                CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
+            };
+
+            return View("RoleList", model);
+        }
+
+        public ActionResult MiRoleList()
 		{
             var model = new RolesIndexViewModel
             {
-                CtsRoles = _cdb.CtsRole.Where(r => r.RoleName.ToLower().StartsWith("cts")).ToList(),
+                CtsRoles = _cdb.CtsRole.Where(r => r.RoleName.ToLower().StartsWith("ctsmi")).ToList(),
                 CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
             };
 
@@ -41,6 +52,20 @@ namespace CTS_RoleAdmin.Controllers
                 .Where(r => r.RoleName.ToLower().StartsWith("ш")
                          || r.RoleName.ToLower().StartsWith("ст")
                          || r.RoleName.ToLower().StartsWith("цоф"))
+              .ToList(),
+                CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
+            };
+
+            return View("RoleList", model);
+        }
+
+        public ActionResult AnalyticRoleList()
+        {
+            var model = new RolesIndexViewModel
+            {
+                CtsRoles = _cdb.CtsRole
+                .Where(r => r.RoleName.ToLower().StartsWith("anl") 
+                || r.RoleName.ToLower().Contains("anal"))
               .ToList(),
                 CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
             };
@@ -79,7 +104,12 @@ namespace CTS_RoleAdmin.Controllers
 		        user = new CtsUser() { Login = model.UserLogin, Domain = model.UserDomain };
 		        _cdb.CtsUser.Add(user);
 		    }
-
+            foreach (var userRole in user.CtsRoles)
+            {
+                if (!model.CtsRoles.ContainsKey(userRole.RoleName))
+                model.CtsRoles.Add(userRole.RoleName, true);
+            }
+            
             user.CtsRoles.Clear();
             user.CtsRoles = model.CtsRoles?
                 .Where(x => x.Value)

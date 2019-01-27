@@ -58,6 +58,7 @@ namespace CTS_Analytics.Controllers
 
         #region MineMethods
 
+        [CtsAuthorize(Roles = Roles.MineShahRoleName)]
         public ActionResult shah()
         {
             var model = new shahModel();
@@ -73,6 +74,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineSar1RoleName)]
         public ActionResult sar1()
         {
             var model = new sar1Model();
@@ -91,6 +93,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineAbayRoleName)]
         public ActionResult abay()
         {
             var model = new abayModel();
@@ -109,6 +112,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineKostRoleName)]
         public ActionResult kost()
         {
             var model = new kostModel();
@@ -131,6 +135,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineKuzRoleName)]
         public ActionResult kuz()
         {
             var model = new kuzModel();
@@ -149,6 +154,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineTentRoleName)]
         public ActionResult tent()
         {
             var model = new tentModel();
@@ -164,6 +170,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineKazRoleName)]
         public ActionResult kaz()
         {
             var model = new kazModel();
@@ -181,6 +188,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineSar3RoleName)]
         public ActionResult sar3()
         {
             var model = new sar3Model();
@@ -200,6 +208,7 @@ namespace CTS_Analytics.Controllers
             return View(model);
         }
 
+        [CtsAuthorize(Roles = Roles.MineLenRoleName)]
         public ActionResult len()
         {
             var model = new lenModel();
