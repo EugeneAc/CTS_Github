@@ -89,7 +89,7 @@ namespace CTS_RoleAdmin.Controllers
 		    }
 
             model.AllRoles = roles == null;
-            model.ReturnView = HttpContext.Request.UrlReferrer.Segments.Last();
+            model.ReturnView = HttpContext.Request.UrlReferrer?.Segments.Last();
             return View(model);
 		}
 

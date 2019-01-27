@@ -2,19 +2,19 @@
 
 @model CTS_RoleAdmin.Models.AddEditUserViewModel
 
-<h3>Редактирование ролей пользователя @Model.UserLogin</h3>
+<h3>Редактирование ролей пользователя @Model.UserLogin (@Model.UserDomain)</h3>
 <br />
 
 @using (Html.BeginForm("AddEditUser", "Home", FormMethod.Post))
 {
-<div class="form-group">
-    <label class="checkbox-inline">
-        <input type="checkbox" name="checkedAll" id="checkAll" checked="@Model.CtsRoles.Values.All(v=>v.Equals(true))" />Выбрать все
-    </label>
-    <label class="checkbox-inline">
-        <input type="checkbox" id="allRoles" name="allRoles" checked="@Model.AllRoles" />Показать все роли
-    </label>
-</div>
+    <div class="form-group">
+        <label class="checkbox-inline">
+            <input type="checkbox" name="checkedAll" id="checkAll" checked="@Model.CtsRoles.Values.All(v=>v.Equals(true))" />Выбрать все
+        </label>
+        <label class="checkbox-inline">
+            <input type="checkbox" id="allRoles" name="allRoles" checked="@Model.AllRoles" />Показать все роли
+        </label>
+    </div>
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         @Html.HiddenFor(m => Model.UserLogin)
@@ -23,11 +23,11 @@
         @foreach (var role in Model.CtsRoles)
         {
 
-        <div class="form-group">
-            <input class="" type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='@role.Value.ToString()' checked="@role.Value">
-            <input name='@("CtsRoles[" + role.Key + "]")' type="hidden" value="false" />
-            <label>@Html.GetRoleDescription(role.Key) : @role.Key </label>
-        </div>
+            <div class="form-group">
+                <input class="" type="checkbox" name='@("CtsRoles[" + role.Key + "]")' value='@role.Value.ToString()' checked="@role.Value">
+                <input name='@("CtsRoles[" + role.Key + "]")' type="hidden" value="false" />
+                <label>@Html.GetRoleDescription(role.Key) : @role.Key </label>
+            </div>
         }
 
         <input type="submit" value="Сохранить" class="btn btn-primary" />
@@ -43,7 +43,7 @@
         });
         $("#allRoles").click(function () {
             if (this.checked) {
-                window.location.href = '/home/addedituser?userLogin=@Model.UserLogin&userdomain=@Model.UserDomain';
+                window.location.href = 'addedituser?userLogin=@Model.UserLogin&userdomain=@Model.UserDomain';
             }
         });
         $(document).on("click", "[type='checkbox']", function (e) {
@@ -60,5 +60,3 @@
 
     </script>
 }
-
-
