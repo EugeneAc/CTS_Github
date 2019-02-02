@@ -18,7 +18,8 @@ namespace CTS_Analytics.Controllers
 		CtsDbContext cdb = new CtsDbContext();
 		private List<String> fileFormats = new List<String> { "web", "pdf" };
 
-		public ActionResult Index()
+        [CtsAuthorize(Roles = Roles.DynamicReportRole)]
+        public ActionResult Index()
 		{
 			ViewBag.Url = "";
 

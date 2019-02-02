@@ -73,6 +73,19 @@ namespace CTS_RoleAdmin.Controllers
             return View("RoleList", model);
         }
 
+        public ActionResult RepoertsRoleList()
+        {
+            var model = new RolesIndexViewModel
+            {
+                CtsRoles = _cdb.CtsRole
+                .Where(r => r.RoleName.ToLower().StartsWith("rep"))
+              .ToList(),
+                CtsUsers = _cdb.CtsUser.Include(m => m.CtsRoles).ToList()
+            };
+
+            return View("RoleList", model);
+        }
+
         public ActionResult AddEditUser(string userLogin, string userDomain, string[] roles)
 		{
 		    AddEditUserViewModel model;

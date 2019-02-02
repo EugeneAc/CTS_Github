@@ -32,71 +32,85 @@ namespace CTS_Analytics.Controllers
             return View();
         }
 
+        [CtsAuthorize(Roles = Roles.GlobalSafetyReportRole)]
         public ActionResult GlobalSafety()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.SiteSafetyReportRole)]
         public ActionResult SiteSafety()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.StockpilesMonthReportRole)]
         public ActionResult StockpilesMonth()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.OverallMineProductionReportRole)]
         public ActionResult OverallProduction()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.ComparisonInfoMiningsReportRole)]
         public ActionResult ComparisonInfoMiningsReport()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.OverallMineProductionReportRole)]
         public ActionResult OverallMineProduction()
         {
             return View(GetPeriodsAndMinesReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.AlarmReportRole)]
         public ActionResult AlarmReport()
         {
             return View(GetPeriodsAndMinesReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.AdvancedOverallMineProductionReportRole)]
         public ActionResult AdvancedOverallMineProduction()
         {
             return View(GetPeriodsAndMinesReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.OperCoalProductionReportRole)]
         public ActionResult OperCoalProductionReport()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.CoalProductionByMineReportRole)]
         public ActionResult CoalProductionByMine()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.QualityControlReportRole)]
         public ActionResult QualityControlReport()
         {
             return View(GetOnlyPeriodsReportModel());
         }
 
+        [CtsAuthorize(Roles = Roles.WagonScalesReportRole)]
         public ActionResult WagonScalesReport()
         {
             return View(GetEquipmentReportModel<WagonScale>());
         }
 
+        [CtsAuthorize(Roles = Roles.BeltScalesReportRole)]
         public ActionResult BeltScalesReport()
         {
             return View(GetEquipmentReportModel<BeltScale>());
         }
 
+        [CtsAuthorize(Roles = Roles.SkipReportRole)]
         public ActionResult SkipReport()
         {
             return View(GetEquipmentReportModel<Skip>());
@@ -473,7 +487,7 @@ namespace CTS_Analytics.Controllers
             model.FromDate = DateTime.Today.AddDays(-7);
             model.ToDate = DateTime.Today.AddDays(1);
             model.Periods = GetPeriods();
-            model.Mines = _cdb.Locations.Where(l => l.DomainName.ToLower().StartsWith("ш")) // Это плохо, может придумать фильтр получше?
+            model.Mines = _cdb.Locations.Where(l => l.LocationName.ToLower().StartsWith("ш")) 
                                                      .Select(i => new SelectListItem()
                                                      {
                                                          Text = i.LocationName,

@@ -4,7 +4,7 @@
     <select id="Mines" multiple="multiple" name="SelectedMines" class="multiselect">
         @if (Model != null)
         {
-            foreach (var item in Model)
+            foreach (var item in Model.Where(l => CTS_Analytics.Helpers.ReportRoleHelper.UserHasLocationRole(User.Identity, l.Value)))
             {
                 if (item.Text != null)
                 {

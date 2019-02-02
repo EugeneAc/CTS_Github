@@ -214,6 +214,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AlarmHepler.cs" />
+    <Compile Include="Helpers\ReportRoleHelper.cs" />
     <Compile Include="Models\api\QueryModel.cs" />
     <Compile Include="Models\api\SearchModel.cs" />
     <Compile Include="Models\DynamicModel.cs" />
@@ -251,7 +252,6 @@
     <Compile Include="Models\Mnemonic\lenModel.cs" />
     <Compile Include="Models\Mnemonic\tentModel.cs" />
     <Compile Include="Models\Mnemonic\OracleShopEnum.cs" />
-    <Compile Include="Models\StaticConsolidated.cs" />
     <Compile Include="Models\Filters\WagonScalesDropDownModel.cs" />
     <Compile Include="Models\StaticReports\EqupmentReportModel.cs" />
     <Compile Include="Models\StaticReports\OverallMineProduction.cs" />
@@ -891,13 +891,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_OldLayout.cshtml" />
-    <Content Include="Views\Static\Consolid.cshtml" />
     <Content Include="Views\Shared\_WagonScalesDynDropDown.cshtml" />
     <Content Include="Views\Shared\_BeltScalesDynDropDown.cshtml" />
     <Content Include="Views\Shared\_SkipsDynDropDown.cshtml" />
     <Content Include="Views\Static\_FileTable.cshtml" />
     <Content Include="Views\Shared\_FromDateToDate.cshtml" />
-    <Content Include="Views\Shared\_LocationsDropDown.cshtml" />
     <Content Include="Views\Shared\_FileFormatsDropDown.cshtml" />
     <Content Include="Views\Dynamic\Index.cshtml" />
     <Content Include="Views\Dynamic\GetReport.cshtml" />

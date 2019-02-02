@@ -1,5 +1,5 @@
 ﻿/// Имена здесь должны совпадать с именами в БД 
-/// Названия локация должны совпадать с БД в таблице Roles и русскими названиями локаций в Locations
+/// Названия локация должны совпадать с БД в таблице Roles 
 
 namespace CTS_Core
 {
@@ -26,6 +26,7 @@ namespace CTS_Core
 
 		public const string AdminDebugRoleName = "Administrators, Администраторы";
 
+        // эло должно совпадать с русскими названиями локаций в Locations
         public const string StUglRoleName = "ст. \"Углерудная\"";
         public const string StAbayRoleName = "ст. «Абай»";
         public const string StDubovRoleName = "ст. «Дубовская»";
@@ -42,5 +43,22 @@ namespace CTS_Core
         public const string MineSar3RoleName = "ш. Саранская район 3";
         public const string MineTentRoleName = "ш. Тентекская";
         public const string MineShahRoleName = "ш. Шахтинская";
+
+        // роли отчетов
+        public const string OverallProductionReportRole = "REP_OverallProduction";
+        public const string AdvancedOverallMineProductionReportRole = "REP_AdvancedOverallMineProduction";
+        public const string OverallMineProductionReportRole = "REP_OverallMineProduction";
+        public const string OperCoalProductionReportRole = "REP_OperCoalProductionReport";
+        public const string AlarmReportRole = "REP_AlarmReport";
+        public const string CoalProductionByMineReportRole = "REP_CoalProductionByMine";
+        public const string StockpilesMonthReportRole = "REP_StockpilesMonth";
+        public const string WagonScalesReportRole = "REP_WagonScalesReport";
+        public const string GlobalSafetyReportRole = "REP_GlobalSafety";
+        public const string SkipReportRole = "REP_SkipReport";
+        public const string SiteSafetyReportRole = "REP_SiteSafety";
+        public const string BeltScalesReportRole = "REP_BeltScalesReport";
+        public const string ComparisonInfoMiningsReportRole = "REP_ComparisonInfoMiningsReport";
+        public const string QualityControlReportRole = "REP_QualityControlReport";
+        public const string DynamicReportRole = "REP_DynamicReports";
     }
 }
