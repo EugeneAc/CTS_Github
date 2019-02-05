@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>@ViewBag.PageName</title>
-    @*<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">*@
     <link href="~/Content/Mnemo/style/pt-sans.css" rel="stylesheet">
     <!-- Bootstrap-->
     <link href="~/Content/Mnemo/css/bootstrap.min.css" rel="stylesheet">
@@ -58,26 +57,44 @@
                 @Html.ActionLink("Қаз", "ChangeCulture", new { lang = "kk" }, new { @id = "kk" })
             </div>
             <div class="menu">
-                <a id="MenuItemMnemonic" title="@Resources.ResourceGeneral.HeaderTabMnemo" onclick='OnHomeClick()'><i class="icon icon_1"></i><span>@Resources.ResourceGeneral.HeaderTabMnemo</span></a>
+                <ul class="leftmenu reset">
+                    <li id="MenuItemMnemonic">
+                        <a title="@Resources.ResourceGeneral.HeaderTabMnemo" onclick='OnHomeClick()'><i class="icon icon_1"></i><span>@Resources.ResourceGeneral.HeaderTabMnemo</span></a>
+                        <ul class="submenu lvl-1 reset">
+                            @Submenu("Mnemonic", true)
+                        </ul>
+                    </li>
 
-                @if (CTS_Analytics.Helpers.ReportRoleHelper.UserHasAnyReportRole(User.Identity))
-                {
-                    <a id="MenuItemReport" title="@Resources.ResourceGeneral.HeaderTabReports" href='@Url.Action("Index", "Static")'><i class="icon icon_2"></i><span>@Resources.ResourceGeneral.HeaderTabReports</span></a>
-                }
+                    @if (CTS_Analytics.Helpers.ReportRoleHelper.UserHasAnyReportRole(User.Identity))
+                    {
+                        <li id="MenuItemReport">
+                            <a title="@Resources.ResourceGeneral.HeaderTabReports" href='@Url.Action("Index", "Static")'><i class="icon icon_2"></i><span>@Resources.ResourceGeneral.HeaderTabReports</span></a>
+                        </li>
+                    }
 
-                @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.AnalyticsDashboardRoleName))
-                {
-                    <a id="MenuItemDashBoard" title="@Resources.ResourceGeneral.HeaderTabDashboard" href='@Url.Action("Index", "DashBoard")'><i class="icon icon_3"></i><span>@Resources.ResourceGeneral.HeaderTabDashboard</span></a>
-                }
 
-                <a id="MenuItemMap" title="@Resources.ResourceGeneral.HeaderTabMap" href='@Url.Action("Map", "Mnemonic")'><i class="icon icon_4"></i><span>@Resources.ResourceGeneral.HeaderTabMap</span></a>
-
-                <a id="MenuItemDoc" title="@Resources.ResourceMnemonic.Thesaurus" href='@Url.Action("doc", "Mnemonic")'><i class="icon icon_5"></i><span>@Resources.ResourceMnemonic.Thesaurus</span></a>
-
-                @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.AnalyticsDashboardRoleName))
-                {
-                    <a id="MenuItemAlarm" title="@Resources.ResourceMnemonic.Incidents" href='@Url.Action("Alarm", "DashBoard")'><i class="icon icon_6"></i><span>@Resources.ResourceMnemonic.Incidents</span></a>
-                }
+                    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.AnalyticsDashboardRoleName))
+                    {
+                        <li id="MenuItemDashBoard">
+                            <a title="@Resources.ResourceGeneral.HeaderTabDashboard" href='@Url.Action("Index", "DashBoard")'><i class="icon icon_3"></i><span>@Resources.ResourceGeneral.HeaderTabDashboard</span></a>
+                            <ul class="submenu lvl-1 reset">
+                                @Submenu("DashBoard", false)
+                            </ul>
+                        </li>
+                    }
+                    <li id="MenuItemMap">
+                        <a title="@Resources.ResourceGeneral.HeaderTabMap" href='@Url.Action("Map", "Mnemonic")'><i class="icon icon_4"></i><span>@Resources.ResourceGeneral.HeaderTabMap</span></a>
+                    </li>
+                    <li id="MenuItemDoc">
+                        <a title="@Resources.ResourceMnemonic.Thesaurus" href='@Url.Action("doc", "Mnemonic")'><i class="icon icon_5"></i><span>@Resources.ResourceMnemonic.Thesaurus</span></a>
+                    </li>
+                    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.AnalyticsDashboardRoleName))
+                    {
+                        <li id="MenuItemAlarm">
+                            <a title="@Resources.ResourceMnemonic.Incidents" href='@Url.Action("Alarm", "DashBoard")'><i class="icon icon_6"></i><span>@Resources.ResourceMnemonic.Incidents</span></a>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 
@@ -86,6 +103,69 @@
         @RenderBody()
         @Resources.ResourceGeneral.Culture
     </div>
+
+    @helper Submenu(string controller, bool showCofAndStations)
+    {
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineShahRoleName))
+        {
+            <li><a href='@Url.Action("shah", controller)'>@Resources.ResourceMnemonic.ShahMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineTentRoleName))
+        {
+            <li><a href='@Url.Action("tent", controller)'>@Resources.ResourceMnemonic.TentMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineLenRoleName))
+        {
+            <li><a href='@Url.Action("len", controller)'>@Resources.ResourceMnemonic.LenMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKazRoleName))
+        {
+            <li><a href='@Url.Action("kaz", controller)'>@Resources.ResourceMnemonic.KazMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineAbayRoleName))
+        {
+            <li><a href='@Url.Action("abay", controller)'>@Resources.ResourceMnemonic.AbayMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKostRoleName))
+        {
+            <li><a href='@Url.Action("kost", controller)'>@Resources.ResourceMnemonic.KostMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKuzRoleName))
+        {
+            <li><a href='@Url.Action("kuz", controller)'>@Resources.ResourceMnemonic.KuzMineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineSar1RoleName))
+        {
+           <li><a href='@Url.Action("sar1", controller)'>@Resources.ResourceMnemonic.Sar1MineName</a></li>
+        }
+        if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineSar3RoleName))
+        {
+            <li><a href='@Url.Action("sar3", controller)'>@Resources.ResourceMnemonic.Sar3MineName</a></li>
+        }
+        if (showCofAndStations)
+        {
+            if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.CofvRoleName))
+            {
+                <li><a href='@Url.Action("cofv", controller)'>@Resources.ResourceMnemonic.CofName</a></li>
+            }
+            if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.StAbayRoleName))
+            {
+                <li><a href='@Url.Action("sabay", controller)'>@Resources.ResourceMnemonic.StAbayName</a></li>
+            }
+            if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.StDubovRoleName))
+            {
+                <li><a href='@Url.Action("sugl", controller)'>@Resources.ResourceMnemonic.StUglerudName</a></li>
+            }
+            if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.StDubovRoleName))
+            {
+                <li><a href='@Url.Action("sbub", controller)'>@Resources.ResourceMnemonic.StDubovName</a></li>
+            }
+            if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.StRaspRoleName))
+            {
+                <li><a href='@Url.Action("srasp", controller)'>@Resources.ResourceMnemonic.StRasporName</a></li>
+            }
+        }
+    }
 
     @Scripts.Render("~/bundles/analscripts")
     @RenderSection("scripts", required: false)
@@ -203,6 +283,3 @@
     </script>
 </body>
 </html>
-
-
-

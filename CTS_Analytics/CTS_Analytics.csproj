@@ -954,6 +954,7 @@
     <Content Include="Views\DashBoard\_DashAlarmLayout.cshtml" />
     <Content Include="Views\DashBoard\_DashLayout.cshtml" />
     <Content Include="Views\Mnemonic\Doc-detail\doc_detail_Wagon_search.cshtml" />
+    <Content Include="Views\Mnemonic\home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Cts\" />

@@ -56,6 +56,11 @@ namespace CTS_Analytics.Controllers
             return View();
         }
 
+        public ActionResult Home()
+        {
+            return View();
+        }
+
         #region MineMethods
 
         [CtsAuthorize(Roles = Roles.MineShahRoleName)]
