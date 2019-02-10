@@ -229,6 +229,7 @@
     <Compile Include="Models\Mnemonic\Doc-detail\DocSkip.cs" />
     <Compile Include="Models\Mnemonic\Doc-detail\DocWagonScales.cs" />
     <Compile Include="Models\Mnemonic\Doc-detail\SkipWeights.cs" />
+    <Compile Include="Models\Mnemonic\Doc-detail\WagonSearch.cs" />
     <Compile Include="Models\Mnemonic\MnemonicMainKotel.cs" />
     <Compile Include="Models\Mnemonic\Station.cs" />
     <Compile Include="Models\Mnemonic\kazModel.cs" />
@@ -957,7 +958,6 @@
     <Content Include="Views\Mnemonic\home.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Cts\" />
     <Folder Include="Views\Grafana\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>

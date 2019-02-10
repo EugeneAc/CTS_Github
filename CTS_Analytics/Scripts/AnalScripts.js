@@ -10,18 +10,8 @@ String.prototype.includes = function (str) {
 };
 
 function getUrlParameter(sParam, url) {
-    var sPageURL = decodeURIComponent(url),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
+    var _url = new URL(url);
+    return _url.searchParams.get(sParam);
 }
 
 function setNewdateToIframes(element, todate, newtodate, fromdate, newfromdate) {
@@ -75,6 +65,7 @@ function topFunction() {
 $('#FilterManualInput').click(setupFilters); 
 $('#OrderByTransferTimeStampAsc').click(setupFilters); 
 $('#wagonSearchFilter').click(setupFilters); 
+$('#ApplyWagonSearchLocationFilter').click(setupFilters); 
 $('#WagonNumberFilter').keypress(function (e) {
     if (e.which === 13) {
         setupFilters();
@@ -96,6 +87,10 @@ function setupFilters() {
         url = setUrlParameter('&wagonNumberFilter', searchtext, url);
     }
 
+    if ($('#WagonSearchLocationFilter #Mines :selected').length > 0) {
+        url = setUrlParameter('locations', $('#WagonSearchLocationFilter #Mines').val(), url);
+    }
+
     window.location.href = url;
 }
 
@@ -115,10 +110,7 @@ function setUrlParameter(key, value, url) {
             params = urlQueryString.replace(removeRegex, "$1");
             params = params.replace(/[&;]$/, "");
 
-        } else if (urlQueryString.match(updateRegex) !== null) { // If param exists already, update it
-            params = urlQueryString.replace(updateRegex, "$1" + newParam);
-
-        } else { // Otherwise, add it to end of query string
+        }  else { // Otherwise, add it to end of query string
             params = urlQueryString + '&' + newParam;
         }
     }

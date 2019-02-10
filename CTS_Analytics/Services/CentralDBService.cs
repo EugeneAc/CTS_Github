@@ -143,5 +143,10 @@ namespace CTS_Analytics.Services
                .OrderByDescending(t => t.TransferTimeStamp)
                .ToArray();
         }
+
+        public IEnumerable<Location> GetAlllocaitons()
+        {
+            return cdb.Locations;
+        }
     }
 }

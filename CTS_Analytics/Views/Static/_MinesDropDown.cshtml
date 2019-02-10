@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<SelectListItem>
 <div class="form-group">
-    <label class="control-label col-md-2" for="ReportPeriod">@Resources.ResourceFilters.Mine</label>
+    <label class="control-label col-md-2" for="ReportPeriod">@Resources.ResourceFilters.Location</label>
     <select id="Mines" multiple="multiple" name="SelectedMines" class="multiselect">
         @if (Model != null)
         {
@@ -27,7 +27,13 @@
                 allSelectedText: '@Resources.ResourceFilters.allSelected',
                 nSelectedText: '@Resources.ResourceFilters.Selected'
             });
-            $('#Mines').multiselect('selectAll', false);
+            if (getUrlParameter('locations', window.location.href)) {
+                $('#Mines').multiselect('select', getUrlParameter('locations', window.location.href).split(','))
+            }
+            else {
+                $('#Mines').multiselect('selectAll', false);
+            }
+            
             $('#Mines').multiselect('updateButtonText');
     });
 

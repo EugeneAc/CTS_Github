@@ -9,8 +9,8 @@ using System.Web.Mvc;
 
 namespace CTS_Analytics.Controllers
 {
-	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public partial class MnemonicController : CtsAnalController
+    [CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+    public partial class MnemonicController : CtsAnalController
     {
         public ActionResult doc()
         {
@@ -217,36 +217,44 @@ namespace CTS_Analytics.Controllers
             return fsResult;
         }
 
-        public ActionResult doc_detail_Wagon_Search(string locationID, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false, string wagonNumberFilter = "")
+        public ActionResult doc_detail_Wagon_Search(string locations, int? page, bool filterManualInput = false, bool orderByTransferTimeStampAsc = false, string wagonNumberFilter = "")
         {
-            var model = new Mine_vagon(locationID);
+            var model = new WagonSearchModel();
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
-            using (var db = new CtsDbContext())
+            model.WagonTransfers = _cdbService.GetWagonTransfersIncludeLocations(null, fromDate, toDate);
+            model.Mines = _cdbService.GetAlllocaitons().Select(i => new SelectListItem()
             {
-                model.WagonTransfers = _cdbService.GetWagonTransfersIncludeLocations(null, fromDate, toDate)
-              .ToList();
-            }
-            
+                Text = i.LocationName,
+                Value = i.ID
+            });
+
+
             model.FilterManualInput = filterManualInput;
             if (filterManualInput)
             {
-                model.WagonTransfers = model.WagonTransfers.Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName).ToList();
+                model.WagonTransfers = model.WagonTransfers.Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName);
             }
 
             model.OrderByTransferTimeStampAsc = orderByTransferTimeStampAsc;
             if (orderByTransferTimeStampAsc)
             {
-                model.WagonTransfers = model.WagonTransfers.OrderBy(t => t.TransferTimeStamp).ToList();
+                model.WagonTransfers = model.WagonTransfers.OrderBy(t => t.TransferTimeStamp);
             }
 
             model.WagonNumberFilter = wagonNumberFilter;
             if (!string.IsNullOrEmpty(wagonNumberFilter))
             {
-                model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
+                model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter));
             }
 
-            model.PagedWagonTrasnfersAndPhotos = GetPagedWagonTransfersAndPhotos(page, model.WagonTransfers);
+            if (!string.IsNullOrEmpty(locations))
+            {
+                var locationsArr = locations.Split(',');
+                model.WagonTransfers = model.WagonTransfers.Where(w => locationsArr.Any(l => string.Compare(w.Equip.LocationID, l, true) == 0));
+            }
+
+            model.PagedWagonTrasnfersAndPhotos = GetPagedWagonTransfersAndPhotos(page, model.WagonTransfers.ToList());
 
             return View("Doc-detail/doc_detail_Wagon_search", model);
         }

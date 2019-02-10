@@ -1,4 +1,4 @@
-﻿@model CTS_Analytics.Models.Mnemonic.Mine_vagon
+﻿@model CTS_Analytics.Models.Mnemonic.Doc_detail.WagonSearchModel
 @using PagedList.Mvc;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,7 +13,7 @@
 
         <div id="text" style="margin-left:5px;">
 
-            <h3>@Resources.ResourceMnemonic.WagonLoadingJourlal</h3>
+            <h3>@Resources.ResourceMnemonic.WagonSearch</h3>
             <div id="FilterContainer" class="checkbox-inline" data-url='@Url.Action("doc_detail_wagon_search")'>
                 @Html.TextBoxFor(model => model.WagonNumberFilter)
                 <span id="wagonSearchFilter" class="glyphicon glyphicon-search"></span>
@@ -22,6 +22,10 @@
                 <span class="filter-element">@Resources.ResourceMnemonic.ManualInputFilter</span>
                 @Html.CheckBoxFor(model => model.OrderByTransferTimeStampAsc)
                 <span class="filter-element">@Resources.ResourceMnemonic.OrderByTransferTimeStampAsc</span>
+                <div style="margin-top: 15px;" id="WagonSearchLocationFilter">
+                    @Html.Partial("~/Views/Static/_MinesDropDown.cshtml", Model.Mines)
+                    <button class="btn btn-success" id="ApplyWagonSearchLocationFilter">@Resources.ResourceStatic.RefreshBtn</button>
+                </div>
             </div>
 
             @if (Model.WagonTransfers != null)
