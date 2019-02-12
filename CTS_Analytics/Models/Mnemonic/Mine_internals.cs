@@ -37,7 +37,7 @@ namespace CTS_Analytics.Models.Mnemonic
 		public float TotalSkipsPerTimeInterval { get; set; }
 		public float TotalTonnsPerTimeInterval { get; set; }
 		public DateTime? LastSkipLiftingTime { get; set; }
-        public List<SkipTransfer> SkipTransfers { get; set; }
+        public IEnumerable<SkipTransfer> SkipTransfers { get; set; }
         public PagedList.IPagedList<SkipTransfer> PagedkipTransfers { get; set; }
 		public string SkipName { get; set; }
         public int SkipID { get; set; }
@@ -54,7 +54,7 @@ namespace CTS_Analytics.Models.Mnemonic
         public int BeltID { get; set; }
         public float ProductionPerShift { get; set; }
 		public float ProductionPerTimeInterval { get; set; }
-		public List<BeltTransfer> BeltTransfers { get; set; }
+		public IEnumerable<BeltTransfer> BeltTransfers { get; set; }
         public PagedList.IPagedList<BeltTransfer> PagedBeltTransfers { get; set; }
     }
 
@@ -69,7 +69,7 @@ namespace CTS_Analytics.Models.Mnemonic
 		public int IncomePerTimeInterval { get; set; }
 		public int StockPileCapacity { get; set; }
 		public int AtStockPile { get; set; }
-        public WarehouseTransfer[] WarehouseTransfers { get; set; }
+        public IEnumerable<WarehouseTransfer> WarehouseTransfers { get; set; }
         public PagedList.IPagedList<WarehouseTransfer> PagedWarehouseTransfers { get; set; }
     }
 
@@ -121,7 +121,7 @@ namespace CTS_Analytics.Models.Mnemonic
 		public DateTime? ShippedToLastTrainDateTime { get; set; }
 		public float LastTrainVagonCount { get; set; }
         public string LastTrainDirection { get; set; }
-        public List<WagonTransfer> WagonTransfers { get; set; }
+        public IEnumerable<WagonTransfer> WagonTransfers { get; set; }
         public PagedList.StaticPagedList<WagonTransfersAndPhoto> PagedWagonTrasnfersAndPhotos { get; set; }
         public List<RaspoznItem> WagonPictureList { get; set; }
         public string WagonNumberFilter { get; set; }

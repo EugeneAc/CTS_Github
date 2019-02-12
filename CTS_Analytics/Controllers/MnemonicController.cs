@@ -314,7 +314,7 @@ namespace CTS_Analytics.Controllers
                 model.WagonTransfers = model.WagonTransfers.Where(w => w.SublotName.Contains(wagonNumberFilter)).ToList();
             }
 
-            model.PagedWagonTrasnfersAndPhotos = GetPagedWagonTransfersAndPhotos(page, model.WagonTransfers);
+            model.PagedWagonTrasnfersAndPhotos = GetPagedWagonTransfersAndPhotos(page, model.WagonTransfers.ToList());
 
             return View(model);
         }

@@ -115,7 +115,7 @@ namespace CTS_Analytics.Services
             return System.DateTime.Today.Add(endTime);
         }
 
-        public List<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
+        public IEnumerable<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
         {
             var db = new CtsTransferContext<TTransfer>();
             return db.DbSet
@@ -123,7 +123,7 @@ namespace CTS_Analytics.Services
                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
                .Where(v => v.IsValid == true)
                .OrderByDescending(t => t.TransferTimeStamp)
-               .ToList();
+               .AsNoTracking();
         }
 
         public IEnumerable<WagonTransfer> GetWagonTransfersIncludeLocations(int? wagonScaleID, DateTime fromDate, DateTime toDate)
@@ -132,16 +132,17 @@ namespace CTS_Analytics.Services
                 .Where(s => wagonScaleID != null ? s.EquipID == wagonScaleID : true)
                 .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
                 .Where(v => v.IsValid == true)
-                .OrderByDescending(t => t.TransferTimeStamp);
+                .OrderByDescending(t => t.TransferTimeStamp)
+                .AsNoTracking();
         }
 
-        public WarehouseTransfer[] GetWarehouseTransfers(int Id, DateTime fromDate, DateTime toDate)
+        public IEnumerable<WarehouseTransfer> GetWarehouseTransfers(int Id, DateTime fromDate, DateTime toDate)
         {
             return cdb.WarehouseTransfers
                .Where(s => s.WarehouseID == Id)
                .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
                .OrderByDescending(t => t.TransferTimeStamp)
-               .ToArray();
+               .AsNoTracking();
         }
 
         public IEnumerable<Location> GetAlllocaitons()
