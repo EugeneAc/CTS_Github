@@ -64,7 +64,7 @@ namespace CTS_Analytics.Services
             var times = cdb.Shifts
                 .Where(l => l.LocationID == locationId)
                 .ToArray();
-            if (times.Count() == 0)
+            if (times.Length == 0)
                 return DateTime.Today;
 
             var startTime = times
@@ -92,7 +92,7 @@ namespace CTS_Analytics.Services
             var times = cdb.Shifts
                 .Where(l => l.LocationID == locationId)
                 .ToArray();
-            if (times.Count() == 0)
+            if (times.Length == 0)
                 return startShiftTime.AddHours(24);
 
             var endTime = times
@@ -115,7 +115,7 @@ namespace CTS_Analytics.Services
             return System.DateTime.Today.Add(endTime);
         }
 
-        public IEnumerable<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
+        public IQueryable<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
         {
             var db = new CtsTransferContext<TTransfer>();
             return db.DbSet
@@ -126,7 +126,7 @@ namespace CTS_Analytics.Services
                .AsNoTracking();
         }
 
-        public IEnumerable<WagonTransfer> GetWagonTransfersIncludeLocations(int? wagonScaleID, DateTime fromDate, DateTime toDate)
+        public IQueryable<WagonTransfer> GetWagonTransfersIncludeLocations(int? wagonScaleID, DateTime fromDate, DateTime toDate)
         {
             return cdb.WagonTransfers.Include(w => w.Equip.Location)
                 .Where(s => wagonScaleID != null ? s.EquipID == wagonScaleID : true)
@@ -136,7 +136,7 @@ namespace CTS_Analytics.Services
                 .AsNoTracking();
         }
 
-        public IEnumerable<WarehouseTransfer> GetWarehouseTransfers(int Id, DateTime fromDate, DateTime toDate)
+        public IQueryable<WarehouseTransfer> GetWarehouseTransfers(int Id, DateTime fromDate, DateTime toDate)
         {
             return cdb.WarehouseTransfers
                .Where(s => s.WarehouseID == Id)

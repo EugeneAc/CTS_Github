@@ -70,7 +70,7 @@ namespace CTS_Analytics.Factories
             model.SkipTransfers = _cdbService.GetTransfers<SkipTransfer>(skipID, fromDate, toDate);
             model.TotalSkipsPerTimeInterval = model.SkipTransfers.Sum(s => int.Parse(s.LiftingID));
             model.TotalTonnsPerTimeInterval = model.SkipTransfers.Select(t => t.SkipWeight * int.Parse(t.LiftingID)).Sum();
-            model.LastSkipLiftingTime = model.SkipTransfers.Count() > 0 ? model.SkipTransfers.First().TransferTimeStamp : new DateTime?();
+            model.LastSkipLiftingTime = model.SkipTransfers.Any() ? model.SkipTransfers.First().TransferTimeStamp : new DateTime?();
 
             var fromShiftDate = _cdbService.GetStartShiftTime(skip.LocationID);
             var toShiftDate = _cdbService.GetEndShiftTime(skip.LocationID, fromShiftDate);
@@ -116,12 +116,10 @@ namespace CTS_Analytics.Factories
             model.ProductionPerShift = shiftransfers.Sum(t => t.LotQuantity).GetValueOrDefault();
             model.HasManualValues = model
                 .BeltTransfers
-                .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
-                .Any()
+                .Any(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
                 ||
                 shiftransfers
-                .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
-                .Any();
+                .Any(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName);
             return model;
         }
 
@@ -141,18 +139,37 @@ namespace CTS_Analytics.Factories
                 .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
                 .ToArray();
             //var shiftransfers = GetDataFromWagonDB(fromShiftDate, toShiftDate, wagonScale.LocationID); // To get data from wagonDB
-            model.ShippedPerShiftTonns = (float)shiftransfers.Sum(t => t.Netto);
+            float? sum = 0;
+            foreach (var f in shiftransfers.Select(t =>
+            {
+                if (t.Netto != null)
+                    return t.Netto;
+                else
+                    return 0;
+            }))
+            {
+                sum += f.Value;
+            }
+
+            model.ShippedPerShiftTonns = (float)sum;
             var lastTrainTransfers = model.WagonTransfers.OrderByDescending(t => t.TransferTimeStamp).ToList();
 
-            if (lastTrainTransfers != null && lastTrainTransfers.Count > 0)
+            if (lastTrainTransfers.Any())
             {
                 lastTrainTransfers = model.WagonTransfers.GroupBy(l => l.LotName)
                                     .First()
                                     .ToList();
-                model.LastTrainDirection = lastTrainTransfers.FirstOrDefault().ToDest;
-                model.ShippedToLastTrainDateTime = lastTrainTransfers.FirstOrDefault().TransferTimeStamp;
+                model.LastTrainDirection = lastTrainTransfers.Select(x => x.ToDest).FirstOrDefault();
+                model.ShippedToLastTrainDateTime = lastTrainTransfers.Select(x => x.TransferTimeStamp).FirstOrDefault();
                 model.LastTrainVagonCount = lastTrainTransfers.Count();
-                model.ShippedToLastTrainTonns = (float)lastTrainTransfers.Sum(t => t.Netto);
+                float? sum1 = 0;
+                foreach (var t in lastTrainTransfers)
+                {
+                    var f = t.Netto;
+                    if (f.HasValue) sum1 += f.Value;
+                }
+
+                model.ShippedToLastTrainTonns = (float)sum1;
             }
 
             if (userLanguage == "en")
@@ -169,12 +186,10 @@ namespace CTS_Analytics.Factories
 
             model.HasManualValues = model
                 .WagonTransfers
-                .Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName)
-                .Any()
+                .Any(v => v.OperatorName != ProjectConstants.DbSyncOperatorName)
                 ||
                 shiftransfers
-                .Where(v => v.OperatorName != ProjectConstants.DbSyncOperatorName)
-                .Any();
+                .Any(v => v.OperatorName != ProjectConstants.DbSyncOperatorName);
             return model;
         }
 
@@ -196,12 +211,29 @@ namespace CTS_Analytics.Factories
             }
             model.WarehouseTransfers = _cdbService.GetWarehouseTransfers(warehouseID, fromDate, toDate);
 
-            if (model.WarehouseTransfers != null && model.WarehouseTransfers.Count() > 0)
+            if (model.WarehouseTransfers != null && model.WarehouseTransfers.Any())
             {
-                model.AtStockPile = (int)model.WarehouseTransfers?.OrderByDescending(t => t.TransferTimeStamp)
-                    .Select(f => f.TotalQuantity)
-                    .FirstOrDefault();
-                model.IncomePerTimeInterval = (int)model.WarehouseTransfers?.Select(t => t.LotQuantity).Sum();
+                double? first = null;
+                foreach (var f in model.WarehouseTransfers?.OrderByDescending(t => t.TransferTimeStamp))
+                {
+                    first = f.TotalQuantity;
+                    break;
+                }
+
+                if (first != null) model.AtStockPile = (int) first;
+                float? sum = 0;
+                foreach (var f in model.WarehouseTransfers?.Select(t =>
+                {
+                    if (t.LotQuantity != null)
+                        return t.LotQuantity;
+                    else
+                        return 0;
+                }))
+                {
+                    sum += f.Value;
+                }
+
+                model.IncomePerTimeInterval = (int)sum;
             }
 
             model.StockPileCapacity = (int)warehouse.TotalCapacity;
@@ -209,7 +241,7 @@ namespace CTS_Analytics.Factories
             var toShiftDate = _cdbService.GetEndShiftTime(warehouse.LocationID, fromShiftDate);
             var shiftransfers = _cdbService.GetWarehouseTransfers(warehouseID, fromShiftDate, toShiftDate)
                 .Select(t => t.LotQuantity);
-            model.IncomePerShift = (int)shiftransfers?.Sum();
+            model.IncomePerShift = int.Parse(shiftransfers?.Sum().ToString());
 
             return model;
         }
@@ -246,12 +278,10 @@ namespace CTS_Analytics.Factories
             model.RocksPerShift = shiftTransfers.Sum(s => s.LotQuantity) ?? 0;
 
             model.HasManualValues = rockTransfers
-                .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
-                .Any()
+                .Any(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
                 ||
                 shiftTransfers
-                .Where(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName)
-                .Any();
+                .Any(v => v.OperatorName != ProjectConstants.SystemPlarformOperatorName);
             return model;
         }
 
