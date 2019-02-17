@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using CTS_Models.DBContext;
 using System.Data.Entity.Migrations;
+using System.Configuration;
 
 namespace CTS_Core
 {
@@ -22,8 +23,10 @@ namespace CTS_Core
 			//int lastID;
 			List<WagonScale> wagonScales;
 			List<Item> items;
+            Int32.TryParse(ConfigurationManager.AppSettings["WagonDBSyncDepth_Days"] ,out int syncDepth);
+            var dueDate = syncDepth == 0 ? default(DateTime) : DateTime.Now.AddDays(syncDepth * -1);
 
-			try
+            try
 			{
 				using (CtsDbContext centralDB = new CtsDbContext())
 				{
@@ -42,6 +45,7 @@ namespace CTS_Core
 					transfers = wagDB.ves_vagon.Where(x => x.id_operator != null)
 												.Where(x => x.id_operator != 0)
 												.Where(x => x.sync != 1)
+                                                .Where(x => x.date_time_brutto >= dueDate)
 												.Include(m => m.scales)
 												.Include(h => h.napravlenie)
 												.Include(n => n.otpravl).Include(k => k.poluch).ToList();
@@ -55,31 +59,31 @@ namespace CTS_Core
 					{
 						using (var transaction = centralDB.Database.BeginTransaction())
 						{
-							foreach (var t in transfers)
+							foreach (var trans in transfers)
 							{
 								try
 								{
-									var scale = wagonScales.FirstOrDefault(x => x.LocationID == t.scales.name);
-									var item = items.Where(x => x.Name == t.gruz).FirstOrDefault();
+                                    var scale = GetCTSWagonScale(trans.scales.name, wagonScales);
+									var item = items.Where(x => x.Name == trans.gruz).FirstOrDefault();
 
 									var transfer = new WagonTransfer()
 									{
-										ID = t.id.ToString(),
-										TransferTimeStamp = t.date_time_brutto,
+										ID = trans.id.ToString(),
+										TransferTimeStamp = trans.date_time_brutto,
 										LasEditDateTime = DateTime.Now,
 										OperatorName = "DBSync",
-										LotName = t.id_sostav.ToString() ?? "",
-										SublotName = t.vagon_num ?? "",
-										OrderNumber = t.nakladn ?? "",
-										FromDestID = t.otpravl.name ?? "",
-										ToDest = t.poluch.display_name ?? "",
-										Tare = (float)t.ves_tara / 1000,
-										Brutto = (float)t.ves_brutto / 1000,
-										Netto = (float)t.ves_netto / 1000,
-										NettoByOrder = (float)t.ves_netto_docs / 1000,
+										LotName = trans.id_sostav.ToString() ?? "",
+										SublotName = trans.vagon_num ?? "",
+										OrderNumber = trans.nakladn ?? "",
+										FromDestID = trans.otpravl.name ?? "",
+										ToDest = trans.poluch.display_name ?? "",
+										Tare = (float)trans.ves_tara / 1000,
+										Brutto = (float)trans.ves_brutto / 1000,
+										Netto = (float)trans.ves_netto / 1000,
+										NettoByOrder = (float)trans.ves_netto_docs / 1000,
 										EquipID = (scale != null) ? scale.ID : 1,
 										ItemID = (item != null) ? item.ID : 1,
-										Direction = t.napravlenie.display_name ?? "",
+										Direction = trans.napravlenie.display_name ?? "",
 										IsValid = true,
 										Status = 0,
 									};
@@ -91,16 +95,16 @@ namespace CTS_Core
 									{
 										acceptedTransfers.Add(transfer);
 										centralDB.WagonTransfers.AddOrUpdate(transfer);
-										stringForLoggerAccepted = String.Concat(stringForLoggerAccepted, t.id, ";");
+										stringForLoggerAccepted = String.Concat(stringForLoggerAccepted, trans.id, ";");
 									}
 									else
 									{
-										stringForLoggerRejected = String.Concat(stringForLoggerRejected, t.id, ";");
+										stringForLoggerRejected = String.Concat(stringForLoggerRejected, trans.id, ";");
 									}
 								}
 								catch (Exception)
 								{
-									stringForLoggerWrong = String.Concat(stringForLoggerWrong, t.id, ";");
+									stringForLoggerWrong = String.Concat(stringForLoggerWrong, trans.id, ";");
 								}
 
 							}
@@ -202,5 +206,21 @@ namespace CTS_Core
 			}
 		}
 
-	}
+        private static WagonScale GetCTSWagonScale(string wagonDbScaleName, IEnumerable<WagonScale> ctsWagonScales)
+        {
+            switch (wagonDbScaleName.ToLower())
+            {
+                case "cofv_r1":
+                    return ctsWagonScales.FirstOrDefault(s => s.ID == 17); // ID=17 => ЮГ1
+                case "cofv_r2":
+                    return ctsWagonScales.FirstOrDefault(s => s.ID == 18); // ID=18 => ЮГ1
+                case "cofv_r3":
+                    return ctsWagonScales.FirstOrDefault(s => s.ID == 11); // ID=18 => Север
+                default:
+                    return ctsWagonScales.FirstOrDefault(x => x.LocationID == wagonDbScaleName);
+            }
+        }
+    }
+
+
 }

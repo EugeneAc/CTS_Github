@@ -20,7 +20,7 @@ namespace ServiceTestConsole
 				//CTS_BusinessProcesses.WagonDBSynchronizer.SyncWagonNums();
 				//CTS_BusinessProcesses.SkipWeightsHandler.ManageWeights();
 				//CTS_BusinessProcesses.WarehouseHandler.CalculateWarehouseTransferAutomatic();
-				CTS_Core.CtsEmailSender.SendMailTest();
+				//CTS_Core.CtsEmailSender.SendMailTest();
 			}
 		}
 	}
