@@ -415,7 +415,7 @@
     <value>Нормы потребления котельных</value>
   </data>
   <data name="BoilerConsumptionNorm" xml:space="preserve">
-    <value>Норма потребления в день, т</value>
+    <value>Норма потребления</value>
   </data>
   <data name="SkipWeightOrderNo" xml:space="preserve">
     <value>Номер приказа</value>
@@ -554,5 +554,8 @@
   </data>
   <data name="WagonSearch" xml:space="preserve">
     <value>Поиск вагона</value>
+  </data>
+  <data name="TonnsPerDay" xml:space="preserve">
+    <value>т/день</value>
   </data>
 </root>

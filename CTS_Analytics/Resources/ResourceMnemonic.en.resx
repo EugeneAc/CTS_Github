@@ -411,11 +411,8 @@
   <data name="SkipWeights" xml:space="preserve">
     <value>Skip weights</value>
   </data>
-  <data name="BoilerNorm" xml:space="preserve">
-    <value>Boiler units consumption</value>
-  </data>
   <data name="BoilerConsumptionNorm" xml:space="preserve">
-    <value>Daily consumption norm, t</value>
+    <value>Daily consumption</value>
   </data>
   <data name="SkipWeightOrderNo" xml:space="preserve">
     <value>Order number</value>
@@ -554,5 +551,11 @@
   </data>
   <data name="WagonSearch" xml:space="preserve">
     <value>Wagon search</value>
+  </data>
+  <data name="BoilerNorm" xml:space="preserve">
+    <value>Boiler consumption norm</value>
+  </data>
+  <data name="TonnsPerDay" xml:space="preserve">
+    <value>t/day</value>
   </data>
 </root>

@@ -142,7 +142,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Норма потребления в день, т.
+        ///   Looks up a localized string similar to Норма потребления.
         /// </summary>
         public static string BoilerConsumptionNorm {
             get {
@@ -1191,6 +1191,15 @@ namespace Resources {
         public static string Tonns {
             get {
                 return ResourceManager.GetString("Tonns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to т/день.
+        /// </summary>
+        public static string TonnsPerDay {
+            get {
+                return ResourceManager.GetString("TonnsPerDay", resourceCulture);
             }
         }
         

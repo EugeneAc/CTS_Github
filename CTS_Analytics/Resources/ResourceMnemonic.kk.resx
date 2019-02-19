@@ -415,7 +415,7 @@
     <value>Қазандықтарды тұтыну нормалары</value>
   </data>
   <data name="BoilerConsumptionNorm" xml:space="preserve">
-    <value>Күнгі тұтыну нормалары, т</value>
+    <value>Күнгі тұтыну</value>
   </data>
   <data name="SkipWeightOrderNo" xml:space="preserve">
     <value>Қаулы номері</value>
@@ -506,5 +506,8 @@
   </data>
   <data name="OpenSkipAct" xml:space="preserve">
     <value>Файл</value>
+  </data>
+  <data name="TonnsPerDay" xml:space="preserve">
+    <value>т/күн</value>
   </data>
 </root>

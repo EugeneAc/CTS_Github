@@ -4,6 +4,7 @@ using System;
 using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
+using StackExchange.Profiling;
 
 namespace CTS_Analytics.Services
 {
@@ -117,13 +118,17 @@ namespace CTS_Analytics.Services
 
         public IQueryable<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
         {
-            var db = new CtsTransferContext<TTransfer>();
-            return db.DbSet
-               .Where(s => s.EquipID == Id)
-               .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
-               .Where(v => v.IsValid == true)
-               .OrderByDescending(t => t.TransferTimeStamp)
-               .AsNoTracking();
+            CtsTransferContext<TTransfer> db = null;
+            using (MiniProfiler.Current.Step("EF Stuff"))
+            {
+                db = new CtsTransferContext<TTransfer>();
+                return db.DbSet
+                   .Where(s => s.EquipID == Id)
+                   .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
+                   .Where(v => v.IsValid == true)
+                   .OrderByDescending(t => t.TransferTimeStamp)
+                   .AsNoTracking();
+            }
         }
 
         public IQueryable<WagonTransfer> GetWagonTransfersIncludeLocations(int? wagonScaleID, DateTime fromDate, DateTime toDate)
@@ -145,7 +150,7 @@ namespace CTS_Analytics.Services
                .AsNoTracking();
         }
 
-        public IEnumerable<Location> GetAlllocaitons()
+        public IQueryable<Location> GetAlllocaitons()
         {
             return cdb.Locations;
         }
