@@ -87,12 +87,12 @@
         @{
             Model.Raspozn1.DivID = "recognize-mine6-1";
         }
-        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn1)
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn1, new ViewDataDictionary { { "raspoznName", Resources.ResourceMnemonic.Kost_raspozn1 } })
 
         @{
             Model.Raspozn2.DivID = "recognize-mine6-2";
         }
-        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn2)
+        @Html.Partial("Partials/_Raspozn4MineMnemonic", Model.Raspozn2, new ViewDataDictionary { { "raspoznName", Resources.ResourceMnemonic.Kost_raspozn2 } })
 
         <div class="buttons buttons-vert" id="btn_skip-mine6-1">
             <a href='@Url.Action("Alarm", "DashBoard")' class="libra green">@Resources.ResourceMnemonic.WeightBriges</a>

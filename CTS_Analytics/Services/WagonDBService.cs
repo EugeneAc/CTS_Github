@@ -26,14 +26,17 @@ namespace CTS_Analytics.Services
 
             var timeFrom = recognDateTime.AddSeconds(-2);
             var timeTo = recognDateTime.AddSeconds(2);
-            var photosDb = wagdb.vagon_nums
+            var images = wagdb.vagon_nums
                 .Where(t => t.date_time >= timeFrom & t.date_time <= timeTo)
-                .Where(v => ((v.number == wagonNumber) || (v.number_operator == wagonNumber)))
-                .ToList();
-            var photos = photosDb
+                .Where(v => ((v.number == wagonNumber) || (v.number_operator == wagonNumber))).Select(s => new
+                {
+                    img = s.img,
+                    img2 = s.img2
+                }).ToArray();
+            var photos = images
                 .Select(s => s.img != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img)) : null)
                 .ToList();
-            photos.AddRange(photosDb
+            photos.AddRange(images
                 .Select(s => s.img2 != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img2)) : null));
 
             if (photos == null || !photos.Any())
@@ -53,28 +56,26 @@ namespace CTS_Analytics.Services
 
         }
 
-        public List<MnemonicController.WagonNumDate> GetWagonNumsAndDates(int recognID, DateTime fromDate, DateTime toDate)
+        public IQueryable<RaspoznItem> GetWagonNumsAndDates(int recognID, DateTime fromDate, DateTime toDate)
         {
 
             var dbvagonNums = wagdb.vagon_nums
                 .Where(d => d.date_time >= fromDate && d.date_time <= toDate)
                 .Where(f => !string.IsNullOrEmpty(f.number) || !string.IsNullOrEmpty(f.number_operator))
                 .Where(i => i.recognid == recognID)
-                .Select(s => new MnemonicController.WagonNumDate
-                {
-                    WagonNum = s.number != null ? s.number :
+                .Select(s => new RaspoznItem
+                 {
+                     Date = s.date_time,
+                     WagonNumber = s.number != null ? s.number :
                     s.number_operator != null ? s.number_operator : "0",
-                    Date = s.date_time,
-                    IdSostav = s.id_sostav ?? 0
-                })
-                 .OrderByDescending(d => d.Date)
-                .ToList();
+                     IdSostav = s.id_sostav ?? 0
+                 }).OrderByDescending(d => d.Date);
 
             return dbvagonNums;
 
         }
 
-        public IEnumerable<WagonTransfer> GetDataFromWagonDB(DateTime fromDate, DateTime toDate, string locationID)
+        public IQueryable<WagonTransfer> GetDataFromWagonDB(DateTime fromDate, DateTime toDate, string locationID)
         {
             using (var wagdb = new WagonDBcontext())
             {
@@ -92,7 +93,7 @@ namespace CTS_Analytics.Services
                         FromDestID = s.otpravl.name,
                         IsValid = true,
                     }
-                    ).ToArray();
+                    );
                 return vagons.OrderByDescending(t => t.TransferTimeStamp);
             }
         }

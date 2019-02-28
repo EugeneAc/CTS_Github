@@ -43,14 +43,6 @@ namespace CTS_Analytics.Controllers
             this._wagDbService = new WagonDbService();
         }
 
-        public class WagonNumDate
-        {
-            public string WagonNum { get; set; }
-            public DateTime Date { get; set; }
-            public bool ManualFlag { get; set; }
-            public int IdSostav { get; set; }
-        }
-
         public ActionResult HseAlarm()
         {
             return View();
@@ -91,7 +83,7 @@ namespace CTS_Analytics.Controllers
                 model.BeltToVagon2 = Builder.GetBeltScaleModel(12);
                 model.BeltToBoiler = Builder.GetBeltScaleModel(13);
                 model.Vagon = Builder.GetWagonScaleModel(4);
-                model.Raspozn = Builder.GetRaspoznModel(9, 5);
+                model.Raspozn = Builder.GetRaspoznModel(19, 5); // саранская выезд
                 model.Sklad = Builder.GetWarehouseModel(6);
                 model.RockUtil = Builder.GetRockUtilModel(9); 
             model.Kotel = GetMineKotelModel("sar1");
@@ -110,10 +102,11 @@ namespace CTS_Analytics.Controllers
                 model.BeltPos9 = Builder.GetBeltScaleModel(22);
                 model.BeltBoiler = Builder.GetBeltScaleModel(24);
                 model.Vagon = Builder.GetWagonScaleModel(10);
-                model.Raspozn = Builder.GetRaspoznModel(1, 5);
+                model.Raspozn = Builder.GetRaspoznModel(17, 5);
                 model.Sklad = Builder.GetWarehouseModel(4);
                 model.RockUtil = Builder.GetRockUtilModel(5);
             model.Kotel = GetMineKotelModel("abay");
+
             return View(model);
         }
 
@@ -132,8 +125,8 @@ namespace CTS_Analytics.Controllers
                 model.BeltToBoiler = Builder.GetBeltScaleModel(10);
                 model.Vagon = Builder.GetWagonScaleModel(2);
                 model.Sklad = Builder.GetWarehouseModel(3);
-                model.Raspozn1 = Builder.GetRaspoznModel(4, 5);
-                model.Raspozn2 = Builder.GetRaspoznModel(4, 5);
+                model.Raspozn1 = Builder.GetRaspoznModel(22, 5); // Драмтеатр
+                model.Raspozn2 = Builder.GetRaspoznModel(23, 5); // Выезд
                 model.RockUtil38 = Builder.GetRockUtilModel(3);
                 model.RockUtil39 = Builder.GetRockUtilModel(3);
             model.Kotel = GetMineKotelModel("kost");
@@ -153,7 +146,7 @@ namespace CTS_Analytics.Controllers
                 model.BeltPos1L80_2 = Builder.GetBeltScaleModel(4);
                 model.Vagon = Builder.GetWagonScaleModel(3);
                 model.Sklad = Builder.GetWarehouseModel(2);
-                model.Raspozn = Builder.GetRaspoznModel(5, 5);
+                model.Raspozn = Builder.GetRaspoznModel(18, 5);
                 model.RockUtil = Builder.GetRockUtilModel(2);
             model.Kotel = GetMineKotelModel("kuz");
             return View(model);
@@ -186,7 +179,7 @@ namespace CTS_Analytics.Controllers
                 model.Belt1 = Builder.GetBeltScaleModel(18);
                 model.Belt2 = Builder.GetBeltScaleModel(19);
                 model.Vagon = Builder.GetWagonScaleModel(9);
-                model.Raspozn = Builder.GetRaspoznModel(3, 5);
+                model.Raspozn = Builder.GetRaspoznModel(24, 5);
                 model.RockUtil = Builder.GetRockUtilModel(4);
 
             model.Kotel = GetMineKotelModel("kaz");
@@ -204,9 +197,9 @@ namespace CTS_Analytics.Controllers
                 model.BeltToTech2 = Builder.GetBeltScaleModel(15);
                 model.VagonObogatitel = Builder.GetWagonScaleModel(5);
                 model.VagonSaburkhan = Builder.GetWagonScaleModel(5);
-                model.Raspozn1 = Builder.GetRaspoznModel(8, 5);
-                model.Raspozn2 = Builder.GetRaspoznModel(10, 5);
-                model.Sklad = Builder.GetWarehouseModel(7);
+                model.Raspozn1 = Builder.GetRaspoznModel(20, 5); // саранская 3 выезд запад
+                model.Raspozn2 = Builder.GetRaspoznModel(21, 5); // саранская 3 выезд восток
+            model.Sklad = Builder.GetWarehouseModel(7);
                 model.RockUtil = Builder.GetRockUtilModel(10);
 
             model.Kotel = GetMineKotelModel("sar3");
@@ -224,7 +217,7 @@ namespace CTS_Analytics.Controllers
                 model.Belt1 = Builder.GetBeltScaleModel(16);
                 model.Belt2 = Builder.GetBeltScaleModel(17);
                 model.Vagon = Builder.GetWagonScaleModel(8);
-                model.Raspozn = Builder.GetRaspoznModel(6, 5);
+                model.Raspozn = Builder.GetRaspoznModel(25, 5);
                 model.Sklad = Builder.GetWarehouseModel(8);
                 model.RockUtil = Builder.GetRockUtilModel(7);
             model.Kotel = GetMineKotelModel("len");
@@ -324,12 +317,13 @@ namespace CTS_Analytics.Controllers
 
             var fromDate = GetDateFromCookie("fromdate");
             var toDate = GetDateFromCookie("todate");
-            string locationID = "test";
-            using (var wagdb = new WagonDBcontext())
-            {
-                locationID = wagdb.recogn.Where(w => w.id == raspoznID).First().name;
-            }
+            var wagdb = new WagonDBcontext();
+            var  locationID = wagdb.recogn.Where(w => w.id == raspoznID).FirstOrDefault()?.name ?? "abay";
 
+            if (locationID.Contains("_"))
+            {
+                locationID = locationID.Substring(0, locationID.Length - 3);
+            }
             int pageSize = 24;
             int pageNumber = (page ?? 1);
             var model = new Mine_raspozn(locationID);
@@ -355,8 +349,9 @@ namespace CTS_Analytics.Controllers
 
         public string GetLocationNameOnCurrentLanguate(string locationID)
         {
-            using (var db = new CtsDbContext())
+            if (!string.IsNullOrEmpty(locationID))
             {
+                var db = new CtsDbContext();
                 var location = db.Locations.Find(locationID);
                 var name = location.LocationName;
                 if (getUserLang(Request.Cookies["lang"]) == "en")
@@ -370,6 +365,7 @@ namespace CTS_Analytics.Controllers
                 }
                 return name;
             }
+            return "";
         }
 
         #region GetMineEquipmentMethods

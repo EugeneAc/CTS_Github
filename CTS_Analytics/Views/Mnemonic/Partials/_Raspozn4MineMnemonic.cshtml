@@ -1,8 +1,11 @@
 ﻿@model CTS_Analytics.Models.Mnemonic.RaspoznModel
+    @{
+        var raspoznName = Resources.ResourceMnemonic.Recognition +" "+ ViewData["raspoznName"];
+     }
 <div class="block yellowtitle block_w4" id="@Model.DivID">
     <div class="title">
         <i class="icon icon_recognize"></i>
-        <a href='@Url.Action("Mine_raspozn", "Mnemonic", new {raspoznID = Model.RaspoznID})'>@Resources.ResourceMnemonic.Recognition</a>
+        <a href='@Url.Action("Mine_raspozn", "Mnemonic", new {raspoznID = Model.RaspoznID})'>@raspoznName</a>
 
     </div>
     @if (Model.RaspoznList != null && Model.RaspoznList.Any())

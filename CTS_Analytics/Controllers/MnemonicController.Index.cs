@@ -17,6 +17,28 @@ namespace CTS_Analytics.Controllers
 	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
 	public partial class MnemonicController : CtsAnalController
     {
+        class SkipIndexData
+        {
+            public string LocationID { get; set; }
+            public float ProdData { get; set; }
+            public string LiftingID { get; set; }
+        }
+
+        class WagonIndexData
+        {
+            public string LocationID { get; set; }
+            public string Direction { get; set; }
+            public float? Netto { get; set; }
+            public string ToDest { get; set; }
+        }
+
+        class StocpileIndexData
+        {
+            public string LocationID { get; set; }
+            public DateTime TransferTimeStamp { get; set; }
+            public double? TotalQuantity { get; set; }
+        }
+
         private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         private string[] _locations = new string[] { "shah", "kuz", "kost", "abay", "len", "sar1", "sar3", "kaz", "tent" };
 
@@ -109,9 +131,14 @@ namespace CTS_Analytics.Controllers
             {
                 var prodFactDataTask = Task.Run(() =>
                 {
-                    using (var cdb = new CtsDbContext())
-                    {
-                        var prodFactData = cdb.SkipTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Where(v => v.IsValid == true).ToArray();
+                    var cdb = new CtsDbContext();
+                    
+                        var prodFactData = cdb.SkipTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Where(v => v.IsValid == true).Select(s => new SkipIndexData()
+                        {
+                            LocationID = s.Equip.Location.ID,
+                            ProdData = s.SkipWeight,
+                            LiftingID = s.LiftingID
+                        }).ToArray();
                         model.Kuz.ProdFact = GetProductionData("kuz", prodFactData);
                         model.Kost.ProdFact = GetProductionData("kost", prodFactData);
                         model.Abay.ProdFact = GetProductionData("abay", prodFactData);
@@ -121,8 +148,6 @@ namespace CTS_Analytics.Controllers
                         model.Kaz.ProdFact = GetProductionData("kaz", prodFactData);
                         model.Shah.ProdFact = GetProductionData("shah", prodFactData);
                         model.Tent.ProdFact = (int)Builder.GetBeltScaleModel(21).ProductionPerTimeInterval;
-
-                    }
                 });
                 var planDataTask = Task.Run(() =>
                 {
@@ -139,9 +164,15 @@ namespace CTS_Analytics.Controllers
                 });
                 var shippedDataTask = Task.Run(() =>
                 {
-                    using (var cdb = new CtsDbContext())
-                    {
-                        var shippedData = cdb.WagonTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Where(v => v.IsValid == true).ToArray();
+                    var cdb = new CtsDbContext();
+                    
+                        var shippedData = cdb.WagonTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Where(v => v.IsValid == true).Select(s=> new WagonIndexData()
+                        {
+                            LocationID = s.Equip.LocationID,
+                            Direction = s.Direction,
+                            Netto = s.Netto,
+                            ToDest = s.ToDest
+                        }).ToArray();
                         model.Kuz.Shipped = GetShippedData("kuz", shippedData);
                         model.Kost.Shipped = GetShippedData("kost", shippedData);
                         model.Abay.Shipped = GetShippedData("abay", shippedData);
@@ -163,14 +194,19 @@ namespace CTS_Analytics.Controllers
                         model.StDubov.Income = GetStationIncome(shippedData, cdb.Locations.Find("sdub").LocationName);
                         model.StRaspor.Income = GetStationIncome(shippedData, cdb.Locations.Find("srasp").LocationName);
                         model.StUgler.Income = GetStationIncome(shippedData, cdb.Locations.Find("sugl").LocationName);
-                    }
+                    
                 });
 
                 var atStockpileTask = Task.Run(() =>
                 {
-                    using (var cdb = new CtsDbContext())
-                    {
-                        var skladData = cdb.WarehouseTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).ToArray();
+                    var cdb = new CtsDbContext();
+                    
+                        var skladData = cdb.WarehouseTransfers.Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate).Select(s=> new StocpileIndexData()
+                        {
+                            LocationID = s.Warehouse.LocationID,
+                            TransferTimeStamp = s.TransferTimeStamp,
+                            TotalQuantity = s.TotalQuantity
+                        }).ToArray();
                         model.Kuz.AtStockpile = GetStockpileValue("kuz", skladData);
                         model.Kost.AtStockpile = GetStockpileValue("kost", skladData);
                         model.Abay.AtStockpile = GetStockpileValue("abay", skladData);
@@ -180,13 +216,11 @@ namespace CTS_Analytics.Controllers
                         model.Kaz.AtStockpile = GetStockpileValue("kaz", skladData);
                         model.Shah.AtStockpile = GetStockpileValue("shah", skladData);
                         model.Tent.AtStockpile = GetStockpileValue("tent", skladData);
-                    }
+                    
                 });
 
                 var warningTask = Task.Run(() =>
                 {
-                    using (var cdb = new CtsDbContext())
-                    {
                         AlarmHepler.GetMineAlarmLevel(model.Kuz, fromDate, toDate);
                         AlarmHepler.GetMineAlarmLevel(model.Kost, fromDate, toDate);
                         AlarmHepler.GetMineAlarmLevel(model.Abay, fromDate, toDate);
@@ -196,7 +230,6 @@ namespace CTS_Analytics.Controllers
                         AlarmHepler.GetMineAlarmLevel(model.Kaz, fromDate, toDate);
                         AlarmHepler.GetMineAlarmLevel(model.Shah, fromDate, toDate);
                         AlarmHepler.GetMineAlarmLevel(model.Tent, fromDate, toDate);
-                    }
                 });
                 Task.WaitAll(prodFactDataTask, planDataTask, shippedDataTask, atStockpileTask, warningTask);
                 model.Abay.MineName = GetLocationNameOnCurrentLanguate("abay");
@@ -241,31 +274,31 @@ namespace CTS_Analytics.Controllers
                 toDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1);
         }
 
-        private int GetProductionData(string location, IEnumerable<SkipTransfer> data)
+        private int GetProductionData(string location, IEnumerable<SkipIndexData> data)
         {
-            var skipTransfers = data.Where(s => s.Equip.Location.ID == location && s.IsValid == true);
+            var skipTransfers = data.Where(s => s.LocationID == location);
             // var sum = skipTransfers?.Sum(st => st.SkipWeight); // Leave old calculation for a while
-            var sum = skipTransfers?.Select(st => int.Parse(st.LiftingID) * st.SkipWeight).Sum(); // TODO Change to this calculation when ready
+            var sum = skipTransfers?.Select(st => int.Parse(st.LiftingID) * st.ProdData).Sum(); // TODO Change to this calculation when ready
             return (int)sum;
         }
 
-		private int GetShippedData(string location, IEnumerable<WagonTransfer> data)
+		private int GetShippedData(string location, IEnumerable<WagonIndexData> data)
 		{
 			var temp = data
-                .Where(t => t.Equip.LocationID.Equals(location))
+                .Where(t => t.LocationID.Equals(location))
                 .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject);
 			return (int)temp?.Sum(tr => tr.Netto);
 		}
 
-		private float GetStationIncome(IEnumerable<WagonTransfer> data, string locationName = "")
+		private float GetStationIncome(IEnumerable<WagonIndexData> data, string locationName = "")
         {
-            return data.Where(d => d.ToDest == locationName && d.IsValid == true)?.Sum(tr => tr.Netto) ?? 0;
+            return data.Where(d => d.ToDest == locationName)?.Sum(tr => tr.Netto) ?? 0;
         }
 
-        private int GetStockpileValue(string locationName, IEnumerable<WarehouseTransfer> data)
+        private int GetStockpileValue(string locationName, IEnumerable<StocpileIndexData> data)
         {
-            var temp = data.Select(d => d.Warehouse.LocationID);
-            var localData = data.Where(t => t.Warehouse.LocationID.Equals(locationName));
+            var temp = data.Select(d => d.LocationID);
+            var localData = data.Where(t => t.LocationID.Equals(locationName));
             if (localData.Count() > 0)
             return (int)localData
                 .OrderBy(l => l.TransferTimeStamp)

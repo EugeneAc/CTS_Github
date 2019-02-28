@@ -558,4 +558,16 @@
   <data name="TonnsPerDay" xml:space="preserve">
     <value>т/день</value>
   </data>
+  <data name="Kost_raspozn1" xml:space="preserve">
+    <value>ст. Драмтеатр</value>
+  </data>
+  <data name="Kost_raspozn2" xml:space="preserve">
+    <value>Выезд</value>
+  </data>
+  <data name="Sar3_raspozn1" xml:space="preserve">
+    <value>Выезд Запад</value>
+  </data>
+  <data name="Sar3_raspozn2" xml:space="preserve">
+    <value>Выезд Восток</value>
+  </data>
 </root>

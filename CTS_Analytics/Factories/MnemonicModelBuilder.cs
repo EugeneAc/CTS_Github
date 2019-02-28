@@ -259,15 +259,7 @@ namespace CTS_Analytics.Factories
         {
             var model = new RaspoznModel();
             model.RaspoznID = recognID;
-            model.RaspoznList = _wagDbService.GetWagonNumsAndDates(recognID, fromDate, toDate)
-                .Select(s => new RaspoznItem
-            {
-                Date = s.Date,
-                WagonNumber = s.WagonNum,
-                ManualRecogn = s.ManualFlag,
-                IdSostav = s.IdSostav
-            })
-            .ToList();
+            model.RaspoznList = _wagDbService.GetWagonNumsAndDates(recognID, fromDate, toDate).ToList();
             for (int i = 0; i < model.RaspoznList.Count(); i++)
             {
                 if (i >= offset && i <= offset + takeCount)

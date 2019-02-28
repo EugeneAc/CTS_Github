@@ -421,6 +421,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ст. Драмтеатр.
+        /// </summary>
+        public static string Kost_raspozn1 {
+            get {
+                return ResourceManager.GetString("Kost_raspozn1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выезд.
+        /// </summary>
+        public static string Kost_raspozn2 {
+            get {
+                return ResourceManager.GetString("Kost_raspozn2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Шахта им. Костенко.
         /// </summary>
         public static string KostMineName {
@@ -930,6 +948,24 @@ namespace Resources {
         public static string Sar1MineName {
             get {
                 return ResourceManager.GetString("Sar1MineName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выезд Запад.
+        /// </summary>
+        public static string Sar3_raspozn1 {
+            get {
+                return ResourceManager.GetString("Sar3_raspozn1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выезд Восток.
+        /// </summary>
+        public static string Sar3_raspozn2 {
+            get {
+                return ResourceManager.GetString("Sar3_raspozn2", resourceCulture);
             }
         }
         
