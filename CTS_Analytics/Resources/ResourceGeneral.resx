@@ -264,4 +264,25 @@
   <data name="DateRangePickerDec" xml:space="preserve">
     <value>Декабрь</value>
   </data>
+  <data name="DateRangePickerMo" xml:space="preserve">
+    <value>Пн</value>
+  </data>
+  <data name="DateRangePickerTu" xml:space="preserve">
+    <value>Вт</value>
+  </data>
+  <data name="DateRangePickerWe" xml:space="preserve">
+    <value>Ср</value>
+  </data>
+  <data name="DateRangePickerTh" xml:space="preserve">
+    <value>Чт</value>
+  </data>
+  <data name="DateRangePickerFr" xml:space="preserve">
+    <value>Пт</value>
+  </data>
+  <data name="DateRangePickerSa" xml:space="preserve">
+    <value>Сб</value>
+  </data>
+  <data name="DateRangePickerSu" xml:space="preserve">
+    <value>Вс</value>
+  </data>
 </root>

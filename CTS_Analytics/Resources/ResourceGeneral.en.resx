@@ -124,7 +124,7 @@
     <value>Date:</value>
   </data>
   <data name="FieldRequired" xml:space="preserve">
-    <value>The field must be filled</value>
+    <value>Field Required</value>
   </data>
   <data name="HeadeaAppCaption" xml:space="preserve">
     <value>Coal Tracking System</value>
@@ -263,5 +263,26 @@
   </data>
   <data name="DateRangePickerDec" xml:space="preserve">
     <value>December</value>
+  </data>
+  <data name="DateRangePickerMo" xml:space="preserve">
+    <value>Mo</value>
+  </data>
+  <data name="DateRangePickerTu" xml:space="preserve">
+    <value>Tu</value>
+  </data>
+  <data name="DateRangePickerWe" xml:space="preserve">
+    <value>We</value>
+  </data>
+  <data name="DateRangePickerTh" xml:space="preserve">
+    <value>Th</value>
+  </data>
+  <data name="DateRangePickerFr" xml:space="preserve">
+    <value>Fr</value>
+  </data>
+  <data name="DateRangePickerSa" xml:space="preserve">
+    <value>Sa</value>
+  </data>
+  <data name="DateRangePickerSu" xml:space="preserve">
+    <value>Su</value>
   </data>
 </root>

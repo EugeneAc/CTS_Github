@@ -182,7 +182,7 @@
     @Scripts.Render("~/bundles/analscripts")
     @RenderSection("scripts", required: false)
     @using StackExchange.Profiling
-    @MiniProfiler.Current.RenderIncludes()
+    @*@MiniProfiler.Current.RenderIncludes()*@
     <script>
             $(function () {
             $('#locations').multiselect({
@@ -258,6 +258,16 @@
                     fromLabel: '@Resources.ResourceGeneral.DateRangePickerFromLabel',
                     toLabel: '@Resources.ResourceGeneral.DateRangePickerToLabel',
                     customRangeLabel: '@Resources.ResourceGeneral.DateRangePickerCustomRangeLabel',
+                    "daysOfWeek": [
+                        "@Resources.ResourceGeneral.DateRangePickerSu",
+                        "@Resources.ResourceGeneral.DateRangePickerMo",
+                        "@Resources.ResourceGeneral.DateRangePickerTu",
+                        "@Resources.ResourceGeneral.DateRangePickerWe",
+                        "@Resources.ResourceGeneral.DateRangePickerTh",
+                        "@Resources.ResourceGeneral.DateRangePickerFr",
+                        "@Resources.ResourceGeneral.DateRangePickerSa"
+                    ],
+                    "firstDay": 1,
                     monthNames: [
                         '@Resources.ResourceGeneral.DateRangePickerJan',
                         '@Resources.ResourceGeneral.DateRangePickerFeb',

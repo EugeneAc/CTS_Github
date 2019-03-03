@@ -57,10 +57,12 @@
 				<td>
 					<input type="button" name="EditButton" class="btn btn-primary btn-xs" value="Изменить" onclick="location.href='@Url.Action("Edit", "Warehouse", new { Id = mod.ID })'" />
 				</td>
-				@if (CTS_Manual_Input.Helpers.UserHelper.WarehouseSetUser(User.Identity.Name ?? ""))
-				{
-					<td>
-						<input type="button" name="SetBalanceButton" class="btn btn-danger btn-xs" value="Принять как баланс" onclick="ConfirmSetBalance('@Url.Action("SetNewBalance", "Warehouse", new { Id = mod.WarehouseID, Quantity = mod.TotalMeasured })')" />
+				@if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.WarehouseSetUserRoleName))
+                {
+
+                    <td>
+
+                        <input type="button" name="SetBalanceButton" class="btn btn-danger btn-xs" value="Принять как баланс" onclick="ConfirmSetBalance('@Url.Action("SetNewBalance", "Warehouse", new { Id = mod.WarehouseID, Quantity = mod.TotalMeasured })')" />
 					</td>
 				}
 			</tr>
