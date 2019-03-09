@@ -31,3 +31,11 @@
 .filter-element {
     margin-right: 30px;
 }
+
+.result .res{
+    display: none;
+}
+
+#scheme .result .res {
+    display: block;
+}

@@ -1,0 +1,142 @@
+﻿@model CTS_Analytics.Models.Mnemonic.cofvModel
+@{
+    Layout = "~/Views/Mnemonic/_MnemonicStation.cshtml";
+    ViewBag.PageName = Resources.ResourceGeneral.HeaderMainPageName;
+}
+
+
+<div class="main">
+    <div id="tsof2-more_bg">
+
+        @{
+            Model.FromShah.ViewId = "tsof2more-mine1";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromShah, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @{
+            Model.FromTent.ViewId = "tsof2more-mine2";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromTent, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+
+        @{
+            Model.FromKaz.ViewId = "tsof2more-mine3";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKaz, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @{
+            Model.FromLen.ViewId = "tsof2more-mine4";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromLen, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @{
+            Model.FromKuz.ViewId = "tsof2more-mine5";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKuz, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @{
+            Model.FromKost.ViewId = "tsof2more-mine6";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKost, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @{
+            Model.FromAbay.ViewId = "tsof2more-mine7";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromAbay, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @{
+            Model.FromSar.ViewId = "tsof2more-mine8";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromSar, new ViewDataDictionary { { "mainClass", "block block_w8" } })
+
+        @*-----------------Пришло------------------*@
+
+        @{
+            Model.FromShah_arrived.ViewId = "tsof2more-mine9";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromShah_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromTent_arrived.ViewId = "tsof2more-mine10";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromTent_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromKaz_arrived.ViewId = "tsof2more-mine11";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKaz_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromLen_arrived.ViewId = "tsof2more-mine12";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromLen_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromKuz_arrived.ViewId = "tsof2more-mine13";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKuz_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromKost_arrived.ViewId = "tsof2more-mine14";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromKost_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromAbay_arrived.ViewId = "tsof2more-mine15";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromAbay_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+        @{
+            Model.FromSar_arrived.ViewId = "tsof2more-mine16";
+        }
+
+        @Html.Partial("Partials/_WagonTransfers4StationMnemonic", Model.FromSar_arrived, new ViewDataDictionary { { "mainClass", "block block_w8" }, { "Arrived", Resources.ResourceMnemonic.Arrived } })
+
+
+        @{
+            Model.WagonScales.DivID = "tsof2-more-tsof-1";
+        }
+        @Html.Partial("Partials/_WagonScales4StationMnemonic", Model, new ViewDataDictionary { { "mainClass", "block browntitle block_w7" } })
+
+        @*---------------Индикаторы---------------------------*@
+
+        @AlarmIndicator("btn_tsof2-more-1", "green")
+
+        @AlarmIndicator("btn_tsof2-more-2", "green")
+
+        @AlarmIndicator("btn_tsof2-more-3", "green")
+
+        @AlarmIndicator("btn_tsof2-more-4", "green")
+
+        @AlarmIndicator("btn_tsof2-more-5", "green")
+
+        @AlarmIndicator("btn_tsof2-more-6", "green")
+
+        @AlarmIndicator("btn_tsof2-more-7", "green")
+
+        @AlarmIndicator("btn_tsof2-more-8", "green")
+    </div>
+</div>
+
+@helper AlarmIndicator(string id, string color)
+{
+    <div class="buttons buttons-horz horz-arrow" id="@id">
+        <a href="#" title="Весы" class="libra @color">Весы</a>
+        <a href="#" title="Направление" class="arrow-right green">Стрелка</a>
+    </div>
+}

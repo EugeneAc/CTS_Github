@@ -425,12 +425,15 @@
     <Content Include="Content\Mnemo\css\bootstrap.css" />
     <Content Include="Content\Mnemo\fonts\PTSans-Narrow.svg" />
     <Content Include="Content\Mnemo\fonts\PTSans-NarrowBold.svg" />
+    <Content Include="Content\Mnemo\images\bg.jpg" />
     <Content Include="Content\Mnemo\images\cts.png" />
     <Content Include="Content\Mnemo\images\favicon.ico" />
     <Content Include="Content\Mnemo\images\hand.png" />
+    <Content Include="Content\Mnemo\images\home_bg.jpg" />
     <Content Include="Content\Mnemo\images\icon-done.png" />
     <Content Include="Content\Mnemo\images\icon-hand.png" />
     <Content Include="Content\Mnemo\images\icon_incident.png" />
+    <Content Include="Content\Mnemo\images\icon_incident_mini.png" />
     <Content Include="Content\Mnemo\images\mine-circle.png" />
     <Content Include="Content\Mnemo\images\mine2_bg.jpg" />
     <Content Include="Content\Mnemo\images\mine3_bg.jpg" />
@@ -447,6 +450,8 @@
     <Content Include="Content\Mnemo\images\tech.png" />
     <Content Include="Content\Mnemo\images\train.png" />
     <Content Include="Content\Mnemo\images\tsof-circle.png" />
+    <Content Include="Content\Mnemo\images\tsof2more_bg.jpg" />
+    <Content Include="Content\Mnemo\images\tsof2_bg.jpg" />
     <Content Include="Content\Mnemo\images\tsof_bg.jpg" />
     <Content Include="Content\Mnemo\js\bootstrap.min.js" />
     <Content Include="Content\Mnemo\js\jquery.min.js" />
@@ -978,6 +983,8 @@
     <Content Include="Views\DashBoard\_DashLayout.cshtml" />
     <Content Include="Views\Mnemonic\Doc-detail\doc_detail_Wagon_search.cshtml" />
     <Content Include="Views\Mnemonic\home.cshtml" />
+    <Content Include="Views\Mnemonic\tsof2-more.cshtml" />
+    <Content Include="Views\Mnemonic\tsof2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Grafana\" />

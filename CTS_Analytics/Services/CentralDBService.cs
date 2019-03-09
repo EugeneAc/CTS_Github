@@ -50,7 +50,7 @@ namespace CTS_Analytics.Services
 
         public Location FindLocationByLocationID(string locationId)
         {
-            return cdb.Locations.Find(locationId); ;
+            return cdb.Locations.Find(locationId);
         }
 
         public TEquip FindEquipmentById<TEquip>(int Id) where TEquip : class, IEquip
@@ -118,17 +118,38 @@ namespace CTS_Analytics.Services
 
         public IQueryable<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
         {
-            CtsTransferContext<TTransfer> db = null;
-            using (MiniProfiler.Current.Step("EF Stuff"))
-            {
-                db = new CtsTransferContext<TTransfer>();
+             var db = new CtsTransferContext<TTransfer>();
                 return db.DbSet
                    .Where(s => s.EquipID == Id)
                    .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
                    .Where(v => v.IsValid == true)
                    .OrderByDescending(t => t.TransferTimeStamp)
                    .AsNoTracking();
-            }
+        }
+
+        public IQueryable<WagonTransfer> GetWagonTransfersSendFromMine(Location toDestLocation, DateTime fromDate, DateTime toDate, string fromMineId)
+        {
+                var db = new CtsTransferContext<WagonTransfer>();
+                return db.DbSet
+                .Where(t => t.Equip.Location.ID == fromMineId && t.IsValid == true)
+                .Where(t => t.ToDest.Contains(toDestLocation.LocationName) || t.ToDest == toDestLocation.ID)
+                .Where(t => t.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
+                .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
+                .AsNoTracking();
+        }
+
+        public IQueryable<WagonTransfer> GetWagonTransfersArrivedFromMine(string fromMineId, DateTime fromDate, DateTime toDate, string arrivedLocationId)
+        {
+            var db = new CtsTransferContext<WagonTransfer>();
+            var test = db.DbSet
+            .Where(t => t.Equip.Location.ID == arrivedLocationId && t.IsValid == true)
+            .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate).ToArray();
+            return db.DbSet
+            .Where(t => t.Equip.Location.ID == arrivedLocationId && t.IsValid == true)
+            .Where(t => t.FromDestID == fromMineId)
+            //.Where(t => t.Direction == CTS_Core.ProjectConstants.WagonDirection_ToObject)
+            .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
+            .AsNoTracking();
         }
 
         public IQueryable<WagonTransfer> GetWagonTransfersIncludeLocations(int? wagonScaleID, DateTime fromDate, DateTime toDate)
@@ -153,6 +174,34 @@ namespace CTS_Analytics.Services
         public IQueryable<Location> GetAlllocaitons()
         {
             return cdb.Locations;
+        }
+
+        public int GetLocationIncome(string locationId, DateTime fromDate, DateTime toDate)
+        {
+            return (int)cdb.WagonTransfers
+                .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
+                .Where(d => d.ToDest == locationId && d.IsValid == true)
+                .Select(t => t.Brutto)
+                .DefaultIfEmpty()
+                .Sum();
+        }
+
+        public int GetLocationOutcome(string locationId, DateTime fromDate, DateTime toDate)
+        {
+            return (int)cdb.WagonTransfers
+                .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
+                .Where(d => d.Equip.Location.ID == locationId && d.IsValid == true)
+                .Select(t => t.Brutto)
+                .DefaultIfEmpty()
+                .Sum();
+        }
+
+        public int GetWagonScalesIdOnLocation(string locationId)
+        {
+            return cdb.WagonScales
+                .Where(m => m.Location.ID == locationId)
+                .FirstOrDefault()?
+                .ID ?? 1;
         }
     }
 }

@@ -61,7 +61,7 @@ namespace CTS_Analytics.Controllers
             var model = new shahModel();
 
             model.DetailsViewName = "doc_detail_shah";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.Skip = Builder.GetSkipModel(4);
                 model.Belt = Builder.GetBeltScaleModel(5);
                 model.Vagon = Builder.GetWagonScaleModel(7);
@@ -76,7 +76,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new sar1Model();
             model.DetailsViewName = "doc_detail_sar";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.Skip1 = Builder.GetSkipModel(7);
                 model.Skip2 = Builder.GetSkipModel(8);
                 model.BeltToVagon1 = Builder.GetBeltScaleModel(11);
@@ -95,7 +95,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new abayModel();
             model.DetailsViewName = "doc_detail_abay";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.Skip1 = Builder.GetSkipModel(17);
                 model.Skip2 = Builder.GetSkipModel(18);
                 model.BeltPos1 = Builder.GetBeltScaleModel(23);
@@ -115,7 +115,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new kostModel();
             model.DetailsViewName = "doc_detail_kost";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.Skip6t = Builder.GetSkipModel(5);
                 model.Skip9t = Builder.GetSkipModel(6);
                 model.BeltFromSkip6t = Builder.GetBeltScaleModel(6);
@@ -138,7 +138,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new kuzModel();
             model.DetailsViewName = "doc_detail_kuz";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.SkipPos1 = Builder.GetSkipModel(3);
                 model.SkipPos2 = Builder.GetSkipModel(2);
                 model.BeltPos44 = Builder.GetBeltScaleModel(2);
@@ -157,7 +157,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new tentModel();
             model.DetailsViewName = "doc_detail_tent";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.SkipPos1 = Builder.GetSkipModel(11);
                 model.SkipPos2 = Builder.GetSkipModel(12);
                 model.BeltToTechComplex = Builder.GetBeltScaleModel(21);
@@ -173,7 +173,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new kazModel();
             model.DetailsViewName = "doc_detail_kaz";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.SkipPos1 = Builder.GetSkipModel(15);
                 model.SkipPos2 = Builder.GetSkipModel(16);
                 model.Belt1 = Builder.GetBeltScaleModel(18);
@@ -191,7 +191,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new sar3Model();
             model.DetailsViewName = "doc_detail_sar";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.Skip = Builder.GetSkipModel(10);
                 model.BeltToTech1 = Builder.GetBeltScaleModel(14);
                 model.BeltToTech2 = Builder.GetBeltScaleModel(15);
@@ -211,7 +211,7 @@ namespace CTS_Analytics.Controllers
         {
             var model = new lenModel();
             model.DetailsViewName = "doc_detail_len";
-                Builder.GetGeneralData(model);
+                Builder.GetGeneralMineData(model);
                 model.SkipPos1 = Builder.GetSkipModel(13);
                 model.SkipPos2 = Builder.GetSkipModel(14);
                 model.Belt1 = Builder.GetBeltScaleModel(16);
@@ -315,8 +315,6 @@ namespace CTS_Analytics.Controllers
         public ActionResult Mine_raspozn(int raspoznID, int? page, string wagonNumberFilter="")
         {
 
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
             var wagdb = new WagonDBcontext();
             var  locationID = wagdb.recogn.Where(w => w.id == raspoznID).FirstOrDefault()?.name ?? "abay";
 

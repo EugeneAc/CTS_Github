@@ -570,4 +570,13 @@
   <data name="Sar3_raspozn2" xml:space="preserve">
     <value>Выезд Восток</value>
   </data>
+  <data name="Arrived" xml:space="preserve">
+    <value>Прибыло</value>
+  </data>
+  <data name="PerShift" xml:space="preserve">
+    <value>За смену</value>
+  </data>
+  <data name="PerPeriod" xml:space="preserve">
+    <value>За период</value>
+  </data>
 </root>

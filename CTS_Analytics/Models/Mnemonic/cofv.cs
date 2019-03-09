@@ -18,5 +18,14 @@ namespace CTS_Analytics.Models.Mnemonic
 
         public int ConcShippedToSabay { get; set; }
         public int PrpodShippedToSabay { get; set; }
+
+        public FromStationData FromShah_arrived { get; set; }
+        public FromStationData FromTent_arrived { get; set; }
+        public FromStationData FromKaz_arrived { get; set; }
+        public FromStationData FromLen_arrived { get; set; }
+        public FromStationData FromKuz_arrived { get; set; }
+        public FromStationData FromKost_arrived { get; set; }
+        public FromStationData FromAbay_arrived { get; set; }
+        public FromStationData FromSar_arrived { get; set; }
     }
 }

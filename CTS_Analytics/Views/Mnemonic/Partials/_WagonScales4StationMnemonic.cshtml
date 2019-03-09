@@ -1,7 +1,10 @@
-﻿@using System.Linq;
+﻿
 @model CTS_Analytics.Models.Mnemonic.Station
-
-    <div class="block bluetitle gray" id="@Model.WagonScales.DivID">
+@{ 
+    var mainClass = ViewData["mainClass"] ?? "block bluetitle gray";
+   
+}
+    <div class="@mainClass" id="@Model.WagonScales.DivID">
         <div class="title">
             <i class="icon icon_vagon"></i>
             <a href='@Url.Action("Mine_vagon", "Mnemonic", new {ID = Model.LocationID, wagonScaleID = Model.WagonScales.WagonScalesID})'>@Model.StationName</a>

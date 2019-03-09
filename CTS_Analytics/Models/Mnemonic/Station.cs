@@ -1,6 +1,7 @@
 ﻿using CTS_Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CTS_Analytics.Models.Mnemonic
 {
@@ -21,7 +22,7 @@ namespace CTS_Analytics.Models.Mnemonic
 
         public class FromStationData
         {
-            public List<WagonTransfer> WagonTransfers { get; set; }
+            public IQueryable<WagonTransfer> WagonTransfers { get; set; }
             public string ViewId { get; set; }
             public string MineName { get; set; }
             public string MineID { get; set; }

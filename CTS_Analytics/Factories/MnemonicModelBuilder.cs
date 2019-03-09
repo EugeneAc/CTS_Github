@@ -25,7 +25,7 @@ namespace CTS_Analytics.Factories
             this.toDate = toDate;
         }
 
-        public void GetGeneralData(MineGeneral model)
+        public void GetGeneralMineData(MineGeneral model)
         {
             model.ProdPlan = _cdbService.GetPlanData(model.LocationID, fromDate, toDate);
             var location = _cdbService.FindLocationByLocationID(model.LocationID);
@@ -53,19 +53,8 @@ namespace CTS_Analytics.Factories
 
             var model = new Mine_skip(skip.LocationID);
             model.SkipID = skipID;
-            model.SkipName = skip.Name;
-            model.MineName = skip.Location.LocationName;
-            if (userLanguage == "en")
-            {
-                model.SkipName = skip.NameEng;
-                model.MineName = skip.Location.LocationNameEng;
-            }
-
-            if (userLanguage == "kk")
-            {
-                model.SkipName = skip.NameKZ;
-                model.MineName = skip.Location.LocationNameKZ;
-            }
+            model.SkipName = GetEquipNameOnCurrentLanguate(skip);
+            model.MineName = GetLocationNameOnCurrentLanguate(skip.LocationID);
 
             model.SkipTransfers = _cdbService.GetTransfers<SkipTransfer>(skipID, fromDate, toDate).AsEnumerable();
             model.TotalSkipsPerTimeInterval = model.SkipTransfers.Sum(s => int.Parse(s.LiftingID));
@@ -94,19 +83,8 @@ namespace CTS_Analytics.Factories
             var belt = _cdbService.FindEquipmentById<BeltScale>(beltID);
             var model = new Mine_konv(belt.LocationID);
             model.BeltID = beltID;
-            model.KonvName = belt.Name;
-            model.MineName = belt.Location.LocationName;
-            if (userLanguage == "en")
-            {
-                model.KonvName = belt.NameEng;
-                model.MineName = belt.Location.LocationNameEng;
-            }
-
-            if (userLanguage == "kk")
-            {
-                model.KonvName = belt.NameKZ;
-                model.MineName = belt.Location.LocationNameKZ;
-            }
+            model.KonvName = GetEquipNameOnCurrentLanguate(belt);
+            model.MineName = GetLocationNameOnCurrentLanguate(belt.LocationID);
 
             model.BeltTransfers = _cdbService.GetTransfers<BeltTransfer>(beltID, fromDate, toDate);
             model.ProductionPerTimeInterval = model.BeltTransfers.Sum(t => t.LotQuantity).GetValueOrDefault();
@@ -128,8 +106,8 @@ namespace CTS_Analytics.Factories
             var wagonScale = _cdbService.FindEquipmentById<WagonScale>(wagonScaleID);
             var model = new Mine_vagon(wagonScale.LocationID);
             model.WagonScaleID = wagonScaleID;
-            model.WagonScaleName = wagonScale.Name;
-            model.MineName = wagonScale.Location.LocationName;
+            model.WagonScaleName = GetEquipNameOnCurrentLanguate(wagonScale);
+            model.MineName = GetLocationNameOnCurrentLanguate(wagonScale.LocationID);
 
             model.WagonTransfers = _cdbService.GetTransfers<WagonTransfer>(wagonScaleID, fromDate, toDate);
             //model.WagonTransfers.AddRange(GetDataFromWagonDB(fromDate, toDate, wagonScale.LocationID)); // To get data from wagonDB
@@ -148,7 +126,7 @@ namespace CTS_Analytics.Factories
                 lastTrainTransfers = model.WagonTransfers.GroupBy(l => l.LotName)
                                     .First()
                                     .ToList();
-                model.LastTrainDirection = lastTrainTransfers.Select(x => x.ToDest).FirstOrDefault();
+                model.LastTrainDirection = lastTrainTransfers.Select(x => x.Direction).FirstOrDefault();
                 model.ShippedToLastTrainDateTime = lastTrainTransfers.Select(x => x.TransferTimeStamp).FirstOrDefault();
                 model.LastTrainVagonCount = lastTrainTransfers.Count();
                 float? sum1 = 0;
@@ -159,18 +137,6 @@ namespace CTS_Analytics.Factories
                 }
 
                 model.ShippedToLastTrainTonns = (float)sum1;
-            }
-
-            if (userLanguage == "en")
-            {
-                model.WagonScaleName = wagonScale.NameEng;
-                model.MineName = wagonScale.Location.LocationNameEng;
-            }
-
-            if (userLanguage == "kk")
-            {
-                model.WagonScaleName = wagonScale.NameKZ;
-                model.MineName = wagonScale.Location.LocationNameKZ;
             }
 
             model.HasManualValues = model
@@ -188,16 +154,7 @@ namespace CTS_Analytics.Factories
             var model = new Mine_sklad(warehouse.LocationID);
             model.WarehouseID = warehouseID;
             model.MineName = GetLocationNameOnCurrentLanguate(warehouse.LocationID);
-            model.WarehouseName = warehouse.Name;
-            if (userLanguage == "en")
-            {
-                model.WarehouseName = warehouse.NameEng;
-            }
-
-            if (userLanguage == "kk")
-            {
-                model.WarehouseName = warehouse.NameKZ;
-            }
+            model.WarehouseName = GetEquipNameOnCurrentLanguate(warehouse);
             model.WarehouseTransfers = _cdbService.GetWarehouseTransfers(warehouseID, fromDate, toDate);
 
             if (model.WarehouseTransfers != null && model.WarehouseTransfers.Any())
@@ -226,7 +183,7 @@ namespace CTS_Analytics.Factories
             }
 
             var model = new Mine_rockUtil(rockUtil.LocationID);
-            model.MineName = rockUtil.Location.LocationName;
+            model.MineName = GetLocationNameOnCurrentLanguate(rockUtil.LocationID);
             model.RockUtilName = rockUtil.Name;
             if (userLanguage == "en")
             {
@@ -273,6 +230,44 @@ namespace CTS_Analytics.Factories
             return model;
         }
 
+        public void GetGeneralStationData(Station model)
+        {
+            model.StationName = GetLocationNameOnCurrentLanguate(model.LocationID);
+
+            model.TotalIncome = _cdbService.GetLocationIncome(model.LocationID, fromDate, toDate);
+
+            model.TotalOutcome = _cdbService.GetLocationOutcome(model.LocationID, fromDate, toDate);
+            model.FromAbay = GetFromMineData(model.LocationID, "abay");
+            model.FromCof = GetFromMineData(model.LocationID, "cofv");
+            model.FromKaz = GetFromMineData(model.LocationID, "kaz");
+            model.FromKost = GetFromMineData(model.LocationID, "kost");
+            model.FromKuz = GetFromMineData(model.LocationID, "kuz");
+            model.FromLen = GetFromMineData(model.LocationID, "len");
+            model.FromSar = GetFromMineData(model.LocationID, "sar");
+            model.FromShah = GetFromMineData(model.LocationID, "shah");
+            model.FromTent = GetFromMineData(model.LocationID, "tent");
+            GetStationWagonScalesData(model);
+        }
+
+        public Station.FromStationData GetFromMineData(string destLocationId, string fromMineId, bool arrived = false)
+        {
+            var fromStationData = new Station.FromStationData();
+            if (arrived)
+            {
+                fromStationData.WagonTransfers = _cdbService.GetWagonTransfersArrivedFromMine(fromMineId, fromDate, toDate, destLocationId);
+            }
+            else
+            {
+                fromStationData.WagonTransfers = _cdbService.GetWagonTransfersSendFromMine(_cdbService.FindLocationByLocationID(destLocationId), fromDate, toDate, fromMineId);
+            }
+
+            var location = _cdbService.FindLocationByLocationID(fromMineId);
+            fromStationData.MineID = location.ID;
+            fromStationData.MineName = GetLocationNameOnCurrentLanguate(location.ID);
+
+            return fromStationData;
+        }
+
         private string GetLocationNameOnCurrentLanguate(string locationID)
         {
             var location = _cdbService.FindLocationByLocationID(locationID);
@@ -288,6 +283,38 @@ namespace CTS_Analytics.Factories
             }
 
             return name;
+        }
+
+        private string GetEquipNameOnCurrentLanguate(IEquip entity)
+        {
+            var name = entity.Name;
+            if (userLanguage == "en")
+            {
+                name = entity.NameEng;
+            }
+
+            if (userLanguage == "kk")
+            {
+                name = entity.NameKZ;
+            }
+
+            return name;
+        }
+
+        private void GetStationWagonScalesData(Station model)
+        {
+            var location = _cdbService.FindLocationByLocationID(model.LocationID);
+            model.WagonScales = new Station.Station_wagon();
+            model.WagonScales.WagonScalesID = _cdbService.GetWagonScalesIdOnLocation(model.LocationID);
+
+            var wagonScaleModel = GetWagonScaleModel(model.WagonScales.WagonScalesID);
+            model.WagonScales.TotalWagons = wagonScaleModel.WagonTransfers.Count();
+            model.WagonScales.TotalTonns = (int)wagonScaleModel.WagonTransfers.Select(t => t.Brutto).Sum();
+            model.WagonScales.LastTrainDirection = wagonScaleModel.LastTrainDirection;
+            model.WagonScales.LastTrainItem = wagonScaleModel.WagonTransfers.FirstOrDefault()?.Item?.Name;
+            model.WagonScales.LastTrainNumber = wagonScaleModel.WagonTransfers.FirstOrDefault()?.LotName;
+            model.WagonScales.LastTrainTime = wagonScaleModel.WagonTransfers.FirstOrDefault()?.TransferTimeStamp ?? new DateTime();
+            model.WagonScales.LastTrainWagonCount = (int)wagonScaleModel.LastTrainVagonCount;
         }
     }
 }

@@ -10,10 +10,10 @@
     <link href="~/Content/Mnemo/style/pt-sans.css" rel="stylesheet">
     <!-- Bootstrap-->
     <link href="~/Content/Mnemo/css/bootstrap.min.css" rel="stylesheet">
-    @Styles.Render("~/Content/css")
     <link href="~/Content/Mnemo/style/fonts.css" rel="stylesheet">
     <link href="~/Content/Mnemo/style/style.css" rel="stylesheet">
     <link href="~/Content/Mnemo/style/responsive.css" rel="stylesheet">
+    @Styles.Render("~/Content/css") 
     <link href="~/Content/Mnemo/style/jquery.fancybox.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/Content/Mnemo/tooltipster/dist/css/tooltipster.bundle.min.css" />
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -27,16 +27,15 @@
     <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
 
 
-    <script type = 'text/javascript' >
-        var appInsights=window.appInsights||function(config)
-        {
-            function r(config){ t[config] = function(){ var i = arguments; t.queue.push(function(){ t[config].apply(t, i)})} }
-            var t = { config:config},u=document,e=window,o='script',s=u.createElement(o),i,f;for(s.src=config.url||'//az416426.vo.msecnd.net/scripts/a/ai.0.js',u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=['Event','Exception','Metric','PageView','Trace','Ajax'];i.length;)r('track'+i.pop());return r('setAuthenticatedUserContext'),r('clearAuthenticatedUserContext'),config.disableExceptionTracking||(i='onerror',r('_'+i),f=e[i],e[i]=function(config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t['_' + i](config, r, u, e, o),s}),t
+    <script type='text/javascript'>
+        var appInsights = window.appInsights || function (config) {
+            function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } }
+            var t = { config: config }, u = document, e = window, o = 'script', s = u.createElement(o), i, f; for (s.src = config.url || '//az416426.vo.msecnd.net/scripts/a/ai.0.js', u.getElementsByTagName(o)[0].parentNode.appendChild(s), t.cookie = u.cookie, t.queue = [], i = ['Event', 'Exception', 'Metric', 'PageView', 'Trace', 'Ajax']; i.length;)r('track' + i.pop()); return r('setAuthenticatedUserContext'), r('clearAuthenticatedUserContext'), config.disableExceptionTracking || (i = 'onerror', r('_' + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t['_' + i](config, r, u, e, o), s }), t
         }({
-            instrumentationKey:'c7d1f5e1-b91f-4421-956c-28b9d8f193a4'
+            instrumentationKey: 'c7d1f5e1-b91f-4421-956c-28b9d8f193a4'
         });
-        
-        window.appInsights=appInsights;
+
+        window.appInsights = appInsights;
         appInsights.trackPageView();
     </script>
 </head>

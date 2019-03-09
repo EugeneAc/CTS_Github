@@ -28,7 +28,7 @@ namespace CTS_Analytics.Controllers
         {
             public string LocationID { get; set; }
             public string Direction { get; set; }
-            public float? Netto { get; set; }
+            public float? Brutto { get; set; }
             public string ToDest { get; set; }
         }
 
@@ -170,7 +170,7 @@ namespace CTS_Analytics.Controllers
                         {
                             LocationID = s.Equip.LocationID,
                             Direction = s.Direction,
-                            Netto = s.Netto,
+                            Brutto = s.Brutto,
                             ToDest = s.ToDest
                         }).ToArray();
                         model.Kuz.Shipped = GetShippedData("kuz", shippedData);
@@ -258,22 +258,6 @@ namespace CTS_Analytics.Controllers
             return model;
         }
 
-        private void GetDatesFromCookies(double fromdate, double todate, out DateTime fromDate, out DateTime toDate)
-        {
-            HttpCookie fromDateCoookie = Request.Cookies["fromdate"];
-            HttpCookie toDateCoookie = Request.Cookies["todate"];
-            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
-            if (fromdate != 0)
-                fromDate = epoch.AddMilliseconds(fromdate);
-            else
-                fromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-
-            if (todate != 0)
-                toDate = epoch.AddMilliseconds(todate);
-            else
-                toDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1);
-        }
-
         private int GetProductionData(string location, IEnumerable<SkipIndexData> data)
         {
             var skipTransfers = data.Where(s => s.LocationID == location);
@@ -287,12 +271,12 @@ namespace CTS_Analytics.Controllers
 			var temp = data
                 .Where(t => t.LocationID.Equals(location))
                 .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject);
-			return (int)temp?.Sum(tr => tr.Netto);
+			return (int)temp?.Sum(tr => tr.Brutto);
 		}
 
 		private float GetStationIncome(IEnumerable<WagonIndexData> data, string locationName = "")
         {
-            return data.Where(d => d.ToDest == locationName)?.Sum(tr => tr.Netto) ?? 0;
+            return data.Where(d => d.ToDest == locationName)?.Sum(tr => tr.Brutto) ?? 0;
         }
 
         private int GetStockpileValue(string locationName, IEnumerable<StocpileIndexData> data)

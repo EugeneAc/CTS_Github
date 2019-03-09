@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Прибыло.
+        /// </summary>
+        public static string Arrived {
+            get {
+                return ResourceManager.GetString("Arrived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Стрелка.
         /// </summary>
         public static string Arrow {
@@ -750,6 +759,24 @@ namespace Resources {
         public static string OrderNumber {
             get {
                 return ResourceManager.GetString("OrderNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to За период.
+        /// </summary>
+        public static string PerPeriod {
+            get {
+                return ResourceManager.GetString("PerPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to За смену.
+        /// </summary>
+        public static string PerShift {
+            get {
+                return ResourceManager.GetString("PerShift", resourceCulture);
             }
         }
         

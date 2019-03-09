@@ -1,34 +1,59 @@
 ﻿@using System.Linq;
 @model CTS_Analytics.Models.Mnemonic.Station.FromStationData
 
-@{ 
+@{
     var lastTrainTransferTimeStamp = string.Empty;
-    if (Model.WagonTransfers.Count > 0)
+    float brutto = 0;
+    if (Model.WagonTransfers.Any())
     {
         lastTrainTransferTimeStamp = Model.WagonTransfers
             .OrderByDescending(t => t.TransferTimeStamp)
             .FirstOrDefault()
             .TransferTimeStamp
             .ToString("HH:mm");
+        brutto = Model.WagonTransfers.Select(s => s.Brutto).Sum();
     }
-}
-    <div class="block block_w5" id=@Model.ViewId>
-        <div class="title">
-            <i class="icon icon_mine"></i>
-            <a href='@Url.Action(Model.MineID, "Mnemonic")'>@Model.MineName</a>
 
-        </div>
-        <div class="text">
-            <div class="line2">
+    var mainClass = ViewData["mainClass"] ?? "block block_w5";
+    var FromOrFrom_arrived = ViewData["Arrived"] ?? Resources.ResourceMnemonic.ShippedShort;
+}
+<div class='@mainClass' id=@Model.ViewId>
+    <div class="title">
+        <i class="icon icon_mine"></i>
+        <a href='@Url.Action(Model.MineID, "Mnemonic")'>@Model.MineName</a>
+
+    </div>
+    <div class="text">
+        <div class="line2">
+            @if (mainClass.ToString() != "block block_w8")
+            {
                 <span class="name">@Resources.ResourceMnemonic.ShippedShort</span>
                 <div class="count">@Model.WagonTransfers.Count()</div>
                 <span class="caption">@Resources.ResourceMnemonic.Wagons</span>
-                <div class="count count2">@Model.WagonTransfers.Select(s => s.Brutto).Sum()</div>
+                <div class="count count2">@brutto</div>
                 <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
 
                 <span class="name2">@Resources.ResourceMnemonic.LastTrainLoadingTimeShort</span>
                 <div class="count">@lastTrainTransferTimeStamp</div>
-                <div class="clearfix"></div>
+
+            }
+            else if (mainClass.ToString() == "block block_w8")
+            {
+                <div class="mini_bl">
+                    <span class="name">@FromOrFrom_arrived</span>
+                    <div class="count">@Model.WagonTransfers.Count()</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Wagons</span>
+                </div>
+                <div class="mini_bl">
+                    <div class="count count2">@brutto</div>
+                    <span class="caption">@Resources.ResourceMnemonic.Tonns</span>
+                </div>
+                @*<div class="mini_bl last">
+                    <span class="name2" @Resources.ResourceMnemonic.LastTrainLoadingTimeShort</span>
+                    <div class="count">@lastTrainTransferTimeStamp</div>
+                </div>*@
+            }
+            <div class="clearfix"></div>
         </div>
     </div>
 </div>

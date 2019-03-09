@@ -570,4 +570,13 @@
   <data name="Sar3_raspozn2" xml:space="preserve">
     <value>East exit</value>
   </data>
+  <data name="Arrived" xml:space="preserve">
+    <value>Arrived</value>
+  </data>
+  <data name="PerShift" xml:space="preserve">
+    <value>Per shift</value>
+  </data>
+  <data name="PerPeriod" xml:space="preserve">
+    <value>Per period</value>
+  </data>
 </root>
