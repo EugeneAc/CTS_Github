@@ -2,11 +2,12 @@
 @model CTS_Analytics.Models.Mnemonic.Mine_vagon
 
 @{
-    var blockClass = Model.HasManualValues ? "hand-type" : "";
+    var handClass = Model.HasManualValues ? "hand-type" : "";
     var lastTrainTime = Model.ShippedToLastTrainDateTime != null ? Model.ShippedToLastTrainDateTime.Value.ToString("HH:mm") : "";
+    var mainClass = ViewData["mainClass"] ?? "block browntitle block_w2";
 }
 
-<div class="block browntitle block_w2 @blockClass" id="@Model.DivID">
+<div class="@mainClass @handClass" id="@Model.DivID">
     <div class="title">
         <i class="icon icon_vagon"></i>
         <a href='@Url.Action("Mine_vagon", "Mnemonic", new {ID = Model.ReturnID, wagonScaleID = Model.WagonScaleID})'>@Model.WagonScaleName</a>
@@ -63,14 +64,17 @@
                 </tr>
             </thead>
             @{
-                foreach (var transfer in Model.WagonTransfers.Take(5).OrderByDescending(t => t.TransferTimeStamp))
+                if (Model.WagonTransfers != null)
                 {
-                    <tr class="odd">
-                        <td>@transfer.TransferTimeStamp.ToString("HH:mm dd.MM.yyyy")</td>
-                        <td>@transfer.LotName</td>
-                        <td>@transfer.Brutto</td>
-                        <td>@transfer.Netto</td>
-                    </tr>
+                    foreach (var transfer in Model.WagonTransfers.Take(5).OrderByDescending(t => t.TransferTimeStamp))
+                    {
+                        <tr class="odd">
+                            <td>@transfer.TransferTimeStamp.ToString("HH:mm dd.MM.yyyy")</td>
+                            <td>@transfer.LotName</td>
+                            <td>@transfer.Brutto</td>
+                            <td>@transfer.Netto</td>
+                        </tr>
+                    }
                 }
             }
         </table>

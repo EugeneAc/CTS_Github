@@ -63,7 +63,10 @@ namespace CTS_Analytics.Factories
 
             var fromShiftDate = _cdbService.GetStartShiftTime(skip.LocationID);
             var toShiftDate = _cdbService.GetEndShiftTime(skip.LocationID, fromShiftDate);
-            var shiftskiptransfers = _cdbService.GetTransfers<SkipTransfer>(skipID, fromShiftDate, toShiftDate).AsEnumerable();
+            var shiftskiptransfers = _cdbService.GetTransfers<SkipTransfer>(skipID, fromShiftDate, toShiftDate).Select(t=> new { LiftingID = t.LiftingID,
+                        SkipWeight = t.SkipWeight,
+                        OperatorName = t.OperatorName})
+                        .AsEnumerable();
             model.TotalSkipsPerThisShift = shiftskiptransfers.Sum(s => int.Parse(s.LiftingID));
             model.TotalTonnsPerThisShift = shiftskiptransfers.Select(t => t.SkipWeight * int.Parse(t.LiftingID)).Sum();
 
@@ -114,16 +117,28 @@ namespace CTS_Analytics.Factories
             var fromShiftDate = _cdbService.GetStartShiftTime(wagonScale.LocationID);
             var toShiftDate = _cdbService.GetEndShiftTime(wagonScale.LocationID, fromShiftDate);
             var shiftransfers = _cdbService.GetTransfers<WagonTransfer>(wagonScaleID, fromShiftDate, toShiftDate)
-                .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
-                .ToArray();
+                .Where(tr => tr.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject).
+                Select(t=> new
+                {
+                    Netto = t.Netto,
+                    OperatorName = t.OperatorName
+                });
             //var shiftransfers = GetDataFromWagonDB(fromShiftDate, toShiftDate, wagonScale.LocationID); // To get data from wagonDB
-            model.ShippedPerShiftTonns = (float)shiftransfers.Sum(t => t.Netto);
+            model.ShippedPerShiftTonns = (float)shiftransfers.Select(t=>t.Netto).DefaultIfEmpty(0).Sum();
 
-            var lastTrainTransfers = model.WagonTransfers.OrderByDescending(t => t.TransferTimeStamp).ToList();
+            var lastTrainTransfers = model.WagonTransfers.OrderByDescending(t => t.TransferTimeStamp).
+                Select(t => new
+                {
+                    LotName = t.LotName,
+                    Direction = t.Direction,
+                    TransferTimeStamp = t.TransferTimeStamp,
+                    Netto = t.Netto
+                })
+                .ToList();
 
             if (lastTrainTransfers.Any())
             {
-                lastTrainTransfers = model.WagonTransfers.GroupBy(l => l.LotName)
+                lastTrainTransfers.GroupBy(l => l.LotName)
                                     .First()
                                     .ToList();
                 model.LastTrainDirection = lastTrainTransfers.Select(x => x.Direction).FirstOrDefault();
@@ -184,20 +199,9 @@ namespace CTS_Analytics.Factories
 
             var model = new Mine_rockUtil(rockUtil.LocationID);
             model.MineName = GetLocationNameOnCurrentLanguate(rockUtil.LocationID);
-            model.RockUtilName = rockUtil.Name;
-            if (userLanguage == "en")
-            {
-                model.MineName = rockUtil.Location.LocationNameEng;
-                model.RockUtilName = rockUtil.NameEng;
-            }
+            model.RockUtilName = GetEquipNameOnCurrentLanguate(rockUtil);
 
-            if (userLanguage == "kk")
-            {
-                model.MineName = rockUtil.Location.LocationNameKZ;
-                model.RockUtilName = rockUtil.NameKZ;
-            }
             var rockTransfers = _cdbService.GetTransfers<RockUtilTransfer>(rockUtilID, fromDate, toDate);
-
             model.RocksPerPeriod = rockTransfers.Sum(v => v.LotQuantity) ?? 0;
             var fromShiftDate = _cdbService.GetStartShiftTime(rockUtil.LocationID);
             var toShiftDate = _cdbService.GetEndShiftTime(rockUtil.LocationID, fromShiftDate);
@@ -266,6 +270,43 @@ namespace CTS_Analytics.Factories
             fromStationData.MineName = GetLocationNameOnCurrentLanguate(location.ID);
 
             return fromStationData;
+        }
+
+        public Mine_Kotel GetMineKotelModel(string mineId)
+        {
+            return new Mine_Kotel(mineId)
+            {
+                ConsumptionNorm = _cdbService.GetConsumptionNorm(mineId, fromDate, toDate),
+                MineName = GetLocationNameOnCurrentLanguate(mineId),
+                ConsumptionFact = GetBoilerConsumptionFact(mineId)
+            };
+        }
+
+        private float GetBoilerConsumptionFact(string mineId)
+        {
+            switch (mineId)
+            {
+                case "abay":
+                    return _cdbService.GetBoilerConveyorProduction(24, fromDate, toDate);
+                case "kaz":
+                    return _cdbService.GetBoilerConveyorProduction(18, fromDate, toDate);
+                case "kost":
+                    return _cdbService.GetBoilerConveyorProduction(10, fromDate, toDate);
+                case "kuz":
+                    return _cdbService.GetBoilerConveyorProduction(3, fromDate, toDate) + _cdbService.GetBoilerConveyorProduction(4, fromDate, toDate);
+                case "len":
+                    return _cdbService.GetBoilerConveyorProduction(17, fromDate, toDate);
+                case "sar1":
+                    return _cdbService.GetBoilerConveyorProduction(13, fromDate, toDate);
+                case "sar3":
+                    return _cdbService.GetBoilerConveyorProduction(14, fromDate, toDate);
+                case "tent":
+                    return _cdbService.GetBoilerConveyorProduction(25, fromDate, toDate);
+                case "cofv":
+                    return _cdbService.GetBoilerConveyorProduction(20, fromDate, toDate);
+                default:
+                    return 0;
+            }
         }
 
         private string GetLocationNameOnCurrentLanguate(string locationID)

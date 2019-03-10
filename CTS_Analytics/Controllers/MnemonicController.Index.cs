@@ -51,15 +51,15 @@ namespace CTS_Analytics.Controllers
         public ActionResult kotel()
         {
             var model = new MnemonicMainKotel();
-            model.shah = GetMineKotelModel("shah");
-            model.kuz = GetMineKotelModel("kuz");
-            model.abay = GetMineKotelModel("abay");
-            model.len = GetMineKotelModel("len");
-            model.sar1 = GetMineKotelModel("sar1");
-            model.sar3 = GetMineKotelModel("sar3");
-            model.kaz = GetMineKotelModel("kaz");
-            model.tent = GetMineKotelModel("tent");
-            model.kost = GetMineKotelModel("kost");
+            model.shah = Builder.GetMineKotelModel("shah");
+            model.kuz = Builder.GetMineKotelModel("kuz");
+            model.abay = Builder.GetMineKotelModel("abay");
+            model.len = Builder.GetMineKotelModel("len");
+            model.sar1 = Builder.GetMineKotelModel("sar1");
+            model.sar3 = Builder.GetMineKotelModel("sar3");
+            model.kaz = Builder.GetMineKotelModel("kaz");
+            model.tent = Builder.GetMineKotelModel("tent");
+            model.kost = Builder.GetMineKotelModel("kost");
             return View(model);
         }
 
@@ -290,71 +290,6 @@ namespace CTS_Analytics.Controllers
                 .LastOrDefault();
 
             return 0;
-        }
-
-        private float GetConsumptionNorm(string mineId)
-        {
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
-            var span = toDate - fromDate;
-            using (var cdb = new CtsDbContext())
-            {
-                var boiler = cdb.BoilerConsNorms.Find(mineId);
-                if (boiler != null)
-                {
-                    return (float)Math.Round((boiler.ConsNorm / 24 * span.TotalHours), 2);
-                }
-                return 0;
-            }
-        }
-
-        private float GetConsumptionFact(string mineId)
-        {
-            switch (mineId)
-            {
-                case "abay":
-                    return GetConveyorProductionForKotel(24);
-                case "kaz":
-                    return GetConveyorProductionForKotel(18);
-                case "kost":
-                    return GetConveyorProductionForKotel(10);
-                case "kuz":
-                return GetConveyorProductionForKotel(3) + GetConveyorProductionForKotel(4);
-                case "len":
-                    return GetConveyorProductionForKotel(17);
-                case "sar1":
-                    return GetConveyorProductionForKotel(13);
-                case "sar3":
-                    return GetConveyorProductionForKotel(14);
-                case "tent":
-                    return GetConveyorProductionForKotel(25);
-                default:
-                return 0;
-            }
-        }
-
-        private float GetConveyorProductionForKotel(int convId)
-        {
-            var fromDate = GetDateFromCookie("fromdate");
-            var toDate = GetDateFromCookie("todate");
-            using (var db = new CtsDbContext())
-            {
-                var producationPerTimeInterval = db.InternalTransfers
-                                        .Where(s => s.EquipID == convId)
-                                        .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
-                                        .Where(v => v.IsValid == true).OrderByDescending(t => t.TransferTimeStamp).ToList();
-                return producationPerTimeInterval.Sum(t => t.LotQuantity).GetValueOrDefault();
-            }
-        }
-
-        private Mine_Kotel GetMineKotelModel(string mineId)
-        {
-            return new Mine_Kotel(mineId)
-            {
-                ConsumptionNorm = GetConsumptionNorm(mineId),
-                MineName = GetLocationNameOnCurrentLanguate(mineId),
-                ConsumptionFact = GetConsumptionFact(mineId)
-        };
         }
     }
 }

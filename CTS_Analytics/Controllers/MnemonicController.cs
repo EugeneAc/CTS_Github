@@ -67,7 +67,7 @@ namespace CTS_Analytics.Controllers
                 model.Vagon = Builder.GetWagonScaleModel(7);
                 model.Sklad = Builder.GetWarehouseModel(5);
                 model.RockUtil = Builder.GetRockUtilModel(6);
-                model.Kotel = GetMineKotelModel("shah");
+                model.Kotel = Builder.GetMineKotelModel("shah");
             return View(model);
         }
 
@@ -86,7 +86,7 @@ namespace CTS_Analytics.Controllers
                 model.Raspozn = Builder.GetRaspoznModel(19, 5); // саранская выезд
                 model.Sklad = Builder.GetWarehouseModel(6);
                 model.RockUtil = Builder.GetRockUtilModel(9); 
-            model.Kotel = GetMineKotelModel("sar1");
+            model.Kotel = Builder.GetMineKotelModel("sar1");
             return View(model);
         }
 
@@ -105,7 +105,7 @@ namespace CTS_Analytics.Controllers
                 model.Raspozn = Builder.GetRaspoznModel(17, 5);
                 model.Sklad = Builder.GetWarehouseModel(4);
                 model.RockUtil = Builder.GetRockUtilModel(5);
-            model.Kotel = GetMineKotelModel("abay");
+            model.Kotel = Builder.GetMineKotelModel("abay");
 
             return View(model);
         }
@@ -129,7 +129,7 @@ namespace CTS_Analytics.Controllers
                 model.Raspozn2 = Builder.GetRaspoznModel(23, 5); // Выезд
                 model.RockUtil38 = Builder.GetRockUtilModel(3);
                 model.RockUtil39 = Builder.GetRockUtilModel(3);
-            model.Kotel = GetMineKotelModel("kost");
+            model.Kotel = Builder.GetMineKotelModel("kost");
             return View(model);
         }
 
@@ -148,7 +148,7 @@ namespace CTS_Analytics.Controllers
                 model.Sklad = Builder.GetWarehouseModel(2);
                 model.Raspozn = Builder.GetRaspoznModel(18, 5);
                 model.RockUtil = Builder.GetRockUtilModel(2);
-            model.Kotel = GetMineKotelModel("kuz");
+            model.Kotel = Builder.GetMineKotelModel("kuz");
             return View(model);
         }
 
@@ -164,7 +164,7 @@ namespace CTS_Analytics.Controllers
                 model.Vagon = Builder.GetWagonScaleModel(6);
                 model.Sklad = Builder.GetWarehouseModel(9);
 
-            model.Kotel = GetMineKotelModel("tent");
+            model.Kotel = Builder.GetMineKotelModel("tent");
             return View(model);
         }
 
@@ -182,7 +182,7 @@ namespace CTS_Analytics.Controllers
                 model.Raspozn = Builder.GetRaspoznModel(24, 5);
                 model.RockUtil = Builder.GetRockUtilModel(4);
 
-            model.Kotel = GetMineKotelModel("kaz");
+            model.Kotel = Builder.GetMineKotelModel("kaz");
             return View(model);
         }
 
@@ -202,7 +202,7 @@ namespace CTS_Analytics.Controllers
             model.Sklad = Builder.GetWarehouseModel(7);
                 model.RockUtil = Builder.GetRockUtilModel(10);
 
-            model.Kotel = GetMineKotelModel("sar3");
+            model.Kotel = Builder.GetMineKotelModel("sar3");
             return View(model);
         }
 
@@ -220,7 +220,7 @@ namespace CTS_Analytics.Controllers
                 model.Raspozn = Builder.GetRaspoznModel(25, 5);
                 model.Sklad = Builder.GetWarehouseModel(8);
                 model.RockUtil = Builder.GetRockUtilModel(7);
-            model.Kotel = GetMineKotelModel("len");
+            model.Kotel = Builder.GetMineKotelModel("len");
             return View(model);
         }
 
@@ -314,7 +314,6 @@ namespace CTS_Analytics.Controllers
 
         public ActionResult Mine_raspozn(int raspoznID, int? page, string wagonNumberFilter="")
         {
-
             var wagdb = new WagonDBcontext();
             var  locationID = wagdb.recogn.Where(w => w.id == raspoznID).FirstOrDefault()?.name ?? "abay";
 
@@ -322,6 +321,7 @@ namespace CTS_Analytics.Controllers
             {
                 locationID = locationID.Substring(0, locationID.Length - 3);
             }
+
             int pageSize = 24;
             int pageNumber = (page ?? 1);
             var model = new Mine_raspozn(locationID);
@@ -338,7 +338,6 @@ namespace CTS_Analytics.Controllers
             model.LastTrainWagonCount = model.RaspoznTable.RaspoznList.GroupBy(g => g.IdSostav).FirstOrDefault()?.Count() ?? 0;
             model.MineName = GetLocationNameOnCurrentLanguate(locationID);
             model.WagonNumberFilter = wagonNumberFilter;
-            
 
             return View(model);
         }
@@ -370,7 +369,7 @@ namespace CTS_Analytics.Controllers
 
         private Mine_skip GetSkipModel(int skipID)
         {
-            return Builder.GetSkipModel(skipID); ;
+            return Builder.GetSkipModel(skipID);
 
         }
 

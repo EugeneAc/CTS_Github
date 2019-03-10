@@ -16,7 +16,7 @@ namespace CTS_Analytics.Services
         public CentralDBService()
         {
             this.cdb = new CtsDbContext();
-           
+
         }
 
         public decimal GetPlanData(string location, DateTime fromDate, DateTime toDate)
@@ -118,24 +118,24 @@ namespace CTS_Analytics.Services
 
         public IQueryable<TTransfer> GetTransfers<TTransfer>(int Id, DateTime fromDate, DateTime toDate) where TTransfer : class, ITransfer
         {
-             var db = new CtsTransferContext<TTransfer>();
-                return db.DbSet
-                   .Where(s => s.EquipID == Id)
-                   .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
-                   .Where(v => v.IsValid == true)
-                   .OrderByDescending(t => t.TransferTimeStamp)
-                   .AsNoTracking();
+            var db = new CtsTransferContext<TTransfer>();
+            return db.DbSet
+               .Where(s => s.EquipID == Id)
+               .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
+               .Where(v => v.IsValid == true)
+               .OrderByDescending(t => t.TransferTimeStamp)
+               .AsNoTracking();
         }
 
         public IQueryable<WagonTransfer> GetWagonTransfersSendFromMine(Location toDestLocation, DateTime fromDate, DateTime toDate, string fromMineId)
         {
-                var db = new CtsTransferContext<WagonTransfer>();
-                return db.DbSet
-                .Where(t => t.Equip.Location.ID == fromMineId && t.IsValid == true)
-                .Where(t => t.ToDest.Contains(toDestLocation.LocationName) || t.ToDest == toDestLocation.ID)
-                .Where(t => t.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
-                .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
-                .AsNoTracking();
+            var db = new CtsTransferContext<WagonTransfer>();
+            return db.DbSet
+            .Where(t => t.Equip.Location.ID == fromMineId && t.IsValid == true)
+            .Where(t => t.ToDest.Contains(toDestLocation.LocationName) || t.ToDest == toDestLocation.ID)
+            .Where(t => t.Direction == CTS_Core.ProjectConstants.WagonDirection_FromObject)
+            .Where(t => t.TransferTimeStamp >= fromDate && t.TransferTimeStamp <= toDate)
+            .AsNoTracking();
         }
 
         public IQueryable<WagonTransfer> GetWagonTransfersArrivedFromMine(string fromMineId, DateTime fromDate, DateTime toDate, string arrivedLocationId)
@@ -202,6 +202,27 @@ namespace CTS_Analytics.Services
                 .Where(m => m.Location.ID == locationId)
                 .FirstOrDefault()?
                 .ID ?? 1;
+        }
+
+        public float GetBoilerConveyorProduction(int convId, DateTime fromDate, DateTime toDate)
+        {
+            var producationPerTimeInterval = cdb.InternalTransfers
+                                    .Where(s => s.EquipID == convId)
+                                    .Where(d => d.TransferTimeStamp >= fromDate && d.TransferTimeStamp <= toDate)
+                                    .Where(v => v.IsValid == true).OrderByDescending(t => t.TransferTimeStamp)
+                                    .Select(t => t.LotQuantity).DefaultIfEmpty(0);
+            return producationPerTimeInterval.Sum().GetValueOrDefault();
+        }
+
+        public float GetConsumptionNorm(string mineId, DateTime fromDate, DateTime toDate)
+        {
+            var span = toDate - fromDate;
+            var boiler = cdb.BoilerConsNorms.Find(mineId);
+            if (boiler != null)
+            {
+                return (float)Math.Round((boiler.ConsNorm / 24 * span.TotalHours), 2);
+            }
+            return 0;
         }
     }
 }

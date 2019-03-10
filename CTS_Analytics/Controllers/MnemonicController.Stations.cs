@@ -7,12 +7,24 @@ using System.Web.Mvc;
 
 namespace CTS_Analytics.Controllers
 {
-	[CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
-	public partial class MnemonicController : CtsAnalController
+    [CtsAuthorize(Roles = Roles.AnalyticsRoleName)]
+    public partial class MnemonicController : CtsAnalController
     {
+
         public ActionResult cofv()
         {
-            var model = new cofvModel("cofv");
+            var model = new cofvModel();
+            model.VagonNorth = Builder.GetWagonScaleModel(11);
+            model.VagonSouth1 = Builder.GetWagonScaleModel(17);
+            model.VagonSouth2 = Builder.GetWagonScaleModel(18);
+            model.Belt = Builder.GetBeltScaleModel(20);
+            model.Kotel = Builder.GetMineKotelModel("cofv");
+            return View("tsof2",model);
+        }
+
+        public ActionResult cofv_more()
+        {
+            var model = new cofvModel_more("cofv");
             Builder.GetGeneralStationData(model);
             model.FromAbay_arrived = Builder.GetFromMineData(model.LocationID, "abay", true);
             model.FromTent_arrived = Builder.GetFromMineData(model.LocationID, "tent", true);
@@ -43,8 +55,8 @@ namespace CTS_Analytics.Controllers
         public ActionResult sprd()
         {
             var model = new sprdModel("sprd");
-                Builder.GetGeneralStationData(model);
-                model.Sklad = Builder.GetWarehouseModel(1); // TODO поменять ID когда заведем склад в базе
+            Builder.GetGeneralStationData(model);
+            model.Sklad = Builder.GetWarehouseModel(1); // TODO поменять ID когда заведем склад в базе
 
             return View(model);
         }
@@ -60,8 +72,8 @@ namespace CTS_Analytics.Controllers
         public ActionResult srasp()
         {
             var model = new sraspModel("srasp");
-                Builder.GetGeneralStationData(model);
-                model.Sklad = Builder.GetWarehouseModel(10); 
+            Builder.GetGeneralStationData(model);
+            model.Sklad = Builder.GetWarehouseModel(10);
 
             return View(model);
         }
