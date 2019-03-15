@@ -26,53 +26,64 @@ namespace CTS_Analytics.Services
 
             var timeFrom = recognDateTime.AddSeconds(-2);
             var timeTo = recognDateTime.AddSeconds(2);
-            var images = wagdb.vagon_nums
-                .Where(t => t.date_time >= timeFrom & t.date_time <= timeTo)
-                .Where(v => ((v.number == wagonNumber) || (v.number_operator == wagonNumber))).Select(s => new
+            try
+            {
+                var photosDb = wagdb.vagon_nums
+                    .Where(t => t.date_time >= timeFrom & t.date_time <= timeTo)
+                    .Where(v => ((v.number == wagonNumber) || (v.number_operator == wagonNumber)))
+                    .ToList();
+                var photos = photosDb
+                    .Select(s => s.img != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img)) : null)
+                    .ToList();
+                photos.AddRange(photosDb
+                    .Select(s => s.img2 != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img2)) : null));
+
+                if (photos == null || !photos.Any())
                 {
-                    img = s.img,
-                    img2 = s.img2
-                }).ToArray();
-            var photos = images
-                .Select(s => s.img != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img)) : null)
-                .ToList();
-            photos.AddRange(images
-                .Select(s => s.img2 != null ? string.Format("data:image/jpg;base64,{0}", System.Convert.ToBase64String(s.img2)) : null));
+                    return new RaspoznItem();
+                }
 
-            if (photos == null || !photos.Any())
-            {
-                return new RaspoznItem();
+                var item = new RaspoznItem()
+                {
+                    Date = recognDateTime,
+                    WagonNumber = wagonNumber,
+                    GallleryName = "G" + wagonNumber + (int)recognDateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                    PictureGallery = photos.Where(p => !string.IsNullOrEmpty(p)).ToList(),
+                    ManualRecogn = manualFlag,
+                };
+                return item;
             }
-
-            var item = new RaspoznItem()
+            catch (Exception)
             {
-                Date = recognDateTime,
-                WagonNumber = wagonNumber,
-                GallleryName = "G" + wagonNumber + (int)recognDateTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                PictureGallery = photos.Where(p => !string.IsNullOrEmpty(p)).ToList(),
-                ManualRecogn = manualFlag,
-            };
-            return item;
 
+            } 
+
+             return new RaspoznItem();
         }
 
         public IQueryable<RaspoznItem> GetWagonNumsAndDates(int recognID, DateTime fromDate, DateTime toDate)
         {
-
-            var dbvagonNums = wagdb.vagon_nums
-                .Where(d => d.date_time >= fromDate && d.date_time <= toDate)
-                .Where(f => !string.IsNullOrEmpty(f.number) || !string.IsNullOrEmpty(f.number_operator))
-                .Where(i => i.recognid == recognID)
-                .Select(s => new RaspoznItem
-                 {
-                     Date = s.date_time,
-                     WagonNumber = s.number != null ? s.number :
+            try
+            {
+                var dbvagonNums = wagdb.vagon_nums
+               .Where(d => d.date_time >= fromDate && d.date_time <= toDate)
+               .Where(f => !string.IsNullOrEmpty(f.number) || !string.IsNullOrEmpty(f.number_operator))
+               .Where(i => i.recognid == recognID)
+               .Select(s => new RaspoznItem
+               {
+                   Date = s.date_time,
+                   WagonNumber = s.number != null ? s.number :
                     s.number_operator != null ? s.number_operator : "0",
-                     IdSostav = s.id_sostav ?? 0
-                 }).OrderByDescending(d => d.Date);
+                   IdSostav = s.id_sostav ?? 0
+               }).OrderByDescending(d => d.Date);
+                return dbvagonNums;
+            }
+            catch (Exception)
+            {
 
-            return dbvagonNums;
+            }
 
+            return null;
         }
 
         public IQueryable<WagonTransfer> GetDataFromWagonDB(DateTime fromDate, DateTime toDate, string locationID)

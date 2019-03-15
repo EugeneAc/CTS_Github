@@ -338,6 +338,8 @@ namespace CTS_Analytics.Controllers
             model.LastTrainWagonCount = model.RaspoznTable.RaspoznList.GroupBy(g => g.IdSostav).FirstOrDefault()?.Count() ?? 0;
             model.MineName = GetLocationNameOnCurrentLanguate(locationID);
             model.WagonNumberFilter = wagonNumberFilter;
+            var badVagonCount = model.RaspoznTable.RaspoznList.Where(l => l.WagonNumber.ToLower().Contains('x') || l.WagonNumber.ToLower().Contains('х')).Count();
+            model.RecognPercent = 100 - ((badVagonCount / model.WagonsPassed) * 100);
 
             return View(model);
         }

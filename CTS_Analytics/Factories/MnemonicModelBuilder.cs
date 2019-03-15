@@ -138,7 +138,7 @@ namespace CTS_Analytics.Factories
 
             if (lastTrainTransfers.Any())
             {
-                lastTrainTransfers.GroupBy(l => l.LotName)
+                lastTrainTransfers = lastTrainTransfers.GroupBy(l => l.LotName)
                                     .First()
                                     .ToList();
                 model.LastTrainDirection = lastTrainTransfers.Select(x => x.Direction).FirstOrDefault();
