@@ -18,7 +18,13 @@ namespace CTS_Analytics.Controllers
 			return View("Index");
 		}
 
-		public ActionResult Exception(ViewDataDictionary exModel)
+        public ActionResult UnAuth401()
+        {
+            ViewBag.Title = "Нет доступа / Unathorized";
+            return View("Index");
+        }
+
+        public ActionResult Exception(ViewDataDictionary exModel)
 		{
 			return View("~/Views/Home/Exception.cshtml", exModel);
 		}

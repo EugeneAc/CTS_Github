@@ -30,7 +30,7 @@
             </div>
             <div class="line">
                 <span class="name">@Resources.ResourceMnemonic.RecognintionRate</span>
-                <div class="count">@Model.RecognPercent</div>
+                <div class="count">@Model.RecognPercent.ToString("F")</div>
                 <span class="caption">%</span>
                 <div class="clearfix"></div>
             </div>
@@ -64,7 +64,7 @@
                             <th>@Resources.ResourceMnemonic.TrainNumber</th>
                             <th>@Resources.ResourceMnemonic.WagonNumber</th>
                             <th>@Resources.ResourceMnemonic.Recognized</th>
-                            <th>@Resources.ResourceMnemonic.ManualInput</th>
+                            @*<th>@Resources.ResourceMnemonic.ManualInput</th>*@
                             <th>@Resources.ResourceMnemonic.Photo</th>
                         </tr>
                     </thead>
@@ -82,7 +82,7 @@
                                 <td>@item.IdSostav</td>
                                 <td>@item.WagonNumber</td>
                                 <td>@Html.Raw(autoRecognClass)</td>
-                                <td>@Html.Raw(manualRecognClass)</td>
+                                @*<td>@Html.Raw(manualRecognClass)</td>*@
                                 @if (item.PictureGallery != null)
                                 {
                                     var uniqueDataID = 1;

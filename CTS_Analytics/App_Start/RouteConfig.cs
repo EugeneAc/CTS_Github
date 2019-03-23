@@ -16,7 +16,7 @@ namespace CTS_Analytics
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Mnemonic", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "Mnemonic", action = "Home", id = UrlParameter.Optional }
 
 			);
 		}

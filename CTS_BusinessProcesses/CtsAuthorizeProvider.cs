@@ -34,9 +34,9 @@ namespace CTS_Core
 		public static bool CheckIsInRole(IIdentity user, params string[] groups)
 		{
 #if DEBUG
-			return true;
+            return true;
 #endif
-			var roles = GetUserRolesFromDb(user);
+            var roles = GetUserRolesFromDb(user);
 			return roles.Any(x => groups.Contains(x.RoleName));
 		}
 

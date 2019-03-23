@@ -142,7 +142,7 @@ namespace CTS_Analytics.Models.Mnemonic
         public int RaspoznID { get; set; }
         public string RaspoznName { get; set; }
         public int WagonsPassed  { get; set; }
-        public int RecognPercent { get; set; }
+        public double RecognPercent { get; set; }
         public DateTime? LastTrainDateTime { get; set; }
         public int LastTrainWagonCount { get; set; }
         public RaspoznModel RaspoznTable { get; set; }

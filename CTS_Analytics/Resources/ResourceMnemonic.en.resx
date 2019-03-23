@@ -579,4 +579,7 @@
   <data name="PerPeriod" xml:space="preserve">
     <value>Per period</value>
   </data>
+  <data name="WelcomeSign" xml:space="preserve">
+    <value>welcome</value>
+  </data>
 </root>

@@ -1445,5 +1445,14 @@ namespace Resources {
                 return ResourceManager.GetString("WeithConclustionBad", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to добро пожаловать в систему учета угля.
+        /// </summary>
+        public static string WelcomeSign {
+            get {
+                return ResourceManager.GetString("WelcomeSign", resourceCulture);
+            }
+        }
     }
 }

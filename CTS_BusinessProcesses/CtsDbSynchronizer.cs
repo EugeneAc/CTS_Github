@@ -320,12 +320,13 @@ namespace CTS_Core
 					   SyncDictionaries<Warehouse>(connection);
 					   SyncDictionaries<Recogn>(connection);
 					   SyncDictionaries<BoilerConsNorm>(connection);
+                       SyncDictionaries<Shift>(connection);
 
-					   //if (SyncFromLocalToCental<WagonTransfer, WagonScale>(connection))
-					   //{
-					   // RemoveOldLocal<WagonTransfer>(connection);
-					   //}
-					   SyncFromCentralToLocal<WagonTransfer, WagonScale>(connection);
+                       //if (SyncFromLocalToCental<WagonTransfer, WagonScale>(connection))
+                       //{
+                       // RemoveOldLocal<WagonTransfer>(connection);
+                       //}
+                       SyncFromCentralToLocal<WagonTransfer, WagonScale>(connection);
 
 					   //if (SyncFromLocalToCental<VehiTransfer, VehiScale>(connection))
 					   //{

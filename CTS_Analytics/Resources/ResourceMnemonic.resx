@@ -579,4 +579,7 @@
   <data name="PerPeriod" xml:space="preserve">
     <value>За период</value>
   </data>
+  <data name="WelcomeSign" xml:space="preserve">
+    <value>добро пожаловать в систему учета угля</value>
+  </data>
 </root>

@@ -11,6 +11,10 @@
     <img src="~/Content/Mnemo/images/Error.png" alt="Not found" style="margin-left: auto; margin-right: auto; display: block;">
 </div>
 
-
-<h4>@Html.DisplayFor(x => Model.Exception.Message)</h4>
-<h6>@Html.DisplayFor(x => Model.Exception.StackTrace)</h6>
+<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#more">
+    <span class="glyphicon glyphicon-chevron-down"></span>
+</button>
+<div id="more" class="collapse">
+    <h4>@Html.DisplayFor(x => Model.Exception.Message)</h4>
+    <h6>@Html.DisplayFor(x => Model.Exception.StackTrace)</h6>
+</div>
