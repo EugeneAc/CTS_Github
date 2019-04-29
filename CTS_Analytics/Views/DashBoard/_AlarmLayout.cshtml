@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "_AlarmLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var activeMenuElement = "#topmenu" + ViewBag.LocationID;
+}
+
+<div class="topmenu">
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineAbayRoleName))
+    {
+        <a id="topmenuabay" href='@Url.Action("Alarms_Abay", "DashBoard")'>@Resources.ResourceMnemonic.AbayMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKazRoleName))
+    {
+        <a id="topmenukaz" href='@Url.Action("Alarms_Kaz", "Dashboard")'>@Resources.ResourceMnemonic.KazMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKostRoleName))
+    {
+        <a id="topmenukost" href='@Url.Action("Alarms_Kost", "Dashboard")'>@Resources.ResourceMnemonic.KostMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineKuzRoleName))
+    {
+        <a id="topmenukuz" href='@Url.Action("Alarms_Kuz", "Dashboard")'>@Resources.ResourceMnemonic.KuzMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineLenRoleName))
+    {
+        <a id="topmenulen" href='@Url.Action("Alarms_Len", "Dashboard")'>@Resources.ResourceMnemonic.LenMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineSar1RoleName))
+    {
+        <a id="topmenusar1" href='@Url.Action("Alarms_Sar1", "Dashboard")'>@Resources.ResourceMnemonic.Sar1MineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineSar3RoleName))
+    {
+        <a id="topmenusar3" href='@Url.Action("Alarms_Sar3", "Dashboard")'>@Resources.ResourceMnemonic.Sar3MineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineShahRoleName))
+    {
+        <a id="topmenushah" href='@Url.Action("Alarms_Shah", "Dashboard")'>@Resources.ResourceMnemonic.ShahMineName</a>
+    }
+    @if (CTS_Core.CtsAuthorizeProvider.CheckIsInRole(User.Identity, CTS_Core.Roles.MineTentRoleName))
+    {
+        <a id="topmenutent" href='@Url.Action("Alarms_Tent", "Dashboard")'>@Resources.ResourceMnemonic.TentMineName</a>
+    }
+</div>
+
+@RenderBody()
+
+<button onclick="topFunction()" id="goTopBtn">^</button>
+
+@section scripts {
+    <script>
+     function resizeIframe(iframeID) {
+        var iframe = window.parent.document.getElementById('ifrm');
+        iframe.contentWindow.postMessage(document.body.scrollHeight, '*');
+    }
+
+    window.addEventListener('message', function (event) {
+        // IMPORTANT: Check the origin of the data!
+        if (~event.origin.indexOf('http://@Request.Url.Host:3000')) {
+        } else {
+
+        return;
+        }
+        });
+    </script>
+
+    <script>
+        $('@activeMenuElement').addClass("active");
+    </script>
+}
+
+

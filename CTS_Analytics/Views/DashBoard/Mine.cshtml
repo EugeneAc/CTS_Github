@@ -1,8 +1,16 @@
 ﻿
 @{
     ViewBag.PageName = Resources.ResourceDashboard.PageName;
-    Layout = "~/Views/DashBoard/_DashLayout.cshtml";
-}
+
+    if(ViewBag.LocationID.ToLower().Contains("alarms"))
+    {
+        Layout = "~/Views/DashBoard/_AlarmLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/DashBoard/_DashLayout.cshtml";
+    }
+       }
 <h2>@ViewBag.LocationName</h2>
 @{ 
     var urlString = ViewBag.LocationID + "_" + Resources.ResourceGeneral.CurrentLang;

@@ -26,7 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <Use64BitIISExpress>true</Use64BitIISExpress>
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
     <TargetFrameworkProfile />
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
